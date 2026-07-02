@@ -111,6 +111,13 @@
   text.tml{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600}
   text.tmh{font-family:var(--mono); font-size:9px; letter-spacing:.5px; text-transform:uppercase; pointer-events:none}
   .tmgroup rect{pointer-events:none}
+  text.tmv{font-family:var(--mono); font-size:8.5px; fill:#0b141099; pointer-events:none}
+
+  /* ---------- sunburst ---------- */
+  .sbcell{cursor:pointer; transition:fill-opacity .12s}
+  .sbcell:hover{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
+  text.sbl{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600; dominant-baseline:middle}
+  text.sbc{font-family:var(--serif); fill:var(--ink); pointer-events:none; text-anchor:middle; dominant-baseline:middle}
 
   .node:hover circle.dot{stroke-width:2.6px}
   .node:hover text{fill:#fff}
@@ -285,6 +292,7 @@
     <span class="seg" id="viewseg">
       <button class="ctl on" id="btnTree">Tree</button>
       <button class="ctl" id="btnRadial">Radial</button>
+      <button class="ctl" id="btnSun">Sunburst</button>
       <button class="ctl" id="btnTreemap">Treemap</button>
     </span>
     <button class="ctl on" id="btnOrders">Orders</button>
@@ -430,10 +438,11 @@ function linkPathRadial(s,t){
   return `M${s.x},${s.y}C${mr*Math.cos(a1)},${mr*Math.sin(a1)} ${mr*Math.cos(a2)},${mr*Math.sin(a2)} ${t.x},${t.y}`;
 }
 function render(){
-  if(mode==='treemap'){
+  if(mode==='treemap' || mode==='sunburst'){
     gLinks.style.display='none'; gNodes.style.display='none'; gTree.style.display='';
     minimap.classList.add('hide');
-    renderTreemap(); return;
+    if(mode==='treemap') renderTreemap(); else renderSunburst();
+    return;
   }
   gLinks.style.display=''; gNodes.style.display=''; gTree.style.display='none';
   const {nodes, links}=layout();
@@ -484,7 +493,7 @@ function render(){
 // ---------- semantic zoom: hide crowded leaf labels, reveal on zoom ----------
 let lastLODk=-1;
 function labelLOD(){
-  if(mode==='treemap') return;
+  if(mode!=='tree' && mode!=='radial') return;
   const k=T.k;
   const span=Math.PI*2*0.94;
   for(const n of visibleNodes){
@@ -506,7 +515,7 @@ const minimap=document.getElementById('minimap');
 const mmroot=document.getElementById('mmroot'), mmcontent=document.getElementById('mmcontent'), mmvp=document.getElementById('mmvp');
 let mmScale=1, mmBB=null;
 function renderMinimap(){
-  if(mode==='treemap' || !visibleNodes.length){ minimap.classList.add('hide'); return; }
+  if((mode!=='tree'&&mode!=='radial') || !visibleNodes.length){ minimap.classList.add('hide'); return; }
   minimap.classList.remove('hide');
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
   for(const n of visibleNodes){ if(n.x<x0)x0=n.x; if(n.x>x1)x1=n.x; if(n.y<y0)y0=n.y; if(n.y>y1)y1=n.y; }
@@ -528,7 +537,7 @@ function renderMinimap(){
   updateMinimapVP();
 }
 function updateMinimapVP(){
-  if(mode==='treemap' || !mmBB) return;
+  if((mode!=='tree'&&mode!=='radial') || !mmBB) return;
   const r=stage.getBoundingClientRect();
   mmvp.setAttribute('x', (-T.x/T.k).toFixed(1)); mmvp.setAttribute('y', (-T.y/T.k).toFixed(1));
   mmvp.setAttribute('width', (r.width/T.k).toFixed(1)); mmvp.setAttribute('height', (r.height/T.k).toFixed(1));
@@ -611,8 +620,10 @@ function renderTreemap(){
       const dim = storySet && !storySet.has(n._id);
       const maxc=Math.floor((c.w-7)/6.1);
       const label=(c.w>44 && c.h>15 && maxc>2) ? esc4(n.name.length>maxc? n.name.slice(0,maxc-1)+'…':n.name) : '';
+      const showCount = label && c.w>76 && c.h>32;
       html+=`<g class="tmcell" data-id="${n._id}"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="2" fill="${lc}" fill-opacity="${dim?0.1:0.85}" stroke="#0d1512" stroke-width="1"></rect>`+
-        (label?`<text class="tml" x="${(c.x+5).toFixed(1)}" y="${(c.y+13).toFixed(1)}">${label}</text>`:'')+`</g>`;
+        (label?`<text class="tml" x="${(c.x+5).toFixed(1)}" y="${(c.y+13).toFixed(1)}">${label}</text>`:'')+
+        (showCount?`<text class="tmv" x="${(c.x+5).toFixed(1)}" y="${(c.y+25).toFixed(1)}">~${n.agg.toLocaleString()} spp</text>`:'')+`</g>`;
     } else if(c.header){
       html+=`<g class="tmgroup"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="3" fill="none" stroke="${lc}" stroke-opacity="0.5" stroke-width="1.2"></rect>`+
         `<text class="tmh" x="${(c.x+5).toFixed(1)}" y="${(c.y+11).toFixed(1)}" fill="${lc}">${esc4(n.name)}</text></g>`;
@@ -628,6 +639,46 @@ gTree.addEventListener('click', e=>{ const g=e.target.closest('[data-id]'); if(!
 gTree.addEventListener('mousemove', e=>{ const g=e.target.closest('[data-id]');
   if(!g){ hideTip(); return; } const n=idMap.get(+g.dataset.id); if(n){ showTip(n,e); moveTip(e); } });
 gTree.addEventListener('mouseleave', ()=> hideTip());
+
+// ---------- sunburst (angle = species richness, radius = depth) ----------
+let sunR=0;
+function arcPath(a0,a1,r0,r1){
+  const c0=Math.cos(a0),s0=Math.sin(a0),c1=Math.cos(a1),s1=Math.sin(a1), large=(a1-a0)>Math.PI?1:0;
+  const P=(r,c,s)=>`${(r*c).toFixed(1)},${(r*s).toFixed(1)}`;
+  if(r0<=0.6) return `M0,0 L${P(r1,c0,s0)} A${r1.toFixed(1)},${r1.toFixed(1)} 0 ${large} 1 ${P(r1,c1,s1)} Z`;
+  return `M${P(r0,c0,s0)} L${P(r1,c0,s0)} A${r1.toFixed(1)},${r1.toFixed(1)} 0 ${large} 1 ${P(r1,c1,s1)} `+
+         `L${P(r0,c1,s1)} A${r0.toFixed(1)},${r0.toFixed(1)} 0 ${large} 0 ${P(r0,c0,s0)} Z`;
+}
+function renderSunburst(){
+  let maxD=1;
+  (function d(n,dep){ if(dep>maxD)maxD=dep; if(n.open) for(const k of (n.children||[])) d(k,dep+1); })(renderRoot,0);
+  const ringR=Math.min(120, 520/maxD); sunR=maxD*ringR;
+  const segs=[];
+  (function walk(n,a0,a1,dep){
+    segs.push({node:n,a0,a1,r0:dep*ringR,r1:(dep+1)*ringR,dep});
+    const kids=n.open?(n.children||[]):[]; if(!kids.length) return;
+    const tot=kids.reduce((s,k)=>s+Math.max(k.agg,1),0); let a=a0;
+    for(const k of kids){ const na=a+(a1-a0)*Math.max(k.agg,1)/tot; walk(k,a,na,dep+1); a=na; }
+  })(renderRoot,-Math.PI/2,-Math.PI/2+Math.PI*2,0);
+  let paths='',labels='';
+  for(const s of segs){ const n=s.node, lc=color(n), isLeaf=!(n.open&&(n.children||[]).length);
+    const dim = storySet && isLeaf && !storySet.has(n._id);
+    const op = dim?0.07:Math.max(0.4, 0.92-s.dep*0.07);
+    const sel = selected===n ? ' stroke="#fff" stroke-width="2"' : ' stroke="#0d1512" stroke-width="1"';
+    paths+=`<path class="sbcell" data-id="${n._id}" d="${arcPath(s.a0,s.a1,s.r0,s.r1)}" fill="${lc}" fill-opacity="${op.toFixed(2)}"${sel}></path>`;
+    const mid=(s.a0+s.a1)/2, rr=(s.r0+s.r1)/2, arc=(s.a1-s.a0)*rr;
+    if(s.dep>0 && (s.a1-s.a0)<Math.PI*1.1 && arc>30 && (s.r1-s.r0)>13){
+      let deg=mid*180/Math.PI; const flip=deg>90||deg<-90;
+      const lx=rr*Math.cos(mid), ly=rr*Math.sin(mid), maxc=Math.floor(arc/6.2);
+      const nm=n.name.length>maxc? n.name.slice(0,maxc-1)+'…':n.name;
+      labels+=`<text class="sbl" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" transform="rotate(${(flip?deg+180:deg).toFixed(1)} ${lx.toFixed(1)} ${ly.toFixed(1)})">${esc4(nm)}</text>`;
+    }
+  }
+  const csz=Math.min(ringR*0.5,26);
+  const center=`<text class="sbc" style="font-size:${Math.max(11,csz*0.6).toFixed(0)}px" y="-4">${esc4(renderRoot===ROOT?'Plantae':renderRoot.name)}</text>`+
+    `<text class="sbc" style="font-size:9px;fill:var(--faint)" y="10">~${renderRoot.agg.toLocaleString()} spp</text>`;
+  gTree.innerHTML=paths+labels+center;
+}
 
 function labelNode(el, n){
   const txt=el.querySelector('text:not(.toggle)');
@@ -685,6 +736,7 @@ function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>docum
 function setModeButtons(m){
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
   document.getElementById('btnRadial').classList.toggle('on', m==='radial');
+  document.getElementById('btnSun').classList.toggle('on', m==='sunburst');
   document.getElementById('btnTreemap').classList.toggle('on', m==='treemap');
 }
 let morphing=false;
@@ -780,6 +832,12 @@ let T={x:60,y:0,k:1};
 function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`);
   updateMinimapVP(); if(Math.abs(T.k-lastLODk)>0.002) labelLOD(); }
 function fit(dur){
+  if(mode==='sunburst'){
+    const r=stage.getBoundingClientRect();
+    const k=Math.min(r.width, r.height)/(2*sunR+120)*0.98;
+    animateT({k, x:r.width/2, y:r.height/2}, dur||0);
+    return;
+  }
   if(mode==='treemap'){
     const r=stage.getBoundingClientRect();
     const k=Math.min(r.width/(tmBounds.w+40), r.height/(tmBounds.h+40))*0.98;
@@ -1049,6 +1107,7 @@ document.getElementById('btnCollapse').onclick=collapseTop;
 document.getElementById('btnFit').onclick=()=>fit(500);
 document.getElementById('btnTree').onclick=()=>switchMode('tree');
 document.getElementById('btnRadial').onclick=()=>switchMode('radial');
+document.getElementById('btnSun').onclick=()=>switchMode('sunburst');
 document.getElementById('btnTreemap').onclick=()=>switchMode('treemap');
 q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
 
