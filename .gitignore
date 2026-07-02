@@ -1,2 +1,6 @@
 .DS_Store
 .claude/
+
+# python
+__pycache__/
+*.pyc

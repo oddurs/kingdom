@@ -200,6 +200,13 @@
   .pcommon{font-size:13px; color:var(--dim); margin-bottom:2px}
   .pblurb{font-size:13.5px; line-height:1.5; color:var(--ink); margin:11px 0 0; opacity:.94}
   .pexlabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:14px 0 6px}
+  .preflabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:15px 0 7px}
+  .prefs{display:flex; flex-wrap:wrap; gap:6px}
+  .pref{font-family:var(--sans); font-size:11px; color:var(--l-fern); text-decoration:none;
+    border:1px solid var(--edge); border-radius:20px; padding:3px 11px 3px 9px; background:#0d1712; white-space:nowrap}
+  .pref:hover{border-color:var(--l-fern); background:#0e1a14}
+  .pref::before{content:'↗'; font-size:9px; opacity:.7; margin-right:4px}
+  .pref.verified{border-color:#46b06a66}
   .pex{display:flex; flex-wrap:wrap; gap:6px}
   .pex .exchip{font-family:var(--sans); font-size:11.5px; color:var(--dim);
     background:#0d1712; border:1px solid var(--edge); border-radius:20px; padding:3px 10px}
@@ -367,6 +374,7 @@
       <div id="pexwrap"></div>
       <div class="pstats" id="pstats"></div>
       <div class="pactions" id="pactions"></div>
+      <div id="prefs"></div>
     </div>
     <div id="plist" hidden></div>
   </aside>
@@ -1074,6 +1082,15 @@ function select(n, opts){
     if(navigator.clipboard) navigator.clipboard.writeText(url);
     cp.textContent='Copied ✓'; setTimeout(()=>cp.textContent='Copy link',1200); };
   act.appendChild(cp);
+  // external references — links resolve from the name; GBIF deep-links when we hold a verified id
+  const q=encodeURIComponent(n.name), gid=n.ids&&n.ids.gbif;
+  const refs=[
+    ['POWO','https://powo.science.kew.org/results?q='+q, false],
+    ['GBIF', gid?('https://www.gbif.org/species/'+gid):('https://www.gbif.org/species/search?q='+q), !!gid],
+    ['Wikipedia','https://en.wikipedia.org/wiki/'+q, false]
+  ];
+  document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
+    refs.map(([t,u,v])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${v?' title="verified GBIF id '+gid+'"':''}>${t}</a>`).join('')+'</div>';
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
   if(opts.center!==false) focusNode(n);
   updateHash();

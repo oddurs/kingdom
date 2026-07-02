@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oddurs.github.io/kingdom/taxon.schema.json",
+  "title": "biomi flat taxon record",
+  "description": "One record per taxon in data/taxa.json. The flat, ID-keyed source of truth; build.py derives the nested visualization tree from it.",
+  "type": "object",
+  "required": ["id", "parent", "rank", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "description": "Stable local key (currently the scientific name; unique across the dataset)."},
+    "parent": {"type": ["string", "null"], "description": "id of the parent taxon; null for the single root."},
+    "rank": {"enum": ["kingdom", "clade", "phylum", "class", "subclass", "order", "family", "subfamily", "genus"]},
+    "name": {"type": "string", "description": "Scientific name."},
+    "authorship": {"type": "string", "description": "Nomenclatural author citation, e.g. 'Lindl.'."},
+    "common": {"type": "string", "description": "Vernacular name / gloss."},
+    "speciesCount": {"type": "number", "description": "Accepted-species richness used for visual scaling."},
+    "gbifSpeciesCount": {"type": "number", "description": "GBIF backbone species count (includes synonyms/unplaced; documented, not the display count)."},
+    "examples": {"type": "array", "items": {"type": "string"}},
+    "blurb": {"type": "string"},
+    "ids": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Cross-references to external authorities.",
+      "properties": {
+        "gbif": {"type": ["integer", "null"], "description": "GBIF backbone usageKey."},
+        "wfo": {"type": ["string", "null"], "description": "World Flora Online WFO-ID."},
+        "wikidata": {"type": ["string", "null"], "description": "Wikidata QID."},
+        "powo": {"type": ["string", "null"], "description": "POWO / IPNI id."}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Per-field source key referencing meta.sources (e.g. {\"speciesCount\": \"wcvp\"}).",
+      "additionalProperties": {"type": "string"}
+    }
+  }
+}
