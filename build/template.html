@@ -121,7 +121,7 @@
   /* ---------- tooltip ---------- */
   .tip{
     position:absolute; pointer-events:none; z-index:9; opacity:0; transform:translateY(4px);
-    transition:opacity .12s, transform .12s; max-width:280px;
+    transition:opacity .12s, transform .12s; max-width:300px;
     background:var(--panel); backdrop-filter:blur(8px);
     border:1px solid var(--edge); border-left-width:3px; border-radius:9px;
     padding:10px 13px; box-shadow:0 12px 34px #0009;
@@ -130,6 +130,10 @@
   .tip .rk{font-family:var(--mono); font-size:9.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim)}
   .tip .nm{font-family:var(--serif); font-size:16px; margin:3px 0 1px}
   .tip .cm{font-size:12px; color:var(--dim); line-height:1.35}
+  .tip .bl{font-size:12px; color:var(--ink); line-height:1.42; margin-top:8px; opacity:.92}
+  .tip .ex{font-size:11.5px; color:var(--dim); line-height:1.4; margin-top:7px; font-family:var(--sans)}
+  .tip .ex i{font-family:var(--mono); font-size:9px; color:var(--faint); text-transform:uppercase;
+    letter-spacing:.6px; font-style:normal; margin-right:4px}
   .tip .st{margin-top:8px; padding-top:8px; border-top:1px solid var(--line);
     display:flex; gap:14px; font-family:var(--mono); font-size:11px; color:var(--ink)}
   .tip .st b{color:#fff; font-weight:600} .tip .st span{color:var(--faint)}
@@ -370,16 +374,23 @@ function showTip(n,e){
   let stat = hasKids
     ? `<b>~${n.agg.toLocaleString()}</b> <span>species</span>&nbsp;&nbsp;<b>${n.famCount}</b> <span>famil${n.famCount===1?'y':'ies'}</span>`
     : `<b>~${n.agg.toLocaleString()}</b> <span>species</span>`;
+  const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const blurb = n.blurb ? `<div class="bl">${esc(n.blurb)}</div>` : '';
+  const ex = (n.examples&&n.examples.length) ? `<div class="ex"><i>e.g.</i>${n.examples.map(esc).join(' &middot; ')}</div>` : '';
   tip.innerHTML = `<div class="rk">${rank}${hasKids&&!n.open?' &middot; click to expand':''}</div>`+
-    `<div class="nm">${n.name}</div>`+
-    (n.common?`<div class="cm">${n.common}</div>`:'')+
+    `<div class="nm">${esc(n.name)}</div>`+
+    (n.common?`<div class="cm">${esc(n.common)}</div>`:'')+
+    blurb + ex +
     `<div class="st">${stat}</div>`;
   tip.classList.add('show'); moveTip(e);
 }
 function moveTip(e){
   const r=stage.getBoundingClientRect();
+  const w=tip.offsetWidth||300, h=tip.offsetHeight||140;
   let x=e.clientX-r.left+16, y=e.clientY-r.top+16;
-  if(x+290>r.width) x=e.clientX-r.left-290; if(y+120>r.height) y=e.clientY-r.top-120;
+  if(x+w+12>r.width) x=e.clientX-r.left-w-16;
+  if(y+h+12>r.height) y=e.clientY-r.top-h-16;
+  if(x<6) x=6; if(y<6) y=6;
   tip.style.left=x+'px'; tip.style.top=y+'px';
 }
 function hideTip(){ tip.classList.remove('show'); }

@@ -31,9 +31,14 @@ Each node:
   "rank": "family",                // kingdom|clade|phylum|class|subclass|order|family
   "common": "Legumes — beans, peas, acacia, clover",  // optional
   "speciesCount": 19500,           // optional, approximate — for visual scaling
+  "examples": ["Phaseolus (bean)", "Pisum (pea)", "Acacia", "Trifolium (clover)"],
+  "blurb": "Legume family: nitrogen-fixing plants bearing pod fruits; third-largest plant family and a cornerstone of agriculture.",
   "children": [ ... ]              // omitted on leaves
 }
 ```
+
+Every family leaf carries `examples` and `blurb`; `common` is present where a
+vernacular name exists.
 
 Sources: **APG IV** (angiosperm orders & families), **PPG I** (lycophytes &
 ferns), standard gymnosperm and bryophyte treatments, and **Kew's Plants of the
