@@ -100,6 +100,14 @@
   .node .toggle{font-family:var(--mono); font-size:10px; fill:var(--ground); text-anchor:middle;
     stroke:none; pointer-events:none; dominant-baseline:central; font-weight:700}
 
+  /* ---------- treemap ---------- */
+  .tmcell{cursor:pointer}
+  .tmcell rect{transition:fill-opacity .12s}
+  .tmcell:hover rect{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
+  text.tml{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600}
+  text.tmh{font-family:var(--mono); font-size:9px; letter-spacing:.5px; text-transform:uppercase; pointer-events:none}
+  .tmgroup rect{pointer-events:none}
+
   .node:hover circle.dot{stroke-width:2.6px}
   .node:hover text{fill:#fff}
   .node.kbfocus circle.dot{stroke:#fff; stroke-width:2.8px}
@@ -252,6 +260,7 @@
     <span class="seg" id="viewseg">
       <button class="ctl on" id="btnTree">Tree</button>
       <button class="ctl" id="btnRadial">Radial</button>
+      <button class="ctl" id="btnTreemap">Treemap</button>
     </span>
     <button class="ctl on" id="btnOrders">Orders</button>
     <button class="ctl" id="btnExpand">Expand all</button>
@@ -263,7 +272,7 @@
 <div class="legend" id="legend"></div>
 
 <main class="stage" id="stage">
-  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g></g></svg>
+  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
   <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true">
     <button class="pclose" id="pclose" aria-label="Close">&times;</button>
@@ -370,6 +379,7 @@ function layout(){
 const svg=document.getElementById('svg');
 const gLinks=document.getElementById('links');
 const gNodes=document.getElementById('nodes');
+const gTree=document.getElementById('treemap');
 const NS='http://www.w3.org/2000/svg';
 const nodeEls=new Map(), linkEls=new Map();
 
@@ -383,6 +393,11 @@ function linkPathRadial(s,t){
   return `M${s.x},${s.y}C${mr*Math.cos(a1)},${mr*Math.sin(a1)} ${mr*Math.cos(a2)},${mr*Math.sin(a2)} ${t.x},${t.y}`;
 }
 function render(){
+  if(mode==='treemap'){
+    gLinks.style.display='none'; gNodes.style.display='none'; gTree.style.display='';
+    renderTreemap(); return;
+  }
+  gLinks.style.display=''; gNodes.style.display=''; gTree.style.display='none';
   const {nodes, links}=layout();
   visibleNodes = nodes.slice().sort((a,b)=> mode==='radial' ? (a.pa-b.pa) : (a.y-b.y));
   const seenN=new Set(), seenL=new Set();
@@ -426,6 +441,67 @@ function render(){
   for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
   for(const [id,el] of linkEls){ if(!seenL.has(id)){ el.remove(); linkEls.delete(id);} }
 }
+
+// ---------- treemap (squarified, area = species richness) ----------
+let tmBounds={w:1500,h:900};
+let storySet=null;
+const esc4=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function tmWorst(row, side, sum){ const mx=Math.max(...row), mn=Math.min(...row), s2=sum*sum, w2=side*side;
+  return Math.max((w2*mx)/s2, s2/(w2*mn)); }
+function squarifyRect(items, x, y, w, h){
+  const out=[]; let rx=x, ry=y, rw=w, rh=h, arr=items.slice();
+  while(arr.length){
+    const side=Math.min(rw,rh); let row=[], rowSum=0, i=0, prev=Infinity;
+    while(i<arr.length){ const a=arr[i].area;
+      const wst=tmWorst(row.concat(a), side, rowSum+a);
+      if(row.length===0 || wst<=prev){ row.push(a); rowSum+=a; prev=wst; i++; } else break; }
+    const rowItems=arr.slice(0,i); arr=arr.slice(i); const thick=rowSum/side || 0;
+    if(rw>=rh){ let cy=ry; for(const it of rowItems){ const ih=thick?it.area/thick:0; out.push({node:it.node,x:rx,y:cy,w:thick,h:ih}); cy+=ih; } rx+=thick; rw-=thick; }
+    else { let cx=rx; for(const it of rowItems){ const iw=thick?it.area/thick:0; out.push({node:it.node,x:cx,y:ry,w:iw,h:thick}); cx+=iw; } ry+=thick; rh-=thick; }
+  }
+  return out;
+}
+function buildTreemap(node, x, y, w, h, cells, depth){
+  const kids = node.open ? (node.children||[]) : [];
+  if(!kids.length || w<3 || h<3){ cells.push({node,x,y,w,h,leaf:true}); return; }
+  const hdr = (depth>=1 && depth<=2 && h>30 && w>64) ? 15 : 0;
+  cells.push({node,x,y,w,h,header:hdr,leaf:false,depth});
+  const ix=x+1.5, iy=y+hdr+1.5, iw=w-3, ih=h-hdr-3;
+  if(iw<3 || ih<3) return;
+  const items=kids.map(k=>({node:k, value:Math.max(k.agg,1)}));
+  const tot=items.reduce((s,it)=>s+it.value,0), scale=(iw*ih)/tot;
+  const scaled=items.map(it=>({node:it.node, area:it.value*scale})).sort((a,b)=>b.area-a.area);
+  for(const r of squarifyRect(scaled, ix, iy, iw, ih)) buildTreemap(r.node, r.x, r.y, r.w, r.h, cells, depth+1);
+}
+function renderTreemap(){
+  const r=stage.getBoundingClientRect();
+  const TW=1500, TH=Math.max(650, Math.round(TW*((r.height||900)/(r.width||1500))));
+  tmBounds={w:TW,h:TH};
+  const cells=[]; buildTreemap(ROOT, 0,0, TW, TH, cells, 0);
+  let html='';
+  for(const c of cells){
+    const n=c.node, lc=color(n);
+    if(c.leaf){
+      const dim = storySet && !storySet.has(n._id);
+      const maxc=Math.floor((c.w-7)/6.1);
+      const label=(c.w>44 && c.h>15 && maxc>2) ? esc4(n.name.length>maxc? n.name.slice(0,maxc-1)+'…':n.name) : '';
+      html+=`<g class="tmcell" data-id="${n._id}"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="2" fill="${lc}" fill-opacity="${dim?0.1:0.85}" stroke="#0d1512" stroke-width="1"></rect>`+
+        (label?`<text class="tml" x="${(c.x+5).toFixed(1)}" y="${(c.y+13).toFixed(1)}">${label}</text>`:'')+`</g>`;
+    } else if(c.header){
+      html+=`<g class="tmgroup"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="3" fill="none" stroke="${lc}" stroke-opacity="0.5" stroke-width="1.2"></rect>`+
+        `<text class="tmh" x="${(c.x+5).toFixed(1)}" y="${(c.y+11).toFixed(1)}" fill="${lc}">${esc4(n.name)}</text></g>`;
+    }
+  }
+  gTree.innerHTML=html;
+  if(selected){ const rc=gTree.querySelector('[data-id="'+selected._id+'"] rect'); if(rc){ rc.setAttribute('stroke','#fff'); rc.setAttribute('stroke-width','2'); } }
+}
+gTree.addEventListener('click', e=>{ const g=e.target.closest('[data-id]'); if(!g) return;
+  const n=idMap.get(+g.dataset.id); if(!n) return;
+  if((n.children||[]).length && !n.open) toggle(n);
+  select(n,{center:false}); render(); });
+gTree.addEventListener('mousemove', e=>{ const g=e.target.closest('[data-id]');
+  if(!g){ hideTip(); return; } const n=idMap.get(+g.dataset.id); if(n){ showTip(n,e); moveTip(e); } });
+gTree.addEventListener('mouseleave', ()=> hideTip());
 
 function labelNode(el, n){
   const txt=el.querySelector('text:not(.toggle)');
@@ -479,10 +555,11 @@ function toOrders(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!
 function expandAll(){ applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
 function collapseTop(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
-function switchMode(m){ if(mode===m) return; mode=m;
+function switchMode(m){ if(mode===m) return; mode=m; hideTip();
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
   document.getElementById('btnRadial').classList.toggle('on', m==='radial');
-  render(); relabelAll(); fit(600); }
+  document.getElementById('btnTreemap').classList.toggle('on', m==='treemap');
+  render(); if(mode!=='treemap') relabelAll(); fit(600); }
 
 // hover lineage-to-root
 const stage=document.getElementById('stage');
@@ -532,6 +609,12 @@ const vp=document.getElementById('viewport');
 let T={x:60,y:0,k:1};
 function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
 function fit(dur){
+  if(mode==='treemap'){
+    const r=stage.getBoundingClientRect();
+    const k=Math.min(r.width/(tmBounds.w+40), r.height/(tmBounds.h+40))*0.98;
+    animateT({k, x:(r.width - tmBounds.w*k)/2, y:(r.height - tmBounds.h*k)/2}, dur||0);
+    return;
+  }
   const {nodes}=layout();
   const pl = mode==='radial'?160:40, pr = mode==='radial'?160:180, pv = mode==='radial'?160:20;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
@@ -710,6 +793,7 @@ function setStory(id){
   clearStory(false);
   activeStory=id;
   const ns=storyNodes(id);
+  storySet=new Set(ns.map(x=>x._id));
   for(const n of ns){ let p=n.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
   render(); relabelAll();
   stage.classList.add('storying');
@@ -734,7 +818,7 @@ function showStoryList(id, ns){
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
 }
 function clearStory(doHash){
-  activeStory=null; stage.classList.remove('storying');
+  activeStory=null; storySet=null; stage.classList.remove('storying');
   document.querySelectorAll('.node.hl').forEach(e=>e.classList.remove('hl'));
   document.querySelectorAll('.schip.on').forEach(c=>c.classList.remove('on'));
   const pl=document.getElementById('plist');
@@ -787,6 +871,7 @@ document.getElementById('btnCollapse').onclick=collapseTop;
 document.getElementById('btnFit').onclick=()=>fit(500);
 document.getElementById('btnTree').onclick=()=>switchMode('tree');
 document.getElementById('btnRadial').onclick=()=>switchMode('radial');
+document.getElementById('btnTreemap').onclick=()=>switchMode('treemap');
 q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
 
 render(); applyT(); fit(0);
