@@ -95,6 +95,9 @@
     transition:fill .18s, opacity .2s; dominant-baseline:middle;
   }
   .node.lodhide text{opacity:0; pointer-events:none}   /* semantic zoom: hide crowded labels */
+  /* view morph: hide labels + freeze transitions while nodes fly to new positions */
+  .stage.morphing .node text{opacity:0 !important; transition:none}
+  .stage.morphing .link{transition:none}
   .node text .rank{font-family:var(--mono)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
   .node text tspan.count{font-family:var(--mono); font-size:9.5px; fill:var(--faint)}
@@ -679,11 +682,54 @@ function toOrders(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).lengt
 function expandAll(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
 function collapseTop(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
-function switchMode(m){ if(mode===m) return; mode=m; hideTip();
+function setModeButtons(m){
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
   document.getElementById('btnRadial').classList.toggle('on', m==='radial');
   document.getElementById('btnTreemap').classList.toggle('on', m==='treemap');
-  render(); if(mode!=='treemap') relabelAll(); fit(600); }
+}
+let morphing=false;
+function switchMode(m){
+  if(mode===m || morphing) return;
+  hideTip();
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const nodeLink = x => x==='tree' || x==='radial';
+  if(!reduce && nodeLink(mode) && nodeLink(m)) morphNodeLink(m);
+  else crossfade(m, reduce);
+}
+// tree <-> radial: interpolate every node from its old position to its new one
+function morphNodeLink(m){
+  const startT={...T};
+  const start=new Map(); for(const n of visibleNodes) start.set(n._id,{x:n.x,y:n.y});
+  mode=m;
+  const {nodes,links}=layout();                 // writes target n.x,n.y
+  const end=new Map(); for(const n of nodes) end.set(n._id,{x:n.x,y:n.y});
+  const endT=computeFitT(nodes, m);
+  setModeButtons(m); stage.classList.add('morphing'); morphing=true;
+  const t0=performance.now(), dur=720;
+  (function step(now){
+    const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+    T={x:startT.x+(endT.x-startT.x)*e, y:startT.y+(endT.y-startT.y)*e, k:startT.k+(endT.k-startT.k)*e};
+    vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`);
+    for(const n of nodes){ const s=start.get(n._id), en=end.get(n._id); if(!s||!en) continue;
+      const el=nodeEls.get(n._id); if(el) el.setAttribute('transform',`translate(${s.x+(en.x-s.x)*e},${s.y+(en.y-s.y)*e})`); }
+    for(const l of links){ const ss=start.get(l.s._id),se=end.get(l.s._id),ts=start.get(l.t._id),te=end.get(l.t._id);
+      if(!ss||!se||!ts||!te) continue;
+      const sx=ss.x+(se.x-ss.x)*e, sy=ss.y+(se.y-ss.y)*e, tx=ts.x+(te.x-ts.x)*e, ty=ts.y+(te.y-ts.y)*e, mx=(sx+tx)/2;
+      const le=linkEls.get(l.s._id+'-'+l.t._id); if(le) le.setAttribute('d',`M${sx},${sy}C${mx},${sy} ${mx},${ty} ${tx},${ty}`); }
+    if(p<1) requestAnimationFrame(step);
+    else { morphing=false; stage.classList.remove('morphing'); render(); relabelAll(); labelLOD(); }
+  })(t0);
+}
+// anything involving the treemap: a soft crossfade (different representation, can't tween positions)
+function crossfade(m, reduce){
+  if(reduce){ mode=m; setModeButtons(m); render(); if(m!=='treemap') relabelAll(); fit(0); return; }
+  morphing=true; vp.style.transition='opacity .2s'; vp.style.opacity='0';
+  setTimeout(()=>{
+    mode=m; setModeButtons(m); render(); if(m!=='treemap') relabelAll(); fit(0);
+    vp.style.opacity='1';
+    setTimeout(()=>{ vp.style.transition=''; morphing=false; }, 230);
+  }, 210);
+}
 
 // hover lineage-to-root
 const stage=document.getElementById('stage');
@@ -741,13 +787,15 @@ function fit(dur){
     return;
   }
   const {nodes}=layout();
-  const pl = mode==='radial'?160:40, pr = mode==='radial'?160:180, pv = mode==='radial'?160:20;
+  animateT(computeFitT(nodes, mode), dur||0);
+}
+function computeFitT(nodes, forMode){
+  const pl = forMode==='radial'?160:40, pr = forMode==='radial'?160:180, pv = forMode==='radial'?160:20;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
   for(const n of nodes){ x0=Math.min(x0,n.x-pl); x1=Math.max(x1,n.x+pr); y0=Math.min(y0,n.y-pv); y1=Math.max(y1,n.y+pv); }
   const r=stage.getBoundingClientRect();
   const k=Math.min(r.width/(x1-x0), r.height/(y1-y0), 1.1)*0.96;
-  const tx=(r.width-(x1-x0)*k)/2 - x0*k, ty=(r.height-(y1-y0)*k)/2 - y0*k;
-  animateT({x:tx,y:ty,k}, dur||0);
+  return {x:(r.width-(x1-x0)*k)/2 - x0*k, y:(r.height-(y1-y0)*k)/2 - y0*k, k};
 }
 function animateT(target,dur){
   if(!dur || matchMedia('(prefers-reduced-motion:reduce)').matches){ T=target; applyT(); return; }
