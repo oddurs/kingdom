@@ -92,8 +92,9 @@
   .node text{
     font-family:var(--serif); font-size:12.5px; fill:var(--ink); paint-order:stroke;
     stroke:var(--ground); stroke-width:3px; stroke-linejoin:round;
-    transition:fill .18s; dominant-baseline:middle;
+    transition:fill .18s, opacity .2s; dominant-baseline:middle;
   }
+  .node.lodhide text{opacity:0; pointer-events:none}   /* semantic zoom: hide crowded labels */
   .node text .rank{font-family:var(--mono)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
   .node text tspan.count{font-family:var(--mono); font-size:9.5px; fill:var(--faint)}
@@ -221,7 +222,28 @@
   .node.selected circle.dot{stroke:#fff; stroke-width:3px}
   .node.selected .halo{opacity:.26}
 
+  /* ---------- minimap ---------- */
+  .minimap{position:absolute; left:16px; bottom:16px; width:190px; height:132px; z-index:6;
+    background:#0b1310cc; border:1px solid var(--edge); border-radius:9px; overflow:hidden;
+    backdrop-filter:blur(6px); box-shadow:0 8px 24px #0007; cursor:crosshair; touch-action:none}
+  .minimap svg{width:100%; height:100%; display:block}
+  .minimap .mvp{fill:#46b06a26; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
+  .minimap line{stroke:var(--faint); stroke-width:.6px; stroke-opacity:.55; vector-effect:non-scaling-stroke}
+  .minimap.hide{display:none}
+  .minimap .mmlabel{position:absolute; left:8px; top:6px; font-family:var(--mono); font-size:8.5px;
+    letter-spacing:.6px; text-transform:uppercase; color:var(--faint); pointer-events:none}
+
+  /* ---------- focus (re-root) bar ---------- */
+  .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:none; align-items:center; gap:9px;
+    background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge);
+    border-left:3px solid var(--l-fern); border-radius:10px; padding:7px 9px 7px 13px; box-shadow:0 10px 28px #0009}
+  .focusbar.show{display:flex}
+  .focusbar .flabel{font-family:var(--mono); font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--faint)}
+  .focusbar .fname{font-family:var(--serif); font-size:15px; color:var(--ink); font-style:italic}
+  .focusbar button{width:auto; height:26px; padding:0 9px; font-size:11px}
+
   @media (max-width:680px){
+    .minimap{display:none}
     header.bar{padding:10px 14px; gap:9px}
     .brand{flex-basis:100%; min-width:0}
     .brand h1{font-size:16px; line-height:1.2; white-space:normal; overflow-wrap:break-word}
@@ -292,6 +314,16 @@
     <button class="ctl" id="zin" aria-label="Zoom in">+</button>
     <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
   </div>
+  <div class="focusbar" id="focusbar">
+    <span class="flabel">Focused</span>
+    <span class="fname" id="fbname"></span>
+    <button class="ctl" id="fbup" title="Up one level">&#9650;</button>
+    <button class="ctl" id="fbexit">Show all</button>
+  </div>
+  <div class="minimap hide" id="minimap" aria-hidden="true">
+    <svg id="mmsvg" viewBox="0 0 190 132" preserveAspectRatio="none"><g id="mmroot"><g id="mmcontent"></g><rect class="mvp" id="mmvp" x="0" y="0" width="0" height="0"></rect></g></svg>
+    <span class="mmlabel">Overview</span>
+  </div>
 </main>
 
 <footer class="meta" id="footer"></footer>
@@ -341,14 +373,16 @@ function color(n){ return cssVar(LINEAGES[n.lineage].c); }
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
 let mode='tree';
+let renderRoot=ROOT;                    // re-root / focus-on-subtree
 let leafCursor=0, leafTotal=0;
 let visibleNodes=[];
+const RD=n=>n.depth-renderRoot.depth;   // depth relative to the focused root
 function layout(){
   const nodes=[], links=[];
   if(mode==='radial'){
     // cluster layout: all frontier leaves on one outer ring (handles our very unbalanced depth)
     leafTotal=0; let maxD=1;
-    (function c(n){ const k=n.open?(n.children||[]):[]; if(!k.length){ leafTotal++; if(n.depth>maxD) maxD=n.depth; } else k.forEach(c); })(ROOT);
+    (function c(n){ const k=n.open?(n.children||[]):[]; if(!k.length){ leafTotal++; if(RD(n)>maxD) maxD=RD(n); } else k.forEach(c); })(renderRoot);
     const OUTER=560, ringStep=OUTER/maxD;
     leafCursor=0;
     const span=Math.PI*2*0.94, start=-Math.PI/2 + Math.PI*2*0.03;
@@ -356,21 +390,21 @@ function layout(){
       const kids = n.open ? (n.children||[]) : [];
       let rad;
       if(kids.length===0){ n.pa = start + (leafCursor+0.5)/leafTotal*span; leafCursor++; rad=OUTER; }
-      else{ kids.forEach(walk); n.pa = (kids[0].pa + kids[kids.length-1].pa)/2; rad=n.depth*ringStep; }
+      else{ kids.forEach(walk); n.pa = (kids[0].pa + kids[kids.length-1].pa)/2; rad=RD(n)*ringStep; }
       n.x = rad*Math.cos(n.pa); n.y = rad*Math.sin(n.pa);
       nodes.push(n);
       for(const k of kids) links.push({s:n, t:k});
-    })(ROOT);
+    })(renderRoot);
   } else {
     leafCursor=0;
     (function walk(n){
-      n.x = n.depth*DX;
+      n.x = RD(n)*DX;
       const kids = n.open ? (n.children||[]) : [];
       if(kids.length===0){ n.y = leafCursor*DY; leafCursor++; }
       else{ kids.forEach(walk); n.y = (kids[0].y + kids[kids.length-1].y)/2; }
       nodes.push(n);
       for(const k of kids) links.push({s:n, t:k});
-    })(ROOT);
+    })(renderRoot);
   }
   return {nodes, links};
 }
@@ -395,6 +429,7 @@ function linkPathRadial(s,t){
 function render(){
   if(mode==='treemap'){
     gLinks.style.display='none'; gNodes.style.display='none'; gTree.style.display='';
+    minimap.classList.add('hide');
     renderTreemap(); return;
   }
   gLinks.style.display=''; gNodes.style.display=''; gTree.style.display='none';
@@ -440,7 +475,95 @@ function render(){
   // remove stale
   for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
   for(const [id,el] of linkEls){ if(!seenL.has(id)){ el.remove(); linkEls.delete(id);} }
+  labelLOD(); renderMinimap();
 }
+
+// ---------- semantic zoom: hide crowded leaf labels, reveal on zoom ----------
+let lastLODk=-1;
+function labelLOD(){
+  if(mode==='treemap') return;
+  const k=T.k;
+  const span=Math.PI*2*0.94;
+  for(const n of visibleNodes){
+    const el=nodeEls.get(n._id); if(!el) continue;
+    const isLeaf=!(n.open && (n.children||[]).length);
+    let show=true;
+    if(isLeaf){                                   // the numerous frontier labels are what crowd
+      const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*560*k : DY*k;
+      show = gap>=12 || n.agg>4000;               // always keep the big families legible
+    }
+    if(n===selected || n===kb || el.classList.contains('match') || el.classList.contains('hl')) show=true;
+    el.classList.toggle('lodhide', !show);
+  }
+  lastLODk=k;
+}
+
+// ---------- minimap ----------
+const minimap=document.getElementById('minimap');
+const mmroot=document.getElementById('mmroot'), mmcontent=document.getElementById('mmcontent'), mmvp=document.getElementById('mmvp');
+let mmScale=1, mmBB=null;
+function renderMinimap(){
+  if(mode==='treemap' || !visibleNodes.length){ minimap.classList.add('hide'); return; }
+  minimap.classList.remove('hide');
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const n of visibleNodes){ if(n.x<x0)x0=n.x; if(n.x>x1)x1=n.x; if(n.y<y0)y0=n.y; if(n.y>y1)y1=n.y; }
+  const pad=34; x0-=pad; y0-=pad; x1+=pad; y1+=pad;
+  const w=Math.max(x1-x0,1), h=Math.max(y1-y0,1);
+  const mw=190, mh=132, s=Math.min(mw/w, mh/h);
+  mmScale=s; mmBB={x0,y0,w,h};
+  const ox=(mw-w*s)/2, oy=(mh-h*s)/2;
+  mmroot.setAttribute('transform',`translate(${ox.toFixed(2)},${oy.toFixed(2)}) scale(${s.toFixed(4)}) translate(${(-x0).toFixed(1)},${(-y0).toFixed(1)})`);
+  const vis=new Set(visibleNodes.map(n=>n._id));
+  let lines='', dots='';
+  for(const n of visibleNodes){
+    if(n.parent && vis.has(n.parent._id))
+      lines+=`<line x1="${n.parent.x.toFixed(0)}" y1="${n.parent.y.toFixed(0)}" x2="${n.x.toFixed(0)}" y2="${n.y.toFixed(0)}"/>`;
+    const rr=Math.max(1/mmScale*1.1, radius(n)*0.2);
+    dots+=`<circle cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="${rr.toFixed(1)}" fill="${color(n)}" fill-opacity="0.95"/>`;
+  }
+  mmcontent.innerHTML=lines+dots;
+  updateMinimapVP();
+}
+function updateMinimapVP(){
+  if(mode==='treemap' || !mmBB) return;
+  const r=stage.getBoundingClientRect();
+  mmvp.setAttribute('x', (-T.x/T.k).toFixed(1)); mmvp.setAttribute('y', (-T.y/T.k).toFixed(1));
+  mmvp.setAttribute('width', (r.width/T.k).toFixed(1)); mmvp.setAttribute('height', (r.height/T.k).toFixed(1));
+}
+let mmDrag=false;
+function mmPan(e){
+  if(!mmBB) return;
+  const r=minimap.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width*190, py=(e.clientY-r.top)/r.height*132;
+  const ox=(190-mmBB.w*mmScale)/2, oy=(132-mmBB.h*mmScale)/2;
+  const cx=(px-ox)/mmScale + mmBB.x0, cy=(py-oy)/mmScale + mmBB.y0;
+  const rs=stage.getBoundingClientRect();
+  T.x=rs.width/2 - cx*T.k; T.y=rs.height/2 - cy*T.k; applyT();
+}
+minimap.addEventListener('pointerdown', e=>{ e.stopPropagation(); mmDrag=true; minimap.setPointerCapture(e.pointerId); mmPan(e); });
+minimap.addEventListener('pointermove', e=>{ if(mmDrag){ e.stopPropagation(); mmPan(e); } });
+minimap.addEventListener('pointerup', ()=>{ mmDrag=false; });
+minimap.addEventListener('pointercancel', ()=>{ mmDrag=false; });
+
+// ---------- re-root / focus on subtree ----------
+const focusbar=document.getElementById('focusbar');
+function updateFocusBar(){
+  if(renderRoot===ROOT){ focusbar.classList.remove('show'); return; }
+  focusbar.classList.add('show');
+  document.getElementById('fbname').textContent=renderRoot.name;
+  document.getElementById('fbup').style.display = (renderRoot.parent && renderRoot.parent!==ROOT) ? '' : 'none';
+}
+function reroot(n){
+  if(!(n.children||[]).length || n===renderRoot) return;
+  if(activeStory) clearStory(false);
+  renderRoot=n; n.open=true;
+  render(); relabelAll(); updateFocusBar(); setKb(n,false); fit(650);
+}
+function exitFocus(){ renderRoot=ROOT; render(); relabelAll(); updateFocusBar(); fit(650); }
+function focusUp(){ if(renderRoot!==ROOT && renderRoot.parent){ rerootTo(renderRoot.parent); } }
+function rerootTo(n){ renderRoot=n; render(); relabelAll(); updateFocusBar(); fit(650); }
+document.getElementById('fbexit').onclick=exitFocus;
+document.getElementById('fbup').onclick=focusUp;
 
 // ---------- treemap (squarified, area = species richness) ----------
 let tmBounds={w:1500,h:900};
@@ -477,7 +600,7 @@ function renderTreemap(){
   const r=stage.getBoundingClientRect();
   const TW=1500, TH=Math.max(650, Math.round(TW*((r.height||900)/(r.width||1500))));
   tmBounds={w:TW,h:TH};
-  const cells=[]; buildTreemap(ROOT, 0,0, TW, TH, cells, 0);
+  const cells=[]; buildTreemap(renderRoot, 0,0, TW, TH, cells, 0);
   let html='';
   for(const c of cells){
     const n=c.node, lc=color(n);
@@ -551,9 +674,10 @@ function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
 
 function applyState(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); render(); relabelAll(); }
-function toOrders(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); setActive('btnOrders'); fit(650); }
-function expandAll(){ applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
-function collapseTop(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
+function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } }
+function toOrders(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); setActive('btnOrders'); fit(650); }
+function expandAll(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
+function collapseTop(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
 function switchMode(m){ if(mode===m) return; mode=m; hideTip();
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
@@ -607,7 +731,8 @@ function hideTip(){ tip.classList.remove('show'); }
 // ---------- pan / zoom ----------
 const vp=document.getElementById('viewport');
 let T={x:60,y:0,k:1};
-function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
+function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`);
+  updateMinimapVP(); if(Math.abs(T.k-lastLODk)>0.002) labelLOD(); }
 function fit(dur){
   if(mode==='treemap'){
     const r=stage.getBoundingClientRect();
@@ -711,6 +836,7 @@ q.addEventListener('input', ()=>{
   })(ROOT);
   // open ancestors of every match
   for(const m of matches){ let p=m.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
+  if(matches.length && renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); }   // search spans the whole tree
   render(); relabelAll();
   for(const m of matches){ const el=nodeEls.get(m._id); if(el) el.classList.add('match'); }
   qhint.textContent = matches.length? matches.length+' found' : 'none';
@@ -758,6 +884,9 @@ function select(n, opts){
     b.textContent=n.open?'Collapse':'Expand';
     b.onclick=()=>{ toggle(n); b.textContent=n.open?'Collapse':'Expand'; el&&el.classList.add('selected'); };
     act.appendChild(b); }
+  if(hasKids && n!==ROOT && n!==renderRoot){ const fb=document.createElement('button'); fb.className='ctl';
+    fb.textContent='Focus subtree'; fb.title='Zoom into just this clade';
+    fb.onclick=()=>reroot(n); act.appendChild(fb); }
   const cp=document.createElement('button'); cp.className='ctl'; cp.textContent='Copy link';
   cp.onclick=()=>{ const url=location.origin+location.pathname+'#sel='+encodeURIComponent(n.name);
     if(navigator.clipboard) navigator.clipboard.writeText(url);
@@ -791,6 +920,7 @@ function storyNodes(id){
 function setStory(id){
   if(activeStory===id){ clearStory(); return; }
   clearStory(false);
+  resetFocus();                       // a storyline highlights across the whole tree
   activeStory=id;
   const ns=storyNodes(id);
   storySet=new Set(ns.map(x=>x._id));
