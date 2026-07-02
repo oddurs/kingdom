@@ -1,0 +1,515 @@
+<title>The Plant Kingdom — a living tree</title>
+<style>
+  :root{
+    --ground:#0d1512; --ground-2:#101c17; --ink:#e9ede6; --dim:#93a396; --faint:#5f7167;
+    --line:#2b3a32; --panel:#0f1a15cc; --edge:#25332c;
+    --serif:'Iowan Old Style','Palatino Linotype','Palatino','Book Antiqua',Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --mono:ui-monospace,'SF Mono','SFMono-Regular',Menlo,monospace;
+    /* lineage hues */
+    --l-bryo:#8fce9f; --l-fern:#46b06a; --l-gymno:#35b8b0; --l-basal:#bf8ad4;
+    --l-mono:#e3b24a; --l-rosid:#e67e6b; --l-asterid:#8f9be8; --l-eudicot:#ec9a4f;
+    --l-root:#9fb0a4;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    background:
+      radial-gradient(1200px 800px at 18% 8%, #14231c 0%, transparent 60%),
+      radial-gradient(1000px 900px at 92% 100%, #101d18 0%, transparent 55%),
+      var(--ground);
+    color:var(--ink); font-family:var(--sans);
+    display:flex; flex-direction:column; overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- header ---------- */
+  header.bar{
+    display:flex; align-items:baseline; gap:24px; flex-wrap:wrap;
+    padding:14px 22px 12px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#0f1a1580,transparent);
+    z-index:5;
+  }
+  .brand h1{
+    font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:.2px;
+    margin:0; line-height:1;
+  }
+  .brand h1 em{font-style:italic; color:var(--l-fern)}
+  .brand p{margin:5px 0 0; font-size:12px; color:var(--dim); letter-spacing:.2px}
+  .spacer{flex:1}
+  .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .search{position:relative}
+  .search input{
+    font-family:var(--sans); font-size:13px; color:var(--ink);
+    background:#0c1712; border:1px solid var(--edge); border-radius:7px;
+    padding:7px 30px 7px 11px; width:210px; outline:none; transition:border-color .15s,box-shadow .15s;
+  }
+  .search input::placeholder{color:var(--faint)}
+  .search input:focus{border-color:var(--l-fern); box-shadow:0 0 0 3px #46b06a22}
+  .search .hint{
+    position:absolute; right:9px; top:50%; transform:translateY(-50%);
+    font-family:var(--mono); font-size:10px; color:var(--faint); pointer-events:none;
+  }
+  button.ctl{
+    font-family:var(--sans); font-size:12px; color:var(--dim);
+    background:#0d1712; border:1px solid var(--edge); border-radius:7px;
+    padding:7px 11px; cursor:pointer; transition:color .15s,border-color .15s,background .15s;
+    white-space:nowrap;
+  }
+  button.ctl:hover{color:var(--ink); border-color:var(--faint)}
+  button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
+  button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
+
+  /* ---------- legend ---------- */
+  .legend{
+    display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+    padding:9px 22px; border-bottom:1px solid var(--line);
+    font-size:11.5px; color:var(--dim); background:#0c1512aa; z-index:4;
+  }
+  .legend .lg{display:flex; align-items:center; gap:6px; cursor:default}
+  .legend .dot{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor}
+  .legend .sep{width:1px; height:13px; background:var(--line)}
+  .legend .note{font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+
+  /* ---------- stage ---------- */
+  main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none}
+  main.stage.grabbing{cursor:grabbing}
+  svg{width:100%; height:100%; display:block}
+  #viewport{will-change:transform}
+
+  .link{fill:none; stroke:var(--lc,var(--line)); stroke-opacity:.34; stroke-width:1.4px;
+    transition:stroke-opacity .2s, stroke-width .2s;}
+  .node{cursor:pointer}
+  .node .halo{fill:var(--lc); opacity:0; transition:opacity .2s}
+  .node circle.dot{
+    fill:var(--ground); stroke:var(--lc,var(--l-root)); stroke-width:1.8px;
+    transition:transform .18s, fill .18s, stroke-width .18s;
+  }
+  .node.branch circle.dot{fill:var(--lc,var(--l-root))} /* collapsed w/ hidden children = filled */
+  .node.open circle.dot{fill:var(--ground)}             /* expanded = hollow */
+  .node text{
+    font-family:var(--serif); font-size:12.5px; fill:var(--ink); paint-order:stroke;
+    stroke:var(--ground); stroke-width:3px; stroke-linejoin:round;
+    transition:fill .18s; dominant-baseline:middle;
+  }
+  .node text .rank{font-family:var(--mono)}
+  .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
+  .node text tspan.count{font-family:var(--mono); font-size:9.5px; fill:var(--faint)}
+  .node .toggle{font-family:var(--mono); font-size:10px; fill:var(--ground); text-anchor:middle;
+    stroke:none; pointer-events:none; dominant-baseline:central; font-weight:700}
+
+  .node:hover circle.dot{stroke-width:2.6px}
+  .node:hover text{fill:#fff}
+  .node.kbfocus circle.dot{stroke:#fff; stroke-width:2.8px}
+  .node.kbfocus .halo{opacity:.24}
+  .node.kbfocus text{fill:#fff}
+  main.stage:focus-visible{outline:2px solid var(--l-fern); outline-offset:-2px}
+
+  /* focus/hover lineage highlight */
+  .stage.focusing .link{stroke-opacity:.07}
+  .stage.focusing .node{opacity:.28; transition:opacity .2s}
+  .link.lit{stroke-opacity:.9 !important; stroke-width:2.4px}
+  .node.lit{opacity:1 !important}
+  .node.lit .halo{opacity:.18}
+
+  /* search matches */
+  .node.match circle.dot{stroke:#fff}
+  .node.match .halo{opacity:.28}
+  @keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}
+  .node.match .halo{animation:pulse 1.6s ease-in-out infinite}
+
+  /* ---------- tooltip ---------- */
+  .tip{
+    position:absolute; pointer-events:none; z-index:9; opacity:0; transform:translateY(4px);
+    transition:opacity .12s, transform .12s; max-width:280px;
+    background:var(--panel); backdrop-filter:blur(8px);
+    border:1px solid var(--edge); border-left-width:3px; border-radius:9px;
+    padding:10px 13px; box-shadow:0 12px 34px #0009;
+  }
+  .tip.show{opacity:1; transform:translateY(0)}
+  .tip .rk{font-family:var(--mono); font-size:9.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim)}
+  .tip .nm{font-family:var(--serif); font-size:16px; margin:3px 0 1px}
+  .tip .cm{font-size:12px; color:var(--dim); line-height:1.35}
+  .tip .st{margin-top:8px; padding-top:8px; border-top:1px solid var(--line);
+    display:flex; gap:14px; font-family:var(--mono); font-size:11px; color:var(--ink)}
+  .tip .st b{color:#fff; font-weight:600} .tip .st span{color:var(--faint)}
+
+  /* ---------- footer ---------- */
+  footer.meta{
+    display:flex; gap:20px; flex-wrap:wrap; align-items:center;
+    padding:8px 22px; border-top:1px solid var(--line); background:#0c1512aa;
+    font-family:var(--mono); font-size:10.5px; color:var(--faint); z-index:4;
+  }
+  footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}
+
+  .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; gap:6px; z-index:6}
+  .zoomctl button{width:32px; height:32px; font-size:16px; line-height:1; padding:0}
+
+  @media (max-width:680px){
+    header.bar{padding:10px 14px; gap:9px}
+    .brand{flex-basis:100%; min-width:0}
+    .brand h1{font-size:16px; line-height:1.2; white-space:normal; overflow-wrap:break-word}
+    .brand p{display:none}
+    .spacer{display:none}
+    .controls{width:100%; gap:6px}
+    .search{flex:1 1 100%} .search input{width:100%}
+    .legend{gap:9px 14px; padding:8px 14px; flex-wrap:nowrap; overflow-x:auto;
+      white-space:nowrap; -webkit-overflow-scrolling:touch}
+    .legend .lg{flex:0 0 auto} .legend .note,.legend .sep{display:none}
+    footer.meta{gap:14px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap}
+    footer.meta>span{flex:0 0 auto}
+    .zoomctl{right:12px; bottom:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important; animation:none !important}
+  }
+</style>
+
+<header class="bar">
+  <div class="brand">
+    <h1>The Plant Kingdom &middot; <em>a living tree</em></h1>
+    <p>Every family of land plant, from mosses to orchids &middot; sized by species richness, coloured by lineage</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="controls">
+    <div class="search">
+      <input id="q" type="search" placeholder="Find a family or plant&hellip;" autocomplete="off" spellcheck="false" aria-label="Search families">
+      <span class="hint" id="qhint"></span>
+    </div>
+    <button class="ctl on" id="btnOrders">Orders</button>
+    <button class="ctl" id="btnExpand">Expand all</button>
+    <button class="ctl" id="btnCollapse">Collapse</button>
+    <button class="ctl" id="btnFit">Fit</button>
+  </div>
+</header>
+
+<div class="legend" id="legend"></div>
+
+<main class="stage" id="stage">
+  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g></g></svg>
+  <div class="tip" id="tip"></div>
+  <div class="zoomctl">
+    <button class="ctl" id="zin" aria-label="Zoom in">+</button>
+    <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
+  </div>
+</main>
+
+<footer class="meta" id="footer"></footer>
+
+<script>
+const DATA = /*__DATA__*/;
+
+// ---------- lineage assignment ----------
+const LINEAGES = {
+  bryo:{c:'--l-bryo', label:'Bryophytes'},
+  fern:{c:'--l-fern', label:'Ferns & allies'},
+  gymno:{c:'--l-gymno', label:'Gymnosperms'},
+  basal:{c:'--l-basal', label:'Magnoliids & basal'},
+  mono:{c:'--l-mono', label:'Monocots'},
+  rosid:{c:'--l-rosid', label:'Rosids'},
+  asterid:{c:'--l-asterid', label:'Asterids'},
+  eudicot:{c:'--l-eudicot', label:'Other eudicots'},
+  root:{c:'--l-root', label:'Trunk'}
+};
+const ANCHORS = {
+  'Bryophytes':'bryo','Lycopodiopsida':'fern','Polypodiopsida':'fern','Gymnosperms':'gymno',
+  'Basal angiosperms':'basal','Magnoliids':'basal','Chloranthales':'basal','Monocots':'mono',
+  'Ceratophyllales':'eudicot','Eudicots':'eudicot','Superrosids':'rosid','Asterids':'asterid'
+};
+
+// ---------- preprocess ----------
+let UID=0, MAXAGG=1;
+function prep(n, depth, lineage, parent){
+  n._id=UID++; n.depth=depth; n.parent=parent;
+  n.lineage = ANCHORS[n.name] || lineage;
+  const kids=n.children||[];
+  let famCount=0, agg=0;
+  if(kids.length===0){ agg=n.speciesCount||1; famCount=(n.rank==='family')?1:0; }
+  for(const k of kids){ prep(k, depth+1, n.lineage, n); agg+=k.agg; famCount+=k.famCount; }
+  n.agg=agg; n.famCount=famCount;
+  // default open: everything internal EXCEPT orders (orders collapse to hide families)
+  n.open = kids.length>0 && n.rank!=='order';
+  if(agg>MAXAGG) MAXAGG=agg;
+  return n;
+}
+const ROOT = prep(DATA.tree, 0, 'root', null);
+const K = 26/Math.sqrt(MAXAGG);
+function radius(n){ return Math.min(26, 2.4 + K*Math.sqrt(n.agg)); }
+const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function color(n){ return cssVar(LINEAGES[n.lineage].c); }
+
+// ---------- layout (tidy tree, horizontal) ----------
+const DX=212, DY=28;
+let leafCursor=0;
+let visibleNodes=[];
+function layout(){
+  leafCursor=0;
+  const nodes=[], links=[];
+  (function walk(n){
+    n.x = n.depth*DX;
+    const kids = n.open ? (n.children||[]) : [];
+    if(kids.length===0){ n.y = leafCursor*DY; leafCursor++; }
+    else{ kids.forEach(walk); n.y = (kids[0].y + kids[kids.length-1].y)/2; }
+    nodes.push(n);
+    for(const k of kids) links.push({s:n, t:k});
+  })(ROOT);
+  return {nodes, links};
+}
+
+// ---------- render ----------
+const svg=document.getElementById('svg');
+const gLinks=document.getElementById('links');
+const gNodes=document.getElementById('nodes');
+const NS='http://www.w3.org/2000/svg';
+const nodeEls=new Map(), linkEls=new Map();
+
+function linkPath(s,t){
+  const x1=s.x, y1=s.y, x2=t.x, y2=t.y, mx=(x1+x2)/2;
+  return `M${x1},${y1}C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+}
+function render(){
+  const {nodes, links}=layout();
+  visibleNodes = nodes.slice().sort((a,b)=>a.y-b.y);
+  const seenN=new Set(), seenL=new Set();
+
+  // links
+  for(const l of links){
+    const id=l.s._id+'-'+l.t._id; seenL.add(id);
+    let el=linkEls.get(id);
+    if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
+      el.style.setProperty('--lc', color(l.t)); gLinks.appendChild(el); linkEls.set(id,el); }
+    el.setAttribute('d', linkPath(l.s,l.t));
+  }
+  // nodes
+  for(const n of nodes){
+    seenN.add(n._id);
+    let el=nodeEls.get(n._id);
+    if(!el){
+      el=document.createElementNS(NS,'g'); el.setAttribute('class','node');
+      el.style.setProperty('--lc', color(n));
+      const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', radius(n)+9);
+      const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot'); dot.setAttribute('r', radius(n));
+      const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
+      const txt=document.createElementNS(NS,'text');
+      el.append(halo,dot,tog,txt);
+      el.addEventListener('click', e=>{ e.stopPropagation(); toggle(n); });
+      el.addEventListener('mouseenter', e=>{ hoverOn(n); showTip(n,e); });
+      el.addEventListener('mousemove', e=> moveTip(e));
+      el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
+      gNodes.appendChild(el); nodeEls.set(n._id, el);
+      labelNode(el, n);
+    }
+    const hasKids=(n.children||[]).length>0;
+    el.classList.toggle('branch', hasKids && !n.open);
+    el.classList.toggle('open', hasKids && n.open);
+    const tog=el.querySelector('.toggle');
+    tog.textContent = hasKids ? (n.open?'':'+') : '';
+    el.setAttribute('transform',`translate(${n.x},${n.y})`);
+  }
+  // remove stale
+  for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
+  for(const [id,el] of linkEls){ if(!seenL.has(id)){ el.remove(); linkEls.delete(id);} }
+}
+
+function labelNode(el, n){
+  const txt=el.querySelector('text:not(.toggle)');
+  while(txt.firstChild) txt.removeChild(txt.firstChild);
+  const hasKids=(n.children||[]).length>0;
+  const left = hasKids && n.open;                 // expanded internal -> label on left
+  const r=radius(n);
+  txt.setAttribute('text-anchor', left?'end':'start');
+  txt.setAttribute('x', left? -(r+7) : (r+7));
+  const isLeaf=!hasKids;
+  // main name
+  const t1=document.createElementNS(NS,'tspan'); t1.textContent=n.name; txt.appendChild(t1);
+  if(isLeaf){
+    txt.setAttribute('y',0);
+    t1.setAttribute('x', r+7); t1.setAttribute('dy', n.common?'-0.38em':'0');
+    if(n.common){ const c=document.createElementNS(NS,'tspan'); c.setAttribute('class','common');
+      c.setAttribute('x', r+7); c.setAttribute('dy','1.2em'); c.textContent=n.common; txt.appendChild(c); }
+  }
+}
+
+// ---------- interaction ----------
+function toggle(n){ if((n.children||[]).length){ n.open=!n.open;
+  const el=nodeEls.get(n._id); if(el){ labelNode(el,n);} render(); } }
+
+function setOpenAll(v){ (function w(n){ if((n.children||[]).length){ n.open=v; w2(n);} })(ROOT);
+  function w2(n){ for(const k of (n.children||[])) { if((k.children||[]).length){k.open=v;} w2(k);} }
+  // relabel everything
+  render(); relabelAll();
+}
+function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) labelNode(el,n); } }
+const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
+
+function applyState(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); render(); relabelAll(); }
+function toOrders(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); setActive('btnOrders'); fit(650); }
+function expandAll(){ applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
+function collapseTop(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
+function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
+
+// hover lineage-to-root
+const stage=document.getElementById('stage');
+function hoverOn(n){
+  stage.classList.add('focusing');
+  let cur=n;
+  while(cur){ const el=nodeEls.get(cur._id); if(el) el.classList.add('lit');
+    if(cur.parent){ const lid=cur.parent._id+'-'+cur._id; const le=linkEls.get(lid); if(le) le.classList.add('lit'); }
+    cur=cur.parent; }
+}
+function hoverOff(){ stage.classList.remove('focusing');
+  document.querySelectorAll('.node.lit').forEach(e=>e.classList.remove('lit'));
+  document.querySelectorAll('.link.lit').forEach(e=>e.classList.remove('lit')); }
+
+// tooltip
+const tip=document.getElementById('tip');
+function showTip(n,e){
+  const hasKids=(n.children||[]).length>0;
+  tip.style.setProperty('border-left-color', color(n));
+  const rank=n.rank.charAt(0).toUpperCase()+n.rank.slice(1);
+  let stat = hasKids
+    ? `<b>~${n.agg.toLocaleString()}</b> <span>species</span>&nbsp;&nbsp;<b>${n.famCount}</b> <span>famil${n.famCount===1?'y':'ies'}</span>`
+    : `<b>~${n.agg.toLocaleString()}</b> <span>species</span>`;
+  tip.innerHTML = `<div class="rk">${rank}${hasKids&&!n.open?' &middot; click to expand':''}</div>`+
+    `<div class="nm">${n.name}</div>`+
+    (n.common?`<div class="cm">${n.common}</div>`:'')+
+    `<div class="st">${stat}</div>`;
+  tip.classList.add('show'); moveTip(e);
+}
+function moveTip(e){
+  const r=stage.getBoundingClientRect();
+  let x=e.clientX-r.left+16, y=e.clientY-r.top+16;
+  if(x+290>r.width) x=e.clientX-r.left-290; if(y+120>r.height) y=e.clientY-r.top-120;
+  tip.style.left=x+'px'; tip.style.top=y+'px';
+}
+function hideTip(){ tip.classList.remove('show'); }
+
+// ---------- pan / zoom ----------
+const vp=document.getElementById('viewport');
+let T={x:60,y:0,k:1};
+function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
+function fit(dur){
+  const {nodes}=layout();
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const n of nodes){ x0=Math.min(x0,n.x-40); x1=Math.max(x1,n.x+180); y0=Math.min(y0,n.y-20); y1=Math.max(y1,n.y+20); }
+  const r=stage.getBoundingClientRect();
+  const k=Math.min(r.width/(x1-x0), r.height/(y1-y0), 1.1)*0.96;
+  const tx=(r.width-(x1-x0)*k)/2 - x0*k, ty=(r.height-(y1-y0)*k)/2 - y0*k;
+  animateT({x:tx,y:ty,k}, dur||0);
+}
+function animateT(target,dur){
+  if(!dur || matchMedia('(prefers-reduced-motion:reduce)').matches){ T=target; applyT(); return; }
+  const s={...T}, t0=performance.now();
+  (function step(now){ let p=Math.min(1,(now-t0)/dur); const e=1-Math.pow(1-p,3);
+    T={x:s.x+(target.x-s.x)*e, y:s.y+(target.y-s.y)*e, k:s.k+(target.k-s.k)*e}; applyT();
+    if(p<1) requestAnimationFrame(step); })(t0);
+}
+// pan (1 pointer) + pinch-zoom (2 pointers)
+const pointers=new Map(); let pan=null, pinch=null;
+stage.addEventListener('pointerdown', e=>{
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); }
+  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; stage.classList.add('grabbing'); }
+  stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove', e=>{
+  if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch && pointers.size>=2){ doPinch(); return; }
+  if(pan){ T.x=pan.tx+(e.clientX-pan.x); T.y=pan.ty+(e.clientY-pan.y); applyT(); }
+});
+function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null;
+  if(pointers.size===0){ pan=null; stage.classList.remove('grabbing'); } }
+stage.addEventListener('pointerup', endPtr);
+stage.addEventListener('pointercancel', endPtr);
+function two(){ return [...pointers.values()].slice(0,2); }
+function startPinch(){ const [a,b]=two(); const r=stage.getBoundingClientRect();
+  pinch={d:Math.hypot(a.x-b.x,a.y-b.y), mx:(a.x+b.x)/2-r.left, my:(a.y+b.y)/2-r.top, k:T.k, tx:T.x, ty:T.y}; }
+function doPinch(){ const [a,b]=two(); const r=stage.getBoundingClientRect();
+  const d=Math.hypot(a.x-b.x,a.y-b.y); const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
+  const k=Math.max(0.12,Math.min(3.2, pinch.k*d/pinch.d));
+  T.k=k; T.x=mx-(pinch.mx-pinch.tx)*(k/pinch.k); T.y=my-(pinch.my-pinch.ty)*(k/pinch.k); applyT(); }
+
+// keyboard navigation (arrows traverse, Enter/Space toggle)
+let kb=null;
+stage.setAttribute('tabindex','0');
+stage.setAttribute('role','tree');
+stage.setAttribute('aria-label','Plant kingdom taxonomy tree');
+function setKb(n, doPan){
+  if(kb){ const pe=nodeEls.get(kb._id); if(pe) pe.classList.remove('kbfocus'); }
+  kb=n; if(!n) return;
+  const el=nodeEls.get(n._id); if(el) el.classList.add('kbfocus');
+  if(doPan!==false) focusNode(n);
+}
+stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
+stage.addEventListener('keydown', e=>{
+  if(document.activeElement===q || !kb) return;
+  const vis=visibleNodes, i=vis.indexOf(kb), hasKids=(kb.children||[]).length>0;
+  switch(e.key){
+    case 'ArrowDown': if(i<vis.length-1){ setKb(vis[i+1]); } e.preventDefault(); break;
+    case 'ArrowUp': if(i>0){ setKb(vis[i-1]); } e.preventDefault(); break;
+    case 'ArrowRight': if(hasKids && !kb.open){ toggle(kb); setKb(kb,false); } else if(hasKids){ setKb(kb.children[0]); } e.preventDefault(); break;
+    case 'ArrowLeft': if(hasKids && kb.open){ toggle(kb); setKb(kb,false); } else if(kb.parent){ setKb(kb.parent); } e.preventDefault(); break;
+    case 'Enter': case ' ': if(hasKids){ toggle(kb); setKb(kb,false); } e.preventDefault(); break;
+  }
+});
+// wheel zoom around cursor
+stage.addEventListener('wheel', e=>{ e.preventDefault();
+  const r=stage.getBoundingClientRect(); const mx=e.clientX-r.left, my=e.clientY-r.top;
+  const f=Math.exp(-e.deltaY*0.0016); const k=Math.max(0.12,Math.min(3.2,T.k*f));
+  T.x=mx-(mx-T.x)*(k/T.k); T.y=my-(my-T.y)*(k/T.k); T.k=k; applyT();
+},{passive:false});
+document.getElementById('zin').onclick=()=>zoomBtn(1.3);
+document.getElementById('zout').onclick=()=>zoomBtn(1/1.3);
+function zoomBtn(f){ const r=stage.getBoundingClientRect(),mx=r.width/2,my=r.height/2;
+  const k=Math.max(0.12,Math.min(3.2,T.k*f)); T.x=mx-(mx-T.x)*(k/T.k); T.y=my-(my-T.y)*(k/T.k); T.k=k; applyT(); }
+
+// ---------- search ----------
+const q=document.getElementById('q'), qhint=document.getElementById('qhint');
+let matches=[];
+q.addEventListener('input', ()=>{
+  const s=q.value.trim().toLowerCase();
+  document.querySelectorAll('.node.match').forEach(e=>e.classList.remove('match'));
+  matches=[];
+  if(s.length<2){ qhint.textContent=''; return; }
+  (function w(n){
+    const hit = n.name.toLowerCase().includes(s) || (n.common&&n.common.toLowerCase().includes(s));
+    if(hit) matches.push(n);
+    (n.children||[]).forEach(w);
+  })(ROOT);
+  // open ancestors of every match
+  for(const m of matches){ let p=m.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
+  render(); relabelAll();
+  for(const m of matches){ const el=nodeEls.get(m._id); if(el) el.classList.add('match'); }
+  qhint.textContent = matches.length? matches.length+' found' : 'none';
+  if(matches.length){ focusNode(matches[0]); }
+});
+function focusNode(n){
+  const r=stage.getBoundingClientRect(); const k=Math.max(T.k,0.75);
+  animateT({k, x:r.width*0.42 - n.x*k, y:r.height/2 - n.y*k}, 550);
+}
+
+// ---------- legend + footer ----------
+const legend=document.getElementById('legend');
+const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
+legend.innerHTML = order.map(id=>`<span class="lg"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('')
+  + `<span class="sep"></span><span class="note">circle size = species richness &middot; click a node to grow it</span>`;
+
+let totLeaves=0, totFam=0, totSpp=ROOT.agg;
+(function w(n){ if(!(n.children||[]).length){ totLeaves++; if(n.rank==='family') totFam++; } (n.children||[]).forEach(w); })(ROOT);
+document.getElementById('footer').innerHTML =
+  `<span><span class="k">taxa</span> <b>${UID}</b></span>`+
+  `<span><span class="k">families</span> <b>${totFam}</b></span>`+
+  `<span><span class="k">orders</span> <b>86</b></span>`+
+  `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
+  `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew POWO</span>`;
+
+// ---------- buttons + boot ----------
+document.getElementById('btnOrders').onclick=toOrders;
+document.getElementById('btnExpand').onclick=expandAll;
+document.getElementById('btnCollapse').onclick=collapseTop;
+document.getElementById('btnFit').onclick=()=>fit(500);
+q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
+
+render(); applyT(); fit(0);
+window.addEventListener('resize', ()=>fit(0));
+</script>

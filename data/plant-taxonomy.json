@@ -1,0 +1,3512 @@
+{
+  "meta": {
+    "title": "Taxonomy of the Plant Kingdom",
+    "description": "Hierarchical classification of land plants (Embryophyta) from kingdom down to family. Vascular plants are resolved to family; bryophytes to class.",
+    "sources": [
+      "APG IV (2016) — angiosperm orders & families",
+      "PPG I (2016) — lycophyte & fern families",
+      "Christenhusz et al. (2011) — gymnosperm classification",
+      "Standard bryophyte class-level treatment"
+    ],
+    "rankOrder": [
+      "kingdom",
+      "clade",
+      "phylum",
+      "class",
+      "subclass",
+      "order",
+      "family"
+    ],
+    "compiled": "2026-07-02",
+    "speciesCountNote": "speciesCount values are approximate accepted-species estimates (Kew POWO / Wikipedia/APweb), for visual scaling only.",
+    "schemaVersion": 2
+  },
+  "tree": {
+    "name": "Plantae",
+    "rank": "kingdom",
+    "common": "Land plants",
+    "children": [
+      {
+        "name": "Bryophytes",
+        "rank": "clade",
+        "common": "Non-vascular plants",
+        "children": [
+          {
+            "name": "Marchantiophyta",
+            "rank": "phylum",
+            "common": "Liverworts",
+            "children": [
+              {
+                "name": "Haplomitriopsida",
+                "rank": "class",
+                "speciesCount": 20
+              },
+              {
+                "name": "Marchantiopsida",
+                "rank": "class",
+                "common": "Thalloid liverworts (Marchantia)",
+                "speciesCount": 420
+              },
+              {
+                "name": "Jungermanniopsida",
+                "rank": "class",
+                "common": "Leafy liverworts",
+                "speciesCount": 7000
+              }
+            ]
+          },
+          {
+            "name": "Bryophyta",
+            "rank": "phylum",
+            "common": "Mosses",
+            "children": [
+              {
+                "name": "Takakiopsida",
+                "rank": "class",
+                "speciesCount": 2
+              },
+              {
+                "name": "Sphagnopsida",
+                "rank": "class",
+                "common": "Peat mosses (Sphagnum)",
+                "speciesCount": 380
+              },
+              {
+                "name": "Andreaeopsida",
+                "rank": "class",
+                "common": "Lantern mosses",
+                "speciesCount": 100
+              },
+              {
+                "name": "Andreaeobryopsida",
+                "rank": "class",
+                "speciesCount": 1
+              },
+              {
+                "name": "Oedipodiopsida",
+                "rank": "class",
+                "speciesCount": 1
+              },
+              {
+                "name": "Tetraphidopsida",
+                "rank": "class",
+                "speciesCount": 5
+              },
+              {
+                "name": "Polytrichopsida",
+                "rank": "class",
+                "common": "Haircap mosses",
+                "speciesCount": 200
+              },
+              {
+                "name": "Bryopsida",
+                "rank": "class",
+                "common": "True mosses (largest class)",
+                "speciesCount": 11000
+              }
+            ]
+          },
+          {
+            "name": "Anthocerotophyta",
+            "rank": "phylum",
+            "common": "Hornworts",
+            "children": [
+              {
+                "name": "Leiosporocerotopsida",
+                "rank": "class",
+                "speciesCount": 1
+              },
+              {
+                "name": "Anthocerotopsida",
+                "rank": "class",
+                "speciesCount": 220,
+                "common": "Hornworts"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Tracheophytes",
+        "rank": "clade",
+        "common": "Vascular plants",
+        "children": [
+          {
+            "name": "Lycopodiopsida",
+            "rank": "class",
+            "common": "Lycophytes",
+            "children": [
+              {
+                "name": "Lycopodiales",
+                "rank": "order",
+                "children": [
+                  {
+                    "name": "Lycopodiaceae",
+                    "rank": "family",
+                    "common": "Clubmosses",
+                    "speciesCount": 390
+                  }
+                ]
+              },
+              {
+                "name": "Isoetales",
+                "rank": "order",
+                "children": [
+                  {
+                    "name": "Isoetaceae",
+                    "rank": "family",
+                    "common": "Quillworts",
+                    "speciesCount": 250
+                  }
+                ]
+              },
+              {
+                "name": "Selaginellales",
+                "rank": "order",
+                "children": [
+                  {
+                    "name": "Selaginellaceae",
+                    "rank": "family",
+                    "common": "Spikemosses",
+                    "speciesCount": 750
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Polypodiopsida",
+            "rank": "class",
+            "common": "Ferns",
+            "children": [
+              {
+                "name": "Equisetidae",
+                "rank": "subclass",
+                "common": "Horsetails",
+                "children": [
+                  {
+                    "name": "Equisetales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Equisetaceae",
+                        "rank": "family",
+                        "common": "Horsetails (Equisetum)",
+                        "speciesCount": 15
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Ophioglossidae",
+                "rank": "subclass",
+                "children": [
+                  {
+                    "name": "Psilotales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Psilotaceae",
+                        "rank": "family",
+                        "common": "Whisk ferns",
+                        "speciesCount": 17
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Ophioglossales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Ophioglossaceae",
+                        "rank": "family",
+                        "common": "Adder's-tongue & grape ferns",
+                        "speciesCount": 112
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Marattiidae",
+                "rank": "subclass",
+                "children": [
+                  {
+                    "name": "Marattiales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Marattiaceae",
+                        "rank": "family",
+                        "common": "Marattioid ferns",
+                        "speciesCount": 111
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Polypodiidae",
+                "rank": "subclass",
+                "common": "Leptosporangiate ferns",
+                "children": [
+                  {
+                    "name": "Osmundales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Osmundaceae",
+                        "rank": "family",
+                        "common": "Royal ferns",
+                        "speciesCount": 18
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Hymenophyllales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Hymenophyllaceae",
+                        "rank": "family",
+                        "common": "Filmy ferns",
+                        "speciesCount": 434
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Gleicheniales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Gleicheniaceae",
+                        "rank": "family",
+                        "common": "Forking ferns",
+                        "speciesCount": 157
+                      },
+                      {
+                        "name": "Dipteridaceae",
+                        "rank": "family",
+                        "speciesCount": 11
+                      },
+                      {
+                        "name": "Matoniaceae",
+                        "rank": "family",
+                        "speciesCount": 4
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Schizaeales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Lygodiaceae",
+                        "rank": "family",
+                        "common": "Climbing ferns",
+                        "speciesCount": 25
+                      },
+                      {
+                        "name": "Schizaeaceae",
+                        "rank": "family",
+                        "speciesCount": 35
+                      },
+                      {
+                        "name": "Anemiaceae",
+                        "rank": "family",
+                        "speciesCount": 115,
+                        "common": "Flowering ferns"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Salviniales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Salviniaceae",
+                        "rank": "family",
+                        "common": "Floating ferns",
+                        "speciesCount": 21
+                      },
+                      {
+                        "name": "Marsileaceae",
+                        "rank": "family",
+                        "common": "Water clover",
+                        "speciesCount": 62
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Cyatheales",
+                    "rank": "order",
+                    "common": "Tree ferns",
+                    "children": [
+                      {
+                        "name": "Thyrsopteridaceae",
+                        "rank": "family",
+                        "speciesCount": 1
+                      },
+                      {
+                        "name": "Loxsomataceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Culcitaceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Plagiogyriaceae",
+                        "rank": "family",
+                        "speciesCount": 15
+                      },
+                      {
+                        "name": "Cibotiaceae",
+                        "rank": "family",
+                        "speciesCount": 11
+                      },
+                      {
+                        "name": "Metaxyaceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Dicksoniaceae",
+                        "rank": "family",
+                        "common": "Tree ferns",
+                        "speciesCount": 30
+                      },
+                      {
+                        "name": "Cyatheaceae",
+                        "rank": "family",
+                        "common": "Scaly tree ferns",
+                        "speciesCount": 640
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Polypodiales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Saccolomataceae",
+                        "rank": "family",
+                        "speciesCount": 19
+                      },
+                      {
+                        "name": "Cystodiaceae",
+                        "rank": "family",
+                        "speciesCount": 1
+                      },
+                      {
+                        "name": "Lonchitidaceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Lindsaeaceae",
+                        "rank": "family",
+                        "speciesCount": 235
+                      },
+                      {
+                        "name": "Pteridaceae",
+                        "rank": "family",
+                        "common": "Brake ferns, maidenhair",
+                        "speciesCount": 1200
+                      },
+                      {
+                        "name": "Dennstaedtiaceae",
+                        "rank": "family",
+                        "common": "Bracken",
+                        "speciesCount": 265
+                      },
+                      {
+                        "name": "Cystopteridaceae",
+                        "rank": "family",
+                        "common": "Bladder ferns",
+                        "speciesCount": 37
+                      },
+                      {
+                        "name": "Rhachidosoraceae",
+                        "rank": "family",
+                        "speciesCount": 8
+                      },
+                      {
+                        "name": "Diplaziopsidaceae",
+                        "rank": "family",
+                        "speciesCount": 4
+                      },
+                      {
+                        "name": "Desmophlebiaceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Hemidictyaceae",
+                        "rank": "family",
+                        "speciesCount": 1
+                      },
+                      {
+                        "name": "Aspleniaceae",
+                        "rank": "family",
+                        "common": "Spleenworts",
+                        "speciesCount": 730
+                      },
+                      {
+                        "name": "Woodsiaceae",
+                        "rank": "family",
+                        "common": "Cliff ferns",
+                        "speciesCount": 35
+                      },
+                      {
+                        "name": "Onocleaceae",
+                        "rank": "family",
+                        "common": "Sensitive & ostrich ferns",
+                        "speciesCount": 5
+                      },
+                      {
+                        "name": "Blechnaceae",
+                        "rank": "family",
+                        "common": "Chain ferns",
+                        "speciesCount": 265
+                      },
+                      {
+                        "name": "Athyriaceae",
+                        "rank": "family",
+                        "common": "Lady ferns",
+                        "speciesCount": 650
+                      },
+                      {
+                        "name": "Thelypteridaceae",
+                        "rank": "family",
+                        "common": "Marsh ferns",
+                        "speciesCount": 1030
+                      },
+                      {
+                        "name": "Didymochlaenaceae",
+                        "rank": "family",
+                        "speciesCount": 2
+                      },
+                      {
+                        "name": "Hypodematiaceae",
+                        "rank": "family",
+                        "speciesCount": 22
+                      },
+                      {
+                        "name": "Dryopteridaceae",
+                        "rank": "family",
+                        "common": "Wood ferns",
+                        "speciesCount": 2100
+                      },
+                      {
+                        "name": "Nephrolepidaceae",
+                        "rank": "family",
+                        "common": "Boston fern",
+                        "speciesCount": 19
+                      },
+                      {
+                        "name": "Lomariopsidaceae",
+                        "rank": "family",
+                        "speciesCount": 70
+                      },
+                      {
+                        "name": "Tectariaceae",
+                        "rank": "family",
+                        "speciesCount": 230,
+                        "common": "Halberd ferns"
+                      },
+                      {
+                        "name": "Oleandraceae",
+                        "rank": "family",
+                        "speciesCount": 40
+                      },
+                      {
+                        "name": "Davalliaceae",
+                        "rank": "family",
+                        "common": "Hare's-foot ferns",
+                        "speciesCount": 65
+                      },
+                      {
+                        "name": "Polypodiaceae",
+                        "rank": "family",
+                        "common": "Polypodies",
+                        "speciesCount": 1650
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Spermatophytes",
+            "rank": "clade",
+            "common": "Seed plants",
+            "children": [
+              {
+                "name": "Gymnosperms",
+                "rank": "clade",
+                "common": "Naked-seed plants",
+                "children": [
+                  {
+                    "name": "Cycadidae",
+                    "rank": "class",
+                    "common": "Cycads",
+                    "children": [
+                      {
+                        "name": "Cycadales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Cycadaceae",
+                            "rank": "family",
+                            "common": "Cycas",
+                            "speciesCount": 120
+                          },
+                          {
+                            "name": "Zamiaceae",
+                            "rank": "family",
+                            "common": "Zamias, Encephalartos",
+                            "speciesCount": 230
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Ginkgoidae",
+                    "rank": "class",
+                    "common": "Ginkgo",
+                    "children": [
+                      {
+                        "name": "Ginkgoales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Ginkgoaceae",
+                            "rank": "family",
+                            "common": "Ginkgo (maidenhair tree)",
+                            "speciesCount": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Gnetidae",
+                    "rank": "class",
+                    "common": "Gnetophytes",
+                    "children": [
+                      {
+                        "name": "Ephedrales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Ephedraceae",
+                            "rank": "family",
+                            "common": "Ephedra / Mormon tea",
+                            "speciesCount": 60
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Gnetales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Gnetaceae",
+                            "rank": "family",
+                            "common": "Gnetum",
+                            "speciesCount": 40
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Welwitschiales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Welwitschiaceae",
+                            "rank": "family",
+                            "common": "Welwitschia",
+                            "speciesCount": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Pinidae",
+                    "rank": "class",
+                    "common": "Conifers",
+                    "children": [
+                      {
+                        "name": "Pinales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Pinaceae",
+                            "rank": "family",
+                            "common": "Pines, firs, spruces, larches, cedars",
+                            "speciesCount": 240
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Araucariales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Araucariaceae",
+                            "rank": "family",
+                            "common": "Monkey puzzle, Wollemi, kauri",
+                            "speciesCount": 40
+                          },
+                          {
+                            "name": "Podocarpaceae",
+                            "rank": "family",
+                            "common": "Podocarps, yellowwoods",
+                            "speciesCount": 190
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Cupressales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Sciadopityaceae",
+                            "rank": "family",
+                            "common": "Japanese umbrella pine",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Cupressaceae",
+                            "rank": "family",
+                            "common": "Cypress, juniper, redwood, sequoia",
+                            "speciesCount": 140
+                          },
+                          {
+                            "name": "Taxaceae",
+                            "rank": "family",
+                            "common": "Yews",
+                            "speciesCount": 30
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Angiosperms",
+                "rank": "clade",
+                "common": "Flowering plants",
+                "children": [
+                  {
+                    "name": "Basal angiosperms",
+                    "rank": "clade",
+                    "children": [
+                      {
+                        "name": "Amborellales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Amborellaceae",
+                            "rank": "family",
+                            "common": "Amborella (sister to all flowering plants)",
+                            "speciesCount": 1
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Nymphaeales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Hydatellaceae",
+                            "rank": "family",
+                            "speciesCount": 12
+                          },
+                          {
+                            "name": "Cabombaceae",
+                            "rank": "family",
+                            "common": "Fanwort",
+                            "speciesCount": 6
+                          },
+                          {
+                            "name": "Nymphaeaceae",
+                            "rank": "family",
+                            "common": "Water lilies",
+                            "speciesCount": 70
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Austrobaileyales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Austrobaileyaceae",
+                            "rank": "family",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Trimeniaceae",
+                            "rank": "family",
+                            "speciesCount": 5
+                          },
+                          {
+                            "name": "Schisandraceae",
+                            "rank": "family",
+                            "common": "Star anise, magnolia vine",
+                            "speciesCount": 92
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Magnoliids",
+                    "rank": "clade",
+                    "children": [
+                      {
+                        "name": "Canellales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Canellaceae",
+                            "rank": "family",
+                            "common": "Wild cinnamon",
+                            "speciesCount": 20
+                          },
+                          {
+                            "name": "Winteraceae",
+                            "rank": "family",
+                            "common": "Winter's bark",
+                            "speciesCount": 100
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Piperales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Aristolochiaceae",
+                            "rank": "family",
+                            "common": "Birthworts, Dutchman's pipe",
+                            "speciesCount": 600
+                          },
+                          {
+                            "name": "Saururaceae",
+                            "rank": "family",
+                            "common": "Lizard's tails",
+                            "speciesCount": 6
+                          },
+                          {
+                            "name": "Piperaceae",
+                            "rank": "family",
+                            "common": "Pepper (Piper), peperomia",
+                            "speciesCount": 3600
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Magnoliales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Myristicaceae",
+                            "rank": "family",
+                            "common": "Nutmeg",
+                            "speciesCount": 500
+                          },
+                          {
+                            "name": "Magnoliaceae",
+                            "rank": "family",
+                            "common": "Magnolias",
+                            "speciesCount": 300
+                          },
+                          {
+                            "name": "Degeneriaceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Himantandraceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Eupomatiaceae",
+                            "rank": "family",
+                            "speciesCount": 3
+                          },
+                          {
+                            "name": "Annonaceae",
+                            "rank": "family",
+                            "common": "Custard apple, soursop, pawpaw",
+                            "speciesCount": 2400
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Laurales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Calycanthaceae",
+                            "rank": "family",
+                            "common": "Sweetshrubs, spicebush",
+                            "speciesCount": 11
+                          },
+                          {
+                            "name": "Siparunaceae",
+                            "rank": "family",
+                            "speciesCount": 75
+                          },
+                          {
+                            "name": "Gomortegaceae",
+                            "rank": "family",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Atherospermataceae",
+                            "rank": "family",
+                            "speciesCount": 16
+                          },
+                          {
+                            "name": "Hernandiaceae",
+                            "rank": "family",
+                            "speciesCount": 55
+                          },
+                          {
+                            "name": "Monimiaceae",
+                            "rank": "family",
+                            "speciesCount": 200
+                          },
+                          {
+                            "name": "Lauraceae",
+                            "rank": "family",
+                            "common": "Laurel, avocado, cinnamon, bay",
+                            "speciesCount": 2850
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Chloranthales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Chloranthaceae",
+                        "rank": "family",
+                        "speciesCount": 77
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Monocots",
+                    "rank": "clade",
+                    "children": [
+                      {
+                        "name": "Acorales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Acoraceae",
+                            "rank": "family",
+                            "common": "Sweet flag",
+                            "speciesCount": 2
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Alismatales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Araceae",
+                            "rank": "family",
+                            "common": "Aroids — philodendron, monstera, arum",
+                            "speciesCount": 3500
+                          },
+                          {
+                            "name": "Tofieldiaceae",
+                            "rank": "family",
+                            "speciesCount": 30,
+                            "common": "False asphodels"
+                          },
+                          {
+                            "name": "Alismataceae",
+                            "rank": "family",
+                            "common": "Water plantains",
+                            "speciesCount": 100
+                          },
+                          {
+                            "name": "Butomaceae",
+                            "rank": "family",
+                            "common": "Flowering rush",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Hydrocharitaceae",
+                            "rank": "family",
+                            "common": "Tape grass, frogbit",
+                            "speciesCount": 130
+                          },
+                          {
+                            "name": "Scheuchzeriaceae",
+                            "rank": "family",
+                            "speciesCount": 1,
+                            "common": "Rannoch-rush"
+                          },
+                          {
+                            "name": "Aponogetonaceae",
+                            "rank": "family",
+                            "speciesCount": 50,
+                            "common": "Cape pondweeds"
+                          },
+                          {
+                            "name": "Juncaginaceae",
+                            "rank": "family",
+                            "common": "Arrowgrasses",
+                            "speciesCount": 25
+                          },
+                          {
+                            "name": "Maundiaceae",
+                            "rank": "family",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Zosteraceae",
+                            "rank": "family",
+                            "common": "Eelgrasses (seagrass)",
+                            "speciesCount": 20
+                          },
+                          {
+                            "name": "Potamogetonaceae",
+                            "rank": "family",
+                            "common": "Pondweeds",
+                            "speciesCount": 100
+                          },
+                          {
+                            "name": "Posidoniaceae",
+                            "rank": "family",
+                            "common": "Neptune grass",
+                            "speciesCount": 9
+                          },
+                          {
+                            "name": "Ruppiaceae",
+                            "rank": "family",
+                            "common": "Ditch grasses",
+                            "speciesCount": 10
+                          },
+                          {
+                            "name": "Cymodoceaceae",
+                            "rank": "family",
+                            "common": "Manatee grass (seagrass)",
+                            "speciesCount": 17
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Petrosaviales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Petrosaviaceae",
+                            "rank": "family",
+                            "speciesCount": 4
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Dioscoreales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Nartheciaceae",
+                            "rank": "family",
+                            "common": "Bog asphodels",
+                            "speciesCount": 40
+                          },
+                          {
+                            "name": "Burmanniaceae",
+                            "rank": "family",
+                            "speciesCount": 95
+                          },
+                          {
+                            "name": "Dioscoreaceae",
+                            "rank": "family",
+                            "common": "Yams",
+                            "speciesCount": 870
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Pandanales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Triuridaceae",
+                            "rank": "family",
+                            "speciesCount": 55
+                          },
+                          {
+                            "name": "Velloziaceae",
+                            "rank": "family",
+                            "speciesCount": 250
+                          },
+                          {
+                            "name": "Stemonaceae",
+                            "rank": "family",
+                            "speciesCount": 40
+                          },
+                          {
+                            "name": "Cyclanthaceae",
+                            "rank": "family",
+                            "common": "Panama hat palm",
+                            "speciesCount": 230
+                          },
+                          {
+                            "name": "Pandanaceae",
+                            "rank": "family",
+                            "common": "Screw pines (Pandanus)",
+                            "speciesCount": 980
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Liliales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Campynemataceae",
+                            "rank": "family",
+                            "speciesCount": 4
+                          },
+                          {
+                            "name": "Corsiaceae",
+                            "rank": "family",
+                            "speciesCount": 30
+                          },
+                          {
+                            "name": "Melanthiaceae",
+                            "rank": "family",
+                            "common": "Trilliums, false hellebore",
+                            "speciesCount": 175
+                          },
+                          {
+                            "name": "Petermanniaceae",
+                            "rank": "family",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Alstroemeriaceae",
+                            "rank": "family",
+                            "common": "Peruvian lily",
+                            "speciesCount": 250
+                          },
+                          {
+                            "name": "Colchicaceae",
+                            "rank": "family",
+                            "common": "Autumn crocus, flame lily",
+                            "speciesCount": 285
+                          },
+                          {
+                            "name": "Philesiaceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Ripogonaceae",
+                            "rank": "family",
+                            "speciesCount": 6,
+                            "common": "Supplejacks"
+                          },
+                          {
+                            "name": "Smilacaceae",
+                            "rank": "family",
+                            "common": "Greenbriers, sarsaparilla",
+                            "speciesCount": 255
+                          },
+                          {
+                            "name": "Liliaceae",
+                            "rank": "family",
+                            "common": "Lilies, tulips, fritillaries",
+                            "speciesCount": 600
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Asparagales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Orchidaceae",
+                            "rank": "family",
+                            "common": "Orchids (largest plant family)",
+                            "speciesCount": 28000
+                          },
+                          {
+                            "name": "Boryaceae",
+                            "rank": "family",
+                            "speciesCount": 12
+                          },
+                          {
+                            "name": "Blandfordiaceae",
+                            "rank": "family",
+                            "speciesCount": 4,
+                            "common": "Christmas bells"
+                          },
+                          {
+                            "name": "Asteliaceae",
+                            "rank": "family",
+                            "speciesCount": 35
+                          },
+                          {
+                            "name": "Lanariaceae",
+                            "rank": "family",
+                            "speciesCount": 1
+                          },
+                          {
+                            "name": "Hypoxidaceae",
+                            "rank": "family",
+                            "common": "Star grasses",
+                            "speciesCount": 160
+                          },
+                          {
+                            "name": "Doryanthaceae",
+                            "rank": "family",
+                            "common": "Spear lilies",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Ixioliriaceae",
+                            "rank": "family",
+                            "speciesCount": 3
+                          },
+                          {
+                            "name": "Tecophilaeaceae",
+                            "rank": "family",
+                            "speciesCount": 25
+                          },
+                          {
+                            "name": "Iridaceae",
+                            "rank": "family",
+                            "common": "Irises, crocus, gladiolus, freesia",
+                            "speciesCount": 2300
+                          },
+                          {
+                            "name": "Xeronemataceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Asphodelaceae",
+                            "rank": "family",
+                            "common": "Aloe, daylily, red-hot poker",
+                            "speciesCount": 1000
+                          },
+                          {
+                            "name": "Amaryllidaceae",
+                            "rank": "family",
+                            "common": "Amaryllis, daffodil, onion, garlic",
+                            "speciesCount": 2200
+                          },
+                          {
+                            "name": "Asparagaceae",
+                            "rank": "family",
+                            "common": "Asparagus, agave, hyacinth, hosta",
+                            "speciesCount": 3000
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Commelinids",
+                        "rank": "clade",
+                        "children": [
+                          {
+                            "name": "Arecales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Dasypogonaceae",
+                                "rank": "family",
+                                "speciesCount": 16
+                              },
+                              {
+                                "name": "Arecaceae",
+                                "rank": "family",
+                                "common": "Palms",
+                                "speciesCount": 2600
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Commelinales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Hanguanaceae",
+                                "rank": "family",
+                                "speciesCount": 23
+                              },
+                              {
+                                "name": "Commelinaceae",
+                                "rank": "family",
+                                "common": "Spiderworts, tradescantia",
+                                "speciesCount": 730
+                              },
+                              {
+                                "name": "Philydraceae",
+                                "rank": "family",
+                                "speciesCount": 6
+                              },
+                              {
+                                "name": "Pontederiaceae",
+                                "rank": "family",
+                                "common": "Water hyacinth, pickerelweed",
+                                "speciesCount": 35
+                              },
+                              {
+                                "name": "Haemodoraceae",
+                                "rank": "family",
+                                "common": "Bloodworts, kangaroo paw",
+                                "speciesCount": 100
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Zingiberales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Strelitziaceae",
+                                "rank": "family",
+                                "common": "Bird of paradise",
+                                "speciesCount": 7
+                              },
+                              {
+                                "name": "Lowiaceae",
+                                "rank": "family",
+                                "speciesCount": 20
+                              },
+                              {
+                                "name": "Heliconiaceae",
+                                "rank": "family",
+                                "common": "Heliconias",
+                                "speciesCount": 200
+                              },
+                              {
+                                "name": "Musaceae",
+                                "rank": "family",
+                                "common": "Bananas, plantains",
+                                "speciesCount": 90
+                              },
+                              {
+                                "name": "Cannaceae",
+                                "rank": "family",
+                                "common": "Canna lilies",
+                                "speciesCount": 10
+                              },
+                              {
+                                "name": "Marantaceae",
+                                "rank": "family",
+                                "common": "Prayer plants, arrowroot",
+                                "speciesCount": 550
+                              },
+                              {
+                                "name": "Costaceae",
+                                "rank": "family",
+                                "common": "Spiral gingers",
+                                "speciesCount": 150
+                              },
+                              {
+                                "name": "Zingiberaceae",
+                                "rank": "family",
+                                "common": "Ginger, turmeric, cardamom",
+                                "speciesCount": 1600
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Poales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Typhaceae",
+                                "rank": "family",
+                                "common": "Cattails, bur-reeds",
+                                "speciesCount": 55
+                              },
+                              {
+                                "name": "Bromeliaceae",
+                                "rank": "family",
+                                "common": "Bromeliads, pineapple",
+                                "speciesCount": 3600
+                              },
+                              {
+                                "name": "Rapateaceae",
+                                "rank": "family",
+                                "speciesCount": 100
+                              },
+                              {
+                                "name": "Xyridaceae",
+                                "rank": "family",
+                                "common": "Yellow-eyed grasses",
+                                "speciesCount": 400
+                              },
+                              {
+                                "name": "Eriocaulaceae",
+                                "rank": "family",
+                                "common": "Pipeworts",
+                                "speciesCount": 1200
+                              },
+                              {
+                                "name": "Mayacaceae",
+                                "rank": "family",
+                                "speciesCount": 6,
+                                "common": "Bog mosses"
+                              },
+                              {
+                                "name": "Thurniaceae",
+                                "rank": "family",
+                                "speciesCount": 4
+                              },
+                              {
+                                "name": "Juncaceae",
+                                "rank": "family",
+                                "common": "Rushes",
+                                "speciesCount": 450
+                              },
+                              {
+                                "name": "Cyperaceae",
+                                "rank": "family",
+                                "common": "Sedges, papyrus",
+                                "speciesCount": 5500
+                              },
+                              {
+                                "name": "Restionaceae",
+                                "rank": "family",
+                                "common": "Cape reeds",
+                                "speciesCount": 570
+                              },
+                              {
+                                "name": "Flagellariaceae",
+                                "rank": "family",
+                                "speciesCount": 4
+                              },
+                              {
+                                "name": "Joinvilleaceae",
+                                "rank": "family",
+                                "speciesCount": 4
+                              },
+                              {
+                                "name": "Ecdeiocoleaceae",
+                                "rank": "family",
+                                "speciesCount": 3
+                              },
+                              {
+                                "name": "Poaceae",
+                                "rank": "family",
+                                "common": "Grasses — wheat, rice, corn, bamboo",
+                                "speciesCount": 12000
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Ceratophyllales",
+                    "rank": "order",
+                    "children": [
+                      {
+                        "name": "Ceratophyllaceae",
+                        "rank": "family",
+                        "common": "Hornworts (coontail)",
+                        "speciesCount": 6
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Eudicots",
+                    "rank": "clade",
+                    "children": [
+                      {
+                        "name": "Ranunculales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Eupteleaceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Papaveraceae",
+                            "rank": "family",
+                            "common": "Poppies",
+                            "speciesCount": 800
+                          },
+                          {
+                            "name": "Circaeasteraceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Lardizabalaceae",
+                            "rank": "family",
+                            "common": "Chocolate vine (akebia)",
+                            "speciesCount": 40
+                          },
+                          {
+                            "name": "Menispermaceae",
+                            "rank": "family",
+                            "common": "Moonseeds",
+                            "speciesCount": 440
+                          },
+                          {
+                            "name": "Berberidaceae",
+                            "rank": "family",
+                            "common": "Barberry, mahonia, mayapple",
+                            "speciesCount": 700
+                          },
+                          {
+                            "name": "Ranunculaceae",
+                            "rank": "family",
+                            "common": "Buttercups, clematis, delphinium",
+                            "speciesCount": 2500
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Proteales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Sabiaceae",
+                            "rank": "family",
+                            "speciesCount": 66
+                          },
+                          {
+                            "name": "Nelumbonaceae",
+                            "rank": "family",
+                            "common": "Sacred lotus",
+                            "speciesCount": 2
+                          },
+                          {
+                            "name": "Platanaceae",
+                            "rank": "family",
+                            "common": "Plane trees, sycamore",
+                            "speciesCount": 10
+                          },
+                          {
+                            "name": "Proteaceae",
+                            "rank": "family",
+                            "common": "Proteas, banksia, macadamia",
+                            "speciesCount": 1700
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Trochodendrales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Trochodendraceae",
+                            "rank": "family",
+                            "speciesCount": 2
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Buxales",
+                        "rank": "order",
+                        "children": [
+                          {
+                            "name": "Buxaceae",
+                            "rank": "family",
+                            "common": "Boxwoods",
+                            "speciesCount": 120
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Core eudicots",
+                        "rank": "clade",
+                        "children": [
+                          {
+                            "name": "Gunnerales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Myrothamnaceae",
+                                "rank": "family",
+                                "speciesCount": 2
+                              },
+                              {
+                                "name": "Gunneraceae",
+                                "rank": "family",
+                                "common": "Giant rhubarb (Gunnera)",
+                                "speciesCount": 65
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Dilleniales",
+                            "rank": "order",
+                            "children": [
+                              {
+                                "name": "Dilleniaceae",
+                                "rank": "family",
+                                "speciesCount": 500
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Superrosids",
+                            "rank": "clade",
+                            "children": [
+                              {
+                                "name": "Saxifragales",
+                                "rank": "order",
+                                "children": [
+                                  {
+                                    "name": "Peridiscaceae",
+                                    "rank": "family",
+                                    "speciesCount": 12
+                                  },
+                                  {
+                                    "name": "Paeoniaceae",
+                                    "rank": "family",
+                                    "common": "Peonies",
+                                    "speciesCount": 33
+                                  },
+                                  {
+                                    "name": "Altingiaceae",
+                                    "rank": "family",
+                                    "common": "Sweetgum",
+                                    "speciesCount": 15
+                                  },
+                                  {
+                                    "name": "Hamamelidaceae",
+                                    "rank": "family",
+                                    "common": "Witch hazel",
+                                    "speciesCount": 100
+                                  },
+                                  {
+                                    "name": "Cercidiphyllaceae",
+                                    "rank": "family",
+                                    "common": "Katsura",
+                                    "speciesCount": 2
+                                  },
+                                  {
+                                    "name": "Daphniphyllaceae",
+                                    "rank": "family",
+                                    "speciesCount": 30
+                                  },
+                                  {
+                                    "name": "Iteaceae",
+                                    "rank": "family",
+                                    "common": "Sweetspire",
+                                    "speciesCount": 20
+                                  },
+                                  {
+                                    "name": "Grossulariaceae",
+                                    "rank": "family",
+                                    "common": "Currants, gooseberries",
+                                    "speciesCount": 200
+                                  },
+                                  {
+                                    "name": "Saxifragaceae",
+                                    "rank": "family",
+                                    "common": "Saxifrages, heuchera, astilbe",
+                                    "speciesCount": 640
+                                  },
+                                  {
+                                    "name": "Crassulaceae",
+                                    "rank": "family",
+                                    "common": "Stonecrops, jade, sedum, echeveria",
+                                    "speciesCount": 1400
+                                  },
+                                  {
+                                    "name": "Aphanopetalaceae",
+                                    "rank": "family",
+                                    "speciesCount": 2
+                                  },
+                                  {
+                                    "name": "Tetracarpaeaceae",
+                                    "rank": "family",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Penthoraceae",
+                                    "rank": "family",
+                                    "speciesCount": 2
+                                  },
+                                  {
+                                    "name": "Haloragaceae",
+                                    "rank": "family",
+                                    "common": "Watermilfoils",
+                                    "speciesCount": 150
+                                  },
+                                  {
+                                    "name": "Cynomoriaceae",
+                                    "rank": "family",
+                                    "speciesCount": 2,
+                                    "common": "Maltese fungus"
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "Rosids",
+                                "rank": "clade",
+                                "children": [
+                                  {
+                                    "name": "Vitales",
+                                    "rank": "order",
+                                    "children": [
+                                      {
+                                        "name": "Vitaceae",
+                                        "rank": "family",
+                                        "common": "Grapes, Virginia creeper",
+                                        "speciesCount": 910
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "Fabids",
+                                    "rank": "clade",
+                                    "children": [
+                                      {
+                                        "name": "Zygophyllales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Krameriaceae",
+                                            "rank": "family",
+                                            "speciesCount": 18,
+                                            "common": "ratany"
+                                          },
+                                          {
+                                            "name": "Zygophyllaceae",
+                                            "rank": "family",
+                                            "common": "Creosote bush, lignum vitae",
+                                            "speciesCount": 285
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Fabales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Quillajaceae",
+                                            "rank": "family",
+                                            "common": "Soapbark",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Fabaceae",
+                                            "rank": "family",
+                                            "common": "Legumes — beans, peas, acacia, clover",
+                                            "speciesCount": 19500
+                                          },
+                                          {
+                                            "name": "Surianaceae",
+                                            "rank": "family",
+                                            "speciesCount": 8
+                                          },
+                                          {
+                                            "name": "Polygalaceae",
+                                            "rank": "family",
+                                            "common": "Milkworts",
+                                            "speciesCount": 1200
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Rosales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Rosaceae",
+                                            "rank": "family",
+                                            "common": "Roses, apple, cherry, strawberry",
+                                            "speciesCount": 4800
+                                          },
+                                          {
+                                            "name": "Barbeyaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Dirachmaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Elaeagnaceae",
+                                            "rank": "family",
+                                            "common": "Oleaster, sea buckthorn",
+                                            "speciesCount": 45
+                                          },
+                                          {
+                                            "name": "Rhamnaceae",
+                                            "rank": "family",
+                                            "common": "Buckthorn, jujube, ceanothus",
+                                            "speciesCount": 950
+                                          },
+                                          {
+                                            "name": "Ulmaceae",
+                                            "rank": "family",
+                                            "common": "Elms",
+                                            "speciesCount": 40
+                                          },
+                                          {
+                                            "name": "Cannabaceae",
+                                            "rank": "family",
+                                            "common": "Hemp, hops, hackberry",
+                                            "speciesCount": 170
+                                          },
+                                          {
+                                            "name": "Moraceae",
+                                            "rank": "family",
+                                            "common": "Figs, mulberry, breadfruit",
+                                            "speciesCount": 1100
+                                          },
+                                          {
+                                            "name": "Urticaceae",
+                                            "rank": "family",
+                                            "common": "Nettles",
+                                            "speciesCount": 2600
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Fagales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Nothofagaceae",
+                                            "rank": "family",
+                                            "common": "Southern beeches",
+                                            "speciesCount": 37
+                                          },
+                                          {
+                                            "name": "Fagaceae",
+                                            "rank": "family",
+                                            "common": "Oaks, beeches, chestnuts",
+                                            "speciesCount": 950
+                                          },
+                                          {
+                                            "name": "Myricaceae",
+                                            "rank": "family",
+                                            "common": "Bayberry, sweetgale",
+                                            "speciesCount": 55
+                                          },
+                                          {
+                                            "name": "Juglandaceae",
+                                            "rank": "family",
+                                            "common": "Walnuts, hickory, pecan",
+                                            "speciesCount": 60
+                                          },
+                                          {
+                                            "name": "Casuarinaceae",
+                                            "rank": "family",
+                                            "common": "She-oaks",
+                                            "speciesCount": 95
+                                          },
+                                          {
+                                            "name": "Ticodendraceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Betulaceae",
+                                            "rank": "family",
+                                            "common": "Birches, alder, hazel",
+                                            "speciesCount": 160
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Cucurbitales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Apodanthaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10
+                                          },
+                                          {
+                                            "name": "Anisophylleaceae",
+                                            "rank": "family",
+                                            "speciesCount": 35
+                                          },
+                                          {
+                                            "name": "Corynocarpaceae",
+                                            "rank": "family",
+                                            "speciesCount": 6,
+                                            "common": "karaka"
+                                          },
+                                          {
+                                            "name": "Coriariaceae",
+                                            "rank": "family",
+                                            "speciesCount": 15,
+                                            "common": "tutu"
+                                          },
+                                          {
+                                            "name": "Cucurbitaceae",
+                                            "rank": "family",
+                                            "common": "Gourds — melon, squash, cucumber",
+                                            "speciesCount": 965
+                                          },
+                                          {
+                                            "name": "Tetramelaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Datiscaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Begoniaceae",
+                                            "rank": "family",
+                                            "common": "Begonias",
+                                            "speciesCount": 1900
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Celastrales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Lepidobotryaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Celastraceae",
+                                            "rank": "family",
+                                            "common": "Bittersweet, spindle, khat",
+                                            "speciesCount": 1400
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Oxalidales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Huaceae",
+                                            "rank": "family",
+                                            "speciesCount": 3
+                                          },
+                                          {
+                                            "name": "Connaraceae",
+                                            "rank": "family",
+                                            "speciesCount": 180
+                                          },
+                                          {
+                                            "name": "Oxalidaceae",
+                                            "rank": "family",
+                                            "common": "Wood sorrel, starfruit",
+                                            "speciesCount": 700
+                                          },
+                                          {
+                                            "name": "Cunoniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 300
+                                          },
+                                          {
+                                            "name": "Elaeocarpaceae",
+                                            "rank": "family",
+                                            "speciesCount": 615
+                                          },
+                                          {
+                                            "name": "Cephalotaceae",
+                                            "rank": "family",
+                                            "common": "Albany pitcher plant",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Brunelliaceae",
+                                            "rank": "family",
+                                            "speciesCount": 60
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Malpighiales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Pandaceae",
+                                            "rank": "family",
+                                            "speciesCount": 15
+                                          },
+                                          {
+                                            "name": "Irvingiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10,
+                                            "common": "wild mango"
+                                          },
+                                          {
+                                            "name": "Ctenolophonaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Rhizophoraceae",
+                                            "rank": "family",
+                                            "common": "Mangroves",
+                                            "speciesCount": 150
+                                          },
+                                          {
+                                            "name": "Erythroxylaceae",
+                                            "rank": "family",
+                                            "common": "Coca",
+                                            "speciesCount": 240
+                                          },
+                                          {
+                                            "name": "Ochnaceae",
+                                            "rank": "family",
+                                            "speciesCount": 550
+                                          },
+                                          {
+                                            "name": "Bonnetiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 35
+                                          },
+                                          {
+                                            "name": "Clusiaceae",
+                                            "rank": "family",
+                                            "common": "Mangosteen, St John's wort allies",
+                                            "speciesCount": 750
+                                          },
+                                          {
+                                            "name": "Calophyllaceae",
+                                            "rank": "family",
+                                            "speciesCount": 460
+                                          },
+                                          {
+                                            "name": "Podostemaceae",
+                                            "rank": "family",
+                                            "common": "Riverweeds",
+                                            "speciesCount": 300
+                                          },
+                                          {
+                                            "name": "Hypericaceae",
+                                            "rank": "family",
+                                            "common": "St John's wort",
+                                            "speciesCount": 700
+                                          },
+                                          {
+                                            "name": "Caryocaraceae",
+                                            "rank": "family",
+                                            "speciesCount": 27
+                                          },
+                                          {
+                                            "name": "Lophopyxidaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Putranjivaceae",
+                                            "rank": "family",
+                                            "speciesCount": 210
+                                          },
+                                          {
+                                            "name": "Centroplacaceae",
+                                            "rank": "family",
+                                            "speciesCount": 6
+                                          },
+                                          {
+                                            "name": "Elatinaceae",
+                                            "rank": "family",
+                                            "common": "Waterworts",
+                                            "speciesCount": 40
+                                          },
+                                          {
+                                            "name": "Malpighiaceae",
+                                            "rank": "family",
+                                            "common": "Acerola, barbados cherry",
+                                            "speciesCount": 1300
+                                          },
+                                          {
+                                            "name": "Balanopaceae",
+                                            "rank": "family",
+                                            "speciesCount": 9
+                                          },
+                                          {
+                                            "name": "Trigoniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 28
+                                          },
+                                          {
+                                            "name": "Dichapetalaceae",
+                                            "rank": "family",
+                                            "speciesCount": 165
+                                          },
+                                          {
+                                            "name": "Euphroniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 3
+                                          },
+                                          {
+                                            "name": "Chrysobalanaceae",
+                                            "rank": "family",
+                                            "common": "Coco plum",
+                                            "speciesCount": 530
+                                          },
+                                          {
+                                            "name": "Humiriaceae",
+                                            "rank": "family",
+                                            "speciesCount": 65
+                                          },
+                                          {
+                                            "name": "Achariaceae",
+                                            "rank": "family",
+                                            "common": "Chaulmoogra",
+                                            "speciesCount": 155
+                                          },
+                                          {
+                                            "name": "Violaceae",
+                                            "rank": "family",
+                                            "common": "Violets, pansies",
+                                            "speciesCount": 1000
+                                          },
+                                          {
+                                            "name": "Goupiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Passifloraceae",
+                                            "rank": "family",
+                                            "common": "Passionflowers",
+                                            "speciesCount": 950
+                                          },
+                                          {
+                                            "name": "Lacistemataceae",
+                                            "rank": "family",
+                                            "speciesCount": 14
+                                          },
+                                          {
+                                            "name": "Salicaceae",
+                                            "rank": "family",
+                                            "common": "Willows, poplars, aspen",
+                                            "speciesCount": 1200
+                                          },
+                                          {
+                                            "name": "Peraceae",
+                                            "rank": "family",
+                                            "speciesCount": 135
+                                          },
+                                          {
+                                            "name": "Rafflesiaceae",
+                                            "rank": "family",
+                                            "common": "Corpse flower (Rafflesia)",
+                                            "speciesCount": 36
+                                          },
+                                          {
+                                            "name": "Euphorbiaceae",
+                                            "rank": "family",
+                                            "common": "Spurges, poinsettia, cassava, rubber",
+                                            "speciesCount": 6500
+                                          },
+                                          {
+                                            "name": "Linaceae",
+                                            "rank": "family",
+                                            "common": "Flax",
+                                            "speciesCount": 300
+                                          },
+                                          {
+                                            "name": "Ixonanthaceae",
+                                            "rank": "family",
+                                            "speciesCount": 28
+                                          },
+                                          {
+                                            "name": "Picrodendraceae",
+                                            "rank": "family",
+                                            "speciesCount": 80
+                                          },
+                                          {
+                                            "name": "Phyllanthaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2000,
+                                            "common": "leaf-flowers"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "Malvids",
+                                    "rank": "clade",
+                                    "children": [
+                                      {
+                                        "name": "Geraniales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Geraniaceae",
+                                            "rank": "family",
+                                            "common": "Geraniums, pelargoniums",
+                                            "speciesCount": 830
+                                          },
+                                          {
+                                            "name": "Francoaceae",
+                                            "rank": "family",
+                                            "speciesCount": 40
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Myrtales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Combretaceae",
+                                            "rank": "family",
+                                            "common": "Tropical almond, mangrove allies",
+                                            "speciesCount": 500
+                                          },
+                                          {
+                                            "name": "Lythraceae",
+                                            "rank": "family",
+                                            "common": "Crape myrtle, pomegranate, henna",
+                                            "speciesCount": 620
+                                          },
+                                          {
+                                            "name": "Onagraceae",
+                                            "rank": "family",
+                                            "common": "Evening primrose, fuchsia",
+                                            "speciesCount": 660
+                                          },
+                                          {
+                                            "name": "Vochysiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 200
+                                          },
+                                          {
+                                            "name": "Myrtaceae",
+                                            "rank": "family",
+                                            "common": "Eucalyptus, clove, guava, myrtle",
+                                            "speciesCount": 5500
+                                          },
+                                          {
+                                            "name": "Melastomataceae",
+                                            "rank": "family",
+                                            "common": "Princess flowers",
+                                            "speciesCount": 5000
+                                          },
+                                          {
+                                            "name": "Crypteroniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10
+                                          },
+                                          {
+                                            "name": "Alzateaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Penaeaceae",
+                                            "rank": "family",
+                                            "speciesCount": 30
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Crossosomatales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Aphloiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Geissolomataceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Strasburgeriaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Staphyleaceae",
+                                            "rank": "family",
+                                            "common": "Bladdernuts",
+                                            "speciesCount": 45
+                                          },
+                                          {
+                                            "name": "Guamatelaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Stachyuraceae",
+                                            "rank": "family",
+                                            "speciesCount": 8
+                                          },
+                                          {
+                                            "name": "Crossosomataceae",
+                                            "rank": "family",
+                                            "speciesCount": 12,
+                                            "common": "Rockflower"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Picramniales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Picramniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 50
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Huerteales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Gerrardinaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Petenaeaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Tapisciaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Dipentodontaceae",
+                                            "rank": "family",
+                                            "speciesCount": 16
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Sapindales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Biebersteiniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Nitrariaceae",
+                                            "rank": "family",
+                                            "speciesCount": 16
+                                          },
+                                          {
+                                            "name": "Kirkiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 6
+                                          },
+                                          {
+                                            "name": "Burseraceae",
+                                            "rank": "family",
+                                            "common": "Frankincense, myrrh",
+                                            "speciesCount": 750
+                                          },
+                                          {
+                                            "name": "Anacardiaceae",
+                                            "rank": "family",
+                                            "common": "Cashew, mango, pistachio, sumac",
+                                            "speciesCount": 800
+                                          },
+                                          {
+                                            "name": "Sapindaceae",
+                                            "rank": "family",
+                                            "common": "Maple, lychee, horse chestnut",
+                                            "speciesCount": 1900
+                                          },
+                                          {
+                                            "name": "Rutaceae",
+                                            "rank": "family",
+                                            "common": "Citrus, rue",
+                                            "speciesCount": 2100
+                                          },
+                                          {
+                                            "name": "Simaroubaceae",
+                                            "rank": "family",
+                                            "common": "Tree of heaven",
+                                            "speciesCount": 110
+                                          },
+                                          {
+                                            "name": "Meliaceae",
+                                            "rank": "family",
+                                            "common": "Mahogany, neem",
+                                            "speciesCount": 700
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Malvales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Cytinaceae",
+                                            "rank": "family",
+                                            "speciesCount": 11
+                                          },
+                                          {
+                                            "name": "Muntingiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 3,
+                                            "common": "Jamaican cherry"
+                                          },
+                                          {
+                                            "name": "Neuradaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10
+                                          },
+                                          {
+                                            "name": "Malvaceae",
+                                            "rank": "family",
+                                            "common": "Mallows — cotton, cacao, okra, hibiscus",
+                                            "speciesCount": 4200
+                                          },
+                                          {
+                                            "name": "Sphaerosepalaceae",
+                                            "rank": "family",
+                                            "speciesCount": 18
+                                          },
+                                          {
+                                            "name": "Thymelaeaceae",
+                                            "rank": "family",
+                                            "common": "Daphne, paper mulberry",
+                                            "speciesCount": 900
+                                          },
+                                          {
+                                            "name": "Bixaceae",
+                                            "rank": "family",
+                                            "common": "Annatto",
+                                            "speciesCount": 25
+                                          },
+                                          {
+                                            "name": "Cistaceae",
+                                            "rank": "family",
+                                            "common": "Rock roses",
+                                            "speciesCount": 180
+                                          },
+                                          {
+                                            "name": "Sarcolaenaceae",
+                                            "rank": "family",
+                                            "speciesCount": 60
+                                          },
+                                          {
+                                            "name": "Dipterocarpaceae",
+                                            "rank": "family",
+                                            "common": "Dipterocarps (SE Asian rainforest trees)",
+                                            "speciesCount": 700
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Brassicales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Akaniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Tropaeolaceae",
+                                            "rank": "family",
+                                            "common": "Nasturtiums",
+                                            "speciesCount": 95
+                                          },
+                                          {
+                                            "name": "Moringaceae",
+                                            "rank": "family",
+                                            "common": "Moringa (drumstick tree)",
+                                            "speciesCount": 13
+                                          },
+                                          {
+                                            "name": "Caricaceae",
+                                            "rank": "family",
+                                            "common": "Papaya",
+                                            "speciesCount": 35
+                                          },
+                                          {
+                                            "name": "Limnanthaceae",
+                                            "rank": "family",
+                                            "common": "Meadowfoam",
+                                            "speciesCount": 8
+                                          },
+                                          {
+                                            "name": "Setchellanthaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Koeberliniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2,
+                                            "common": "Allthorn"
+                                          },
+                                          {
+                                            "name": "Bataceae",
+                                            "rank": "family",
+                                            "common": "Saltworts",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Salvadoraceae",
+                                            "rank": "family",
+                                            "speciesCount": 11,
+                                            "common": "Mustard tree"
+                                          },
+                                          {
+                                            "name": "Emblingiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Tovariaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Pentadiplandraceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Gyrostemonaceae",
+                                            "rank": "family",
+                                            "speciesCount": 18
+                                          },
+                                          {
+                                            "name": "Resedaceae",
+                                            "rank": "family",
+                                            "common": "Mignonettes",
+                                            "speciesCount": 85
+                                          },
+                                          {
+                                            "name": "Capparaceae",
+                                            "rank": "family",
+                                            "common": "Capers",
+                                            "speciesCount": 480
+                                          },
+                                          {
+                                            "name": "Cleomaceae",
+                                            "rank": "family",
+                                            "common": "Spider flowers",
+                                            "speciesCount": 300
+                                          },
+                                          {
+                                            "name": "Brassicaceae",
+                                            "rank": "family",
+                                            "common": "Crucifers — cabbage, mustard, canola",
+                                            "speciesCount": 4000
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Superasterids",
+                            "rank": "clade",
+                            "children": [
+                              {
+                                "name": "Berberidopsidales",
+                                "rank": "order",
+                                "children": [
+                                  {
+                                    "name": "Aextoxicaceae",
+                                    "rank": "family",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Berberidopsidaceae",
+                                    "rank": "family",
+                                    "speciesCount": 3
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "Santalales",
+                                "rank": "order",
+                                "children": [
+                                  {
+                                    "name": "Olacaceae",
+                                    "rank": "family",
+                                    "speciesCount": 100
+                                  },
+                                  {
+                                    "name": "Opiliaceae",
+                                    "rank": "family",
+                                    "speciesCount": 33
+                                  },
+                                  {
+                                    "name": "Balanophoraceae",
+                                    "rank": "family",
+                                    "speciesCount": 50
+                                  },
+                                  {
+                                    "name": "Santalaceae",
+                                    "rank": "family",
+                                    "common": "Sandalwood, mistletoe",
+                                    "speciesCount": 990
+                                  },
+                                  {
+                                    "name": "Misodendraceae",
+                                    "rank": "family",
+                                    "speciesCount": 11,
+                                    "common": "Feathery mistletoes"
+                                  },
+                                  {
+                                    "name": "Schoepfiaceae",
+                                    "rank": "family",
+                                    "speciesCount": 55
+                                  },
+                                  {
+                                    "name": "Loranthaceae",
+                                    "rank": "family",
+                                    "common": "Showy mistletoes",
+                                    "speciesCount": 1000
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "Caryophyllales",
+                                "rank": "order",
+                                "children": [
+                                  {
+                                    "name": "Frankeniaceae",
+                                    "rank": "family",
+                                    "common": "Sea heaths",
+                                    "speciesCount": 90
+                                  },
+                                  {
+                                    "name": "Tamaricaceae",
+                                    "rank": "family",
+                                    "common": "Tamarisks",
+                                    "speciesCount": 90
+                                  },
+                                  {
+                                    "name": "Plumbaginaceae",
+                                    "rank": "family",
+                                    "common": "Sea lavender, leadwort",
+                                    "speciesCount": 1000
+                                  },
+                                  {
+                                    "name": "Polygonaceae",
+                                    "rank": "family",
+                                    "common": "Buckwheat, rhubarb, knotweed",
+                                    "speciesCount": 1200
+                                  },
+                                  {
+                                    "name": "Droseraceae",
+                                    "rank": "family",
+                                    "common": "Sundews, Venus flytrap",
+                                    "speciesCount": 250
+                                  },
+                                  {
+                                    "name": "Nepenthaceae",
+                                    "rank": "family",
+                                    "common": "Tropical pitcher plants",
+                                    "speciesCount": 160
+                                  },
+                                  {
+                                    "name": "Drosophyllaceae",
+                                    "rank": "family",
+                                    "common": "Dewy pine",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Dioncophyllaceae",
+                                    "rank": "family",
+                                    "speciesCount": 3
+                                  },
+                                  {
+                                    "name": "Ancistrocladaceae",
+                                    "rank": "family",
+                                    "speciesCount": 20
+                                  },
+                                  {
+                                    "name": "Rhabdodendraceae",
+                                    "rank": "family",
+                                    "speciesCount": 3
+                                  },
+                                  {
+                                    "name": "Simmondsiaceae",
+                                    "rank": "family",
+                                    "common": "Jojoba",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Physenaceae",
+                                    "rank": "family",
+                                    "speciesCount": 2
+                                  },
+                                  {
+                                    "name": "Asteropeiaceae",
+                                    "rank": "family",
+                                    "speciesCount": 8
+                                  },
+                                  {
+                                    "name": "Macarthuriaceae",
+                                    "rank": "family",
+                                    "speciesCount": 10
+                                  },
+                                  {
+                                    "name": "Microteaceae",
+                                    "rank": "family",
+                                    "speciesCount": 10
+                                  },
+                                  {
+                                    "name": "Caryophyllaceae",
+                                    "rank": "family",
+                                    "common": "Carnations, pinks, chickweed",
+                                    "speciesCount": 2600
+                                  },
+                                  {
+                                    "name": "Achatocarpaceae",
+                                    "rank": "family",
+                                    "speciesCount": 10
+                                  },
+                                  {
+                                    "name": "Amaranthaceae",
+                                    "rank": "family",
+                                    "common": "Amaranth, beet, spinach, quinoa",
+                                    "speciesCount": 2500
+                                  },
+                                  {
+                                    "name": "Stegnospermataceae",
+                                    "rank": "family",
+                                    "speciesCount": 3
+                                  },
+                                  {
+                                    "name": "Limeaceae",
+                                    "rank": "family",
+                                    "speciesCount": 21
+                                  },
+                                  {
+                                    "name": "Lophiocarpaceae",
+                                    "rank": "family",
+                                    "speciesCount": 6
+                                  },
+                                  {
+                                    "name": "Kewaceae",
+                                    "rank": "family",
+                                    "speciesCount": 8
+                                  },
+                                  {
+                                    "name": "Barbeuiaceae",
+                                    "rank": "family",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Gisekiaceae",
+                                    "rank": "family",
+                                    "speciesCount": 7
+                                  },
+                                  {
+                                    "name": "Aizoaceae",
+                                    "rank": "family",
+                                    "common": "Ice plants, living stones",
+                                    "speciesCount": 2000
+                                  },
+                                  {
+                                    "name": "Phytolaccaceae",
+                                    "rank": "family",
+                                    "common": "Pokeweeds",
+                                    "speciesCount": 33
+                                  },
+                                  {
+                                    "name": "Petiveriaceae",
+                                    "rank": "family",
+                                    "speciesCount": 13
+                                  },
+                                  {
+                                    "name": "Sarcobataceae",
+                                    "rank": "family",
+                                    "common": "Greasewood",
+                                    "speciesCount": 2
+                                  },
+                                  {
+                                    "name": "Nyctaginaceae",
+                                    "rank": "family",
+                                    "common": "Bougainvillea, four o'clocks",
+                                    "speciesCount": 400
+                                  },
+                                  {
+                                    "name": "Molluginaceae",
+                                    "rank": "family",
+                                    "speciesCount": 90,
+                                    "common": "Carpetweeds"
+                                  },
+                                  {
+                                    "name": "Montiaceae",
+                                    "rank": "family",
+                                    "common": "Miner's lettuce",
+                                    "speciesCount": 250
+                                  },
+                                  {
+                                    "name": "Didiereaceae",
+                                    "rank": "family",
+                                    "common": "Madagascar ocotillo",
+                                    "speciesCount": 20
+                                  },
+                                  {
+                                    "name": "Basellaceae",
+                                    "rank": "family",
+                                    "common": "Malabar spinach",
+                                    "speciesCount": 20
+                                  },
+                                  {
+                                    "name": "Halophytaceae",
+                                    "rank": "family",
+                                    "speciesCount": 1
+                                  },
+                                  {
+                                    "name": "Talinaceae",
+                                    "rank": "family",
+                                    "speciesCount": 28,
+                                    "common": "Fameflowers"
+                                  },
+                                  {
+                                    "name": "Portulacaceae",
+                                    "rank": "family",
+                                    "common": "Purslanes",
+                                    "speciesCount": 120
+                                  },
+                                  {
+                                    "name": "Anacampserotaceae",
+                                    "rank": "family",
+                                    "speciesCount": 36
+                                  },
+                                  {
+                                    "name": "Cactaceae",
+                                    "rank": "family",
+                                    "common": "Cacti",
+                                    "speciesCount": 1750
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "Asterids",
+                                "rank": "clade",
+                                "children": [
+                                  {
+                                    "name": "Cornales",
+                                    "rank": "order",
+                                    "children": [
+                                      {
+                                        "name": "Nyssaceae",
+                                        "rank": "family",
+                                        "common": "Tupelo, dove tree",
+                                        "speciesCount": 22
+                                      },
+                                      {
+                                        "name": "Hydrostachyaceae",
+                                        "rank": "family",
+                                        "speciesCount": 20
+                                      },
+                                      {
+                                        "name": "Hydrangeaceae",
+                                        "rank": "family",
+                                        "common": "Hydrangeas, mock orange",
+                                        "speciesCount": 200
+                                      },
+                                      {
+                                        "name": "Loasaceae",
+                                        "rank": "family",
+                                        "speciesCount": 330,
+                                        "common": "Stickleaf, blazing stars"
+                                      },
+                                      {
+                                        "name": "Curtisiaceae",
+                                        "rank": "family",
+                                        "speciesCount": 1,
+                                        "common": "Cape lancewood"
+                                      },
+                                      {
+                                        "name": "Grubbiaceae",
+                                        "rank": "family",
+                                        "speciesCount": 3
+                                      },
+                                      {
+                                        "name": "Cornaceae",
+                                        "rank": "family",
+                                        "common": "Dogwoods",
+                                        "speciesCount": 85
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "Ericales",
+                                    "rank": "order",
+                                    "children": [
+                                      {
+                                        "name": "Balsaminaceae",
+                                        "rank": "family",
+                                        "common": "Impatiens, touch-me-not",
+                                        "speciesCount": 1000
+                                      },
+                                      {
+                                        "name": "Marcgraviaceae",
+                                        "rank": "family",
+                                        "speciesCount": 130
+                                      },
+                                      {
+                                        "name": "Tetrameristaceae",
+                                        "rank": "family",
+                                        "speciesCount": 5
+                                      },
+                                      {
+                                        "name": "Fouquieriaceae",
+                                        "rank": "family",
+                                        "common": "Ocotillo, boojum tree",
+                                        "speciesCount": 11
+                                      },
+                                      {
+                                        "name": "Polemoniaceae",
+                                        "rank": "family",
+                                        "common": "Phlox, Jacob's ladder",
+                                        "speciesCount": 400
+                                      },
+                                      {
+                                        "name": "Lecythidaceae",
+                                        "rank": "family",
+                                        "common": "Brazil nut, cannonball tree",
+                                        "speciesCount": 350
+                                      },
+                                      {
+                                        "name": "Sladeniaceae",
+                                        "rank": "family",
+                                        "speciesCount": 3
+                                      },
+                                      {
+                                        "name": "Pentaphylacaceae",
+                                        "rank": "family",
+                                        "speciesCount": 340
+                                      },
+                                      {
+                                        "name": "Sapotaceae",
+                                        "rank": "family",
+                                        "common": "Shea, sapodilla, argan",
+                                        "speciesCount": 1100
+                                      },
+                                      {
+                                        "name": "Ebenaceae",
+                                        "rank": "family",
+                                        "common": "Ebony, persimmon",
+                                        "speciesCount": 770
+                                      },
+                                      {
+                                        "name": "Primulaceae",
+                                        "rank": "family",
+                                        "common": "Primroses, cyclamen",
+                                        "speciesCount": 2600
+                                      },
+                                      {
+                                        "name": "Theaceae",
+                                        "rank": "family",
+                                        "common": "Tea, camellia",
+                                        "speciesCount": 330
+                                      },
+                                      {
+                                        "name": "Symplocaceae",
+                                        "rank": "family",
+                                        "common": "Sweetleaf",
+                                        "speciesCount": 320
+                                      },
+                                      {
+                                        "name": "Diapensiaceae",
+                                        "rank": "family",
+                                        "speciesCount": 15
+                                      },
+                                      {
+                                        "name": "Styracaceae",
+                                        "rank": "family",
+                                        "common": "Storax, snowbell",
+                                        "speciesCount": 160
+                                      },
+                                      {
+                                        "name": "Sarraceniaceae",
+                                        "rank": "family",
+                                        "common": "New World pitcher plants",
+                                        "speciesCount": 35
+                                      },
+                                      {
+                                        "name": "Roridulaceae",
+                                        "rank": "family",
+                                        "speciesCount": 2
+                                      },
+                                      {
+                                        "name": "Actinidiaceae",
+                                        "rank": "family",
+                                        "common": "Kiwifruit",
+                                        "speciesCount": 360
+                                      },
+                                      {
+                                        "name": "Clethraceae",
+                                        "rank": "family",
+                                        "common": "Sweet pepperbush",
+                                        "speciesCount": 75
+                                      },
+                                      {
+                                        "name": "Cyrillaceae",
+                                        "rank": "family",
+                                        "speciesCount": 3,
+                                        "common": "Titi, leatherwood"
+                                      },
+                                      {
+                                        "name": "Ericaceae",
+                                        "rank": "family",
+                                        "common": "Heaths — blueberry, rhododendron, heather",
+                                        "speciesCount": 4000
+                                      },
+                                      {
+                                        "name": "Mitrastemonaceae",
+                                        "rank": "family",
+                                        "speciesCount": 2
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "Lamiids",
+                                    "rank": "clade",
+                                    "children": [
+                                      {
+                                        "name": "Icacinales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Oncothecaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2
+                                          },
+                                          {
+                                            "name": "Icacinaceae",
+                                            "rank": "family",
+                                            "speciesCount": 160
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Metteniusales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Metteniusaceae",
+                                            "rank": "family",
+                                            "speciesCount": 55
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Garryales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Eucommiaceae",
+                                            "rank": "family",
+                                            "common": "Hardy rubber tree",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Garryaceae",
+                                            "rank": "family",
+                                            "common": "Silk tassel",
+                                            "speciesCount": 20
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Gentianales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Rubiaceae",
+                                            "rank": "family",
+                                            "common": "Coffee, gardenia, quinine",
+                                            "speciesCount": 13500
+                                          },
+                                          {
+                                            "name": "Gentianaceae",
+                                            "rank": "family",
+                                            "common": "Gentians",
+                                            "speciesCount": 1700
+                                          },
+                                          {
+                                            "name": "Loganiaceae",
+                                            "rank": "family",
+                                            "common": "Strychnine tree",
+                                            "speciesCount": 460
+                                          },
+                                          {
+                                            "name": "Gelsemiaceae",
+                                            "rank": "family",
+                                            "common": "Carolina jessamine",
+                                            "speciesCount": 13
+                                          },
+                                          {
+                                            "name": "Apocynaceae",
+                                            "rank": "family",
+                                            "common": "Dogbane, oleander, milkweed, periwinkle",
+                                            "speciesCount": 5300
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Boraginales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Boraginaceae",
+                                            "rank": "family",
+                                            "common": "Borage, forget-me-not, comfrey",
+                                            "speciesCount": 2700
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Vahliales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Vahliaceae",
+                                            "rank": "family",
+                                            "speciesCount": 8
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Solanales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Convolvulaceae",
+                                            "rank": "family",
+                                            "common": "Morning glory, sweet potato",
+                                            "speciesCount": 1900
+                                          },
+                                          {
+                                            "name": "Solanaceae",
+                                            "rank": "family",
+                                            "common": "Nightshades — tomato, potato, pepper, tobacco",
+                                            "speciesCount": 2700
+                                          },
+                                          {
+                                            "name": "Montiniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Sphenocleaceae",
+                                            "rank": "family",
+                                            "speciesCount": 2,
+                                            "common": "Gooseweed"
+                                          },
+                                          {
+                                            "name": "Hydroleaceae",
+                                            "rank": "family",
+                                            "speciesCount": 20,
+                                            "common": "False fiddleleaf"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Lamiales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Plocospermataceae",
+                                            "rank": "family",
+                                            "speciesCount": 1
+                                          },
+                                          {
+                                            "name": "Carlemanniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Oleaceae",
+                                            "rank": "family",
+                                            "common": "Olive, ash, lilac, jasmine",
+                                            "speciesCount": 700
+                                          },
+                                          {
+                                            "name": "Tetrachondraceae",
+                                            "rank": "family",
+                                            "speciesCount": 3
+                                          },
+                                          {
+                                            "name": "Calceolariaceae",
+                                            "rank": "family",
+                                            "common": "Slipper flowers",
+                                            "speciesCount": 270
+                                          },
+                                          {
+                                            "name": "Gesneriaceae",
+                                            "rank": "family",
+                                            "common": "African violet, gloxinia",
+                                            "speciesCount": 3400
+                                          },
+                                          {
+                                            "name": "Plantaginaceae",
+                                            "rank": "family",
+                                            "common": "Plantains, snapdragon, foxglove",
+                                            "speciesCount": 1900
+                                          },
+                                          {
+                                            "name": "Scrophulariaceae",
+                                            "rank": "family",
+                                            "common": "Figworts, buddleja",
+                                            "speciesCount": 1800
+                                          },
+                                          {
+                                            "name": "Stilbaceae",
+                                            "rank": "family",
+                                            "speciesCount": 40
+                                          },
+                                          {
+                                            "name": "Linderniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 200,
+                                            "common": "False pimpernels"
+                                          },
+                                          {
+                                            "name": "Byblidaceae",
+                                            "rank": "family",
+                                            "common": "Rainbow plants",
+                                            "speciesCount": 8
+                                          },
+                                          {
+                                            "name": "Martyniaceae",
+                                            "rank": "family",
+                                            "common": "Devil's claw",
+                                            "speciesCount": 16
+                                          },
+                                          {
+                                            "name": "Pedaliaceae",
+                                            "rank": "family",
+                                            "common": "Sesame",
+                                            "speciesCount": 70
+                                          },
+                                          {
+                                            "name": "Acanthaceae",
+                                            "rank": "family",
+                                            "common": "Acanthus, black-eyed Susan vine",
+                                            "speciesCount": 4900
+                                          },
+                                          {
+                                            "name": "Bignoniaceae",
+                                            "rank": "family",
+                                            "common": "Jacaranda, catalpa, trumpet vine",
+                                            "speciesCount": 800
+                                          },
+                                          {
+                                            "name": "Lentibulariaceae",
+                                            "rank": "family",
+                                            "common": "Bladderworts, butterworts",
+                                            "speciesCount": 350
+                                          },
+                                          {
+                                            "name": "Schlegeliaceae",
+                                            "rank": "family",
+                                            "speciesCount": 30
+                                          },
+                                          {
+                                            "name": "Thomandersiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 6
+                                          },
+                                          {
+                                            "name": "Verbenaceae",
+                                            "rank": "family",
+                                            "common": "Verbena, lantana, teak",
+                                            "speciesCount": 800
+                                          },
+                                          {
+                                            "name": "Lamiaceae",
+                                            "rank": "family",
+                                            "common": "Mints — basil, lavender, sage, rosemary",
+                                            "speciesCount": 7500
+                                          },
+                                          {
+                                            "name": "Mazaceae",
+                                            "rank": "family",
+                                            "speciesCount": 35
+                                          },
+                                          {
+                                            "name": "Phrymaceae",
+                                            "rank": "family",
+                                            "common": "Monkeyflowers",
+                                            "speciesCount": 190
+                                          },
+                                          {
+                                            "name": "Paulowniaceae",
+                                            "rank": "family",
+                                            "common": "Empress tree",
+                                            "speciesCount": 7
+                                          },
+                                          {
+                                            "name": "Orobanchaceae",
+                                            "rank": "family",
+                                            "common": "Broomrapes, Indian paintbrush",
+                                            "speciesCount": 2100
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "name": "Campanulids",
+                                    "rank": "clade",
+                                    "children": [
+                                      {
+                                        "name": "Aquifoliales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Stemonuraceae",
+                                            "rank": "family",
+                                            "speciesCount": 95
+                                          },
+                                          {
+                                            "name": "Cardiopteridaceae",
+                                            "rank": "family",
+                                            "speciesCount": 43
+                                          },
+                                          {
+                                            "name": "Phyllonomaceae",
+                                            "rank": "family",
+                                            "speciesCount": 4
+                                          },
+                                          {
+                                            "name": "Helwingiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Aquifoliaceae",
+                                            "rank": "family",
+                                            "common": "Hollies",
+                                            "speciesCount": 600
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Asterales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Rousseaceae",
+                                            "rank": "family",
+                                            "speciesCount": 13
+                                          },
+                                          {
+                                            "name": "Campanulaceae",
+                                            "rank": "family",
+                                            "common": "Bellflowers, lobelia",
+                                            "speciesCount": 2400
+                                          },
+                                          {
+                                            "name": "Pentaphragmataceae",
+                                            "rank": "family",
+                                            "speciesCount": 30
+                                          },
+                                          {
+                                            "name": "Stylidiaceae",
+                                            "rank": "family",
+                                            "common": "Triggerplants",
+                                            "speciesCount": 240
+                                          },
+                                          {
+                                            "name": "Alseuosmiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10
+                                          },
+                                          {
+                                            "name": "Phellinaceae",
+                                            "rank": "family",
+                                            "speciesCount": 12
+                                          },
+                                          {
+                                            "name": "Argophyllaceae",
+                                            "rank": "family",
+                                            "speciesCount": 70
+                                          },
+                                          {
+                                            "name": "Menyanthaceae",
+                                            "rank": "family",
+                                            "common": "Bogbean",
+                                            "speciesCount": 60
+                                          },
+                                          {
+                                            "name": "Goodeniaceae",
+                                            "rank": "family",
+                                            "common": "Fan flowers",
+                                            "speciesCount": 430
+                                          },
+                                          {
+                                            "name": "Calyceraceae",
+                                            "rank": "family",
+                                            "speciesCount": 60
+                                          },
+                                          {
+                                            "name": "Asteraceae",
+                                            "rank": "family",
+                                            "common": "Daisies — sunflower, lettuce, dandelion",
+                                            "speciesCount": 32000
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Escalloniales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Escalloniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 130,
+                                            "common": "Escallonias"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Bruniales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Columelliaceae",
+                                            "rank": "family",
+                                            "speciesCount": 5
+                                          },
+                                          {
+                                            "name": "Bruniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 75
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Paracryphiales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Paracryphiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 36
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Dipsacales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Adoxaceae",
+                                            "rank": "family",
+                                            "common": "Elderberry, viburnum",
+                                            "speciesCount": 200
+                                          },
+                                          {
+                                            "name": "Caprifoliaceae",
+                                            "rank": "family",
+                                            "common": "Honeysuckle, teasel, valerian",
+                                            "speciesCount": 860
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "name": "Apiales",
+                                        "rank": "order",
+                                        "children": [
+                                          {
+                                            "name": "Pennantiaceae",
+                                            "rank": "family",
+                                            "speciesCount": 4
+                                          },
+                                          {
+                                            "name": "Torricelliaceae",
+                                            "rank": "family",
+                                            "speciesCount": 10
+                                          },
+                                          {
+                                            "name": "Griseliniaceae",
+                                            "rank": "family",
+                                            "speciesCount": 7,
+                                            "common": "Griselinia"
+                                          },
+                                          {
+                                            "name": "Pittosporaceae",
+                                            "rank": "family",
+                                            "common": "Pittosporum, cheesewood",
+                                            "speciesCount": 240
+                                          },
+                                          {
+                                            "name": "Araliaceae",
+                                            "rank": "family",
+                                            "common": "Ivy, ginseng, schefflera",
+                                            "speciesCount": 1500
+                                          },
+                                          {
+                                            "name": "Myodocarpaceae",
+                                            "rank": "family",
+                                            "speciesCount": 19
+                                          },
+                                          {
+                                            "name": "Apiaceae",
+                                            "rank": "family",
+                                            "common": "Carrot, celery, parsley, fennel",
+                                            "speciesCount": 3700
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
