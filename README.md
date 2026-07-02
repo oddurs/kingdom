@@ -10,47 +10,57 @@ dependencies, no network calls. Open it in any browser.
 ## What's inside
 
 ```
-data/plant-taxonomy.json   canonical data — 611 taxa, the single source of truth
-build/template.html        markup + CSS + JS, with a /*__DATA__*/ placeholder
-build/build.py             injects the data into the template
-plant-tree.html            generated, self-contained visualization (commit artifact)
+data/taxa.json          canonical data — flat, one record per taxon (source of truth)
+data/taxon.schema.json  JSON Schema for a taxon record
+build/build.py          validates taxa.json, derives the nested tree, injects it
+build/fetch.py          enriches taxa.json with GBIF ids + metrics (run with internet)
+build/template.html     markup + CSS + JS, with a /*__DATA__*/ placeholder
+plant-tree.html         generated, self-contained visualization (commit artifact)
 ```
 
 ## Data
 
 611 taxa arranged `Plantae → clades → orders → families`. Vascular plants are
-resolved to **family** (~479 families); bryophytes stop at **class**. Every leaf
-carries an approximate species count (~340,000 total) and, where one exists in
-common use, a plain-language name.
+resolved to **family** (~479 families); bryophytes stop at **class**. The data is
+stored **flat** — one record per taxon, keyed by a stable `id` with a `parent`
+pointer — which is joinable, validatable, and diff-friendly. `build.py` derives
+the nested tree the visualization consumes.
 
-Each node:
+Each record:
 
 ```jsonc
 {
-  "name": "Fabaceae",              // scientific name
-  "rank": "family",                // kingdom|clade|phylum|class|subclass|order|family
+  "id": "Fabaceae",                // stable key (currently the name; unique)
+  "parent": "Fabales",             // parent id; null for the root
+  "rank": "family",                // kingdom|clade|phylum|class|subclass|order|family|subfamily|genus
+  "name": "Fabaceae",
   "common": "Legumes — beans, peas, acacia, clover",  // optional
-  "speciesCount": 19500,           // optional, approximate — for visual scaling
+  "speciesCount": 19500,           // accepted-species richness (for scaling)
   "examples": ["Phaseolus (bean)", "Pisum (pea)", "Acacia", "Trifolium (clover)"],
-  "blurb": "Legume family: nitrogen-fixing plants bearing pod fruits; third-largest plant family and a cornerstone of agriculture.",
-  "children": [ ... ]              // omitted on leaves
+  "blurb": "Legume family: nitrogen-fixing plants bearing pod fruits …",
+  "ids": { "gbif": 5386 },         // external identifiers (see fetch.py)
+  "provenance": { "speciesCount": "estimate" }        // per-field source
 }
 ```
 
-Every family leaf carries `examples` and `blurb`; `common` is present where a
-vernacular name exists.
-
 Sources: **APG IV** (angiosperm orders & families), **PPG I** (lycophytes &
-ferns), standard gymnosperm and bryophyte treatments, and **Kew's Plants of the
-World Online** for species counts. Counts are approximate and for scaling only.
+ferns), and standard gymnosperm/bryophyte treatments for the topology; **GBIF
+Backbone** for identifiers; **Kew WCVP** for accepted-species counts. Counts
+carrying `provenance: estimate` are approximate and await a sourced value —
+`fetch.py` and a WCVP snapshot replace them (see below).
 
-## Build
-
-The visualization is generated from the data + template:
+## Build & enrich
 
 ```sh
-python3 build/build.py     # → plant-tree.html
+python3 build/build.py     # validate taxa.json → derive tree → plant-tree.html
+python3 build/fetch.py     # (with internet) fill GBIF ids + metrics into taxa.json
 ```
+
+`fetch.py` is idempotent and throttled. It writes GBIF `usageKey`s (identifiers +
+deep links) and GBIF species counts (stored separately as `gbifSpeciesCount`,
+since the backbone count includes synonyms and is *not* the accepted-species
+display number). Accepted counts come from Kew's WCVP, a bulk download rather than
+a per-taxon API.
 
 Edit the data in `data/plant-taxonomy.json` or the presentation in
 `build/template.html`, then rebuild.
