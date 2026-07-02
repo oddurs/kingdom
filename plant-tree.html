@@ -60,6 +60,7 @@
   button.ctl:hover{color:var(--ink); border-color:var(--faint)}
   button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
+  .seg{display:inline-flex; gap:5px; padding-right:9px; margin-right:3px; border-right:1px solid var(--line)}
 
   /* ---------- legend ---------- */
   .legend{
@@ -248,6 +249,10 @@
       <input id="q" type="search" placeholder="Find a family or plant&hellip;" autocomplete="off" spellcheck="false" aria-label="Search families">
       <span class="hint" id="qhint"></span>
     </div>
+    <span class="seg" id="viewseg">
+      <button class="ctl on" id="btnTree">Tree</button>
+      <button class="ctl" id="btnRadial">Radial</button>
+    </span>
     <button class="ctl on" id="btnOrders">Orders</button>
     <button class="ctl" id="btnExpand">Expand all</button>
     <button class="ctl" id="btnCollapse">Collapse</button>
@@ -324,21 +329,40 @@ function radius(n){ return Math.min(26, 2.4 + K*Math.sqrt(n.agg)); }
 const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 function color(n){ return cssVar(LINEAGES[n.lineage].c); }
 
-// ---------- layout (tidy tree, horizontal) ----------
-const DX=212, DY=28;
-let leafCursor=0;
+// ---------- layout (horizontal tidy tree / radial) ----------
+const DX=212, DY=28, RING=140;
+let mode='tree';
+let leafCursor=0, leafTotal=0;
 let visibleNodes=[];
 function layout(){
-  leafCursor=0;
   const nodes=[], links=[];
-  (function walk(n){
-    n.x = n.depth*DX;
-    const kids = n.open ? (n.children||[]) : [];
-    if(kids.length===0){ n.y = leafCursor*DY; leafCursor++; }
-    else{ kids.forEach(walk); n.y = (kids[0].y + kids[kids.length-1].y)/2; }
-    nodes.push(n);
-    for(const k of kids) links.push({s:n, t:k});
-  })(ROOT);
+  if(mode==='radial'){
+    // cluster layout: all frontier leaves on one outer ring (handles our very unbalanced depth)
+    leafTotal=0; let maxD=1;
+    (function c(n){ const k=n.open?(n.children||[]):[]; if(!k.length){ leafTotal++; if(n.depth>maxD) maxD=n.depth; } else k.forEach(c); })(ROOT);
+    const OUTER=560, ringStep=OUTER/maxD;
+    leafCursor=0;
+    const span=Math.PI*2*0.94, start=-Math.PI/2 + Math.PI*2*0.03;
+    (function walk(n){
+      const kids = n.open ? (n.children||[]) : [];
+      let rad;
+      if(kids.length===0){ n.pa = start + (leafCursor+0.5)/leafTotal*span; leafCursor++; rad=OUTER; }
+      else{ kids.forEach(walk); n.pa = (kids[0].pa + kids[kids.length-1].pa)/2; rad=n.depth*ringStep; }
+      n.x = rad*Math.cos(n.pa); n.y = rad*Math.sin(n.pa);
+      nodes.push(n);
+      for(const k of kids) links.push({s:n, t:k});
+    })(ROOT);
+  } else {
+    leafCursor=0;
+    (function walk(n){
+      n.x = n.depth*DX;
+      const kids = n.open ? (n.children||[]) : [];
+      if(kids.length===0){ n.y = leafCursor*DY; leafCursor++; }
+      else{ kids.forEach(walk); n.y = (kids[0].y + kids[kids.length-1].y)/2; }
+      nodes.push(n);
+      for(const k of kids) links.push({s:n, t:k});
+    })(ROOT);
+  }
   return {nodes, links};
 }
 
@@ -353,9 +377,14 @@ function linkPath(s,t){
   const x1=s.x, y1=s.y, x2=t.x, y2=t.y, mx=(x1+x2)/2;
   return `M${x1},${y1}C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
 }
+function linkPathRadial(s,t){
+  const r1=Math.hypot(s.x,s.y), r2=Math.hypot(t.x,t.y);
+  const a1=Math.atan2(s.y,s.x), a2=Math.atan2(t.y,t.x), mr=(r1+r2)/2;
+  return `M${s.x},${s.y}C${mr*Math.cos(a1)},${mr*Math.sin(a1)} ${mr*Math.cos(a2)},${mr*Math.sin(a2)} ${t.x},${t.y}`;
+}
 function render(){
   const {nodes, links}=layout();
-  visibleNodes = nodes.slice().sort((a,b)=>a.y-b.y);
+  visibleNodes = nodes.slice().sort((a,b)=> mode==='radial' ? (a.pa-b.pa) : (a.y-b.y));
   const seenN=new Set(), seenL=new Set();
 
   // links
@@ -364,7 +393,7 @@ function render(){
     let el=linkEls.get(id);
     if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
       el.style.setProperty('--lc', color(l.t)); gLinks.appendChild(el); linkEls.set(id,el); }
-    el.setAttribute('d', linkPath(l.s,l.t));
+    el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
   }
   // nodes
   for(const n of nodes){
@@ -391,6 +420,7 @@ function render(){
     const tog=el.querySelector('.toggle');
     tog.textContent = hasKids ? (n.open?'':'+') : '';
     el.setAttribute('transform',`translate(${n.x},${n.y})`);
+    if(mode==='radial') labelNode(el,n);   // rotation depends on angle, which changes each layout
   }
   // remove stale
   for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
@@ -401,12 +431,28 @@ function labelNode(el, n){
   const txt=el.querySelector('text:not(.toggle)');
   while(txt.firstChild) txt.removeChild(txt.firstChild);
   const hasKids=(n.children||[]).length>0;
-  const left = hasKids && n.open;                 // expanded internal -> label on left
   const r=radius(n);
+  const visLeaf = !(n.open && (n.children||[]).length);   // frontier node (nothing expanded below)
+
+  if(mode==='radial'){
+    txt.removeAttribute('y');
+    if(!visLeaf){ txt.removeAttribute('transform'); return; }   // interior clades stay unlabelled (kept clean)
+    let deg=n.pa*180/Math.PI;
+    const flip = deg>90 || deg<-90;
+    txt.setAttribute('transform', `rotate(${flip?deg+180:deg})`);
+    txt.setAttribute('text-anchor', flip?'end':'start');
+    const t1=document.createElementNS(NS,'tspan'); t1.textContent=n.name;
+    t1.setAttribute('x', flip? -(r+6) : (r+6)); t1.setAttribute('dy','0.32em');
+    txt.appendChild(t1);
+    return;
+  }
+
+  // tree mode
+  txt.removeAttribute('transform');
+  const left = hasKids && n.open;                 // expanded internal -> label on left
   txt.setAttribute('text-anchor', left?'end':'start');
   txt.setAttribute('x', left? -(r+7) : (r+7));
   const isLeaf=!hasKids;
-  // main name
   const t1=document.createElementNS(NS,'tspan'); t1.textContent=n.name; txt.appendChild(t1);
   if(isLeaf){
     txt.setAttribute('y',0);
@@ -433,6 +479,10 @@ function toOrders(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!
 function expandAll(){ applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
 function collapseTop(){ applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
+function switchMode(m){ if(mode===m) return; mode=m;
+  document.getElementById('btnTree').classList.toggle('on', m==='tree');
+  document.getElementById('btnRadial').classList.toggle('on', m==='radial');
+  render(); relabelAll(); fit(600); }
 
 // hover lineage-to-root
 const stage=document.getElementById('stage');
@@ -483,8 +533,9 @@ let T={x:60,y:0,k:1};
 function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
 function fit(dur){
   const {nodes}=layout();
+  const pl = mode==='radial'?160:40, pr = mode==='radial'?160:180, pv = mode==='radial'?160:20;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
-  for(const n of nodes){ x0=Math.min(x0,n.x-40); x1=Math.max(x1,n.x+180); y0=Math.min(y0,n.y-20); y1=Math.max(y1,n.y+20); }
+  for(const n of nodes){ x0=Math.min(x0,n.x-pl); x1=Math.max(x1,n.x+pr); y0=Math.min(y0,n.y-pv); y1=Math.max(y1,n.y+pv); }
   const r=stage.getBoundingClientRect();
   const k=Math.min(r.width/(x1-x0), r.height/(y1-y0), 1.1)*0.96;
   const tx=(r.width-(x1-x0)*k)/2 - x0*k, ty=(r.height-(y1-y0)*k)/2 - y0*k;
@@ -734,6 +785,8 @@ document.getElementById('btnOrders').onclick=toOrders;
 document.getElementById('btnExpand').onclick=expandAll;
 document.getElementById('btnCollapse').onclick=collapseTop;
 document.getElementById('btnFit').onclick=()=>fit(500);
+document.getElementById('btnTree').onclick=()=>switchMode('tree');
+document.getElementById('btnRadial').onclick=()=>switchMode('radial');
 q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
 
 render(); applyT(); fit(0);
