@@ -948,7 +948,10 @@ function animateT(target,dur){
 }
 // pan (1 pointer) + pinch-zoom (2 pointers)
 const pointers=new Map(); let pan=null, pinch=null, panDragged=false;
+// overlay UI floating over the stage — clicks here must NOT be hijacked for panning
+const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome';
 stage.addEventListener('pointerdown', e=>{
+  if(e.target.closest(OVERLAY_SEL)) return;   // let the overlay's own buttons receive the click
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); }
   else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; panDragged=false; stage.classList.add('grabbing'); }
@@ -962,7 +965,7 @@ stage.addEventListener('pointermove', e=>{
 });
 // click on empty background closes the panel (but not right after a drag)
 stage.addEventListener('click', e=>{
-  if(e.target.closest('.node')||e.target.closest('.panel')||e.target.closest('.zoomctl')) return;
+  if(e.target.closest('.node')||e.target.closest(OVERLAY_SEL)) return;
   if(!panDragged) closePanel();
 });
 function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null;
