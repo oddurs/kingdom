@@ -57,6 +57,11 @@ Edit the data in `data/plant-taxonomy.json` or the presentation in
 
 ## Controls
 
-Drag to pan, scroll or pinch to zoom. Click a node to expand or collapse it.
-Search jumps to a family; hover traces a lineage back to the root. Keyboard:
-arrow keys traverse, Enter expands.
+Drag to pan, scroll or pinch to zoom. **Click** a node to open its detail panel
+(blurb, example genera, stats, clickable lineage breadcrumb) and expand it.
+**Search** jumps to a family; **hover** traces a lineage back to the root.
+**Highlight** chips light up curated sets — carnivores, crops, biggest families —
+and list them for exploring. Keyboard: arrow keys traverse, Enter expands.
+
+Links are shareable: opening a node writes `#sel=<family>` to the URL, so
+`…/plant-tree.html#sel=Orchidaceae` opens straight to that family.

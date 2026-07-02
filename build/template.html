@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Plant Kingdom — a living tree</title>
 <style>
   :root{
@@ -149,6 +150,68 @@
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; gap:6px; z-index:6}
   .zoomctl button{width:32px; height:32px; font-size:16px; line-height:1; padding:0}
 
+  /* ---------- detail panel ---------- */
+  .panel{
+    position:absolute; top:12px; right:12px; width:330px; max-width:calc(100% - 24px);
+    max-height:calc(100% - 24px); overflow-y:auto; z-index:8;
+    background:var(--panel); backdrop-filter:blur(10px);
+    border:1px solid var(--edge); border-left:3px solid var(--l-root); border-radius:12px;
+    padding:16px 18px 18px; box-shadow:0 18px 48px #000a;
+    opacity:0; transform:translateX(12px); pointer-events:none;
+    white-space:normal; overflow-wrap:break-word;
+    transition:opacity .18s, transform .18s;
+  }
+  .panel.open{opacity:1; transform:none; pointer-events:auto}
+  .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:6px;
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:15px; line-height:1}
+  .pclose:hover{color:var(--ink); border-color:var(--faint)}
+  .pcrumb{font-family:var(--mono); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
+  .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
+  .pcrumb a:hover{color:var(--ink); text-decoration:underline}
+  .pcrumb .sepc{opacity:.5; margin:0 3px}
+  .prank{display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; text-transform:uppercase;
+    color:var(--ground); background:var(--l-root); padding:2px 7px; border-radius:4px}
+  .pname{font-family:var(--serif); font-size:23px; font-weight:600; margin:9px 0 2px; line-height:1.12}
+  .pcommon{font-size:13px; color:var(--dim); margin-bottom:2px}
+  .pblurb{font-size:13.5px; line-height:1.5; color:var(--ink); margin:11px 0 0; opacity:.94}
+  .pexlabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:14px 0 6px}
+  .pex{display:flex; flex-wrap:wrap; gap:6px}
+  .pex .exchip{font-family:var(--sans); font-size:11.5px; color:var(--dim);
+    background:#0d1712; border:1px solid var(--edge); border-radius:20px; padding:3px 10px}
+  .pstats{display:flex; gap:20px; margin-top:15px; padding-top:13px; border-top:1px solid var(--line)}
+  .pstat{display:flex; flex-direction:column; gap:2px}
+  .pstat b{font-family:var(--mono); font-size:16px; color:#fff; font-weight:600; font-variant-numeric:tabular-nums}
+  .pstat span{font-size:9.5px; color:var(--faint); text-transform:uppercase; letter-spacing:.5px}
+  .pactions{display:flex; gap:8px; margin-top:16px}
+  #plist .lhead{font-family:var(--serif); font-size:19px; font-weight:600; margin:0 0 2px; padding-right:26px}
+  #plist .lsub{font-family:var(--mono); font-size:9.5px; color:var(--faint); text-transform:uppercase; letter-spacing:.6px; margin-bottom:11px}
+  .lrow{display:flex; align-items:center; gap:9px; padding:7px 7px; border-radius:7px; cursor:pointer; border:1px solid transparent}
+  .lrow:hover{background:#0e1a14; border-color:var(--edge)}
+  .lrow .ldot{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 6px currentColor}
+  .lrow .ltx{min-width:0}
+  .lrow .lname{font-family:var(--serif); font-size:13.5px; color:var(--ink)}
+  .lrow .lcom{font-size:11px; color:var(--dim)}
+  .lrow .lcount{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; flex:0 0 auto}
+
+  /* ---------- storylines ---------- */
+  .stories{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+  .stories .slabel{font-family:var(--mono); font-size:9.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin-right:2px}
+  .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:#0d1712;
+    border:1px solid var(--edge); border-radius:20px; padding:4px 11px; cursor:pointer;
+    transition:color .15s,border-color .15s,background .15s; white-space:nowrap}
+  .schip:hover{color:var(--ink); border-color:var(--faint)}
+  .schip.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern); font-weight:600}
+  .schip.clear{border-style:dashed}
+
+  /* ---------- storyline highlight overlay ---------- */
+  .stage.storying .node:not(.hl){opacity:.2}
+  .stage.storying .link{stroke-opacity:.06}
+  .node.hl circle.dot{stroke:#fff; stroke-width:2.4px; transform:scale(1.5)}
+  .node.hl .halo{opacity:.5; animation:pulse 1.8s ease-in-out infinite}
+  .node.hl text{fill:#fff; font-size:14px}
+  .node.selected circle.dot{stroke:#fff; stroke-width:3px}
+  .node.selected .halo{opacity:.26}
+
   @media (max-width:680px){
     header.bar{padding:10px 14px; gap:9px}
     .brand{flex-basis:100%; min-width:0}
@@ -163,6 +226,11 @@
     footer.meta{gap:14px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap}
     footer.meta>span{flex:0 0 auto}
     .zoomctl{right:12px; bottom:12px}
+    .panel{top:auto; bottom:0; left:0; right:auto; width:100vw; max-width:100vw; max-height:62%;
+      overflow-x:hidden;
+      border:1px solid var(--edge); border-top:3px solid var(--l-root); border-radius:14px 14px 0 0;
+      transform:translateY(18px)}
+    .panel.open{transform:none}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important}
@@ -192,6 +260,20 @@
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g></g></svg>
   <div class="tip" id="tip"></div>
+  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true">
+    <button class="pclose" id="pclose" aria-label="Close">&times;</button>
+    <div id="pdetail">
+      <nav class="pcrumb" id="pcrumb"></nav>
+      <span class="prank" id="prank"></span>
+      <h2 class="pname" id="pname"></h2>
+      <div class="pcommon" id="pcommon"></div>
+      <p class="pblurb" id="pblurb"></p>
+      <div id="pexwrap"></div>
+      <div class="pstats" id="pstats"></div>
+      <div class="pactions" id="pactions"></div>
+    </div>
+    <div id="plist" hidden></div>
+  </aside>
   <div class="zoomctl">
     <button class="ctl" id="zin" aria-label="Zoom in">+</button>
     <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
@@ -296,7 +378,7 @@ function render(){
       const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
       const txt=document.createElementNS(NS,'text');
       el.append(halo,dot,tog,txt);
-      el.addEventListener('click', e=>{ e.stopPropagation(); toggle(n); });
+      el.addEventListener('click', e=>{ e.stopPropagation(); toggle(n); select(n,{center:false}); });
       el.addEventListener('mouseenter', e=>{ hoverOn(n); showTip(n,e); });
       el.addEventListener('mousemove', e=> moveTip(e));
       el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
@@ -416,17 +498,23 @@ function animateT(target,dur){
     if(p<1) requestAnimationFrame(step); })(t0);
 }
 // pan (1 pointer) + pinch-zoom (2 pointers)
-const pointers=new Map(); let pan=null, pinch=null;
+const pointers=new Map(); let pan=null, pinch=null, panDragged=false;
 stage.addEventListener('pointerdown', e=>{
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); }
-  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; stage.classList.add('grabbing'); }
+  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; panDragged=false; stage.classList.add('grabbing'); }
   stage.setPointerCapture(e.pointerId);
 });
 stage.addEventListener('pointermove', e=>{
   if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pinch && pointers.size>=2){ doPinch(); return; }
-  if(pan){ T.x=pan.tx+(e.clientX-pan.x); T.y=pan.ty+(e.clientY-pan.y); applyT(); }
+  if(pan){ if(Math.abs(e.clientX-pan.x)+Math.abs(e.clientY-pan.y)>4) panDragged=true;
+    T.x=pan.tx+(e.clientX-pan.x); T.y=pan.ty+(e.clientY-pan.y); applyT(); }
+});
+// click on empty background closes the panel (but not right after a drag)
+stage.addEventListener('click', e=>{
+  if(e.target.closest('.node')||e.target.closest('.panel')||e.target.closest('.zoomctl')) return;
+  if(!panDragged) closePanel();
 });
 function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null;
   if(pointers.size===0){ pan=null; stage.classList.remove('grabbing'); } }
@@ -499,11 +587,138 @@ function focusNode(n){
   animateT({k, x:r.width*0.42 - n.x*k, y:r.height/2 - n.y*k}, 550);
 }
 
+// ---------- detail panel ----------
+const panel=document.getElementById('panel');
+const escp=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let selected=null;
+function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; } return a; }
+function revealNode(n){ let p=n.parent, changed=false;
+  while(p){ if((p.children||[]).length && !p.open){ p.open=true; changed=true; } p=p.parent; }
+  if(changed){ render(); relabelAll(); } }
+function select(n, opts){
+  opts=opts||{};
+  if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
+  selected=n;
+  document.getElementById('pdetail').hidden=false; document.getElementById('plist').hidden=true;
+  if(opts.center!==false) revealNode(n);
+  const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
+  const lc=color(n);
+  panel.style.borderLeftColor=lc; panel.style.borderTopColor=lc;
+  const chain=ancestors(n);
+  document.getElementById('pcrumb').innerHTML = chain.map((c,i)=>
+    i===chain.length-1 ? `<span style="color:var(--dim)">${escp(c.name)}</span>`
+      : `<a data-id="${c._id}">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
+  const rk=document.getElementById('prank'); rk.textContent=n.rank; rk.style.background=lc;
+  document.getElementById('pname').textContent=n.name;
+  const cm=document.getElementById('pcommon'); cm.textContent=n.common||''; cm.style.display=n.common?'block':'none';
+  const bl=document.getElementById('pblurb'); bl.textContent=n.blurb||''; bl.style.display=n.blurb?'block':'none';
+  document.getElementById('pexwrap').innerHTML = (n.examples&&n.examples.length)
+    ? `<div class="pexlabel">Examples</div><div class="pex">${n.examples.map(x=>`<span class="exchip">${escp(x)}</span>`).join('')}</div>` : '';
+  const hasKids=(n.children||[]).length>0;
+  document.getElementById('pstats').innerHTML =
+    `<div class="pstat"><b>~${n.agg.toLocaleString()}</b><span>species</span></div>`+
+    (hasKids?`<div class="pstat"><b>${n.famCount}</b><span>famil${n.famCount===1?'y':'ies'}</span></div>`:'')+
+    `<div class="pstat"><b>${n.depth}</b><span>rank depth</span></div>`;
+  const act=document.getElementById('pactions'); act.innerHTML='';
+  if(hasKids){ const b=document.createElement('button'); b.className='ctl';
+    b.textContent=n.open?'Collapse':'Expand';
+    b.onclick=()=>{ toggle(n); b.textContent=n.open?'Collapse':'Expand'; el&&el.classList.add('selected'); };
+    act.appendChild(b); }
+  const cp=document.createElement('button'); cp.className='ctl'; cp.textContent='Copy link';
+  cp.onclick=()=>{ const url=location.origin+location.pathname+'#sel='+encodeURIComponent(n.name);
+    if(navigator.clipboard) navigator.clipboard.writeText(url);
+    cp.textContent='Copied ✓'; setTimeout(()=>cp.textContent='Copy link',1200); };
+  act.appendChild(cp);
+  panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+  if(opts.center!==false) focusNode(n);
+  updateHash();
+}
+document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
+  if(a){ const n=idMap.get(+a.dataset.id); if(n) select(n); } });
+function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
+  selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); updateHash(); }
+document.getElementById('pclose').onclick=closePanel;
+
+// ---------- storylines (curated overlays) ----------
+const STORIES = {
+  carnivores:{ label:'Carnivores', names:['Nepenthaceae','Sarraceniaceae','Droseraceae','Drosophyllaceae','Dioncophyllaceae','Lentibulariaceae','Cephalotaceae','Byblidaceae','Roridulaceae'] },
+  crops:{ label:'Crops we eat', names:['Poaceae','Fabaceae','Solanaceae','Brassicaceae','Rosaceae','Cucurbitaceae','Rutaceae','Amaryllidaceae','Musaceae','Malvaceae','Arecaceae','Zingiberaceae','Vitaceae','Anacardiaceae','Apiaceae','Convolvulaceae','Polygonaceae'] },
+  giants:{ label:'Biggest families', compute:true }
+};
+let activeStory=null;
+function allLeaves(){ const a=[]; (function w(n){ if(!(n.children||[]).length) a.push(n); (n.children||[]).forEach(w); })(ROOT); return a; }
+function storyNodes(id){
+  const st=STORIES[id];
+  if(st.compute){ return allLeaves().sort((a,b)=>b.agg-a.agg).slice(0,12); }
+  const want=new Set(st.names), out=[];
+  (function w(n){ if(want.has(n.name)) out.push(n); (n.children||[]).forEach(w); })(ROOT);
+  return out;
+}
+function setStory(id){
+  if(activeStory===id){ clearStory(); return; }
+  clearStory(false);
+  activeStory=id;
+  const ns=storyNodes(id);
+  for(const n of ns){ let p=n.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
+  render(); relabelAll();
+  stage.classList.add('storying');
+  for(const n of ns){ const el=nodeEls.get(n._id); if(el) el.classList.add('hl'); }
+  document.querySelectorAll('.schip').forEach(c=>c.classList.toggle('on', c.dataset.story===id));
+  showStoryList(id, ns);
+  fit(650);            // show the whole tree so the highlighted families read as a constellation
+  updateHash();
+}
+function showStoryList(id, ns){
+  const st=STORIES[id];
+  const rows=ns.slice().sort((a,b)=>b.agg-a.agg);
+  if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); selected=null; }
+  document.getElementById('pdetail').hidden=true;
+  const pl=document.getElementById('plist'); pl.hidden=false;
+  const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
+  pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} families &middot; tap one to explore</div>`+
+    rows.map(n=>`<div class="lrow" data-id="${n._id}"><span class="ldot" style="color:${color(n)}"></span>`+
+      `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
+      `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
+  pl.querySelectorAll('.lrow').forEach(r=>r.onclick=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); });
+  panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+}
+function clearStory(doHash){
+  activeStory=null; stage.classList.remove('storying');
+  document.querySelectorAll('.node.hl').forEach(e=>e.classList.remove('hl'));
+  document.querySelectorAll('.schip.on').forEach(c=>c.classList.remove('on'));
+  const pl=document.getElementById('plist');
+  if(pl && !pl.hidden){ pl.hidden=true; document.getElementById('pdetail').hidden=false;
+    if(!selected){ panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); } }
+  if(doHash!==false) updateHash();
+}
+// ---------- deep-linking ----------
+function updateHash(){
+  const p=[];
+  if(selected) p.push('sel='+encodeURIComponent(selected.name));
+  if(activeStory) p.push('hl='+activeStory);
+  history.replaceState(null,'', p.length ? '#'+p.join('&') : location.pathname+location.search);
+}
+function nodeByName(nm){ let f=null; (function w(n){ if(n.name===nm) f=n; (n.children||[]).forEach(w); })(ROOT); return f; }
+function applyHash(){
+  const h=location.hash.replace(/^#/,''); if(!h) return;
+  const params=new URLSearchParams(h);
+  const hl=params.get('hl'); if(hl && STORIES[hl]) setStory(hl);
+  const sel=params.get('sel'); if(sel){ const n=nodeByName(sel); if(n) select(n); }
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && document.activeElement!==q){
+  if(selected) closePanel(); else if(activeStory) clearStory(); } });
+
 // ---------- legend + footer ----------
 const legend=document.getElementById('legend');
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
 legend.innerHTML = order.map(id=>`<span class="lg"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('')
-  + `<span class="sep"></span><span class="note">circle size = species richness &middot; click a node to grow it</span>`;
+  + `<span class="sep"></span><span class="stories" id="stories"></span>`;
+const storiesEl=document.getElementById('stories');
+storiesEl.innerHTML = '<span class="slabel">Highlight</span>'
+  + Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
+  + '<button class="schip clear" data-story="_clear">Clear</button>';
+storiesEl.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(!b) return;
+  if(b.dataset.story==='_clear'){ clearStory(); } else { setStory(b.dataset.story); } });
 
 let totLeaves=0, totFam=0, totSpp=ROOT.agg;
 (function w(n){ if(!(n.children||[]).length){ totLeaves++; if(n.rank==='family') totFam++; } (n.children||[]).forEach(w); })(ROOT);
@@ -522,5 +737,6 @@ document.getElementById('btnFit').onclick=()=>fit(500);
 q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
 
 render(); applyT(); fit(0);
-window.addEventListener('resize', ()=>fit(0));
+applyHash();
+window.addEventListener('resize', ()=>{ if(!selected && !activeStory) fit(0); });
 </script>
