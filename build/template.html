@@ -1,5 +1,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Plant Kingdom — a living tree</title>
+<meta name="description" content="An interactive tree of the plant kingdom — every family of land plant, sized by species richness and coloured by lineage, across four linked views.">
+<meta name="theme-color" content="#0d1512">
+<meta property="og:title" content="The Plant Kingdom — a living tree">
+<meta property="og:description" content="Explore ~340,000 species across 611 branches of the plant family tree — tree, radial, sunburst and treemap views, with guided tours.">
+<meta property="og:type" content="website">
 <style>
   :root{
     --ground:#0d1512; --ground-2:#101c17; --ink:#e9ede6; --dim:#93a396; --faint:#5f7167;
@@ -341,6 +346,7 @@
     <button class="ctl" id="btnExpand">Expand all</button>
     <button class="ctl" id="btnCollapse">Collapse</button>
     <button class="ctl" id="btnFit">Fit</button>
+    <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
     <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
   </div>
 </header>
@@ -385,7 +391,7 @@
       <button class="ctl" id="texit">Exit tour</button>
     </div>
   </div>
-  <div class="welcome" id="welcome">
+  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome — about this visualization">
     <div class="card">
       <h2>The Plant Kingdom &middot; <em>a living tree</em></h2>
       <p class="lead">Every family of land plant, from mosses to orchids &mdash; sized by species richness, coloured by lineage. Roughly 340,000 species across 611 branches, from one root.</p>
@@ -1239,6 +1245,69 @@ document.getElementById('footer').innerHTML =
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
   `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew POWO</span>`;
 
+// ---------- PNG / poster export ----------
+function contentBBox(){
+  try{
+    if(mode==='treemap'||mode==='sunburst') return gTree.getBBox();
+    const a=gLinks.getBBox(), b=gNodes.getBBox();
+    const x0=Math.min(a.x,b.x), y0=Math.min(a.y,b.y);
+    return {x:x0, y:y0, width:Math.max(a.x+a.width,b.x+b.width)-x0, height:Math.max(a.y+a.height,b.y+b.height)-y0};
+  }catch(e){ return {x:0,y:0,width:1500,height:900}; }
+}
+function exportStyle(){
+  const serif=cssVar('--serif'), sans=cssVar('--sans'), mono=cssVar('--mono');
+  const root=':root{'+['--ground','--ink','--dim','--faint','--line','--l-root'].map(v=>v+':'+cssVar(v)).join(';')+'}';
+  return root+
+    `.link{fill:none;stroke:var(--lc,var(--line));stroke-opacity:.34;stroke-width:1.4px}`+
+    `.node circle.dot{fill:var(--ground);stroke:var(--lc,var(--l-root));stroke-width:1.8px}`+
+    `.node.branch circle.dot{fill:var(--lc,var(--l-root))}.node.open circle.dot{fill:var(--ground)}`+
+    `.node .halo{opacity:0}`+
+    `.node text{font-family:${serif};font-size:12.5px;fill:var(--ink);paint-order:stroke;stroke:var(--ground);stroke-width:3px;stroke-linejoin:round;dominant-baseline:middle}`+
+    `.node text tspan.common{font-family:${sans};font-size:10px;fill:var(--dim)}`+
+    `.node .toggle{font-family:${mono};font-size:10px;fill:var(--ground);text-anchor:middle;dominant-baseline:central;font-weight:700}`+
+    `.node.lodhide text{opacity:0}`+
+    `text.tml{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600}`+
+    `text.tmv{font-family:${mono};font-size:8.5px;fill:#0b141099}`+
+    `text.tmh{font-family:${mono};font-size:9px;letter-spacing:.5px;text-transform:uppercase}`+
+    `text.sbl{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600;dominant-baseline:middle}`+
+    `text.sbc{font-family:${serif};fill:${cssVar('--ink')};text-anchor:middle;dominant-baseline:middle}`;
+}
+function buildExportSVG(){
+  const bb=contentBBox(), pad=32;
+  const x=bb.x-pad, y=bb.y-pad, w=Math.max(bb.width+pad*2,10), h=Math.max(bb.height+pad*2,10);
+  const clone=svg.cloneNode(true);
+  const cv=clone.querySelector('#viewport');
+  cv.setAttribute('transform','translate(0,0) scale(1)');
+  cv.style.opacity='1';                       // never capture a mid-entrance-fade opacity
+  clone.setAttribute('viewBox', `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
+  clone.setAttribute('width', Math.round(w)); clone.setAttribute('height', Math.round(h));
+  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  const st=document.createElementNS(NS,'style'); st.textContent=exportStyle();
+  const bg=document.createElementNS(NS,'rect');
+  bg.setAttribute('x',x.toFixed(1)); bg.setAttribute('y',y.toFixed(1));
+  bg.setAttribute('width',w.toFixed(1)); bg.setAttribute('height',h.toFixed(1)); bg.setAttribute('fill',cssVar('--ground'));
+  const cvp=clone.querySelector('#viewport'); cvp.parentNode.insertBefore(bg, cvp);
+  clone.insertBefore(st, clone.firstChild);
+  return {str:new XMLSerializer().serializeToString(clone), w, h};
+}
+function exportPNG(){
+  const {str,w,h}=buildExportSVG();
+  const url=URL.createObjectURL(new Blob([str],{type:'image/svg+xml;charset=utf-8'}));
+  const img=new Image();
+  const btn=document.getElementById('btnExport'); const label=btn.textContent;
+  btn.textContent='Rendering…';
+  img.onload=()=>{
+    const scale=2, cv=document.createElement('canvas'); cv.width=Math.round(w*scale); cv.height=Math.round(h*scale);
+    const ctx=cv.getContext('2d'); ctx.scale(scale,scale); ctx.drawImage(img,0,0); URL.revokeObjectURL(url);
+    cv.toBlob(b=>{ const a=document.createElement('a'); a.download='plant-kingdom-'+mode+'.png';
+      a.href=URL.createObjectURL(b); a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+      btn.textContent='Saved ✓'; setTimeout(()=>btn.textContent=label,1400); },'image/png');
+  };
+  img.onerror=()=>{ URL.revokeObjectURL(url); btn.textContent='Export failed'; setTimeout(()=>btn.textContent=label,1400); };
+  img.src=url;
+}
+document.getElementById('btnExport').onclick=exportPNG;
+
 // ---------- buttons + boot ----------
 document.getElementById('btnOrders').onclick=toOrders;
 document.getElementById('btnExpand').onclick=expandAll;
@@ -1251,6 +1320,11 @@ document.getElementById('btnTreemap').onclick=()=>switchMode('treemap');
 q.addEventListener('keydown',e=>{ if(e.key==='Escape'){ q.value=''; q.dispatchEvent(new Event('input')); q.blur(); } });
 
 render(); applyT(); fit(0);
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){        // gentle entrance: the tree fades in
+  vp.style.opacity='0'; vp.style.transition='opacity .9s ease';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ vp.style.opacity='1';
+    setTimeout(()=>{ vp.style.transition=''; }, 950); }));
+}
 applyHash();
 initWelcome();
 window.addEventListener('resize', ()=>{ if(!selected && !activeStory) fit(0); });
