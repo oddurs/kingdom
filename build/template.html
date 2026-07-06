@@ -73,6 +73,7 @@
     padding:9px 22px; border-bottom:1px solid var(--line);
     font-size:11.5px; color:var(--dim); background:#0c1512aa; z-index:4;
   }
+  .legend .lgswatches{display:contents}
   .legend .lg{display:flex; align-items:center; gap:6px; cursor:default}
   .legend .dot{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor}
   .legend .sep{width:1px; height:13px; background:var(--line)}
@@ -476,7 +477,20 @@ const ROOT = prep(DATA.tree, 0, 'root', null);
 const K = 26/Math.sqrt(MAXAGG);
 function radius(n){ return Math.min(26, 2.4 + K*Math.sqrt(n.agg)); }
 const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-function color(n){ return cssVar(LINEAGES[n.lineage].c); }
+// ---------- colour modes (recolour the whole tree by a chosen dimension) ----------
+let colorMode='lineage';
+const CMODES=[['lineage','Lineage'],['age','Age'],['region','Region']];
+const UNCOL='#3c4a43';   // muted "no data" grey-green
+// per–botanical-continent hues (codes match CONTINENTS / dist)
+const CONTINENT_COL={"1":"#6f9fd8","2":"#e0a34a","3":"#7bbf6a","4":"#3fae9a","5":"#e0776b",
+  "6":"#cf88cf","7":"#8f9be8","8":"#d9c24e","9":"#b9c2bd"};
+function centreOf(n){ const d=n.distAgg; if(!d) return null;
+  let best=null,bv=-1; for(const c in d){ if(d[c]>bv){bv=d[c]; best=c;} } return best; }
+function color(n){
+  if(colorMode==='age') return n.ageMy==null ? UNCOL : periodOf(n.ageMy)[3];
+  if(colorMode==='region'){ const c=centreOf(n); return c ? CONTINENT_COL[c] : UNCOL; }
+  return cssVar(LINEAGES[n.lineage].c);
+}
 
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
@@ -1297,9 +1311,29 @@ function initWelcome(){ let seen; try{ seen=localStorage.getItem('biomi_seen'); 
 // ---------- legend + footer ----------
 const legend=document.getElementById('legend');
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
-legend.innerHTML = order.map(id=>`<span class="lg"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('')
+legend.innerHTML = `<span class="stories" id="cmode"></span><span class="lgswatches" id="lgswatches"></span>`
   + `<span class="sep"></span><span class="stories" id="stories"></span>`
   + `<span class="sep"></span><span class="stories" id="toursbar"></span>`;
+function legendSwatches(){
+  if(colorMode==='age')
+    return GEOP.map(p=>`<span class="lg"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
+  if(colorMode==='region')
+    return Object.keys(CONTINENT_COL).map(c=>`<span class="lg"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('');
+  return order.map(id=>`<span class="lg"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('');
+}
+function buildColorUI(){
+  document.getElementById('cmode').innerHTML='<span class="slabel">Colour</span>'
+    + CMODES.map(([id,l])=>`<button class="schip${id===colorMode?' on':''}" data-cmode="${id}">${l}</button>`).join('');
+  document.getElementById('lgswatches').innerHTML=legendSwatches();
+}
+buildColorUI();
+document.getElementById('cmode').addEventListener('click', e=>{
+  const b=e.target.closest('[data-cmode]'); if(!b) return;
+  if(b.dataset.cmode===colorMode) return;
+  colorMode=b.dataset.cmode; buildColorUI();
+  render(); relabelAll();
+  if(selected) select(selected,{center:false});
+});
 const storiesEl=document.getElementById('stories');
 storiesEl.innerHTML = '<span class="slabel">Highlight</span>'
   + Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
