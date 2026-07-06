@@ -30,9 +30,9 @@
     "role": "topology"
    },
    "wcvp": {
-    "title": "Kew World Checklist of Vascular Plants",
-    "role": "accepted species counts",
-    "url": "https://powo.science.kew.org/about-wcvp"
+    "name": "World Checklist of Vascular Plants (WCVP), Royal Botanic Gardens, Kew",
+    "url": "https://powo.science.kew.org/about-wcvp",
+    "license": "CC-BY"
    },
    "gbif": {
     "title": "GBIF Backbone Taxonomy",
@@ -427,7 +427,7 @@
    "rank": "family",
    "name": "Lycopodiaceae",
    "common": "Clubmosses",
-   "speciesCount": 390,
+   "speciesCount": 464,
    "examples": [
     "Lycopodium",
     "Huperzia",
@@ -438,7 +438,7 @@
     "gbif": 6725
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -464,7 +464,7 @@
    "rank": "family",
    "name": "Isoetaceae",
    "common": "Quillworts",
-   "speciesCount": 250,
+   "speciesCount": 239,
    "examples": [
     "Isoetes"
    ],
@@ -473,7 +473,7 @@
     "gbif": 3074
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -499,7 +499,7 @@
    "rank": "family",
    "name": "Selaginellaceae",
    "common": "Spikemosses",
-   "speciesCount": 750,
+   "speciesCount": 752,
    "examples": [
     "Selaginella"
    ],
@@ -508,7 +508,7 @@
     "gbif": 6724
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -557,7 +557,7 @@
    "rank": "family",
    "name": "Equisetaceae",
    "common": "Horsetails (Equisetum)",
-   "speciesCount": 15,
+   "speciesCount": 41,
    "examples": [
     "Equisetum"
    ],
@@ -566,7 +566,7 @@
     "gbif": 3105
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -599,7 +599,7 @@
    "rank": "family",
    "name": "Psilotaceae",
    "common": "Whisk ferns",
-   "speciesCount": 17,
+   "speciesCount": 18,
    "examples": [
     "Psilotum",
     "Tmesipteris"
@@ -609,7 +609,7 @@
     "gbif": 6630
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -635,7 +635,7 @@
    "rank": "family",
    "name": "Ophioglossaceae",
    "common": "Adder's-tongue & grape ferns",
-   "speciesCount": 112,
+   "speciesCount": 146,
    "examples": [
     "Ophioglossum",
     "Botrychium"
@@ -645,7 +645,7 @@
     "gbif": 6627
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -678,7 +678,7 @@
    "rank": "family",
    "name": "Marattiaceae",
    "common": "Marattioid ferns",
-   "speciesCount": 111,
+   "speciesCount": 191,
    "examples": [
     "Angiopteris",
     "Marattia"
@@ -688,7 +688,7 @@
     "gbif": 6628
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -722,7 +722,7 @@
    "rank": "family",
    "name": "Osmundaceae",
    "common": "Royal ferns",
-   "speciesCount": 18,
+   "speciesCount": 28,
    "examples": [
     "Osmunda",
     "Todea"
@@ -732,7 +732,7 @@
     "gbif": 2370
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -758,7 +758,7 @@
    "rank": "family",
    "name": "Hymenophyllaceae",
    "common": "Filmy ferns",
-   "speciesCount": 434,
+   "speciesCount": 590,
    "examples": [
     "Hymenophyllum",
     "Trichomanes"
@@ -768,7 +768,7 @@
     "gbif": 2372
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -794,7 +794,7 @@
    "rank": "family",
    "name": "Gleicheniaceae",
    "common": "Forking ferns",
-   "speciesCount": 157,
+   "speciesCount": 163,
    "examples": [
     "Gleichenia",
     "Dicranopteris"
@@ -804,7 +804,7 @@
     "gbif": 6621
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -826,7 +826,7 @@
     "gbif": 3229327
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -848,7 +848,7 @@
     "gbif": 3229272
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -895,7 +895,7 @@
    "rank": "family",
    "name": "Schizaeaceae",
    "common": "curly-grass ferns",
-   "speciesCount": 35,
+   "speciesCount": 209,
    "examples": [
     "Schizaea",
     "Actinostachys"
@@ -905,7 +905,7 @@
     "gbif": 2366
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -962,7 +962,7 @@
     "gbif": 6629
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -974,7 +974,7 @@
    "rank": "family",
    "name": "Marsileaceae",
    "common": "Water clover",
-   "speciesCount": 62,
+   "speciesCount": 58,
    "examples": [
     "Marsilea",
     "Pilularia",
@@ -985,7 +985,7 @@
     "gbif": 2375
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1161,7 +1161,7 @@
    "rank": "family",
    "name": "Cyatheaceae",
    "common": "Scaly tree ferns",
-   "speciesCount": 640,
+   "speciesCount": 817,
    "examples": [
     "Cyathea",
     "Alsophila",
@@ -1172,7 +1172,7 @@
     "gbif": 6624
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1198,7 +1198,7 @@
    "rank": "family",
    "name": "Saccolomataceae",
    "common": "Saccoloma ferns",
-   "speciesCount": 19,
+   "speciesCount": 28,
    "examples": [
     "Saccoloma"
    ],
@@ -1207,7 +1207,7 @@
     "gbif": 3873580
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1219,7 +1219,7 @@
    "rank": "family",
    "name": "Cystodiaceae",
    "common": "Cystodium fern",
-   "speciesCount": 1,
+   "speciesCount": 2,
    "examples": [
     "Cystodium"
    ],
@@ -1228,7 +1228,7 @@
     "gbif": 4032321
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1249,7 +1249,7 @@
     "gbif": 8323810
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1261,7 +1261,7 @@
    "rank": "family",
    "name": "Lindsaeaceae",
    "common": "Lindsaea ferns",
-   "speciesCount": 235,
+   "speciesCount": 270,
    "examples": [
     "Lindsaea",
     "Odontosoria"
@@ -1271,7 +1271,7 @@
     "gbif": 3229266
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1283,7 +1283,7 @@
    "rank": "family",
    "name": "Pteridaceae",
    "common": "Brake ferns, maidenhair",
-   "speciesCount": 1200,
+   "speciesCount": 1494,
    "examples": [
     "Pteris",
     "Adiantum",
@@ -1294,7 +1294,7 @@
     "gbif": 2367
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1306,7 +1306,7 @@
    "rank": "family",
    "name": "Dennstaedtiaceae",
    "common": "Bracken",
-   "speciesCount": 265,
+   "speciesCount": 282,
    "examples": [
     "Pteridium",
     "Dennstaedtia",
@@ -1317,7 +1317,7 @@
     "gbif": 6623
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1436,7 +1436,7 @@
    "rank": "family",
    "name": "Aspleniaceae",
    "common": "Spleenworts",
-   "speciesCount": 730,
+   "speciesCount": 3534,
    "examples": [
     "Asplenium"
    ],
@@ -1445,7 +1445,7 @@
     "gbif": 6625
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1588,7 +1588,7 @@
    "rank": "family",
    "name": "Hypodematiaceae",
    "common": "Hypodematium ferns",
-   "speciesCount": 22,
+   "speciesCount": 30,
    "examples": [
     "Hypodematium",
     "Leucostegia"
@@ -1598,7 +1598,7 @@
     "gbif": 4017857
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1740,7 +1740,7 @@
    "rank": "family",
    "name": "Polypodiaceae",
    "common": "Polypodies",
-   "speciesCount": 1650,
+   "speciesCount": 4578,
    "examples": [
     "Polypodium",
     "Platycerium",
@@ -1751,7 +1751,7 @@
     "gbif": 2368
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -1799,7 +1799,7 @@
    "rank": "family",
    "name": "Cycadaceae",
    "common": "Cycas",
-   "speciesCount": 120,
+   "speciesCount": 119,
    "examples": [
     "Cycas revoluta (sago palm)",
     "Cycas"
@@ -1809,7 +1809,7 @@
     "gbif": 6168
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1821,7 +1821,7 @@
    "rank": "family",
    "name": "Zamiaceae",
    "common": "Zamias, Encephalartos",
-   "speciesCount": 230,
+   "speciesCount": 259,
    "examples": [
     "Zamia",
     "Encephalartos",
@@ -1833,7 +1833,7 @@
     "gbif": 5375
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1876,7 +1876,7 @@
     "gbif": 3070
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1910,7 +1910,7 @@
    "rank": "family",
    "name": "Ephedraceae",
    "common": "Ephedra / Mormon tea",
-   "speciesCount": 60,
+   "speciesCount": 75,
    "examples": [
     "Ephedra"
    ],
@@ -1919,7 +1919,7 @@
     "gbif": 3114
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1945,7 +1945,7 @@
    "rank": "family",
    "name": "Gnetaceae",
    "common": "Gnetum",
-   "speciesCount": 40,
+   "speciesCount": 44,
    "examples": [
     "Gnetum gnemon",
     "Gnetum"
@@ -1955,7 +1955,7 @@
     "gbif": 6755
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -1990,7 +1990,7 @@
     "gbif": 3718
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2024,7 +2024,7 @@
    "rank": "family",
    "name": "Pinaceae",
    "common": "Pines, firs, spruces, larches, cedars",
-   "speciesCount": 240,
+   "speciesCount": 271,
    "examples": [
     "Pinus (pines)",
     "Abies (firs)",
@@ -2036,7 +2036,7 @@
     "gbif": 3925
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -2053,7 +2053,7 @@
    "rank": "family",
    "name": "Araucariaceae",
    "common": "Monkey puzzle, Wollemi, kauri",
-   "speciesCount": 40,
+   "speciesCount": 38,
    "examples": [
     "Araucaria (monkey puzzle)",
     "Agathis (kauri)",
@@ -2064,7 +2064,7 @@
     "gbif": 3924
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2076,7 +2076,7 @@
    "rank": "family",
    "name": "Podocarpaceae",
    "common": "Podocarps, yellowwoods",
-   "speciesCount": 190,
+   "speciesCount": 199,
    "examples": [
     "Podocarpus",
     "Dacrydium",
@@ -2087,7 +2087,7 @@
     "gbif": 8830
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2115,7 +2115,7 @@
     "gbif": 8831
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2127,7 +2127,7 @@
    "rank": "family",
    "name": "Cupressaceae",
    "common": "Cypress, juniper, redwood, sequoia",
-   "speciesCount": 140,
+   "speciesCount": 179,
    "examples": [
     "Cupressus (cypress)",
     "Juniperus (juniper)",
@@ -2139,7 +2139,7 @@
     "gbif": 8144
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2161,7 +2161,7 @@
     "gbif": 4863
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2211,7 +2211,7 @@
     "gbif": 3667900
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2236,7 +2236,7 @@
    "parent": "Nymphaeales",
    "rank": "family",
    "name": "Hydatellaceae",
-   "speciesCount": 12,
+   "speciesCount": 13,
    "examples": [
     "Trithuria"
    ],
@@ -2245,7 +2245,7 @@
     "gbif": 8827
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2257,7 +2257,7 @@
    "rank": "family",
    "name": "Cabombaceae",
    "common": "Fanwort",
-   "speciesCount": 6,
+   "speciesCount": 7,
    "examples": [
     "Cabomba",
     "Brasenia"
@@ -2267,7 +2267,7 @@
     "gbif": 6681
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2279,7 +2279,7 @@
    "rank": "family",
    "name": "Nymphaeaceae",
    "common": "Water lilies",
-   "speciesCount": 70,
+   "speciesCount": 101,
    "examples": [
     "Nymphaea",
     "Victoria (giant water lily)",
@@ -2290,7 +2290,7 @@
     "gbif": 2423
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2324,7 +2324,7 @@
     "gbif": 4197024
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2335,7 +2335,7 @@
    "parent": "Austrobaileyales",
    "rank": "family",
    "name": "Trimeniaceae",
-   "speciesCount": 5,
+   "speciesCount": 8,
    "examples": [
     "Trimenia"
    ],
@@ -2344,7 +2344,7 @@
     "gbif": 3234600
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2356,7 +2356,7 @@
    "rank": "family",
    "name": "Schisandraceae",
    "common": "Star anise, magnolia vine",
-   "speciesCount": 92,
+   "speciesCount": 84,
    "examples": [
     "Illicium (star anise)",
     "Schisandra",
@@ -2367,7 +2367,7 @@
     "gbif": 6691
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2400,7 +2400,7 @@
    "rank": "family",
    "name": "Canellaceae",
    "common": "Wild cinnamon",
-   "speciesCount": 20,
+   "speciesCount": 23,
    "examples": [
     "Canella (white cinnamon)",
     "Warburgia"
@@ -2410,7 +2410,7 @@
     "gbif": 2440
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2422,7 +2422,7 @@
    "rank": "family",
    "name": "Winteraceae",
    "common": "Winter's bark",
-   "speciesCount": 100,
+   "speciesCount": 95,
    "examples": [
     "Drimys (winter's bark)",
     "Tasmannia (mountain pepper)"
@@ -2432,7 +2432,7 @@
     "gbif": 2437
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2458,7 +2458,7 @@
    "rank": "family",
    "name": "Aristolochiaceae",
    "common": "Birthworts, Dutchman's pipe",
-   "speciesCount": 600,
+   "speciesCount": 776,
    "examples": [
     "Aristolochia (Dutchman's pipe)",
     "Asarum (wild ginger)"
@@ -2468,7 +2468,7 @@
     "gbif": 3066
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2490,7 +2490,7 @@
     "gbif": 2421
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2502,7 +2502,7 @@
    "rank": "family",
    "name": "Piperaceae",
    "common": "Pepper (Piper), peperomia",
-   "speciesCount": 3600,
+   "speciesCount": 3892,
    "examples": [
     "Piper nigrum (black pepper)",
     "Peperomia",
@@ -2513,7 +2513,7 @@
     "gbif": 6678
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2539,7 +2539,7 @@
    "rank": "family",
    "name": "Myristicaceae",
    "common": "Nutmeg",
-   "speciesCount": 500,
+   "speciesCount": 547,
    "examples": [
     "Myristica (nutmeg)",
     "Virola"
@@ -2549,7 +2549,7 @@
     "gbif": 2439
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2561,7 +2561,7 @@
    "rank": "family",
    "name": "Magnoliaceae",
    "common": "Magnolias",
-   "speciesCount": 300,
+   "speciesCount": 381,
    "examples": [
     "Magnolia",
     "Liriodendron (tulip tree)"
@@ -2571,7 +2571,7 @@
     "gbif": 4690
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2591,7 +2591,7 @@
     "gbif": 3231417
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2602,7 +2602,7 @@
    "parent": "Magnoliales",
    "rank": "family",
    "name": "Himantandraceae",
-   "speciesCount": 2,
+   "speciesCount": 1,
    "examples": [
     "Galbulimima"
    ],
@@ -2611,7 +2611,7 @@
     "gbif": 3682052
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2631,7 +2631,7 @@
     "gbif": 3231412
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2643,7 +2643,7 @@
    "rank": "family",
    "name": "Annonaceae",
    "common": "Custard apple, soursop, pawpaw",
-   "speciesCount": 2400,
+   "speciesCount": 2606,
    "examples": [
     "Annona (soursop, custard apple)",
     "Asimina (pawpaw)",
@@ -2654,7 +2654,7 @@
     "gbif": 9291
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2690,7 +2690,7 @@
     "gbif": 2496
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2701,7 +2701,7 @@
    "parent": "Laurales",
    "rank": "family",
    "name": "Siparunaceae",
-   "speciesCount": 75,
+   "speciesCount": 54,
    "examples": [
     "Siparuna"
    ],
@@ -2710,7 +2710,7 @@
     "gbif": 4893899
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2731,7 +2731,7 @@
     "gbif": 2717
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2743,7 +2743,7 @@
    "rank": "family",
    "name": "Atherospermataceae",
    "common": "southern sassafras",
-   "speciesCount": 16,
+   "speciesCount": 17,
    "examples": [
     "Atherosperma (southern sassafras)",
     "Laurelia"
@@ -2753,7 +2753,7 @@
     "gbif": 4908436
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2764,7 +2764,7 @@
    "parent": "Laurales",
    "rank": "family",
    "name": "Hernandiaceae",
-   "speciesCount": 55,
+   "speciesCount": 70,
    "examples": [
     "Hernandia",
     "Gyrocarpus (helicopter tree)"
@@ -2774,7 +2774,7 @@
     "gbif": 2495
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2785,7 +2785,7 @@
    "parent": "Laurales",
    "rank": "family",
    "name": "Monimiaceae",
-   "speciesCount": 200,
+   "speciesCount": 279,
    "examples": [
     "Peumus boldus (boldo)",
     "Monimia"
@@ -2795,7 +2795,7 @@
     "gbif": 2494
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2807,7 +2807,7 @@
    "rank": "family",
    "name": "Lauraceae",
    "common": "Laurel, avocado, cinnamon, bay",
-   "speciesCount": 2850,
+   "speciesCount": 3422,
    "examples": [
     "Laurus (bay laurel)",
     "Cinnamomum (cinnamon)",
@@ -2819,7 +2819,7 @@
     "gbif": 6688
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2844,7 +2844,7 @@
    "parent": "Chloranthales",
    "rank": "family",
    "name": "Chloranthaceae",
-   "speciesCount": 77,
+   "speciesCount": 75,
    "examples": [
     "Chloranthus",
     "Sarcandra",
@@ -2855,7 +2855,7 @@
     "gbif": 6679
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2888,7 +2888,7 @@
    "rank": "family",
    "name": "Acoraceae",
    "common": "Sweet flag",
-   "speciesCount": 2,
+   "speciesCount": 5,
    "examples": [
     "Acorus calamus",
     "Acorus gramineus"
@@ -2898,7 +2898,7 @@
     "gbif": 3719
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2924,7 +2924,7 @@
    "rank": "family",
    "name": "Araceae",
    "common": "Aroids — philodendron, monstera, arum",
-   "speciesCount": 3500,
+   "speciesCount": 4890,
    "examples": [
     "Monstera",
     "Philodendron",
@@ -2936,7 +2936,7 @@
     "gbif": 6979
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2958,7 +2958,7 @@
     "gbif": 3724
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2970,7 +2970,7 @@
    "rank": "family",
    "name": "Alismataceae",
    "common": "Water plantains",
-   "speciesCount": 100,
+   "speciesCount": 123,
    "examples": [
     "Sagittaria (arrowhead)",
     "Alisma",
@@ -2981,7 +2981,7 @@
     "gbif": 3720
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -2993,7 +2993,7 @@
    "rank": "family",
    "name": "Butomaceae",
    "common": "Flowering rush",
-   "speciesCount": 1,
+   "speciesCount": 2,
    "examples": [
     "Butomus umbellatus"
    ],
@@ -3002,7 +3002,7 @@
     "gbif": 6980
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3014,7 +3014,7 @@
    "rank": "family",
    "name": "Hydrocharitaceae",
    "common": "Tape grass, frogbit",
-   "speciesCount": 130,
+   "speciesCount": 145,
    "examples": [
     "Elodea",
     "Vallisneria",
@@ -3026,7 +3026,7 @@
     "gbif": 3721
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3047,7 +3047,7 @@
     "gbif": 3723
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3059,7 +3059,7 @@
    "rank": "family",
    "name": "Aponogetonaceae",
    "common": "Cape pondweeds",
-   "speciesCount": 50,
+   "speciesCount": 60,
    "examples": [
     "Aponogeton distachyos",
     "Aponogeton madagascariensis (lace plant)"
@@ -3069,7 +3069,7 @@
     "gbif": 7678
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3081,7 +3081,7 @@
    "rank": "family",
    "name": "Juncaginaceae",
    "common": "Arrowgrasses",
-   "speciesCount": 25,
+   "speciesCount": 35,
    "examples": [
     "Triglochin"
    ],
@@ -3090,7 +3090,7 @@
     "gbif": 7679
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3110,7 +3110,7 @@
     "gbif": 4923767
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3122,7 +3122,7 @@
    "rank": "family",
    "name": "Zosteraceae",
    "common": "Eelgrasses (seagrass)",
-   "speciesCount": 20,
+   "speciesCount": 19,
    "examples": [
     "Zostera marina",
     "Phyllospadix"
@@ -3132,7 +3132,7 @@
     "gbif": 3725
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3144,7 +3144,7 @@
    "rank": "family",
    "name": "Potamogetonaceae",
    "common": "Pondweeds",
-   "speciesCount": 100,
+   "speciesCount": 193,
    "examples": [
     "Potamogeton",
     "Stuckenia"
@@ -3154,7 +3154,7 @@
     "gbif": 6721
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3176,7 +3176,7 @@
     "gbif": 7680
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3188,7 +3188,7 @@
    "rank": "family",
    "name": "Ruppiaceae",
    "common": "Ditch grasses",
-   "speciesCount": 10,
+   "speciesCount": 12,
    "examples": [
     "Ruppia maritima"
    ],
@@ -3197,7 +3197,7 @@
     "gbif": 3722
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3209,7 +3209,7 @@
    "rank": "family",
    "name": "Cymodoceaceae",
    "common": "Manatee grass (seagrass)",
-   "speciesCount": 17,
+   "speciesCount": 18,
    "examples": [
     "Cymodocea",
     "Syringodium",
@@ -3220,7 +3220,7 @@
     "gbif": 9640
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3245,7 +3245,7 @@
    "parent": "Petrosaviales",
    "rank": "family",
    "name": "Petrosaviaceae",
-   "speciesCount": 4,
+   "speciesCount": 3,
    "examples": [
     "Petrosavia",
     "Japonolirion"
@@ -3255,7 +3255,7 @@
     "gbif": 7706
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3281,7 +3281,7 @@
    "rank": "family",
    "name": "Nartheciaceae",
    "common": "Bog asphodels",
-   "speciesCount": 40,
+   "speciesCount": 37,
    "examples": [
     "Narthecium ossifragum",
     "Aletris"
@@ -3291,7 +3291,7 @@
     "gbif": 3734
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3303,7 +3303,7 @@
    "rank": "family",
    "name": "Burmanniaceae",
    "common": "Bluethreads",
-   "speciesCount": 95,
+   "speciesCount": 256,
    "examples": [
     "Burmannia",
     "Gymnosiphon"
@@ -3313,7 +3313,7 @@
     "gbif": 3733
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3325,7 +3325,7 @@
    "rank": "family",
    "name": "Dioscoreaceae",
    "common": "Yams",
-   "speciesCount": 870,
+   "speciesCount": 658,
    "examples": [
     "Dioscorea (true yam)",
     "Tacca (bat flower)"
@@ -3335,7 +3335,7 @@
     "gbif": 7694
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3360,7 +3360,7 @@
    "parent": "Pandanales",
    "rank": "family",
    "name": "Triuridaceae",
-   "speciesCount": 55,
+   "speciesCount": 64,
    "examples": [
     "Triuris",
     "Sciaphila"
@@ -3370,7 +3370,7 @@
     "gbif": 7705
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3382,7 +3382,7 @@
    "rank": "family",
    "name": "Velloziaceae",
    "common": "Tree-lilies",
-   "speciesCount": 250,
+   "speciesCount": 320,
    "examples": [
     "Vellozia",
     "Barbacenia",
@@ -3393,7 +3393,7 @@
     "gbif": 3738
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3404,7 +3404,7 @@
    "parent": "Pandanales",
    "rank": "family",
    "name": "Stemonaceae",
-   "speciesCount": 40,
+   "speciesCount": 39,
    "examples": [
     "Stemona",
     "Croomia",
@@ -3415,7 +3415,7 @@
     "gbif": 7704
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3427,7 +3427,7 @@
    "rank": "family",
    "name": "Cyclanthaceae",
    "common": "Panama hat palm",
-   "speciesCount": 230,
+   "speciesCount": 242,
    "examples": [
     "Carludovica palmata (Panama hat plant)",
     "Cyclanthus"
@@ -3437,7 +3437,7 @@
     "gbif": 7703
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3449,7 +3449,7 @@
    "rank": "family",
    "name": "Pandanaceae",
    "common": "Screw pines (Pandanus)",
-   "speciesCount": 980,
+   "speciesCount": 934,
    "examples": [
     "Pandanus",
     "Freycinetia"
@@ -3459,7 +3459,7 @@
     "gbif": 3737
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3494,7 +3494,7 @@
     "gbif": 7696
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3505,7 +3505,7 @@
    "parent": "Liliales",
    "rank": "family",
    "name": "Corsiaceae",
-   "speciesCount": 30,
+   "speciesCount": 27,
    "examples": [
     "Corsia",
     "Arachnitis"
@@ -3515,7 +3515,7 @@
     "gbif": 3735
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3527,7 +3527,7 @@
    "rank": "family",
    "name": "Melanthiaceae",
    "common": "Trilliums, false hellebore",
-   "speciesCount": 175,
+   "speciesCount": 194,
    "examples": [
     "Trillium",
     "Veratrum (false hellebore)",
@@ -3538,7 +3538,7 @@
     "gbif": 7700
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3558,7 +3558,7 @@
     "gbif": 3736
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3570,7 +3570,7 @@
    "rank": "family",
    "name": "Alstroemeriaceae",
    "common": "Peruvian lily",
-   "speciesCount": 250,
+   "speciesCount": 265,
    "examples": [
     "Alstroemeria",
     "Bomarea",
@@ -3581,7 +3581,7 @@
     "gbif": 7695
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3593,7 +3593,7 @@
    "rank": "family",
    "name": "Colchicaceae",
    "common": "Autumn crocus, flame lily",
-   "speciesCount": 285,
+   "speciesCount": 304,
    "examples": [
     "Colchicum (autumn crocus)",
     "Gloriosa (flame lily)"
@@ -3603,7 +3603,7 @@
     "gbif": 7697
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3624,7 +3624,7 @@
     "gbif": 3727
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3645,7 +3645,7 @@
     "gbif": 4020499
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3657,7 +3657,7 @@
    "rank": "family",
    "name": "Smilacaceae",
    "common": "Greenbriers, sarsaparilla",
-   "speciesCount": 255,
+   "speciesCount": 268,
    "examples": [
     "Smilax"
    ],
@@ -3666,7 +3666,7 @@
     "gbif": 7702
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3678,7 +3678,7 @@
    "rank": "family",
    "name": "Liliaceae",
    "common": "Lilies, tulips, fritillaries",
-   "speciesCount": 600,
+   "speciesCount": 817,
    "examples": [
     "Lilium (lily)",
     "Tulipa (tulip)",
@@ -3690,7 +3690,7 @@
     "gbif": 7699
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3716,7 +3716,7 @@
    "rank": "family",
    "name": "Orchidaceae",
    "common": "Orchids (largest plant family)",
-   "speciesCount": 28000,
+   "speciesCount": 31892,
    "examples": [
     "Phalaenopsis",
     "Cattleya",
@@ -3728,7 +3728,7 @@
     "gbif": 7689
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3740,7 +3740,7 @@
    "rank": "family",
    "name": "Boryaceae",
    "common": "Pincushion lilies",
-   "speciesCount": 12,
+   "speciesCount": 13,
    "examples": [
     "Borya",
     "Alania"
@@ -3750,7 +3750,7 @@
     "gbif": 2234
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3771,7 +3771,7 @@
     "gbif": 7685
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3782,7 +3782,7 @@
    "parent": "Asparagales",
    "rank": "family",
    "name": "Asteliaceae",
-   "speciesCount": 35,
+   "speciesCount": 37,
    "examples": [
     "Astelia",
     "Collospermum"
@@ -3792,7 +3792,7 @@
     "gbif": 7684
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3813,7 +3813,7 @@
     "gbif": 7688
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3825,7 +3825,7 @@
    "rank": "family",
    "name": "Hypoxidaceae",
    "common": "Star grasses",
-   "speciesCount": 160,
+   "speciesCount": 166,
    "examples": [
     "Hypoxis",
     "Curculigo",
@@ -3836,7 +3836,7 @@
     "gbif": 7686
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3858,7 +3858,7 @@
     "gbif": 3726
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3870,7 +3870,7 @@
    "rank": "family",
    "name": "Ixioliriaceae",
    "common": "Siberian lily",
-   "speciesCount": 3,
+   "speciesCount": 5,
    "examples": [
     "Ixiolirion tataricum"
    ],
@@ -3879,7 +3879,7 @@
     "gbif": 7687
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3891,7 +3891,7 @@
    "rank": "family",
    "name": "Tecophilaeaceae",
    "common": "Chilean blue crocus",
-   "speciesCount": 25,
+   "speciesCount": 27,
    "examples": [
     "Tecophilaea cyanocrocus",
     "Cyanella"
@@ -3901,7 +3901,7 @@
     "gbif": 3728
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3913,7 +3913,7 @@
    "rank": "family",
    "name": "Iridaceae",
    "common": "Irises, crocus, gladiolus, freesia",
-   "speciesCount": 2300,
+   "speciesCount": 2632,
    "examples": [
     "Iris",
     "Crocus",
@@ -3925,7 +3925,7 @@
     "gbif": 7698
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3946,7 +3946,7 @@
     "gbif": 7690
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3958,7 +3958,7 @@
    "rank": "family",
    "name": "Asphodelaceae",
    "common": "Aloe, daylily, red-hot poker",
-   "speciesCount": 1000,
+   "speciesCount": 1269,
    "examples": [
     "Aloe",
     "Hemerocallis (daylily)",
@@ -3970,7 +3970,7 @@
     "gbif": 4259209
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -3982,7 +3982,7 @@
    "rank": "family",
    "name": "Amaryllidaceae",
    "common": "Amaryllis, daffodil, onion, garlic",
-   "speciesCount": 2200,
+   "speciesCount": 2571,
    "examples": [
     "Narcissus (daffodil)",
     "Allium (onion/garlic)",
@@ -3994,7 +3994,7 @@
     "gbif": 7682
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4006,7 +4006,7 @@
    "rank": "family",
    "name": "Asparagaceae",
    "common": "Asparagus, agave, hyacinth, hosta",
-   "speciesCount": 3000,
+   "speciesCount": 3628,
    "examples": [
     "Asparagus",
     "Agave",
@@ -4018,7 +4018,7 @@
     "gbif": 7683
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4051,7 +4051,7 @@
    "rank": "family",
    "name": "Dasypogonaceae",
    "common": "Pineapple bush and allies",
-   "speciesCount": 16,
+   "speciesCount": 20,
    "examples": [
     "Dasypogon",
     "Kingia",
@@ -4063,7 +4063,7 @@
     "gbif": 3732
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4075,7 +4075,7 @@
    "rank": "family",
    "name": "Arecaceae",
    "common": "Palms",
-   "speciesCount": 2600,
+   "speciesCount": 2539,
    "examples": [
     "Coconut",
     "Date palm",
@@ -4087,7 +4087,7 @@
     "gbif": 7681
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4123,7 +4123,7 @@
     "gbif": 7692
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4135,7 +4135,7 @@
    "rank": "family",
    "name": "Commelinaceae",
    "common": "Spiderworts, tradescantia",
-   "speciesCount": 730,
+   "speciesCount": 785,
    "examples": [
     "Tradescantia",
     "Commelina",
@@ -4147,7 +4147,7 @@
     "gbif": 2763195
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4170,7 +4170,7 @@
     "gbif": 7693
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4182,7 +4182,7 @@
    "rank": "family",
    "name": "Pontederiaceae",
    "common": "Water hyacinth, pickerelweed",
-   "speciesCount": 35,
+   "speciesCount": 47,
    "examples": [
     "Water hyacinth",
     "Pickerelweed",
@@ -4194,7 +4194,7 @@
     "gbif": 3731
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4206,7 +4206,7 @@
    "rank": "family",
    "name": "Haemodoraceae",
    "common": "Bloodworts, kangaroo paw",
-   "speciesCount": 100,
+   "speciesCount": 132,
    "examples": [
     "Kangaroo paw",
     "Anigozanthos",
@@ -4218,7 +4218,7 @@
     "gbif": 7691
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4244,7 +4244,7 @@
    "rank": "family",
    "name": "Strelitziaceae",
    "common": "Bird of paradise",
-   "speciesCount": 7,
+   "speciesCount": 12,
    "examples": [
     "Bird of paradise",
     "Strelitzia",
@@ -4256,7 +4256,7 @@
     "gbif": 8799
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4268,7 +4268,7 @@
    "rank": "family",
    "name": "Lowiaceae",
    "common": "Orchidantha",
-   "speciesCount": 20,
+   "speciesCount": 32,
    "examples": [
     "Orchidantha"
    ],
@@ -4277,7 +4277,7 @@
     "gbif": 4678
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4289,7 +4289,7 @@
    "rank": "family",
    "name": "Heliconiaceae",
    "common": "Heliconias",
-   "speciesCount": 200,
+   "speciesCount": 204,
    "examples": [
     "Heliconia",
     "Lobster claw",
@@ -4300,7 +4300,7 @@
     "gbif": 4677
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4312,7 +4312,7 @@
    "rank": "family",
    "name": "Musaceae",
    "common": "Bananas, plantains",
-   "speciesCount": 90,
+   "speciesCount": 101,
    "examples": [
     "Banana",
     "Plantain",
@@ -4324,7 +4324,7 @@
     "gbif": 4686
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4336,7 +4336,7 @@
    "rank": "family",
    "name": "Cannaceae",
    "common": "Canna lilies",
-   "speciesCount": 10,
+   "speciesCount": 12,
    "examples": [
     "Canna",
     "Canna indica",
@@ -4347,7 +4347,7 @@
     "gbif": 8497
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4359,7 +4359,7 @@
    "rank": "family",
    "name": "Marantaceae",
    "common": "Prayer plants, arrowroot",
-   "speciesCount": 550,
+   "speciesCount": 590,
    "examples": [
     "Prayer plant",
     "Maranta",
@@ -4371,7 +4371,7 @@
     "gbif": 8784
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4383,7 +4383,7 @@
    "rank": "family",
    "name": "Costaceae",
    "common": "Spiral gingers",
-   "speciesCount": 150,
+   "speciesCount": 163,
    "examples": [
     "Costus",
     "Spiral ginger",
@@ -4394,7 +4394,7 @@
     "gbif": 4492
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4406,7 +4406,7 @@
    "rank": "family",
    "name": "Zingiberaceae",
    "common": "Ginger, turmeric, cardamom",
-   "speciesCount": 1600,
+   "speciesCount": 2042,
    "examples": [
     "Ginger",
     "Turmeric",
@@ -4418,7 +4418,7 @@
     "gbif": 4687
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4444,7 +4444,7 @@
    "rank": "family",
    "name": "Typhaceae",
    "common": "Cattails, bur-reeds",
-   "speciesCount": 55,
+   "speciesCount": 74,
    "examples": [
     "Cattail",
     "Typha",
@@ -4456,7 +4456,7 @@
     "gbif": 4246
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4468,7 +4468,7 @@
    "rank": "family",
    "name": "Bromeliaceae",
    "common": "Bromeliads, pineapple",
-   "speciesCount": 3600,
+   "speciesCount": 3787,
    "examples": [
     "Pineapple",
     "Spanish moss",
@@ -4480,7 +4480,7 @@
     "gbif": 3740
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4491,7 +4491,7 @@
    "parent": "Poales",
    "rank": "family",
    "name": "Rapateaceae",
-   "speciesCount": 100,
+   "speciesCount": 97,
    "examples": [
     "Rapatea",
     "Stegolepis",
@@ -4502,7 +4502,7 @@
     "gbif": 7710
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4514,7 +4514,7 @@
    "rank": "family",
    "name": "Xyridaceae",
    "common": "Yellow-eyed grasses",
-   "speciesCount": 400,
+   "speciesCount": 410,
    "examples": [
     "Xyris",
     "Yellow-eyed grass",
@@ -4525,7 +4525,7 @@
     "gbif": 8496
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -4535,7 +4535,7 @@
    "rank": "family",
    "name": "Eriocaulaceae",
    "common": "Pipeworts",
-   "speciesCount": 1200,
+   "speciesCount": 1225,
    "examples": [
     "Pipewort",
     "Eriocaulon",
@@ -4547,7 +4547,7 @@
     "gbif": 3741
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4559,7 +4559,7 @@
    "rank": "family",
    "name": "Mayacaceae",
    "common": "Bog mosses",
-   "speciesCount": 6,
+   "speciesCount": 5,
    "examples": [
     "Mayaca",
     "Mayaca fluviatilis"
@@ -4569,7 +4569,7 @@
     "gbif": 3744
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4590,7 +4590,7 @@
     "gbif": 4245
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4602,7 +4602,7 @@
    "rank": "family",
    "name": "Juncaceae",
    "common": "Rushes",
-   "speciesCount": 450,
+   "speciesCount": 535,
    "examples": [
     "Juncus",
     "Luzula",
@@ -4614,7 +4614,7 @@
     "gbif": 5353
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4626,7 +4626,7 @@
    "rank": "family",
    "name": "Cyperaceae",
    "common": "Sedges, papyrus",
-   "speciesCount": 5500,
+   "speciesCount": 6073,
    "examples": [
     "Papyrus",
     "Nut sedge",
@@ -4638,7 +4638,7 @@
     "gbif": 7708
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4650,7 +4650,7 @@
    "rank": "family",
    "name": "Restionaceae",
    "common": "Cape reeds",
-   "speciesCount": 570,
+   "speciesCount": 554,
    "examples": [
     "Restio",
     "Cape reed",
@@ -4662,7 +4662,7 @@
     "gbif": 4213
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4674,7 +4674,7 @@
    "rank": "family",
    "name": "Flagellariaceae",
    "common": "False rattan",
-   "speciesCount": 4,
+   "speciesCount": 5,
    "examples": [
     "Flagellaria",
     "Flagellaria indica"
@@ -4684,7 +4684,7 @@
     "gbif": 3742
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4696,7 +4696,7 @@
    "rank": "family",
    "name": "Joinvilleaceae",
    "common": "Ohe",
-   "speciesCount": 4,
+   "speciesCount": 3,
    "examples": [
     "Joinvillea"
    ],
@@ -4705,7 +4705,7 @@
     "gbif": 3743
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4726,7 +4726,7 @@
     "gbif": 7709
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4738,7 +4738,7 @@
    "rank": "family",
    "name": "Poaceae",
    "common": "Grasses — wheat, rice, corn, bamboo",
-   "speciesCount": 12000,
+   "speciesCount": 12484,
    "examples": [
     "Wheat",
     "Rice",
@@ -4750,7 +4750,7 @@
     "gbif": 3073
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4786,7 +4786,7 @@
     "gbif": 2425
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4829,7 +4829,7 @@
     "gbif": 3915936
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4841,7 +4841,7 @@
    "rank": "family",
    "name": "Papaveraceae",
    "common": "Poppies",
-   "speciesCount": 800,
+   "speciesCount": 1066,
    "examples": [
     "Papaver",
     "Eschscholzia (California poppy)",
@@ -4853,7 +4853,7 @@
     "gbif": 2422
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4874,7 +4874,7 @@
     "gbif": 3742937
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4886,7 +4886,7 @@
    "rank": "family",
    "name": "Lardizabalaceae",
    "common": "Chocolate vine (akebia)",
-   "speciesCount": 40,
+   "speciesCount": 43,
    "examples": [
     "Akebia quinata",
     "Decaisnea",
@@ -4898,7 +4898,7 @@
     "gbif": 2412
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4910,7 +4910,7 @@
    "rank": "family",
    "name": "Menispermaceae",
    "common": "Moonseeds",
-   "speciesCount": 440,
+   "speciesCount": 554,
    "examples": [
     "Menispermum canadense",
     "Tinospora",
@@ -4922,7 +4922,7 @@
     "gbif": 2411
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -4932,7 +4932,7 @@
    "rank": "family",
    "name": "Berberidaceae",
    "common": "Barberry, mahonia, mayapple",
-   "speciesCount": 700,
+   "speciesCount": 739,
    "examples": [
     "Berberis (barberry)",
     "Mahonia (Oregon grape)",
@@ -4944,7 +4944,7 @@
     "gbif": 6673
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4956,7 +4956,7 @@
    "rank": "family",
    "name": "Ranunculaceae",
    "common": "Buttercups, clematis, delphinium",
-   "speciesCount": 2500,
+   "speciesCount": 4071,
    "examples": [
     "Ranunculus (buttercup)",
     "Aconitum (monkshood)",
@@ -4968,7 +4968,7 @@
     "gbif": 2410
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -4993,7 +4993,7 @@
    "parent": "Proteales",
    "rank": "family",
    "name": "Sabiaceae",
-   "speciesCount": 66,
+   "speciesCount": 165,
    "examples": [
     "Meliosma",
     "Sabia",
@@ -5004,7 +5004,7 @@
     "gbif": 2409
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5026,7 +5026,7 @@
     "gbif": 2424
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5049,7 +5049,7 @@
     "gbif": 6693
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5061,7 +5061,7 @@
    "rank": "family",
    "name": "Proteaceae",
    "common": "Proteas, banksia, macadamia",
-   "speciesCount": 1700,
+   "speciesCount": 1871,
    "examples": [
     "Protea",
     "Banksia",
@@ -5073,7 +5073,7 @@
     "gbif": 2414
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5109,7 +5109,7 @@
     "gbif": 3234476
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5135,7 +5135,7 @@
    "rank": "family",
    "name": "Buxaceae",
    "common": "Boxwoods",
-   "speciesCount": 120,
+   "speciesCount": 129,
    "examples": [
     "Buxus (boxwood)",
     "Pachysandra",
@@ -5146,7 +5146,7 @@
     "gbif": 6703
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5189,7 +5189,7 @@
     "gbif": 3723697
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5201,7 +5201,7 @@
    "rank": "family",
    "name": "Gunneraceae",
    "common": "Giant rhubarb (Gunnera)",
-   "speciesCount": 65,
+   "speciesCount": 66,
    "examples": [
     "Gunnera manicata",
     "Gunnera tinctoria"
@@ -5211,7 +5211,7 @@
     "gbif": 6695
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5236,7 +5236,7 @@
    "parent": "Dilleniales",
    "rank": "family",
    "name": "Dilleniaceae",
-   "speciesCount": 500,
+   "speciesCount": 617,
    "examples": [
     "Dillenia",
     "Hibbertia",
@@ -5247,7 +5247,7 @@
     "gbif": 2511
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5279,7 +5279,7 @@
    "parent": "Saxifragales",
    "rank": "family",
    "name": "Peridiscaceae",
-   "speciesCount": 12,
+   "speciesCount": 11,
    "examples": [
     "Peridiscus lucidus",
     "Medusandra",
@@ -5290,7 +5290,7 @@
     "gbif": 5908
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5302,7 +5302,7 @@
    "rank": "family",
    "name": "Paeoniaceae",
    "common": "Peonies",
-   "speciesCount": 33,
+   "speciesCount": 42,
    "examples": [
     "Paeonia lactiflora",
     "Paeonia suffruticosa (tree peony)",
@@ -5313,7 +5313,7 @@
     "gbif": 6711
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -5334,7 +5334,7 @@
     "gbif": 4909328
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5346,7 +5346,7 @@
    "rank": "family",
    "name": "Hamamelidaceae",
    "common": "Witch hazel",
-   "speciesCount": 100,
+   "speciesCount": 115,
    "examples": [
     "Hamamelis (witch-hazel)",
     "Corylopsis",
@@ -5358,7 +5358,7 @@
     "gbif": 2500
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5380,7 +5380,7 @@
     "gbif": 2501
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5391,7 +5391,7 @@
    "parent": "Saxifragales",
    "rank": "family",
    "name": "Daphniphyllaceae",
-   "speciesCount": 30,
+   "speciesCount": 31,
    "examples": [
     "Daphniphyllum macropodum",
     "Daphniphyllum himalense"
@@ -5401,7 +5401,7 @@
     "gbif": 4261950
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5413,7 +5413,7 @@
    "rank": "family",
    "name": "Iteaceae",
    "common": "Sweetspire",
-   "speciesCount": 20,
+   "speciesCount": 23,
    "examples": [
     "Itea virginica (Virginia sweetspire)",
     "Itea ilicifolia"
@@ -5423,7 +5423,7 @@
     "gbif": 3230646
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5435,7 +5435,7 @@
    "rank": "family",
    "name": "Grossulariaceae",
    "common": "Currants, gooseberries",
-   "speciesCount": 200,
+   "speciesCount": 198,
    "examples": [
     "Ribes rubrum (red currant)",
     "Ribes nigrum (blackcurrant)",
@@ -5446,7 +5446,7 @@
     "gbif": 2403
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5458,7 +5458,7 @@
    "rank": "family",
    "name": "Saxifragaceae",
    "common": "Saxifrages, heuchera, astilbe",
-   "speciesCount": 640,
+   "speciesCount": 913,
    "examples": [
     "Saxifraga",
     "Heuchera (coral bells)",
@@ -5470,7 +5470,7 @@
     "gbif": 2402
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5482,7 +5482,7 @@
    "rank": "family",
    "name": "Crassulaceae",
    "common": "Stonecrops, jade, sedum, echeveria",
-   "speciesCount": 1400,
+   "speciesCount": 1864,
    "examples": [
     "Sedum (stonecrop)",
     "Sempervivum (houseleek)",
@@ -5494,7 +5494,7 @@
     "gbif": 2406
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5515,7 +5515,7 @@
     "gbif": 3742941
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -5533,7 +5533,7 @@
     "gbif": 4892831
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5554,7 +5554,7 @@
     "gbif": 4256025
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5566,7 +5566,7 @@
    "rank": "family",
    "name": "Haloragaceae",
    "common": "Watermilfoils",
-   "speciesCount": 150,
+   "speciesCount": 169,
    "examples": [
     "Myriophyllum (watermilfoil)",
     "Haloragis",
@@ -5577,7 +5577,7 @@
     "gbif": 6694
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5589,7 +5589,7 @@
    "rank": "family",
    "name": "Cynomoriaceae",
    "common": "Maltese fungus",
-   "speciesCount": 2,
+   "speciesCount": 1,
    "examples": [
     "Cynomorium coccineum",
     "Cynomorium songaricum"
@@ -5599,7 +5599,7 @@
     "gbif": 3585715
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5632,7 +5632,7 @@
    "rank": "family",
    "name": "Vitaceae",
    "common": "Grapes, Virginia creeper",
-   "speciesCount": 910,
+   "speciesCount": 1040,
    "examples": [
     "Vitis vinifera (grapevine)",
     "Parthenocissus (Virginia creeper)",
@@ -5644,7 +5644,7 @@
     "gbif": 6672
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5677,7 +5677,7 @@
    "rank": "family",
    "name": "Krameriaceae",
    "common": "ratany",
-   "speciesCount": 18,
+   "speciesCount": 17,
    "examples": [
     "Krameria lanceolata",
     "Krameria triandra"
@@ -5687,7 +5687,7 @@
     "gbif": 6677
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5699,7 +5699,7 @@
    "rank": "family",
    "name": "Zygophyllaceae",
    "common": "Creosote bush, lignum vitae",
-   "speciesCount": 285,
+   "speciesCount": 296,
    "examples": [
     "Larrea (creosote bush)",
     "Tribulus (caltrop)",
@@ -5710,7 +5710,7 @@
     "gbif": 2394
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5745,7 +5745,7 @@
     "gbif": 4894927
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5757,7 +5757,7 @@
    "rank": "family",
    "name": "Fabaceae",
    "common": "Legumes — beans, peas, acacia, clover",
-   "speciesCount": 19500,
+   "speciesCount": 22808,
    "examples": [
     "Phaseolus (bean)",
     "Pisum (pea)",
@@ -5769,7 +5769,7 @@
     "gbif": 5386
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5781,7 +5781,7 @@
    "rank": "family",
    "name": "Surianaceae",
    "common": "bay cedar",
-   "speciesCount": 8,
+   "speciesCount": 9,
    "examples": [
     "Suriana maritima",
     "Stylobasium"
@@ -5791,7 +5791,7 @@
     "gbif": 6665
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5803,7 +5803,7 @@
    "rank": "family",
    "name": "Polygalaceae",
    "common": "Milkworts",
-   "speciesCount": 1200,
+   "speciesCount": 1333,
    "examples": [
     "Polygala",
     "Securidaca",
@@ -5814,7 +5814,7 @@
     "gbif": 2417
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5840,7 +5840,7 @@
    "rank": "family",
    "name": "Rosaceae",
    "common": "Roses, apple, cherry, strawberry",
-   "speciesCount": 4800,
+   "speciesCount": 5936,
    "examples": [
     "Rosa (rose)",
     "Malus (apple)",
@@ -5852,7 +5852,7 @@
     "gbif": 5015
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -5870,7 +5870,7 @@
     "gbif": 3234492
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5891,7 +5891,7 @@
     "gbif": 4905415
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5903,7 +5903,7 @@
    "rank": "family",
    "name": "Elaeagnaceae",
    "common": "Oleaster, sea buckthorn",
-   "speciesCount": 45,
+   "speciesCount": 107,
    "examples": [
     "Elaeagnus",
     "Hippophae (sea buckthorn)",
@@ -5914,7 +5914,7 @@
     "gbif": 2408
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5926,7 +5926,7 @@
    "rank": "family",
    "name": "Rhamnaceae",
    "common": "Buckthorn, jujube, ceanothus",
-   "speciesCount": 950,
+   "speciesCount": 1230,
    "examples": [
     "Rhamnus (buckthorn)",
     "Ceanothus",
@@ -5937,7 +5937,7 @@
     "gbif": 2407
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5949,7 +5949,7 @@
    "rank": "family",
    "name": "Ulmaceae",
    "common": "Elms",
-   "speciesCount": 40,
+   "speciesCount": 65,
    "examples": [
     "Ulmus (elm)",
     "Zelkova"
@@ -5959,7 +5959,7 @@
     "gbif": 2382
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5971,7 +5971,7 @@
    "rank": "family",
    "name": "Cannabaceae",
    "common": "Hemp, hops, hackberry",
-   "speciesCount": 170,
+   "speciesCount": 122,
    "examples": [
     "Cannabis",
     "Humulus (hops)",
@@ -5982,7 +5982,7 @@
     "gbif": 2384
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -5994,7 +5994,7 @@
    "rank": "family",
    "name": "Moraceae",
    "common": "Figs, mulberry, breadfruit",
-   "speciesCount": 1100,
+   "speciesCount": 1316,
    "examples": [
     "Ficus (fig)",
     "Morus (mulberry)",
@@ -6005,7 +6005,7 @@
     "gbif": 6640
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6017,7 +6017,7 @@
    "rank": "family",
    "name": "Urticaceae",
    "common": "Nettles",
-   "speciesCount": 2600,
+   "speciesCount": 2128,
    "examples": [
     "Urtica (stinging nettle)",
     "Boehmeria (ramie)",
@@ -6028,7 +6028,7 @@
     "gbif": 6639
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6054,7 +6054,7 @@
    "rank": "family",
    "name": "Nothofagaceae",
    "common": "Southern beeches",
-   "speciesCount": 37,
+   "speciesCount": 42,
    "examples": [
     "Nothofagus"
    ],
@@ -6063,7 +6063,7 @@
     "gbif": 8803
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6075,7 +6075,7 @@
    "rank": "family",
    "name": "Fagaceae",
    "common": "Oaks, beeches, chestnuts",
-   "speciesCount": 950,
+   "speciesCount": 1192,
    "examples": [
     "Quercus (oak)",
     "Fagus (beech)",
@@ -6086,7 +6086,7 @@
     "gbif": 4689
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6098,7 +6098,7 @@
    "rank": "family",
    "name": "Myricaceae",
    "common": "Bayberry, sweetgale",
-   "speciesCount": 55,
+   "speciesCount": 52,
    "examples": [
     "Myrica",
     "Morella",
@@ -6109,7 +6109,7 @@
     "gbif": 2432
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6121,7 +6121,7 @@
    "rank": "family",
    "name": "Juglandaceae",
    "common": "Walnuts, hickory, pecan",
-   "speciesCount": 60,
+   "speciesCount": 85,
    "examples": [
     "Juglans (walnut)",
     "Carya (pecan/hickory)"
@@ -6131,7 +6131,7 @@
     "gbif": 2499
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6143,7 +6143,7 @@
    "rank": "family",
    "name": "Casuarinaceae",
    "common": "She-oaks",
-   "speciesCount": 95,
+   "speciesCount": 91,
    "examples": [
     "Casuarina",
     "Allocasuarina"
@@ -6153,7 +6153,7 @@
     "gbif": 5352
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6173,7 +6173,7 @@
     "gbif": 8804
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6185,7 +6185,7 @@
    "rank": "family",
    "name": "Betulaceae",
    "common": "Birches, alder, hazel",
-   "speciesCount": 160,
+   "speciesCount": 212,
    "examples": [
     "Betula (birch)",
     "Alnus (alder)",
@@ -6196,7 +6196,7 @@
     "gbif": 4688
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6222,7 +6222,7 @@
    "rank": "family",
    "name": "Apodanthaceae",
    "common": "stem parasites",
-   "speciesCount": 10,
+   "speciesCount": 12,
    "examples": [
     "Apodanthes",
     "Pilostyles"
@@ -6232,7 +6232,7 @@
     "gbif": 3745203
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6243,7 +6243,7 @@
    "parent": "Cucurbitales",
    "rank": "family",
    "name": "Anisophylleaceae",
-   "speciesCount": 35,
+   "speciesCount": 57,
    "examples": [
     "Anisophyllea",
     "Combretocarpus"
@@ -6253,7 +6253,7 @@
     "gbif": 3658075
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6265,7 +6265,7 @@
    "rank": "family",
    "name": "Corynocarpaceae",
    "common": "karaka",
-   "speciesCount": 6,
+   "speciesCount": 5,
    "examples": [
     "Corynocarpus laevigatus"
    ],
@@ -6274,7 +6274,7 @@
     "gbif": 2515
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6286,7 +6286,7 @@
    "rank": "family",
    "name": "Coriariaceae",
    "common": "tutu",
-   "speciesCount": 15,
+   "speciesCount": 17,
    "examples": [
     "Coriaria"
    ],
@@ -6295,7 +6295,7 @@
     "gbif": 3701754
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6307,7 +6307,7 @@
    "rank": "family",
    "name": "Cucurbitaceae",
    "common": "Gourds — melon, squash, cucumber",
-   "speciesCount": 965,
+   "speciesCount": 1072,
    "examples": [
     "Cucumis (cucumber/melon)",
     "Cucurbita (squash)",
@@ -6318,7 +6318,7 @@
     "gbif": 6634
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6339,7 +6339,7 @@
     "gbif": 4892811
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6359,7 +6359,7 @@
     "gbif": 6633
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6371,7 +6371,7 @@
    "rank": "family",
    "name": "Begoniaceae",
    "common": "Begonias",
-   "speciesCount": 1900,
+   "speciesCount": 2181,
    "examples": [
     "Begonia",
     "Hillebrandia sandwicensis"
@@ -6381,7 +6381,7 @@
     "gbif": 6638
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6416,7 +6416,7 @@
     "gbif": 3990272
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6428,7 +6428,7 @@
    "rank": "family",
    "name": "Celastraceae",
    "common": "Bittersweet, spindle, khat",
-   "speciesCount": 1400,
+   "speciesCount": 1371,
    "examples": [
     "Euonymus (spindle)",
     "Celastrus (bittersweet)",
@@ -6439,7 +6439,7 @@
     "gbif": 6715
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6464,7 +6464,7 @@
    "parent": "Oxalidales",
    "rank": "family",
    "name": "Huaceae",
-   "speciesCount": 3,
+   "speciesCount": 4,
    "examples": [
     "Hua gabonii",
     "Afrostyrax"
@@ -6474,7 +6474,7 @@
     "gbif": 3232020
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6485,7 +6485,7 @@
    "parent": "Oxalidales",
    "rank": "family",
    "name": "Connaraceae",
-   "speciesCount": 180,
+   "speciesCount": 243,
    "examples": [
     "Connarus",
     "Rourea",
@@ -6496,7 +6496,7 @@
     "gbif": 6669
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6508,7 +6508,7 @@
    "rank": "family",
    "name": "Oxalidaceae",
    "common": "Wood sorrel, starfruit",
-   "speciesCount": 700,
+   "speciesCount": 699,
    "examples": [
     "Oxalis (wood sorrel)",
     "Averrhoa (star fruit)"
@@ -6518,7 +6518,7 @@
     "gbif": 6697
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6529,7 +6529,7 @@
    "parent": "Oxalidales",
    "rank": "family",
    "name": "Cunoniaceae",
-   "speciesCount": 300,
+   "speciesCount": 337,
    "examples": [
     "Cunonia",
     "Weinmannia",
@@ -6540,7 +6540,7 @@
     "gbif": 2405
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6551,7 +6551,7 @@
    "parent": "Oxalidales",
    "rank": "family",
    "name": "Elaeocarpaceae",
-   "speciesCount": 615,
+   "speciesCount": 791,
    "examples": [
     "Elaeocarpus (quandong)",
     "Aristotelia",
@@ -6562,7 +6562,7 @@
     "gbif": 2435
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6583,7 +6583,7 @@
     "gbif": 3232033
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6603,7 +6603,7 @@
     "gbif": 6670
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6628,7 +6628,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Pandaceae",
-   "speciesCount": 15,
+   "speciesCount": 17,
    "examples": [
     "Panda oleosa",
     "Microdesmis",
@@ -6639,7 +6639,7 @@
     "gbif": 4692
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6651,7 +6651,7 @@
    "rank": "family",
    "name": "Irvingiaceae",
    "common": "wild mango",
-   "speciesCount": 10,
+   "speciesCount": 12,
    "examples": [
     "Irvingia (African mango)",
     "Klainedoxa"
@@ -6661,7 +6661,7 @@
     "gbif": 9110
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6681,7 +6681,7 @@
     "gbif": 3644239
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6693,7 +6693,7 @@
    "rank": "family",
    "name": "Rhizophoraceae",
    "common": "Mangroves",
-   "speciesCount": 150,
+   "speciesCount": 155,
    "examples": [
     "Rhizophora (red mangrove)",
     "Bruguiera",
@@ -6704,7 +6704,7 @@
     "gbif": 6671
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6716,7 +6716,7 @@
    "rank": "family",
    "name": "Erythroxylaceae",
    "common": "Coca",
-   "speciesCount": 240,
+   "speciesCount": 283,
    "examples": [
     "Erythroxylum (coca)"
    ],
@@ -6725,7 +6725,7 @@
     "gbif": 6686
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6737,7 +6737,7 @@
    "rank": "family",
    "name": "Ochnaceae",
    "common": "Mickey Mouse plant",
-   "speciesCount": 550,
+   "speciesCount": 646,
    "examples": [
     "Ochna",
     "Sauvagesia",
@@ -6748,7 +6748,7 @@
     "gbif": 6642
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6759,7 +6759,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Bonnetiaceae",
-   "speciesCount": 35,
+   "speciesCount": 38,
    "examples": [
     "Bonnetia",
     "Ploiarium"
@@ -6769,7 +6769,7 @@
     "gbif": 3231358
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6781,7 +6781,7 @@
    "rank": "family",
    "name": "Clusiaceae",
    "common": "Mangosteen, St John's wort allies",
-   "speciesCount": 750,
+   "speciesCount": 910,
    "examples": [
     "Garcinia (mangosteen)",
     "Clusia (autograph tree)",
@@ -6792,7 +6792,7 @@
     "gbif": 6646
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6803,7 +6803,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Calophyllaceae",
-   "speciesCount": 460,
+   "speciesCount": 438,
    "examples": [
     "Calophyllum (tamanu)",
     "Mesua (ironwood)",
@@ -6814,7 +6814,7 @@
     "gbif": 4907584
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6826,7 +6826,7 @@
    "rank": "family",
    "name": "Podostemaceae",
    "common": "Riverweeds",
-   "speciesCount": 300,
+   "speciesCount": 363,
    "examples": [
     "Podostemum",
     "Tristicha"
@@ -6836,7 +6836,7 @@
     "gbif": 2418
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6848,7 +6848,7 @@
    "rank": "family",
    "name": "Hypericaceae",
    "common": "St John's wort",
-   "speciesCount": 700,
+   "speciesCount": 639,
    "examples": [
     "Hypericum (St. John's wort)",
     "Vismia",
@@ -6859,7 +6859,7 @@
     "gbif": 4900406
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6871,7 +6871,7 @@
    "rank": "family",
    "name": "Caryocaraceae",
    "common": "souari nut",
-   "speciesCount": 27,
+   "speciesCount": 26,
    "examples": [
     "Caryocar (souari nut)",
     "Anthodiscus"
@@ -6881,7 +6881,7 @@
     "gbif": 6647
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6901,7 +6901,7 @@
     "gbif": 4008737
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6912,7 +6912,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Putranjivaceae",
-   "speciesCount": 210,
+   "speciesCount": 224,
    "examples": [
     "Drypetes",
     "Putranjiva roxburghii"
@@ -6922,7 +6922,7 @@
     "gbif": 8808
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6933,7 +6933,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Centroplacaceae",
-   "speciesCount": 6,
+   "speciesCount": 9,
    "examples": [
     "Centroplacus glaucinus",
     "Bhesa"
@@ -6943,7 +6943,7 @@
     "gbif": 8806
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6955,7 +6955,7 @@
    "rank": "family",
    "name": "Elatinaceae",
    "common": "Waterworts",
-   "speciesCount": 40,
+   "speciesCount": 59,
    "examples": [
     "Elatine (waterwort)",
     "Bergia"
@@ -6965,7 +6965,7 @@
     "gbif": 6644
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -6977,7 +6977,7 @@
    "rank": "family",
    "name": "Malpighiaceae",
    "common": "Acerola, barbados cherry",
-   "speciesCount": 1300,
+   "speciesCount": 1496,
    "examples": [
     "Malpighia (Barbados cherry)",
     "Banisteriopsis (ayahuasca)",
@@ -6988,7 +6988,7 @@
     "gbif": 6676
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7008,7 +7008,7 @@
     "gbif": 3231232
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7019,7 +7019,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Trigoniaceae",
-   "speciesCount": 28,
+   "speciesCount": 33,
    "examples": [
     "Trigonia",
     "Trigoniastrum"
@@ -7029,7 +7029,7 @@
     "gbif": 3231355
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7041,7 +7041,7 @@
    "rank": "family",
    "name": "Dichapetalaceae",
    "common": "poison leaf",
-   "speciesCount": 165,
+   "speciesCount": 210,
    "examples": [
     "Dichapetalum",
     "Tapura"
@@ -7051,7 +7051,7 @@
     "gbif": 3231311
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7071,7 +7071,7 @@
     "gbif": 3838298
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7083,7 +7083,7 @@
    "rank": "family",
    "name": "Chrysobalanaceae",
    "common": "Coco plum",
-   "speciesCount": 530,
+   "speciesCount": 548,
    "examples": [
     "Chrysobalanus (coco plum)",
     "Licania",
@@ -7094,7 +7094,7 @@
     "gbif": 9111
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7105,7 +7105,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Humiriaceae",
-   "speciesCount": 65,
+   "speciesCount": 67,
    "examples": [
     "Humiria",
     "Vantanea"
@@ -7115,7 +7115,7 @@
     "gbif": 3231239
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7127,7 +7127,7 @@
    "rank": "family",
    "name": "Achariaceae",
    "common": "Chaulmoogra",
-   "speciesCount": 155,
+   "speciesCount": 180,
    "examples": [
     "Hydnocarpus (chaulmoogra)",
     "Kiggelaria",
@@ -7138,7 +7138,7 @@
     "gbif": 3231308
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7150,7 +7150,7 @@
    "rank": "family",
    "name": "Violaceae",
    "common": "Violets, pansies",
-   "speciesCount": 1000,
+   "speciesCount": 1309,
    "examples": [
     "Viola (violet/pansy)",
     "Rinorea",
@@ -7161,7 +7161,7 @@
     "gbif": 6631
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7181,7 +7181,7 @@
     "gbif": 3760957
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7193,7 +7193,7 @@
    "rank": "family",
    "name": "Passifloraceae",
    "common": "Passionflowers",
-   "speciesCount": 950,
+   "speciesCount": 1083,
    "examples": [
     "Passiflora (passionfruit)",
     "Adenia",
@@ -7204,7 +7204,7 @@
     "gbif": 2378
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7215,7 +7215,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Lacistemataceae",
-   "speciesCount": 14,
+   "speciesCount": 18,
    "examples": [
     "Lacistema",
     "Lozania"
@@ -7225,7 +7225,7 @@
     "gbif": 7524
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7237,7 +7237,7 @@
    "rank": "family",
    "name": "Salicaceae",
    "common": "Willows, poplars, aspen",
-   "speciesCount": 1200,
+   "speciesCount": 1621,
    "examples": [
     "Salix (willow)",
     "Populus (poplar/aspen)"
@@ -7247,7 +7247,7 @@
     "gbif": 6664
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -7256,7 +7256,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Peraceae",
-   "speciesCount": 135,
+   "speciesCount": 107,
    "examples": [
     "Pera",
     "Clutia",
@@ -7267,7 +7267,7 @@
     "gbif": 4896765
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7279,7 +7279,7 @@
    "rank": "family",
    "name": "Rafflesiaceae",
    "common": "Corpse flower (Rafflesia)",
-   "speciesCount": 36,
+   "speciesCount": 50,
    "examples": [
     "Rafflesia",
     "Sapria",
@@ -7290,7 +7290,7 @@
     "gbif": 2413
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7302,7 +7302,7 @@
    "rank": "family",
    "name": "Euphorbiaceae",
    "common": "Spurges, poinsettia, cassava, rubber",
-   "speciesCount": 6500,
+   "speciesCount": 6587,
    "examples": [
     "Euphorbia (poinsettia)",
     "Hevea (rubber)",
@@ -7314,7 +7314,7 @@
     "gbif": 4691
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -7324,7 +7324,7 @@
    "rank": "family",
    "name": "Linaceae",
    "common": "Flax",
-   "speciesCount": 300,
+   "speciesCount": 284,
    "examples": [
     "Linum (flax)",
     "Reinwardtia"
@@ -7334,7 +7334,7 @@
     "gbif": 2493
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7345,7 +7345,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Ixonanthaceae",
-   "speciesCount": 28,
+   "speciesCount": 18,
    "examples": [
     "Ixonanthes",
     "Cyrillopsis"
@@ -7355,7 +7355,7 @@
     "gbif": 4259125
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7366,7 +7366,7 @@
    "parent": "Malpighiales",
    "rank": "family",
    "name": "Picrodendraceae",
-   "speciesCount": 80,
+   "speciesCount": 98,
    "examples": [
     "Picrodendron",
     "Androstachys"
@@ -7376,7 +7376,7 @@
     "gbif": 4693
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7388,7 +7388,7 @@
    "rank": "family",
    "name": "Phyllanthaceae",
    "common": "leaf-flowers",
-   "speciesCount": 2000,
+   "speciesCount": 2106,
    "examples": [
     "Phyllanthus",
     "Emblica (amla)",
@@ -7400,7 +7400,7 @@
     "gbif": 8807
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7433,7 +7433,7 @@
    "rank": "family",
    "name": "Geraniaceae",
    "common": "Geraniums, pelargoniums",
-   "speciesCount": 830,
+   "speciesCount": 806,
    "examples": [
     "Geranium",
     "Pelargonium",
@@ -7444,7 +7444,7 @@
     "gbif": 4676
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7456,7 +7456,7 @@
    "rank": "family",
    "name": "Francoaceae",
    "common": "bridal wreath and honeybush allies",
-   "speciesCount": 40,
+   "speciesCount": 36,
    "examples": [
     "Francoa",
     "Melianthus",
@@ -7467,7 +7467,7 @@
     "gbif": 4924809
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7493,7 +7493,7 @@
    "rank": "family",
    "name": "Combretaceae",
    "common": "Tropical almond, mangrove allies",
-   "speciesCount": 500,
+   "speciesCount": 589,
    "examples": [
     "Terminalia",
     "Combretum",
@@ -7504,7 +7504,7 @@
     "gbif": 2431
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7516,7 +7516,7 @@
    "rank": "family",
    "name": "Lythraceae",
    "common": "Crape myrtle, pomegranate, henna",
-   "speciesCount": 620,
+   "speciesCount": 698,
    "examples": [
     "Lythrum",
     "Lagerstroemia",
@@ -7527,7 +7527,7 @@
     "gbif": 6684
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7539,7 +7539,7 @@
    "rank": "family",
    "name": "Onagraceae",
    "common": "Evening primrose, fuchsia",
-   "speciesCount": 660,
+   "speciesCount": 802,
    "examples": [
     "Oenothera",
     "Fuchsia",
@@ -7550,7 +7550,7 @@
     "gbif": 2430
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7562,7 +7562,7 @@
    "rank": "family",
    "name": "Vochysiaceae",
    "common": "vochysia family",
-   "speciesCount": 200,
+   "speciesCount": 249,
    "examples": [
     "Vochysia",
     "Qualea",
@@ -7573,7 +7573,7 @@
     "gbif": 3231623
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7585,7 +7585,7 @@
    "rank": "family",
    "name": "Myrtaceae",
    "common": "Eucalyptus, clove, guava, myrtle",
-   "speciesCount": 5500,
+   "speciesCount": 6404,
    "examples": [
     "Eucalyptus",
     "Syzygium",
@@ -7596,7 +7596,7 @@
     "gbif": 5014
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -7606,7 +7606,7 @@
    "rank": "family",
    "name": "Melastomataceae",
    "common": "Princess flowers",
-   "speciesCount": 5000,
+   "speciesCount": 6033,
    "examples": [
     "Melastoma",
     "Miconia",
@@ -7617,7 +7617,7 @@
     "gbif": 6683
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7628,7 +7628,7 @@
    "parent": "Myrtales",
    "rank": "family",
    "name": "Crypteroniaceae",
-   "speciesCount": 10,
+   "speciesCount": 12,
    "examples": [
     "Crypteronia",
     "Axinandra",
@@ -7639,7 +7639,7 @@
     "gbif": 3231456
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7659,7 +7659,7 @@
     "gbif": 5909
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7670,7 +7670,7 @@
    "parent": "Myrtales",
    "rank": "family",
    "name": "Penaeaceae",
-   "speciesCount": 30,
+   "speciesCount": 39,
    "examples": [
     "Penaea",
     "Olinia",
@@ -7681,7 +7681,7 @@
     "gbif": 3231458
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7715,7 +7715,7 @@
     "gbif": 3231453
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7735,7 +7735,7 @@
     "gbif": 3849533
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7756,7 +7756,7 @@
     "gbif": 3659525
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7778,7 +7778,7 @@
     "gbif": 6656
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7798,7 +7798,7 @@
     "gbif": 3744289
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7809,7 +7809,7 @@
    "parent": "Crossosomatales",
    "rank": "family",
    "name": "Stachyuraceae",
-   "speciesCount": 8,
+   "speciesCount": 10,
    "examples": [
     "Stachyurus"
    ],
@@ -7818,7 +7818,7 @@
     "gbif": 3701697
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7830,7 +7830,7 @@
    "rank": "family",
    "name": "Crossosomataceae",
    "common": "Rockflower",
-   "speciesCount": 12,
+   "speciesCount": 7,
    "examples": [
     "Crossosoma",
     "Apacheria",
@@ -7841,7 +7841,7 @@
     "gbif": 6668
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7866,7 +7866,7 @@
    "parent": "Picramniales",
    "rank": "family",
    "name": "Picramniaceae",
-   "speciesCount": 50,
+   "speciesCount": 57,
    "examples": [
     "Picramnia",
     "Alvaradoa"
@@ -7876,7 +7876,7 @@
     "gbif": 3694522
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7910,7 +7910,7 @@
     "gbif": 3597502
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7930,7 +7930,7 @@
     "gbif": 6710231
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7941,7 +7941,7 @@
    "parent": "Huerteales",
    "rank": "family",
    "name": "Tapisciaceae",
-   "speciesCount": 5,
+   "speciesCount": 6,
    "examples": [
     "Tapiscia",
     "Huertea"
@@ -7951,7 +7951,7 @@
     "gbif": 3643030
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7962,7 +7962,7 @@
    "parent": "Huerteales",
    "rank": "family",
    "name": "Dipentodontaceae",
-   "speciesCount": 16,
+   "speciesCount": 21,
    "examples": [
     "Dipentodon",
     "Perrottetia"
@@ -7972,7 +7972,7 @@
     "gbif": 4160293
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -7997,7 +7997,7 @@
    "parent": "Sapindales",
    "rank": "family",
    "name": "Biebersteiniaceae",
-   "speciesCount": 5,
+   "speciesCount": 4,
    "examples": [
     "Biebersteinia"
    ],
@@ -8006,7 +8006,7 @@
     "gbif": 4908001
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8017,7 +8017,7 @@
    "parent": "Sapindales",
    "rank": "family",
    "name": "Nitrariaceae",
-   "speciesCount": 16,
+   "speciesCount": 17,
    "examples": [
     "Nitraria",
     "Peganum",
@@ -8028,7 +8028,7 @@
     "gbif": 3233023
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8048,7 +8048,7 @@
     "gbif": 3233002
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8060,7 +8060,7 @@
    "rank": "family",
    "name": "Burseraceae",
    "common": "Frankincense, myrrh",
-   "speciesCount": 750,
+   "speciesCount": 772,
    "examples": [
     "Boswellia",
     "Commiphora",
@@ -8071,7 +8071,7 @@
     "gbif": 6659
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8083,7 +8083,7 @@
    "rank": "family",
    "name": "Anacardiaceae",
    "common": "Cashew, mango, pistachio, sumac",
-   "speciesCount": 800,
+   "speciesCount": 944,
    "examples": [
     "Mangifera",
     "Anacardium",
@@ -8094,7 +8094,7 @@
     "gbif": 2398
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8106,7 +8106,7 @@
    "rank": "family",
    "name": "Sapindaceae",
    "common": "Maple, lychee, horse chestnut",
-   "speciesCount": 1900,
+   "speciesCount": 1988,
    "examples": [
     "Acer",
     "Aesculus",
@@ -8117,7 +8117,7 @@
     "gbif": 6657
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8129,7 +8129,7 @@
    "rank": "family",
    "name": "Rutaceae",
    "common": "Citrus, rue",
-   "speciesCount": 2100,
+   "speciesCount": 2230,
    "examples": [
     "Citrus",
     "Ruta",
@@ -8140,7 +8140,7 @@
     "gbif": 2396
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -8150,7 +8150,7 @@
    "rank": "family",
    "name": "Simaroubaceae",
    "common": "Tree of heaven",
-   "speciesCount": 110,
+   "speciesCount": 127,
    "examples": [
     "Ailanthus",
     "Quassia",
@@ -8161,7 +8161,7 @@
     "gbif": 2395
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8173,7 +8173,7 @@
    "rank": "family",
    "name": "Meliaceae",
    "common": "Mahogany, neem",
-   "speciesCount": 700,
+   "speciesCount": 778,
    "examples": [
     "Swietenia",
     "Azadirachta",
@@ -8184,7 +8184,7 @@
     "gbif": 2397
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8209,7 +8209,7 @@
    "parent": "Malvales",
    "rank": "family",
    "name": "Cytinaceae",
-   "speciesCount": 11,
+   "speciesCount": 12,
    "examples": [
     "Cytinus",
     "Bdallophytum"
@@ -8219,7 +8219,7 @@
     "gbif": 4905897
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8242,7 +8242,7 @@
     "gbif": 2230
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8253,7 +8253,7 @@
    "parent": "Malvales",
    "rank": "family",
    "name": "Neuradaceae",
-   "speciesCount": 10,
+   "speciesCount": 8,
    "examples": [
     "Neurada",
     "Grielum"
@@ -8263,7 +8263,7 @@
     "gbif": 3701805
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8275,7 +8275,7 @@
    "rank": "family",
    "name": "Malvaceae",
    "common": "Mallows — cotton, cacao, okra, hibiscus",
-   "speciesCount": 4200,
+   "speciesCount": 5608,
    "examples": [
     "Gossypium",
     "Theobroma",
@@ -8286,7 +8286,7 @@
     "gbif": 6685
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8297,7 +8297,7 @@
    "parent": "Malvales",
    "rank": "family",
    "name": "Sphaerosepalaceae",
-   "speciesCount": 18,
+   "speciesCount": 20,
    "examples": [
     "Rhopalocarpus",
     "Dialyceras"
@@ -8307,7 +8307,7 @@
     "gbif": 3233918
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8319,7 +8319,7 @@
    "rank": "family",
    "name": "Thymelaeaceae",
    "common": "Daphne, paper mulberry",
-   "speciesCount": 900,
+   "speciesCount": 970,
    "examples": [
     "Daphne",
     "Aquilaria",
@@ -8330,7 +8330,7 @@
     "gbif": 2428
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8342,7 +8342,7 @@
    "rank": "family",
    "name": "Bixaceae",
    "common": "Annatto",
-   "speciesCount": 25,
+   "speciesCount": 27,
    "examples": [
     "Bixa orellana",
     "Cochlospermum"
@@ -8352,7 +8352,7 @@
     "gbif": 6637
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8364,7 +8364,7 @@
    "rank": "family",
    "name": "Cistaceae",
    "common": "Rock roses",
-   "speciesCount": 180,
+   "speciesCount": 295,
    "examples": [
     "Cistus",
     "Helianthemum",
@@ -8375,7 +8375,7 @@
     "gbif": 6635
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -8384,7 +8384,7 @@
    "parent": "Malvales",
    "rank": "family",
    "name": "Sarcolaenaceae",
-   "speciesCount": 60,
+   "speciesCount": 72,
    "examples": [
     "Sarcolaena",
     "Leptolaena",
@@ -8395,7 +8395,7 @@
     "gbif": 3783141
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8407,7 +8407,7 @@
    "rank": "family",
    "name": "Dipterocarpaceae",
    "common": "Dipterocarps (SE Asian rainforest trees)",
-   "speciesCount": 700,
+   "speciesCount": 540,
    "examples": [
     "Dipterocarpus",
     "Shorea",
@@ -8418,7 +8418,7 @@
     "gbif": 6645
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8451,7 +8451,7 @@
     "gbif": 3702273
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8463,7 +8463,7 @@
    "rank": "family",
    "name": "Tropaeolaceae",
    "common": "Nasturtiums",
-   "speciesCount": 95,
+   "speciesCount": 96,
    "examples": [
     "Tropaeolum"
    ],
@@ -8472,7 +8472,7 @@
     "gbif": 6696
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8493,7 +8493,7 @@
     "gbif": 6753
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8505,7 +8505,7 @@
    "rank": "family",
    "name": "Caricaceae",
    "common": "Papaya",
-   "speciesCount": 35,
+   "speciesCount": 44,
    "examples": [
     "Carica papaya",
     "Vasconcellea",
@@ -8516,7 +8516,7 @@
     "gbif": 6636
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8528,7 +8528,7 @@
    "rank": "family",
    "name": "Limnanthaceae",
    "common": "Meadowfoam",
-   "speciesCount": 8,
+   "speciesCount": 9,
    "examples": [
     "Limnanthes",
     "Floerkea"
@@ -8538,7 +8538,7 @@
     "gbif": 6698
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8558,7 +8558,7 @@
     "gbif": 5945
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8579,7 +8579,7 @@
     "gbif": 4899947
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8600,7 +8600,7 @@
     "gbif": 6353
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8612,7 +8612,7 @@
    "rank": "family",
    "name": "Salvadoraceae",
    "common": "Mustard tree",
-   "speciesCount": 11,
+   "speciesCount": 10,
    "examples": [
     "Salvadora",
     "Azima",
@@ -8623,7 +8623,7 @@
     "gbif": 3232304
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8643,7 +8643,7 @@
     "gbif": 4017850
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8663,7 +8663,7 @@
     "gbif": 5944
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8683,7 +8683,7 @@
     "gbif": 3232348
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8694,7 +8694,7 @@
    "parent": "Brassicales",
    "rank": "family",
    "name": "Gyrostemonaceae",
-   "speciesCount": 18,
+   "speciesCount": 20,
    "examples": [
     "Gyrostemon",
     "Codonocarpus",
@@ -8705,7 +8705,7 @@
     "gbif": 3232345
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8717,7 +8717,7 @@
    "rank": "family",
    "name": "Resedaceae",
    "common": "Mignonettes",
-   "speciesCount": 85,
+   "speciesCount": 118,
    "examples": [
     "Reseda"
    ],
@@ -8726,7 +8726,7 @@
     "gbif": 3110
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8738,7 +8738,7 @@
    "rank": "family",
    "name": "Capparaceae",
    "common": "Capers",
-   "speciesCount": 480,
+   "speciesCount": 442,
    "examples": [
     "Capparis",
     "Boscia",
@@ -8749,7 +8749,7 @@
     "gbif": 3111
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8761,7 +8761,7 @@
    "rank": "family",
    "name": "Cleomaceae",
    "common": "Spider flowers",
-   "speciesCount": 300,
+   "speciesCount": 226,
    "examples": [
     "Cleome",
     "Tarenaya"
@@ -8771,7 +8771,7 @@
     "gbif": 3845332
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8783,7 +8783,7 @@
    "rank": "family",
    "name": "Brassicaceae",
    "common": "Crucifers — cabbage, mustard, canola",
-   "speciesCount": 4000,
+   "speciesCount": 4258,
    "examples": [
     "Brassica",
     "Arabidopsis",
@@ -8794,7 +8794,7 @@
     "gbif": 3112
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -8834,7 +8834,7 @@
     "gbif": 4195636
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8846,7 +8846,7 @@
    "rank": "family",
    "name": "Berberidopsidaceae",
    "common": "Coral plant family",
-   "speciesCount": 3,
+   "speciesCount": 4,
    "examples": [
     "Berberidopsis corallina",
     "Streptothamnus"
@@ -8856,7 +8856,7 @@
     "gbif": 4195607
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8882,7 +8882,7 @@
    "rank": "family",
    "name": "Olacaceae",
    "common": "Olax family",
-   "speciesCount": 100,
+   "speciesCount": 184,
    "examples": [
     "Olax",
     "Ximenia (hog plum)"
@@ -8892,7 +8892,7 @@
     "gbif": 6662
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8903,7 +8903,7 @@
    "parent": "Santalales",
    "rank": "family",
    "name": "Opiliaceae",
-   "speciesCount": 33,
+   "speciesCount": 38,
    "examples": [
     "Opilia",
     "Champereia"
@@ -8913,7 +8913,7 @@
     "gbif": 3232649
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -8923,7 +8923,7 @@
    "rank": "family",
    "name": "Balanophoraceae",
    "common": "Balanophora family",
-   "speciesCount": 50,
+   "speciesCount": 62,
    "examples": [
     "Balanophora",
     "Langsdorffia"
@@ -8933,7 +8933,7 @@
     "gbif": 2401
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8945,7 +8945,7 @@
    "rank": "family",
    "name": "Santalaceae",
    "common": "Sandalwood, mistletoe",
-   "speciesCount": 990,
+   "speciesCount": 1134,
    "examples": [
     "Santalum (sandalwood)",
     "Viscum (mistletoe)",
@@ -8956,7 +8956,7 @@
     "gbif": 6661
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8968,7 +8968,7 @@
    "rank": "family",
    "name": "Misodendraceae",
    "common": "Feathery mistletoes",
-   "speciesCount": 11,
+   "speciesCount": 8,
    "examples": [
     "Misodendrum"
    ],
@@ -8977,7 +8977,7 @@
     "gbif": 3788560
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -8988,7 +8988,7 @@
    "parent": "Santalales",
    "rank": "family",
    "name": "Schoepfiaceae",
-   "speciesCount": 55,
+   "speciesCount": 34,
    "examples": [
     "Schoepfia",
     "Arjona",
@@ -8999,7 +8999,7 @@
     "gbif": 4894246
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9011,7 +9011,7 @@
    "rank": "family",
    "name": "Loranthaceae",
    "common": "Showy mistletoes",
-   "speciesCount": 1000,
+   "speciesCount": 1079,
    "examples": [
     "Loranthus",
     "Psittacanthus",
@@ -9022,7 +9022,7 @@
     "gbif": 6663
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9048,7 +9048,7 @@
    "rank": "family",
    "name": "Frankeniaceae",
    "common": "Sea heaths",
-   "speciesCount": 90,
+   "speciesCount": 86,
    "examples": [
     "Frankenia"
    ],
@@ -9057,7 +9057,7 @@
     "gbif": 2380
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9069,7 +9069,7 @@
    "rank": "family",
    "name": "Tamaricaceae",
    "common": "Tamarisks",
-   "speciesCount": 90,
+   "speciesCount": 113,
    "examples": [
     "Tamarix (salt cedar)",
     "Myricaria",
@@ -9080,7 +9080,7 @@
     "gbif": 6632
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9092,7 +9092,7 @@
    "rank": "family",
    "name": "Plumbaginaceae",
    "common": "Sea lavender, leadwort",
-   "speciesCount": 1000,
+   "speciesCount": 1141,
    "examples": [
     "Plumbago",
     "Limonium (sea lavender)",
@@ -9103,7 +9103,7 @@
     "gbif": 2419
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9115,7 +9115,7 @@
    "rank": "family",
    "name": "Polygonaceae",
    "common": "Buckwheat, rhubarb, knotweed",
-   "speciesCount": 1200,
+   "speciesCount": 1638,
    "examples": [
     "Rumex (dock)",
     "Rheum (rhubarb)",
@@ -9126,7 +9126,7 @@
     "gbif": 2416
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9138,7 +9138,7 @@
    "rank": "family",
    "name": "Droseraceae",
    "common": "Sundews, Venus flytrap",
-   "speciesCount": 250,
+   "speciesCount": 277,
    "examples": [
     "Drosera (sundew)",
     "Dionaea (Venus flytrap)",
@@ -9149,7 +9149,7 @@
     "gbif": 5399
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9161,7 +9161,7 @@
    "rank": "family",
    "name": "Nepenthaceae",
    "common": "Tropical pitcher plants",
-   "speciesCount": 160,
+   "speciesCount": 218,
    "examples": [
     "Nepenthes"
    ],
@@ -9170,7 +9170,7 @@
     "gbif": 6682
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -9189,7 +9189,7 @@
     "gbif": 4068322
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9211,7 +9211,7 @@
     "gbif": 4161355
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9231,7 +9231,7 @@
     "gbif": 3231640
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -9249,7 +9249,7 @@
     "gbif": 3880532
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9270,7 +9270,7 @@
     "gbif": 6702
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9290,7 +9290,7 @@
     "gbif": 4012755
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9310,7 +9310,7 @@
     "gbif": 3761052
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9321,7 +9321,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Macarthuriaceae",
-   "speciesCount": 10,
+   "speciesCount": 9,
    "examples": [
     "Macarthuria"
    ],
@@ -9330,7 +9330,7 @@
     "gbif": 7547450
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9350,7 +9350,7 @@
     "gbif": 4930835
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9362,7 +9362,7 @@
    "rank": "family",
    "name": "Caryophyllaceae",
    "common": "Carnations, pinks, chickweed",
-   "speciesCount": 2600,
+   "speciesCount": 3403,
    "examples": [
     "Dianthus (carnation)",
     "Silene (campion)",
@@ -9373,7 +9373,7 @@
     "gbif": 2518
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9394,7 +9394,7 @@
     "gbif": 3109
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9406,7 +9406,7 @@
    "rank": "family",
    "name": "Amaranthaceae",
    "common": "Amaranth, beet, spinach, quinoa",
-   "speciesCount": 2500,
+   "speciesCount": 2420,
    "examples": [
     "Amaranthus",
     "Beta (beet)",
@@ -9418,7 +9418,7 @@
     "gbif": 3064
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9429,7 +9429,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Stegnospermataceae",
-   "speciesCount": 3,
+   "speciesCount": 4,
    "examples": [
     "Stegnosperma"
    ],
@@ -9438,7 +9438,7 @@
     "gbif": 3685125
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9449,7 +9449,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Limeaceae",
-   "speciesCount": 21,
+   "speciesCount": 25,
    "examples": [
     "Limeum"
    ],
@@ -9458,7 +9458,7 @@
     "gbif": 4899387
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9469,7 +9469,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Lophiocarpaceae",
-   "speciesCount": 6,
+   "speciesCount": 7,
    "examples": [
     "Lophiocarpus",
     "Corbichonia"
@@ -9479,7 +9479,7 @@
     "gbif": 3718354
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9499,7 +9499,7 @@
     "gbif": 8353878
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9519,7 +9519,7 @@
     "gbif": 4191560
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9539,7 +9539,7 @@
     "gbif": 3794707
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9551,7 +9551,7 @@
    "rank": "family",
    "name": "Aizoaceae",
    "common": "Ice plants, living stones",
-   "speciesCount": 2000,
+   "speciesCount": 1815,
    "examples": [
     "Lithops (living stones)",
     "Mesembryanthemum",
@@ -9563,7 +9563,7 @@
     "gbif": 6752
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9575,7 +9575,7 @@
    "rank": "family",
    "name": "Phytolaccaceae",
    "common": "Pokeweeds",
-   "speciesCount": 33,
+   "speciesCount": 34,
    "examples": [
     "Phytolacca (pokeweed)"
    ],
@@ -9584,7 +9584,7 @@
     "gbif": 2516
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9595,7 +9595,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Petiveriaceae",
-   "speciesCount": 13,
+   "speciesCount": 22,
    "examples": [
     "Petiveria (guinea hen weed)",
     "Rivina (bloodberry)"
@@ -9605,7 +9605,7 @@
     "gbif": 4923867
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9626,7 +9626,7 @@
     "gbif": 3715435
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9638,7 +9638,7 @@
    "rank": "family",
    "name": "Nyctaginaceae",
    "common": "Bougainvillea, four o'clocks",
-   "speciesCount": 400,
+   "speciesCount": 465,
    "examples": [
     "Mirabilis (four o'clock)",
     "Bougainvillea",
@@ -9649,7 +9649,7 @@
     "gbif": 6718
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9661,7 +9661,7 @@
    "rank": "family",
    "name": "Molluginaceae",
    "common": "Carpetweeds",
-   "speciesCount": 90,
+   "speciesCount": 99,
    "examples": [
     "Mollugo (carpetweed)",
     "Glinus"
@@ -9671,7 +9671,7 @@
     "gbif": 2517
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9683,7 +9683,7 @@
    "rank": "family",
    "name": "Montiaceae",
    "common": "Miner's lettuce",
-   "speciesCount": 250,
+   "speciesCount": 271,
    "examples": [
     "Claytonia (spring beauty)",
     "Lewisia",
@@ -9695,7 +9695,7 @@
     "gbif": 4898338
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9718,7 +9718,7 @@
     "gbif": 3231952
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9730,7 +9730,7 @@
    "rank": "family",
    "name": "Basellaceae",
    "common": "Malabar spinach",
-   "speciesCount": 20,
+   "speciesCount": 19,
    "examples": [
     "Basella (Malabar spinach)",
     "Anredera",
@@ -9741,7 +9741,7 @@
     "gbif": 3063
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9761,7 +9761,7 @@
     "gbif": 5911
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9773,7 +9773,7 @@
    "rank": "family",
    "name": "Talinaceae",
    "common": "Fameflowers",
-   "speciesCount": 28,
+   "speciesCount": 29,
    "examples": [
     "Talinum (fameflower)"
    ],
@@ -9782,7 +9782,7 @@
     "gbif": 4055896
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9794,7 +9794,7 @@
    "rank": "family",
    "name": "Portulacaceae",
    "common": "Purslanes",
-   "speciesCount": 120,
+   "speciesCount": 154,
    "examples": [
     "Portulaca (purslane, moss rose)"
    ],
@@ -9803,7 +9803,7 @@
     "gbif": 6717
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9814,7 +9814,7 @@
    "parent": "Caryophyllales",
    "rank": "family",
    "name": "Anacampserotaceae",
-   "speciesCount": 36,
+   "speciesCount": 61,
    "examples": [
     "Anacampseros",
     "Avonia",
@@ -9825,7 +9825,7 @@
     "gbif": 4909163
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9837,7 +9837,7 @@
    "rank": "family",
    "name": "Cactaceae",
    "common": "Cacti",
-   "speciesCount": 1750,
+   "speciesCount": 2033,
    "examples": [
     "Opuntia (prickly pear)",
     "Carnegiea (saguaro)",
@@ -9849,7 +9849,7 @@
     "gbif": 2519
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -9880,7 +9880,7 @@
    "rank": "family",
    "name": "Nyssaceae",
    "common": "Tupelo, dove tree",
-   "speciesCount": 22,
+   "speciesCount": 37,
    "examples": [
     "Nyssa (tupelo)",
     "Davidia (dove tree)",
@@ -9891,7 +9891,7 @@
     "gbif": 6712
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9902,7 +9902,7 @@
    "parent": "Cornales",
    "rank": "family",
    "name": "Hydrostachyaceae",
-   "speciesCount": 20,
+   "speciesCount": 22,
    "examples": [
     "Hydrostachys"
    ],
@@ -9911,7 +9911,7 @@
     "gbif": 3610765
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9923,7 +9923,7 @@
    "rank": "family",
    "name": "Hydrangeaceae",
    "common": "Hydrangeas, mock orange",
-   "speciesCount": 200,
+   "speciesCount": 228,
    "examples": [
     "Hydrangea",
     "Philadelphus (mock orange)",
@@ -9934,7 +9934,7 @@
     "gbif": 6667
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9946,7 +9946,7 @@
    "rank": "family",
    "name": "Loasaceae",
    "common": "Stickleaf, blazing stars",
-   "speciesCount": 330,
+   "speciesCount": 337,
    "examples": [
     "Mentzelia (blazingstar)",
     "Loasa",
@@ -9957,7 +9957,7 @@
     "gbif": 2379
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9978,7 +9978,7 @@
     "gbif": 3231441
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -9998,7 +9998,7 @@
     "gbif": 3231429
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10010,7 +10010,7 @@
    "rank": "family",
    "name": "Cornaceae",
    "common": "Dogwoods",
-   "speciesCount": 85,
+   "speciesCount": 114,
    "examples": [
     "Cornus (dogwood)"
    ],
@@ -10019,7 +10019,7 @@
     "gbif": 6713
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10045,7 +10045,7 @@
    "rank": "family",
    "name": "Balsaminaceae",
    "common": "Impatiens, touch-me-not",
-   "speciesCount": 1000,
+   "speciesCount": 1192,
    "examples": [
     "Impatiens (busy Lizzie)",
     "Hydrocera"
@@ -10055,7 +10055,7 @@
     "gbif": 6699
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10067,7 +10067,7 @@
    "rank": "family",
    "name": "Marcgraviaceae",
    "common": "Shingle-plant family",
-   "speciesCount": 130,
+   "speciesCount": 137,
    "examples": [
     "Marcgravia",
     "Norantea",
@@ -10078,7 +10078,7 @@
     "gbif": 6643
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10089,7 +10089,7 @@
    "parent": "Ericales",
    "rank": "family",
    "name": "Tetrameristaceae",
-   "speciesCount": 5,
+   "speciesCount": 4,
    "examples": [
     "Tetramerista",
     "Pelliciera (mangrove)",
@@ -10100,7 +10100,7 @@
     "gbif": 3593836
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10122,7 +10122,7 @@
     "gbif": 6649
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10134,7 +10134,7 @@
    "rank": "family",
    "name": "Polemoniaceae",
    "common": "Phlox, Jacob's ladder",
-   "speciesCount": 400,
+   "speciesCount": 436,
    "examples": [
     "Phlox",
     "Polemonium (Jacob's ladder)",
@@ -10146,7 +10146,7 @@
     "gbif": 6648
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -10156,7 +10156,7 @@
    "rank": "family",
    "name": "Lecythidaceae",
    "common": "Brazil nut, cannonball tree",
-   "speciesCount": 350,
+   "speciesCount": 401,
    "examples": [
     "Bertholletia (Brazil nut)",
     "Couroupita (cannonball tree)",
@@ -10167,7 +10167,7 @@
     "gbif": 3990
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10188,7 +10188,7 @@
     "gbif": 4893863
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10199,7 +10199,7 @@
    "parent": "Ericales",
    "rank": "family",
    "name": "Pentaphylacaceae",
-   "speciesCount": 340,
+   "speciesCount": 549,
    "examples": [
     "Ternstroemia",
     "Eurya",
@@ -10211,7 +10211,7 @@
     "gbif": 4259202
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10223,7 +10223,7 @@
    "rank": "family",
    "name": "Sapotaceae",
    "common": "Shea, sapodilla, argan",
-   "speciesCount": 1100,
+   "speciesCount": 1379,
    "examples": [
     "Manilkara (sapodilla, chicle)",
     "Pouteria (mamey)",
@@ -10235,7 +10235,7 @@
     "gbif": 8802
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10247,7 +10247,7 @@
    "rank": "family",
    "name": "Ebenaceae",
    "common": "Ebony, persimmon",
-   "speciesCount": 770,
+   "speciesCount": 820,
    "examples": [
     "Diospyros (ebony, persimmon)",
     "Euclea"
@@ -10257,7 +10257,7 @@
     "gbif": 6709
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10269,7 +10269,7 @@
    "rank": "family",
    "name": "Primulaceae",
    "common": "Primroses, cyclamen",
-   "speciesCount": 2600,
+   "speciesCount": 3432,
    "examples": [
     "Primula (primrose)",
     "Cyclamen",
@@ -10281,7 +10281,7 @@
     "gbif": 6674
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10293,7 +10293,7 @@
    "rank": "family",
    "name": "Theaceae",
    "common": "Tea, camellia",
-   "speciesCount": 330,
+   "speciesCount": 388,
    "examples": [
     "Camellia (tea)",
     "Stewartia",
@@ -10305,7 +10305,7 @@
     "gbif": 3189597
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10317,7 +10317,7 @@
    "rank": "family",
    "name": "Symplocaceae",
    "common": "Sweetleaf",
-   "speciesCount": 320,
+   "speciesCount": 412,
    "examples": [
     "Symplocos (sweetleaf)"
    ],
@@ -10326,7 +10326,7 @@
     "gbif": 6708
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10337,7 +10337,7 @@
    "parent": "Ericales",
    "rank": "family",
    "name": "Diapensiaceae",
-   "speciesCount": 15,
+   "speciesCount": 19,
    "examples": [
     "Diapensia",
     "Galax",
@@ -10349,7 +10349,7 @@
     "gbif": 2512
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10361,7 +10361,7 @@
    "rank": "family",
    "name": "Styracaceae",
    "common": "Storax, snowbell",
-   "speciesCount": 160,
+   "speciesCount": 163,
    "examples": [
     "Styrax (storax)",
     "Halesia (silverbell)",
@@ -10372,7 +10372,7 @@
     "gbif": 2507
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10384,7 +10384,7 @@
    "rank": "family",
    "name": "Sarraceniaceae",
    "common": "New World pitcher plants",
-   "speciesCount": 35,
+   "speciesCount": 54,
    "examples": [
     "Sarracenia (trumpet pitcher)",
     "Darlingtonia (cobra lily)",
@@ -10395,7 +10395,7 @@
     "gbif": 2426
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10415,7 +10415,7 @@
     "gbif": 3234211
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10427,7 +10427,7 @@
    "rank": "family",
    "name": "Actinidiaceae",
    "common": "Kiwifruit",
-   "speciesCount": 360,
+   "speciesCount": 473,
    "examples": [
     "Actinidia (kiwifruit)",
     "Saurauia",
@@ -10438,7 +10438,7 @@
     "gbif": 2385
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10450,7 +10450,7 @@
    "rank": "family",
    "name": "Clethraceae",
    "common": "Sweet pepperbush",
-   "speciesCount": 75,
+   "speciesCount": 100,
    "examples": [
     "Clethra (summersweet)",
     "Purdiaea"
@@ -10460,7 +10460,7 @@
     "gbif": 6707
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10472,7 +10472,7 @@
    "rank": "family",
    "name": "Cyrillaceae",
    "common": "Titi, leatherwood",
-   "speciesCount": 3,
+   "speciesCount": 11,
    "examples": [
     "Cyrilla (swamp titi)",
     "Cliftonia (buckwheat tree)"
@@ -10482,7 +10482,7 @@
     "gbif": 6706
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10494,7 +10494,7 @@
    "rank": "family",
    "name": "Ericaceae",
    "common": "Heaths — blueberry, rhododendron, heather",
-   "speciesCount": 4000,
+   "speciesCount": 4761,
    "examples": [
     "Rhododendron",
     "Vaccinium (blueberry, cranberry)",
@@ -10506,7 +10506,7 @@
     "gbif": 2505
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10526,7 +10526,7 @@
     "gbif": 4271420
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10567,7 +10567,7 @@
     "gbif": 3659545
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10578,7 +10578,7 @@
    "parent": "Icacinales",
    "rank": "family",
    "name": "Icacinaceae",
-   "speciesCount": 160,
+   "speciesCount": 159,
    "examples": [
     "Icacina",
     "Cassinopsis",
@@ -10589,7 +10589,7 @@
     "gbif": 2513
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10614,7 +10614,7 @@
    "parent": "Metteniusales",
    "rank": "family",
    "name": "Metteniusaceae",
-   "speciesCount": 55,
+   "speciesCount": 66,
    "examples": [
     "Metteniusa",
     "Emmotum",
@@ -10625,7 +10625,7 @@
     "gbif": 4898632
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10660,7 +10660,7 @@
     "gbif": 3723582
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10672,7 +10672,7 @@
    "rank": "family",
    "name": "Garryaceae",
    "common": "Silk tassel",
-   "speciesCount": 20,
+   "speciesCount": 27,
    "examples": [
     "Garrya",
     "Aucuba"
@@ -10682,7 +10682,7 @@
     "gbif": 8805
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10708,7 +10708,7 @@
    "rank": "family",
    "name": "Rubiaceae",
    "common": "Coffee, gardenia, quinine",
-   "speciesCount": 13500,
+   "speciesCount": 14400,
    "examples": [
     "Coffea",
     "Cinchona",
@@ -10720,7 +10720,7 @@
     "gbif": 8798
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10732,7 +10732,7 @@
    "rank": "family",
    "name": "Gentianaceae",
    "common": "Gentians",
-   "speciesCount": 1700,
+   "speciesCount": 1903,
    "examples": [
     "Gentiana",
     "Centaurium",
@@ -10744,7 +10744,7 @@
     "gbif": 2503
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10756,7 +10756,7 @@
    "rank": "family",
    "name": "Loganiaceae",
    "common": "Strychnine tree",
-   "speciesCount": 460,
+   "speciesCount": 507,
    "examples": [
     "Strychnos",
     "Logania",
@@ -10767,7 +10767,7 @@
     "gbif": 2502
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10779,7 +10779,7 @@
    "rank": "family",
    "name": "Gelsemiaceae",
    "common": "Carolina jessamine",
-   "speciesCount": 13,
+   "speciesCount": 14,
    "examples": [
     "Gelsemium",
     "Mostuea"
@@ -10789,7 +10789,7 @@
     "gbif": 3782063
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10801,7 +10801,7 @@
    "rank": "family",
    "name": "Apocynaceae",
    "common": "Dogbane, oleander, milkweed, periwinkle",
-   "speciesCount": 5300,
+   "speciesCount": 6758,
    "examples": [
     "Nerium",
     "Asclepias",
@@ -10813,7 +10813,7 @@
     "gbif": 6701
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10839,7 +10839,7 @@
    "rank": "family",
    "name": "Boraginaceae",
    "common": "Borage, forget-me-not, comfrey",
-   "speciesCount": 2700,
+   "speciesCount": 3515,
    "examples": [
     "Myosotis",
     "Borago",
@@ -10851,7 +10851,7 @@
     "gbif": 2498
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10876,7 +10876,7 @@
    "parent": "Vahliales",
    "rank": "family",
    "name": "Vahliaceae",
-   "speciesCount": 8,
+   "speciesCount": 5,
    "examples": [
     "Vahlia"
    ],
@@ -10885,7 +10885,7 @@
     "gbif": 3232659
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10911,7 +10911,7 @@
    "rank": "family",
    "name": "Convolvulaceae",
    "common": "Morning glory, sweet potato",
-   "speciesCount": 1900,
+   "speciesCount": 1986,
    "examples": [
     "Ipomoea",
     "Convolvulus",
@@ -10922,7 +10922,7 @@
     "gbif": 2389
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10934,7 +10934,7 @@
    "rank": "family",
    "name": "Solanaceae",
    "common": "Nightshades — tomato, potato, pepper, tobacco",
-   "speciesCount": 2700,
+   "speciesCount": 2887,
    "examples": [
     "Solanum",
     "Capsicum",
@@ -10946,7 +10946,7 @@
     "gbif": 7717
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -10966,7 +10966,7 @@
     "gbif": 3234435
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10987,7 +10987,7 @@
     "gbif": 6754
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -10999,7 +10999,7 @@
    "rank": "family",
    "name": "Hydroleaceae",
    "common": "False fiddleleaf",
-   "speciesCount": 20,
+   "speciesCount": 14,
    "examples": [
     "Hydrolea"
    ],
@@ -11008,7 +11008,7 @@
     "gbif": 4900445
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11042,7 +11042,7 @@
     "gbif": 2231
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11063,7 +11063,7 @@
     "gbif": 3838279
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11075,7 +11075,7 @@
    "rank": "family",
    "name": "Oleaceae",
    "common": "Olive, ash, lilac, jasmine",
-   "speciesCount": 700,
+   "speciesCount": 772,
    "examples": [
     "Olea",
     "Fraxinus",
@@ -11087,7 +11087,7 @@
     "gbif": 6652
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11108,7 +11108,7 @@
     "gbif": 3585428
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -11118,7 +11118,7 @@
    "rank": "family",
    "name": "Calceolariaceae",
    "common": "Slipper flowers",
-   "speciesCount": 270,
+   "speciesCount": 274,
    "examples": [
     "Calceolaria",
     "Jovellana"
@@ -11128,7 +11128,7 @@
     "gbif": 3593883
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -11138,7 +11138,7 @@
    "rank": "family",
    "name": "Gesneriaceae",
    "common": "African violet, gloxinia",
-   "speciesCount": 3400,
+   "speciesCount": 4070,
    "examples": [
     "Saintpaulia",
     "Streptocarpus",
@@ -11150,7 +11150,7 @@
     "gbif": 6654
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11162,7 +11162,7 @@
    "rank": "family",
    "name": "Plantaginaceae",
    "common": "Plantains, snapdragon, foxglove",
-   "speciesCount": 1900,
+   "speciesCount": 2210,
    "examples": [
     "Plantago",
     "Digitalis",
@@ -11174,7 +11174,7 @@
     "gbif": 2420
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11186,7 +11186,7 @@
    "rank": "family",
    "name": "Scrophulariaceae",
    "common": "Figworts, buddleja",
-   "speciesCount": 1800,
+   "speciesCount": 2324,
    "examples": [
     "Scrophularia",
     "Verbascum",
@@ -11197,7 +11197,7 @@
     "gbif": 2390
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11218,7 +11218,7 @@
     "gbif": 3233534
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11230,7 +11230,7 @@
    "rank": "family",
    "name": "Linderniaceae",
    "common": "False pimpernels",
-   "speciesCount": 200,
+   "speciesCount": 330,
    "examples": [
     "Lindernia",
     "Torenia"
@@ -11240,7 +11240,7 @@
     "gbif": 4160847
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11261,7 +11261,7 @@
     "gbif": 3233844
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11273,7 +11273,7 @@
    "rank": "family",
    "name": "Martyniaceae",
    "common": "Devil's claw",
-   "speciesCount": 16,
+   "speciesCount": 14,
    "examples": [
     "Proboscidea",
     "Martynia",
@@ -11284,7 +11284,7 @@
     "gbif": 3233525
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11296,7 +11296,7 @@
    "rank": "family",
    "name": "Pedaliaceae",
    "common": "Sesame",
-   "speciesCount": 70,
+   "speciesCount": 79,
    "examples": [
     "Sesamum",
     "Pedalium",
@@ -11307,7 +11307,7 @@
     "gbif": 6650
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11319,7 +11319,7 @@
    "rank": "family",
    "name": "Acanthaceae",
    "common": "Acanthus, black-eyed Susan vine",
-   "speciesCount": 4900,
+   "speciesCount": 5603,
    "examples": [
     "Acanthus",
     "Justicia",
@@ -11331,7 +11331,7 @@
     "gbif": 2393
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11343,7 +11343,7 @@
    "rank": "family",
    "name": "Bignoniaceae",
    "common": "Jacaranda, catalpa, trumpet vine",
-   "speciesCount": 800,
+   "speciesCount": 890,
    "examples": [
     "Catalpa",
     "Jacaranda",
@@ -11355,7 +11355,7 @@
     "gbif": 6655
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11367,7 +11367,7 @@
    "rank": "family",
    "name": "Lentibulariaceae",
    "common": "Bladderworts, butterworts",
-   "speciesCount": 350,
+   "speciesCount": 453,
    "examples": [
     "Utricularia",
     "Pinguicula",
@@ -11378,7 +11378,7 @@
     "gbif": 2391
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11389,7 +11389,7 @@
    "parent": "Lamiales",
    "rank": "family",
    "name": "Schlegeliaceae",
-   "speciesCount": 30,
+   "speciesCount": 38,
    "examples": [
     "Schlegelia"
    ],
@@ -11398,7 +11398,7 @@
     "gbif": 3609121
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11418,7 +11418,7 @@
     "gbif": 3874446
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11430,7 +11430,7 @@
    "rank": "family",
    "name": "Verbenaceae",
    "common": "Verbena, lantana, teak",
-   "speciesCount": 800,
+   "speciesCount": 950,
    "examples": [
     "Verbena",
     "Lantana",
@@ -11441,7 +11441,7 @@
     "gbif": 6689
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11453,7 +11453,7 @@
    "rank": "family",
    "name": "Lamiaceae",
    "common": "Mints — basil, lavender, sage, rosemary",
-   "speciesCount": 7500,
+   "speciesCount": 8295,
    "examples": [
     "Basil",
     "Lavender",
@@ -11465,7 +11465,7 @@
     "gbif": 2497
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -11474,7 +11474,7 @@
    "parent": "Lamiales",
    "rank": "family",
    "name": "Mazaceae",
-   "speciesCount": 35,
+   "speciesCount": 50,
    "examples": [
     "Mazus",
     "Lancea"
@@ -11484,7 +11484,7 @@
     "gbif": 8247763
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11496,7 +11496,7 @@
    "rank": "family",
    "name": "Phrymaceae",
    "common": "Monkeyflowers",
-   "speciesCount": 190,
+   "speciesCount": 230,
    "examples": [
     "Mimulus",
     "Phryma",
@@ -11507,7 +11507,7 @@
     "gbif": 4194986
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11519,7 +11519,7 @@
    "rank": "family",
    "name": "Paulowniaceae",
    "common": "Empress tree",
-   "speciesCount": 7,
+   "speciesCount": 11,
    "examples": [
     "Paulownia"
    ],
@@ -11528,7 +11528,7 @@
     "gbif": 4896863
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11540,7 +11540,7 @@
    "rank": "family",
    "name": "Orobanchaceae",
    "common": "Broomrapes, Indian paintbrush",
-   "speciesCount": 2100,
+   "speciesCount": 2287,
    "examples": [
     "Orobanche",
     "Striga",
@@ -11552,7 +11552,7 @@
     "gbif": 6651
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -11582,7 +11582,7 @@
    "parent": "Aquifoliales",
    "rank": "family",
    "name": "Stemonuraceae",
-   "speciesCount": 95,
+   "speciesCount": 80,
    "examples": [
     "Stemonurus",
     "Gomphandra",
@@ -11593,7 +11593,7 @@
     "gbif": 4087082
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11604,7 +11604,7 @@
    "parent": "Aquifoliales",
    "rank": "family",
    "name": "Cardiopteridaceae",
-   "speciesCount": 43,
+   "speciesCount": 41,
    "examples": [
     "Cardiopteris",
     "Citronella",
@@ -11615,7 +11615,7 @@
     "gbif": 3233863
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11626,7 +11626,7 @@
    "parent": "Aquifoliales",
    "rank": "family",
    "name": "Phyllonomaceae",
-   "speciesCount": 4,
+   "speciesCount": 5,
    "examples": [
     "Phyllonoma"
    ],
@@ -11635,7 +11635,7 @@
     "gbif": 4896346
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11647,7 +11647,7 @@
    "rank": "family",
    "name": "Helwingiaceae",
    "common": "Helwingia",
-   "speciesCount": 5,
+   "speciesCount": 4,
    "examples": [
     "Helwingia japonica",
     "Helwingia chinensis"
@@ -11657,7 +11657,7 @@
     "gbif": 3697177
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11669,7 +11669,7 @@
    "rank": "family",
    "name": "Aquifoliaceae",
    "common": "Hollies",
-   "speciesCount": 600,
+   "speciesCount": 577,
    "examples": [
     "Ilex aquifolium (holly)",
     "Ilex paraguariensis (yerba mate)",
@@ -11680,7 +11680,7 @@
     "gbif": 6716
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11705,7 +11705,7 @@
    "parent": "Asterales",
    "rank": "family",
    "name": "Rousseaceae",
-   "speciesCount": 13,
+   "speciesCount": 15,
    "examples": [
     "Roussea",
     "Carpodetus",
@@ -11716,7 +11716,7 @@
     "gbif": 4894506
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11728,7 +11728,7 @@
    "rank": "family",
    "name": "Campanulaceae",
    "common": "Bellflowers, lobelia",
-   "speciesCount": 2400,
+   "speciesCount": 2526,
    "examples": [
     "Campanula (bellflower)",
     "Lobelia",
@@ -11739,7 +11739,7 @@
     "gbif": 8801
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11750,7 +11750,7 @@
    "parent": "Asterales",
    "rank": "family",
    "name": "Pentaphragmataceae",
-   "speciesCount": 30,
+   "speciesCount": 32,
    "examples": [
     "Pentaphragma"
    ],
@@ -11759,7 +11759,7 @@
     "gbif": 3232097
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11771,7 +11771,7 @@
    "rank": "family",
    "name": "Stylidiaceae",
    "common": "Triggerplants",
-   "speciesCount": 240,
+   "speciesCount": 329,
    "examples": [
     "Stylidium (triggerplant)",
     "Levenhookia",
@@ -11782,7 +11782,7 @@
     "gbif": 3232107
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11804,7 +11804,7 @@
     "gbif": 3686178
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11815,7 +11815,7 @@
    "parent": "Asterales",
    "rank": "family",
    "name": "Phellinaceae",
-   "speciesCount": 12,
+   "speciesCount": 10,
    "examples": [
     "Phelline"
    ],
@@ -11824,7 +11824,7 @@
     "gbif": 3562486
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11835,7 +11835,7 @@
    "parent": "Asterales",
    "rank": "family",
    "name": "Argophyllaceae",
-   "speciesCount": 70,
+   "speciesCount": 25,
    "examples": [
     "Argophyllum",
     "Corokia"
@@ -11845,7 +11845,7 @@
     "gbif": 3789900
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11857,7 +11857,7 @@
    "rank": "family",
    "name": "Menyanthaceae",
    "common": "Bogbean",
-   "speciesCount": 60,
+   "speciesCount": 73,
    "examples": [
     "Menyanthes (bogbean)",
     "Nymphoides (floating heart)",
@@ -11868,7 +11868,7 @@
     "gbif": 2386
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11880,7 +11880,7 @@
    "rank": "family",
    "name": "Goodeniaceae",
    "common": "Fan flowers",
-   "speciesCount": 430,
+   "speciesCount": 475,
    "examples": [
     "Scaevola (fan flower)",
     "Goodenia",
@@ -11891,7 +11891,7 @@
     "gbif": 3113
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11902,7 +11902,7 @@
    "parent": "Asterales",
    "rank": "family",
    "name": "Calyceraceae",
-   "speciesCount": 60,
+   "speciesCount": 47,
    "examples": [
     "Calycera",
     "Acicarpha",
@@ -11913,7 +11913,7 @@
     "gbif": 6756
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11925,7 +11925,7 @@
    "rank": "family",
    "name": "Asteraceae",
    "common": "Daisies — sunflower, lettuce, dandelion",
-   "speciesCount": 32000,
+   "speciesCount": 35483,
    "examples": [
     "Helianthus (sunflower)",
     "Taraxacum (dandelion)",
@@ -11937,7 +11937,7 @@
     "gbif": 3065
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11963,7 +11963,7 @@
    "rank": "family",
    "name": "Escalloniaceae",
    "common": "Escallonias",
-   "speciesCount": 130,
+   "speciesCount": 158,
    "examples": [
     "Escallonia",
     "Anopterus",
@@ -11974,7 +11974,7 @@
     "gbif": 3234486
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -11999,7 +11999,7 @@
    "parent": "Bruniales",
    "rank": "family",
    "name": "Columelliaceae",
-   "speciesCount": 5,
+   "speciesCount": 8,
    "examples": [
     "Columellia",
     "Desfontainia"
@@ -12009,7 +12009,7 @@
     "gbif": 3701734
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12020,7 +12020,7 @@
    "parent": "Bruniales",
    "rank": "family",
    "name": "Bruniaceae",
-   "speciesCount": 75,
+   "speciesCount": 81,
    "examples": [
     "Brunia",
     "Berzelia",
@@ -12031,7 +12031,7 @@
     "gbif": 3232036
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12067,7 +12067,7 @@
     "gbif": 3597505
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12116,7 +12116,7 @@
    "rank": "family",
    "name": "Caprifoliaceae",
    "common": "Honeysuckle, teasel, valerian",
-   "speciesCount": 860,
+   "speciesCount": 1127,
    "examples": [
     "Lonicera (honeysuckle)",
     "Valeriana",
@@ -12128,7 +12128,7 @@
     "gbif": 6710
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif"
    }
   },
@@ -12160,7 +12160,7 @@
     "gbif": 4896790
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12171,7 +12171,7 @@
    "parent": "Apiales",
    "rank": "family",
    "name": "Torricelliaceae",
-   "speciesCount": 10,
+   "speciesCount": 11,
    "examples": [
     "Torricellia",
     "Aralidium",
@@ -12182,7 +12182,7 @@
     "gbif": 4259117
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12203,7 +12203,7 @@
     "gbif": 3232522
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12215,7 +12215,7 @@
    "rank": "family",
    "name": "Pittosporaceae",
    "common": "Pittosporum, cheesewood",
-   "speciesCount": 240,
+   "speciesCount": 324,
    "examples": [
     "Pittosporum",
     "Sollya (bluebell creeper)",
@@ -12226,7 +12226,7 @@
     "gbif": 6666
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12238,7 +12238,7 @@
    "rank": "family",
    "name": "Araliaceae",
    "common": "Ivy, ginseng, schefflera",
-   "speciesCount": 1500,
+   "speciesCount": 1715,
    "examples": [
     "Hedera (ivy)",
     "Panax (ginseng)",
@@ -12250,7 +12250,7 @@
     "gbif": 8800
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12261,7 +12261,7 @@
    "parent": "Apiales",
    "rank": "family",
    "name": "Myodocarpaceae",
-   "speciesCount": 19,
+   "speciesCount": 15,
    "examples": [
     "Myodocarpus",
     "Delarbrea"
@@ -12271,7 +12271,7 @@
     "gbif": 3745637
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },
@@ -12283,7 +12283,7 @@
    "rank": "family",
    "name": "Apiaceae",
    "common": "Carrot, celery, parsley, fennel",
-   "speciesCount": 3700,
+   "speciesCount": 3996,
    "examples": [
     "Daucus (carrot)",
     "Apium (celery)",
@@ -12295,7 +12295,7 @@
     "gbif": 6720
    },
    "provenance": {
-    "speciesCount": "estimate",
+    "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif"
    },

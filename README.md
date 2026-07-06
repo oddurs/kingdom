@@ -14,6 +14,7 @@ data/taxa.json          canonical data — flat, one record per taxon (source of
 data/taxon.schema.json  JSON Schema for a taxon record
 build/build.py          validates taxa.json, derives the nested tree, injects it
 build/fetch.py          enriches taxa.json with GBIF ids + metrics (run with internet)
+build/wcvp.py           applies Kew WCVP accepted-species counts (needs the dump)
 build/template.html     markup + CSS + JS, with a /*__DATA__*/ placeholder
 plant-tree.html         generated, self-contained visualization (commit artifact)
 ```
@@ -54,16 +55,21 @@ carrying `provenance: estimate` are approximate and await a sourced value —
 ```sh
 python3 build/build.py     # validate taxa.json → derive tree → plant-tree.html
 python3 build/fetch.py     # (with internet) fill GBIF ids + metrics into taxa.json
+python3 build/wcvp.py      # apply Kew WCVP accepted-species counts (needs the dump)
 ```
 
 `fetch.py` is idempotent and throttled. It writes GBIF `usageKey`s (identifiers +
 deep links) and GBIF species counts (stored separately as `gbifSpeciesCount`,
 since the backbone count includes synonyms and is *not* the accepted-species
-display number). Accepted counts come from Kew's WCVP, a bulk download rather than
-a per-taxon API.
+display number).
 
-Edit the data in `data/plant-taxonomy.json` or the presentation in
-`build/template.html`, then rebuild.
+`wcvp.py` sets the honest `speciesCount` from Kew's [WCVP](https://sftp.kew.org/pub/data-repositories/WCVP/)
+— accepted species only. WCVP is a bulk download (~440 MB), not an API: unzip it
+into `data/wcvp/` (git-ignored) and run the script. Families WCVP circumscribes
+differently (e.g. Adoxaceae → Viburnaceae, some fern families) keep their estimate.
+
+Edit the data in `data/taxa.json` or the presentation in `build/template.html`,
+then rebuild.
 
 ## Controls
 
