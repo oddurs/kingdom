@@ -25,7 +25,7 @@ PLACEHOLDER = "/*__DATA__*/"
 
 # viz-facing node fields, in output order (provenance is intentionally omitted —
 # the visualization doesn't render it; it lives in the canonical data).
-NODE_FIELDS = ["name", "rank", "common", "speciesCount", "examples", "blurb", "ids"]
+NODE_FIELDS = ["name", "rank", "common", "speciesCount", "examples", "blurb", "ids", "dist"]
 
 
 def validate(meta, taxa):
