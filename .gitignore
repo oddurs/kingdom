@@ -7,3 +7,6 @@ __pycache__/
 
 # raw WCVP bulk download (regenerate from Kew; do not commit)
 data/wcvp/
+
+# dated plant megatree (Jin & Qian 2022; regenerate from GitHub)
+data/megatree/
