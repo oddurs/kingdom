@@ -47,6 +47,11 @@
    "estimate": {
     "title": "Approximate estimate",
     "role": "placeholder pending sourced value"
+   },
+   "megatree": {
+    "name": "Dated plant megatree (GBOTB.extended): Jin & Qian 2022; Smith & Brown 2018; Zanne et al. 2014",
+    "url": "https://github.com/megatrees/plant_20221117",
+    "license": "CC-BY (see repository)"
    }
   }
  },
@@ -57,7 +62,11 @@
    "rank": "kingdom",
    "name": "Plantae",
    "common": "Land plants",
-   "ids": {}
+   "ids": {},
+   "ageMy": 390.7,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Bryophytes",
@@ -390,7 +399,11 @@
    "rank": "clade",
    "name": "Tracheophytes",
    "common": "Vascular plants",
-   "ids": {}
+   "ids": {},
+   "ageMy": 390.7,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Lycopodiopsida",
@@ -403,9 +416,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2089
+   "gbifSpeciesCount": 2089,
+   "ageMy": 303.1
   },
   {
    "id": "Lycopodiales",
@@ -417,9 +432,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 753
+   "gbifSpeciesCount": 753,
+   "ageMy": 265.0
   },
   {
    "id": "Lycopodiaceae",
@@ -441,7 +458,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 700,
    "dist": {
@@ -454,7 +472,8 @@
     "5": 24,
     "1": 17,
     "9": 8
-   }
+   },
+   "ageMy": 265.0
   },
   {
    "id": "Isoetales",
@@ -466,9 +485,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 287
+   "gbifSpeciesCount": 287,
+   "ageMy": 61.3
   },
   {
    "id": "Isoetaceae",
@@ -488,7 +509,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 258,
    "dist": {
@@ -500,7 +522,8 @@
     "5": 18,
     "4": 13,
     "6": 1
-   }
+   },
+   "ageMy": 61.3
   },
   {
    "id": "Selaginellales",
@@ -512,9 +535,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 861
+   "gbifSpeciesCount": 861,
+   "ageMy": 149.2
   },
   {
    "id": "Selaginellaceae",
@@ -534,7 +559,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 859,
    "dist": {
@@ -546,7 +572,8 @@
     "6": 44,
     "5": 11,
     "1": 3
-   }
+   },
+   "ageMy": 149.2
   },
   {
    "id": "Polypodiopsida",
@@ -559,9 +586,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 17073
+   "gbifSpeciesCount": 17073,
+   "ageMy": 330.0
   },
   {
    "id": "Equisetidae",
@@ -569,7 +598,11 @@
    "rank": "subclass",
    "name": "Equisetidae",
    "common": "Horsetails",
-   "ids": {}
+   "ids": {},
+   "ageMy": 182.6,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Equisetales",
@@ -581,9 +614,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 228
+   "gbifSpeciesCount": 228,
+   "ageMy": 182.6
   },
   {
    "id": "Equisetaceae",
@@ -603,7 +638,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 117,
    "dist": {
@@ -614,14 +650,19 @@
     "4": 5,
     "2": 3,
     "6": 1
-   }
+   },
+   "ageMy": 182.6
   },
   {
    "id": "Ophioglossidae",
    "parent": "Polypodiopsida",
    "rank": "subclass",
    "name": "Ophioglossidae",
-   "ids": {}
+   "ids": {},
+   "ageMy": 214.5,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Psilotales",
@@ -633,9 +674,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 29
+   "gbifSpeciesCount": 29,
+   "ageMy": 110.5
   },
   {
    "id": "Psilotaceae",
@@ -656,7 +699,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 29,
    "dist": {
@@ -668,7 +712,8 @@
     "2": 2,
     "1": 1,
     "3": 1
-   }
+   },
+   "ageMy": 110.5
   },
   {
    "id": "Ophioglossales",
@@ -680,9 +725,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 178
+   "gbifSpeciesCount": 178,
+   "ageMy": 138.0
   },
   {
    "id": "Ophioglossaceae",
@@ -703,7 +750,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 178,
    "dist": {
@@ -716,14 +764,19 @@
     "5": 12,
     "6": 10,
     "9": 3
-   }
+   },
+   "ageMy": 138.0
   },
   {
    "id": "Marattiidae",
    "parent": "Polypodiopsida",
    "rank": "subclass",
    "name": "Marattiidae",
-   "ids": {}
+   "ids": {},
+   "ageMy": 219.1,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Marattiales",
@@ -735,9 +788,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 270
+   "gbifSpeciesCount": 270,
+   "ageMy": 219.1
   },
   {
    "id": "Marattiaceae",
@@ -758,7 +813,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 230,
    "dist": {
@@ -769,7 +825,8 @@
     "2": 11,
     "7": 7,
     "5": 4
-   }
+   },
+   "ageMy": 219.1
   },
   {
    "id": "Polypodiidae",
@@ -777,7 +834,11 @@
    "rank": "subclass",
    "name": "Polypodiidae",
    "common": "Leptosporangiate ferns",
-   "ids": {}
+   "ids": {},
+   "ageMy": 239.3,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Osmundales",
@@ -789,9 +850,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 173
+   "gbifSpeciesCount": 173,
+   "ageMy": 172.5
   },
   {
    "id": "Osmundaceae",
@@ -812,7 +875,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 171,
    "dist": {
@@ -824,7 +888,8 @@
     "8": 2,
     "1": 1,
     "6": 1
-   }
+   },
+   "ageMy": 172.5
   },
   {
    "id": "Hymenophyllales",
@@ -836,9 +901,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 771
+   "gbifSpeciesCount": 771,
+   "ageMy": 112.2
   },
   {
    "id": "Hymenophyllaceae",
@@ -859,7 +926,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 771,
    "dist": {
@@ -872,7 +940,8 @@
     "7": 53,
     "9": 9,
     "1": 4
-   }
+   },
+   "ageMy": 112.2
   },
   {
    "id": "Gleicheniales",
@@ -884,9 +953,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 325
+   "gbifSpeciesCount": 325,
+   "ageMy": 123.7
   },
   {
    "id": "Gleicheniaceae",
@@ -907,7 +978,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 241,
    "dist": {
@@ -919,7 +991,8 @@
     "2": 10,
     "7": 8,
     "9": 2
-   }
+   },
+   "ageMy": 118.5
   },
   {
    "id": "Dipteridaceae",
@@ -940,7 +1013,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 45,
    "dist": {
@@ -948,7 +1022,8 @@
     "3": 6,
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 118.5
   },
   {
    "id": "Matoniaceae",
@@ -969,12 +1044,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 39,
    "dist": {
     "4": 4
-   }
+   },
+   "ageMy": 118.5
   },
   {
    "id": "Schizaeales",
@@ -986,9 +1063,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 409
+   "gbifSpeciesCount": 409,
+   "ageMy": 138.9
   },
   {
    "id": "Lygodiaceae",
@@ -1007,9 +1086,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 50
+   "gbifSpeciesCount": 50,
+   "ageMy": 64.1
   },
   {
    "id": "Schizaeaceae",
@@ -1030,7 +1111,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 148,
    "dist": {
@@ -1042,7 +1124,8 @@
     "5": 12,
     "3": 11,
     "9": 1
-   }
+   },
+   "ageMy": 39.3
   },
   {
    "id": "Anemiaceae",
@@ -1061,9 +1144,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 165
+   "gbifSpeciesCount": 165,
+   "ageMy": 76.5
   },
   {
    "id": "Salviniales",
@@ -1075,9 +1160,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 153
+   "gbifSpeciesCount": 153,
+   "ageMy": 102.7
   },
   {
    "id": "Salviniaceae",
@@ -1098,7 +1185,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 50,
    "dist": {
@@ -1111,7 +1199,8 @@
     "1": 1,
     "9": 1,
     "6": 1
-   }
+   },
+   "ageMy": 86.4
   },
   {
    "id": "Marsileaceae",
@@ -1133,7 +1222,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 98,
    "dist": {
@@ -1145,7 +1235,8 @@
     "3": 6,
     "4": 6,
     "6": 2
-   }
+   },
+   "ageMy": 95.0
   },
   {
    "id": "Cyatheales",
@@ -1158,9 +1249,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1085
+   "gbifSpeciesCount": 1085,
+   "ageMy": 106.4
   },
   {
    "id": "Thyrsopteridaceae",
@@ -1179,9 +1272,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 2
+   "gbifSpeciesCount": 2,
+   "ageMy": 101.4
   },
   {
    "id": "Loxsomataceae",
@@ -1201,9 +1296,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 4
+   "gbifSpeciesCount": 4,
+   "ageMy": 88.7
   },
   {
    "id": "Culcitaceae",
@@ -1222,9 +1319,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 2
+   "gbifSpeciesCount": 2,
+   "ageMy": 60.0
   },
   {
    "id": "Plagiogyriaceae",
@@ -1243,9 +1342,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 19
+   "gbifSpeciesCount": 19,
+   "ageMy": 60.0
   },
   {
    "id": "Cibotiaceae",
@@ -1264,9 +1365,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 16
+   "gbifSpeciesCount": 16,
+   "ageMy": 69.5
   },
   {
    "id": "Metaxyaceae",
@@ -1285,9 +1388,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 6
+   "gbifSpeciesCount": 6,
+   "ageMy": 78.9
   },
   {
    "id": "Dicksoniaceae",
@@ -1307,9 +1412,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 81
+   "gbifSpeciesCount": 81,
+   "ageMy": 48.1
   },
   {
    "id": "Cyatheaceae",
@@ -1331,7 +1438,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 946,
    "dist": {
@@ -1343,7 +1451,8 @@
     "5": 33,
     "7": 24,
     "1": 1
-   }
+   },
+   "ageMy": 37.1
   },
   {
    "id": "Polypodiales",
@@ -1355,9 +1464,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 13185
+   "gbifSpeciesCount": 13185,
+   "ageMy": 125.0
   },
   {
    "id": "Saccolomataceae",
@@ -1377,7 +1488,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 23,
    "dist": {
@@ -1387,7 +1499,8 @@
     "7": 1,
     "3": 1,
     "2": 1
-   }
+   },
+   "ageMy": 116.9
   },
   {
    "id": "Cystodiaceae",
@@ -1460,7 +1573,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 307,
    "dist": {
@@ -1471,7 +1585,8 @@
     "2": 24,
     "5": 19,
     "7": 11
-   }
+   },
+   "ageMy": 65.8
   },
   {
    "id": "Pteridaceae",
@@ -1493,7 +1608,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2138,
    "dist": {
@@ -1506,7 +1622,8 @@
     "5": 68,
     "1": 24,
     "9": 4
-   }
+   },
+   "ageMy": 77.3
   },
   {
    "id": "Dennstaedtiaceae",
@@ -1528,7 +1645,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 322,
    "dist": {
@@ -1541,7 +1659,8 @@
     "5": 21,
     "1": 2,
     "9": 2
-   }
+   },
+   "ageMy": 125.0
   },
   {
    "id": "Cystopteridaceae",
@@ -1561,9 +1680,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 65
+   "gbifSpeciesCount": 65,
+   "ageMy": 53.6
   },
   {
    "id": "Rhachidosoraceae",
@@ -1582,9 +1703,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 8
+   "gbifSpeciesCount": 8,
+   "ageMy": 88.6
   },
   {
    "id": "Diplaziopsidaceae",
@@ -1604,9 +1727,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4
+   "gbifSpeciesCount": 4,
+   "ageMy": 86.6
   },
   {
    "id": "Desmophlebiaceae",
@@ -1668,7 +1793,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1355,
    "dist": {
@@ -1681,7 +1807,8 @@
     "1": 148,
     "5": 144,
     "9": 17
-   }
+   },
+   "ageMy": 69.2
   },
   {
    "id": "Woodsiaceae",
@@ -1700,9 +1827,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 68
+   "gbifSpeciesCount": 68,
+   "ageMy": 44.7
   },
   {
    "id": "Onocleaceae",
@@ -1722,9 +1851,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 17
+   "gbifSpeciesCount": 17,
+   "ageMy": 19.9
   },
   {
    "id": "Blechnaceae",
@@ -1744,9 +1875,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 381
+   "gbifSpeciesCount": 381,
+   "ageMy": 16.3
   },
   {
    "id": "Athyriaceae",
@@ -1767,9 +1900,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1048
+   "gbifSpeciesCount": 1048,
+   "ageMy": 90.6
   },
   {
    "id": "Thelypteridaceae",
@@ -1789,9 +1924,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1390
+   "gbifSpeciesCount": 1390,
+   "ageMy": 35.0
   },
   {
    "id": "Didymochlaenaceae",
@@ -1833,7 +1970,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 31,
    "dist": {
@@ -1841,7 +1979,8 @@
     "4": 12,
     "2": 3,
     "6": 1
-   }
+   },
+   "ageMy": 67.2
   },
   {
    "id": "Dryopteridaceae",
@@ -1862,9 +2001,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2848
+   "gbifSpeciesCount": 2848,
+   "ageMy": 52.1
   },
   {
    "id": "Nephrolepidaceae",
@@ -1883,9 +2024,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 79
+   "gbifSpeciesCount": 79,
+   "ageMy": 6.3
   },
   {
    "id": "Lomariopsidaceae",
@@ -1906,9 +2049,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 90
+   "gbifSpeciesCount": 90,
+   "ageMy": 41.0
   },
   {
    "id": "Tectariaceae",
@@ -1927,9 +2072,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 488
+   "gbifSpeciesCount": 488,
+   "ageMy": 30.3
   },
   {
    "id": "Oleandraceae",
@@ -1948,9 +2095,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 49
+   "gbifSpeciesCount": 49,
+   "ageMy": 24.4
   },
   {
    "id": "Davalliaceae",
@@ -1969,9 +2118,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 118
+   "gbifSpeciesCount": 118,
+   "ageMy": 24.4
   },
   {
    "id": "Polypodiaceae",
@@ -1992,7 +2143,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 1722,
@@ -2004,7 +2156,8 @@
     "5": 133,
     "1": 68,
     "9": 25
-   }
+   },
+   "ageMy": 29.3
   },
   {
    "id": "Spermatophytes",
@@ -2012,7 +2165,11 @@
    "rank": "clade",
    "name": "Spermatophytes",
    "common": "Seed plants",
-   "ids": {}
+   "ids": {},
+   "ageMy": 325.1,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Gymnosperms",
@@ -2020,7 +2177,11 @@
    "rank": "clade",
    "name": "Gymnosperms",
    "common": "Naked-seed plants",
-   "ids": {}
+   "ids": {},
+   "ageMy": 270.9,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Cycadidae",
@@ -2028,7 +2189,11 @@
    "rank": "class",
    "name": "Cycadidae",
    "common": "Cycads",
-   "ids": {}
+   "ids": {},
+   "ageMy": 147.8,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Cycadales",
@@ -2040,9 +2205,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 832
+   "gbifSpeciesCount": 832,
+   "ageMy": 147.8
   },
   {
    "id": "Cycadaceae",
@@ -2063,7 +2230,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 209,
    "dist": {
@@ -2072,7 +2240,8 @@
     "3": 21,
     "6": 2,
     "2": 1
-   }
+   },
+   "ageMy": 17.1
   },
   {
    "id": "Zamiaceae",
@@ -2095,7 +2264,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 383,
    "dist": {
@@ -2103,7 +2273,8 @@
     "7": 77,
     "2": 61,
     "5": 45
-   }
+   },
+   "ageMy": 74.8
   },
   {
    "id": "Ginkgoidae",
@@ -2111,7 +2282,11 @@
    "rank": "class",
    "name": "Ginkgoidae",
    "common": "Ginkgo",
-   "ids": {}
+   "ids": {},
+   "ageMy": 269.7,
+   "provenance": {
+    "ageMy": "megatree-stem"
+   }
   },
   {
    "id": "Ginkgoales",
@@ -2123,9 +2298,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 398
+   "gbifSpeciesCount": 398,
+   "ageMy": 269.7
   },
   {
    "id": "Ginkgoaceae",
@@ -2145,12 +2322,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 199,
    "dist": {
     "3": 1
-   }
+   },
+   "ageMy": 269.7
   },
   {
    "id": "Gnetidae",
@@ -2158,7 +2337,11 @@
    "rank": "class",
    "name": "Gnetidae",
    "common": "Gnetophytes",
-   "ids": {}
+   "ids": {},
+   "ageMy": 242.3,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Ephedrales",
@@ -2170,9 +2353,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 118
+   "gbifSpeciesCount": 118,
+   "ageMy": 13.8
   },
   {
    "id": "Ephedraceae",
@@ -2192,7 +2377,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 117,
    "dist": {
@@ -2202,7 +2388,8 @@
     "4": 12,
     "2": 9,
     "1": 7
-   }
+   },
+   "ageMy": 13.8
   },
   {
    "id": "Gnetales",
@@ -2214,9 +2401,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 120
+   "gbifSpeciesCount": 120,
+   "ageMy": 33.0
   },
   {
    "id": "Gnetaceae",
@@ -2237,7 +2426,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 66,
    "dist": {
@@ -2247,7 +2437,8 @@
     "2": 4,
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 33.0
   },
   {
    "id": "Welwitschiales",
@@ -2259,9 +2450,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 7
+   "gbifSpeciesCount": 7,
+   "ageMy": 239.3
   },
   {
    "id": "Welwitschiaceae",
@@ -2281,12 +2474,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 7,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 239.3
   },
   {
    "id": "Pinidae",
@@ -2294,7 +2489,11 @@
    "rank": "class",
    "name": "Pinidae",
    "common": "Conifers",
-   "ids": {}
+   "ids": {},
+   "ageMy": 126.8,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Pinales",
@@ -2306,9 +2505,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2349
+   "gbifSpeciesCount": 2349,
+   "ageMy": 41.7
   },
   {
    "id": "Pinaceae",
@@ -2330,7 +2531,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "7": 122,
@@ -2339,14 +2541,19 @@
     "1": 30,
     "8": 16,
     "2": 7
-   }
+   },
+   "ageMy": 41.7
   },
   {
    "id": "Araucariales",
    "parent": "Pinidae",
    "rank": "order",
    "name": "Araucariales",
-   "ids": {}
+   "ids": {},
+   "ageMy": 85.3,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Araucariaceae",
@@ -2368,7 +2575,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 257,
    "dist": {
@@ -2376,7 +2584,8 @@
     "4": 10,
     "5": 8,
     "8": 2
-   }
+   },
+   "ageMy": 18.3
   },
   {
    "id": "Podocarpaceae",
@@ -2398,7 +2607,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 566,
    "dist": {
@@ -2409,14 +2619,19 @@
     "3": 18,
     "2": 14,
     "7": 3
-   }
+   },
+   "ageMy": 45.3
   },
   {
    "id": "Cupressales",
    "parent": "Pinidae",
    "rank": "order",
    "name": "Cupressales",
-   "ids": {}
+   "ids": {},
+   "ageMy": 90.5,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Sciadopityaceae",
@@ -2436,12 +2651,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "3": 1
-   }
+   },
+   "ageMy": 90.5
   },
   {
    "id": "Cupressaceae",
@@ -2464,7 +2681,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 586,
    "dist": {
@@ -2476,7 +2694,8 @@
     "2": 18,
     "8": 13,
     "6": 6
-   }
+   },
+   "ageMy": 49.9
   },
   {
    "id": "Taxaceae",
@@ -2497,7 +2716,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 151,
    "dist": {
@@ -2508,7 +2728,8 @@
     "2": 1,
     "8": 1,
     "6": 1
-   }
+   },
+   "ageMy": 55.4
   },
   {
    "id": "Angiosperms",
@@ -2516,14 +2737,22 @@
    "rank": "clade",
    "name": "Angiosperms",
    "common": "Flowering plants",
-   "ids": {}
+   "ids": {},
+   "ageMy": 135.9,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Basal angiosperms",
    "parent": "Angiosperms",
    "rank": "clade",
    "name": "Basal angiosperms",
-   "ids": {}
+   "ids": {},
+   "ageMy": 139.4,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Amborellales",
@@ -2535,9 +2764,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree-stem"
    },
-   "gbifSpeciesCount": 1
+   "gbifSpeciesCount": 1,
+   "ageMy": 139.4
   },
   {
    "id": "Amborellaceae",
@@ -2557,12 +2788,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "6": 1
-   }
+   },
+   "ageMy": 139.4
   },
   {
    "id": "Nymphaeales",
@@ -2574,9 +2807,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 228
+   "gbifSpeciesCount": 228,
+   "ageMy": 125.4
   },
   {
    "id": "Hydatellaceae",
@@ -2595,13 +2830,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 15,
    "dist": {
     "5": 12,
     "4": 1
-   }
+   },
+   "ageMy": 26.1
   },
   {
    "id": "Cabombaceae",
@@ -2622,7 +2859,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 17,
    "dist": {
@@ -2632,7 +2870,8 @@
     "3": 1,
     "4": 1,
     "5": 1
-   }
+   },
+   "ageMy": 46.7
   },
   {
    "id": "Nymphaeaceae",
@@ -2654,7 +2893,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 196,
    "dist": {
@@ -2665,7 +2905,8 @@
     "3": 16,
     "2": 14,
     "1": 8
-   }
+   },
+   "ageMy": 109.6
   },
   {
    "id": "Austrobaileyales",
@@ -2677,9 +2918,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 120
+   "gbifSpeciesCount": 120,
+   "ageMy": 122.6
   },
   {
    "id": "Austrobaileyaceae",
@@ -2698,12 +2941,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 122.6
   },
   {
    "id": "Trimeniaceae",
@@ -2722,14 +2967,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 16,
    "dist": {
     "6": 4,
     "4": 3,
     "5": 1
-   }
+   },
+   "ageMy": 109.7
   },
   {
    "id": "Schisandraceae",
@@ -2751,7 +2998,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 103,
    "dist": {
@@ -2759,14 +3007,19 @@
     "4": 38,
     "8": 6,
     "7": 3
-   }
+   },
+   "ageMy": 49.7
   },
   {
    "id": "Magnoliids",
    "parent": "Angiosperms",
    "rank": "clade",
    "name": "Magnoliids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 132.4,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Canellales",
@@ -2778,9 +3031,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 104
+   "gbifSpeciesCount": 104,
+   "ageMy": 126.0
   },
   {
    "id": "Canellaceae",
@@ -2801,14 +3056,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 29,
    "dist": {
     "8": 16,
     "2": 7,
     "7": 1
-   }
+   },
+   "ageMy": 38.0
   },
   {
    "id": "Winteraceae",
@@ -2829,7 +3086,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 74,
    "dist": {
@@ -2839,7 +3097,8 @@
     "8": 7,
     "2": 1,
     "7": 1
-   }
+   },
+   "ageMy": 29.7
   },
   {
    "id": "Piperales",
@@ -2851,9 +3110,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 5465
+   "gbifSpeciesCount": 5465,
+   "ageMy": 105.4
   },
   {
    "id": "Aristolochiaceae",
@@ -2874,7 +3135,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 874,
    "dist": {
@@ -2886,7 +3148,8 @@
     "1": 23,
     "5": 14,
     "6": 2
-   }
+   },
+   "ageMy": 88.4
   },
   {
    "id": "Saururaceae",
@@ -2907,14 +3170,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
     "3": 4,
     "4": 3,
     "7": 2
-   }
+   },
+   "ageMy": 44.5
   },
   {
    "id": "Piperaceae",
@@ -2936,7 +3201,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4555,
    "dist": {
@@ -2948,7 +3214,8 @@
     "2": 70,
     "5": 18,
     "9": 1
-   }
+   },
+   "ageMy": 46.9
   },
   {
    "id": "Magnoliales",
@@ -2960,9 +3227,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4435
+   "gbifSpeciesCount": 4435,
+   "ageMy": 109.6
   },
   {
    "id": "Myristicaceae",
@@ -2983,7 +3252,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 770,
    "dist": {
@@ -2994,7 +3264,8 @@
     "3": 12,
     "7": 4,
     "5": 4
-   }
+   },
+   "ageMy": 27.2
   },
   {
    "id": "Magnoliaceae",
@@ -3015,7 +3286,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 577,
    "dist": {
@@ -3023,7 +3295,8 @@
     "3": 132,
     "4": 112,
     "7": 45
-   }
+   },
+   "ageMy": 65.3
   },
   {
    "id": "Degeneriaceae",
@@ -3042,12 +3315,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "6": 2
-   }
+   },
+   "ageMy": 3.1
   },
   {
    "id": "Himantandraceae",
@@ -3066,13 +3341,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "4": 1,
     "5": 1
-   }
+   },
+   "ageMy": 95.1
   },
   {
    "id": "Eupomatiaceae",
@@ -3091,13 +3368,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "5": 3,
     "4": 1
-   }
+   },
+   "ageMy": 10.9
   },
   {
    "id": "Annonaceae",
@@ -3119,7 +3398,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3077,
    "dist": {
@@ -3130,7 +3410,8 @@
     "7": 91,
     "5": 46,
     "6": 31
-   }
+   },
+   "ageMy": 71.2
   },
   {
    "id": "Laurales",
@@ -3142,9 +3423,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4960
+   "gbifSpeciesCount": 4960,
+   "ageMy": 114.9
   },
   {
    "id": "Calycanthaceae",
@@ -3165,14 +3448,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 24,
    "dist": {
     "3": 7,
     "7": 3,
     "5": 1
-   }
+   },
+   "ageMy": 52.4
   },
   {
    "id": "Siparunaceae",
@@ -3191,14 +3476,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 65,
    "dist": {
     "8": 53,
     "7": 3,
     "2": 1
-   }
+   },
+   "ageMy": 65.1
   },
   {
    "id": "Gomortegaceae",
@@ -3218,12 +3505,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "8": 1
-   }
+   },
+   "ageMy": 78.4
   },
   {
    "id": "Atherospermataceae",
@@ -3244,7 +3533,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 22,
    "dist": {
@@ -3252,7 +3542,8 @@
     "8": 2,
     "4": 2,
     "6": 1
-   }
+   },
+   "ageMy": 48.5
   },
   {
    "id": "Hernandiaceae",
@@ -3272,7 +3563,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 75,
    "dist": {
@@ -3283,7 +3575,8 @@
     "6": 9,
     "7": 8,
     "5": 4
-   }
+   },
+   "ageMy": 65.0
   },
   {
    "id": "Monimiaceae",
@@ -3303,7 +3596,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 310,
    "dist": {
@@ -3313,7 +3607,8 @@
     "5": 28,
     "6": 14,
     "7": 5
-   }
+   },
+   "ageMy": 63.3
   },
   {
    "id": "Lauraceae",
@@ -3336,7 +3631,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4454,
    "dist": {
@@ -3348,7 +3644,8 @@
     "5": 143,
     "6": 101,
     "1": 1
-   }
+   },
+   "ageMy": 80.8
   },
   {
    "id": "Chloranthales",
@@ -3360,9 +3657,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 105
+   "gbifSpeciesCount": 105,
+   "ageMy": 122.6
   },
   {
    "id": "Chloranthaceae",
@@ -3383,7 +3682,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 105,
    "dist": {
@@ -3394,14 +3694,19 @@
     "2": 1,
     "5": 1,
     "7": 1
-   }
+   },
+   "ageMy": 122.6
   },
   {
    "id": "Monocots",
    "parent": "Angiosperms",
    "rank": "clade",
    "name": "Monocots",
-   "ids": {}
+   "ids": {},
+   "ageMy": 130.8,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Acorales",
@@ -3413,9 +3718,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 10
+   "gbifSpeciesCount": 10,
+   "ageMy": 30.0
   },
   {
    "id": "Acoraceae",
@@ -3436,14 +3743,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
     "3": 5,
     "7": 1,
     "4": 1
-   }
+   },
+   "ageMy": 30.0
   },
   {
    "id": "Alismatales",
@@ -3455,9 +3764,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 7308
+   "gbifSpeciesCount": 7308,
+   "ageMy": 128.9
   },
   {
    "id": "Araceae",
@@ -3480,7 +3791,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6200,
    "dist": {
@@ -3492,7 +3804,8 @@
     "5": 42,
     "1": 37,
     "6": 16
-   }
+   },
+   "ageMy": 121.7
   },
   {
    "id": "Tofieldiaceae",
@@ -3513,7 +3826,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 33,
    "dist": {
@@ -3522,7 +3836,8 @@
     "7": 8,
     "4": 4,
     "1": 3
-   }
+   },
+   "ageMy": 61.9
   },
   {
    "id": "Alismataceae",
@@ -3544,7 +3859,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 214,
    "dist": {
@@ -3555,7 +3871,8 @@
     "4": 19,
     "2": 18,
     "5": 6
-   }
+   },
+   "ageMy": 40.2
   },
   {
    "id": "Butomaceae",
@@ -3575,7 +3892,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
@@ -3583,7 +3901,8 @@
     "1": 1,
     "2": 1,
     "4": 1
-   }
+   },
+   "ageMy": 63.7
   },
   {
    "id": "Hydrocharitaceae",
@@ -3606,7 +3925,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 222,
    "dist": {
@@ -3618,7 +3938,8 @@
     "7": 17,
     "6": 12,
     "1": 10
-   }
+   },
+   "ageMy": 45.4
   },
   {
    "id": "Scheuchzeriaceae",
@@ -3638,14 +3959,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "1": 1,
     "3": 1,
     "7": 1
-   }
+   },
+   "ageMy": 79.6
   },
   {
    "id": "Aponogetonaceae",
@@ -3666,7 +3989,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 85,
    "dist": {
@@ -3674,7 +3998,8 @@
     "4": 16,
     "5": 11,
     "3": 1
-   }
+   },
+   "ageMy": 12.8
   },
   {
    "id": "Juncaginaceae",
@@ -3694,7 +4019,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 52,
    "dist": {
@@ -3707,7 +4033,8 @@
     "4": 3,
     "9": 1,
     "6": 1
-   }
+   },
+   "ageMy": 62.9
   },
   {
    "id": "Maundiaceae",
@@ -3726,12 +4053,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 62.5
   },
   {
    "id": "Zosteraceae",
@@ -3752,7 +4081,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 34,
    "dist": {
@@ -3763,7 +4093,8 @@
     "4": 3,
     "1": 2,
     "8": 2
-   }
+   },
+   "ageMy": 19.2
   },
   {
    "id": "Potamogetonaceae",
@@ -3784,7 +4115,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 380,
    "dist": {
@@ -3797,7 +4129,8 @@
     "8": 24,
     "6": 8,
     "9": 2
-   }
+   },
+   "ageMy": 31.2
   },
   {
    "id": "Posidoniaceae",
@@ -3818,7 +4151,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 20,
    "dist": {
@@ -3826,7 +4160,8 @@
     "3": 2,
     "1": 1,
     "2": 1
-   }
+   },
+   "ageMy": 6.6
   },
   {
    "id": "Ruppiaceae",
@@ -3846,7 +4181,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 18,
    "dist": {
@@ -3859,7 +4195,8 @@
     "4": 2,
     "9": 1,
     "6": 1
-   }
+   },
+   "ageMy": 14.1
   },
   {
    "id": "Cymodoceaceae",
@@ -3881,7 +4218,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 33,
    "dist": {
@@ -3893,7 +4231,8 @@
     "8": 4,
     "7": 2,
     "1": 1
-   }
+   },
+   "ageMy": 44.3
   },
   {
    "id": "Petrosaviales",
@@ -3905,9 +4244,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4
+   "gbifSpeciesCount": 4,
+   "ageMy": 97.9
   },
   {
    "id": "Petrosaviaceae",
@@ -3927,13 +4268,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "3": 2,
     "4": 2
-   }
+   },
+   "ageMy": 97.9
   },
   {
    "id": "Dioscoreales",
@@ -3945,9 +4288,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1168
+   "gbifSpeciesCount": 1168,
+   "ageMy": 95.2
   },
   {
    "id": "Nartheciaceae",
@@ -3968,7 +4313,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 46,
    "dist": {
@@ -3977,7 +4323,8 @@
     "4": 6,
     "1": 3,
     "8": 3
-   }
+   },
+   "ageMy": 58.7
   },
   {
    "id": "Burmanniaceae",
@@ -3998,7 +4345,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 249,
    "dist": {
@@ -4009,7 +4357,8 @@
     "5": 13,
     "7": 8,
     "6": 5
-   }
+   },
+   "ageMy": 77.0
   },
   {
    "id": "Dioscoreaceae",
@@ -4030,7 +4379,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 871,
    "dist": {
@@ -4042,7 +4392,8 @@
     "5": 7,
     "6": 7,
     "1": 5
-   }
+   },
+   "ageMy": 61.8
   },
   {
    "id": "Pandanales",
@@ -4054,9 +4405,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1887
+   "gbifSpeciesCount": 1887,
+   "ageMy": 57.8
   },
   {
    "id": "Triuridaceae",
@@ -4076,7 +4429,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 72,
    "dist": {
@@ -4086,7 +4440,8 @@
     "2": 11,
     "6": 7,
     "7": 4
-   }
+   },
+   "ageMy": 72.3
   },
   {
    "id": "Velloziaceae",
@@ -4108,14 +4463,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 378,
    "dist": {
     "8": 261,
     "2": 57,
     "3": 2
-   }
+   },
+   "ageMy": 31.3
   },
   {
    "id": "Stemonaceae",
@@ -4136,7 +4493,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 48,
    "dist": {
@@ -4145,7 +4503,8 @@
     "5": 4,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 38.1
   },
   {
    "id": "Cyclanthaceae",
@@ -4166,13 +4525,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 295,
    "dist": {
     "8": 242,
     "7": 7
-   }
+   },
+   "ageMy": 24.4
   },
   {
    "id": "Pandanaceae",
@@ -4193,7 +4554,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1094,
    "dist": {
@@ -4202,7 +4564,8 @@
     "6": 155,
     "5": 26,
     "3": 10
-   }
+   },
+   "ageMy": 38.3
   },
   {
    "id": "Liliales",
@@ -4214,9 +4577,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2653
+   "gbifSpeciesCount": 2653,
+   "ageMy": 87.9
   },
   {
    "id": "Campynemataceae",
@@ -4236,13 +4601,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "6": 3,
     "5": 1
-   }
+   },
+   "ageMy": 66.3
   },
   {
    "id": "Corsiaceae",
@@ -4262,7 +4629,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 27,
    "dist": {
@@ -4270,7 +4638,8 @@
     "5": 2,
     "8": 1,
     "9": 1
-   }
+   },
+   "ageMy": 84.3
   },
   {
    "id": "Melanthiaceae",
@@ -4292,7 +4661,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 255,
    "dist": {
@@ -4301,7 +4671,8 @@
     "4": 22,
     "1": 6,
     "8": 2
-   }
+   },
+   "ageMy": 67.4
   },
   {
    "id": "Petermanniaceae",
@@ -4320,12 +4691,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 80.5
   },
   {
    "id": "Alstroemeriaceae",
@@ -4347,7 +4720,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 332,
    "dist": {
@@ -4355,7 +4729,8 @@
     "5": 3,
     "7": 2,
     "9": 1
-   }
+   },
+   "ageMy": 49.7
   },
   {
    "id": "Colchicaceae",
@@ -4376,7 +4751,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 385,
    "dist": {
@@ -4386,7 +4762,8 @@
     "5": 42,
     "4": 26,
     "7": 5
-   }
+   },
+   "ageMy": 32.8
   },
   {
    "id": "Philesiaceae",
@@ -4406,12 +4783,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 6,
    "dist": {
     "8": 2
-   }
+   },
+   "ageMy": 43.2
   },
   {
    "id": "Ripogonaceae",
@@ -4431,13 +4810,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 16,
    "dist": {
     "5": 6,
     "4": 1
-   }
+   },
+   "ageMy": 5.4
   },
   {
    "id": "Smilacaceae",
@@ -4457,7 +4838,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 418,
    "dist": {
@@ -4469,7 +4851,8 @@
     "5": 6,
     "2": 4,
     "1": 2
-   }
+   },
+   "ageMy": 10.4
   },
   {
    "id": "Liliaceae",
@@ -4492,7 +4875,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1186,
    "dist": {
@@ -4502,7 +4886,8 @@
     "4": 92,
     "2": 28,
     "8": 1
-   }
+   },
+   "ageMy": 46.6
   },
   {
    "id": "Asparagales",
@@ -4514,9 +4899,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 50448
+   "gbifSpeciesCount": 50448,
+   "ageMy": 109.0
   },
   {
    "id": "Orchidaceae",
@@ -4539,7 +4926,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 36566,
    "dist": {
@@ -4552,7 +4940,8 @@
     "1": 626,
     "6": 566,
     "9": 6
-   }
+   },
+   "ageMy": 59.7
   },
   {
    "id": "Boryaceae",
@@ -4573,12 +4962,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 15,
    "dist": {
     "5": 13
-   }
+   },
+   "ageMy": 6.7
   },
   {
    "id": "Blandfordiaceae",
@@ -4598,12 +4989,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "5": 4
-   }
+   },
+   "ageMy": 7.6
   },
   {
    "id": "Asteliaceae",
@@ -4623,7 +5016,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 45,
    "dist": {
@@ -4633,7 +5027,8 @@
     "4": 1,
     "8": 1,
     "9": 1
-   }
+   },
+   "ageMy": 34.1
   },
   {
    "id": "Lanariaceae",
@@ -4653,12 +5048,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 59.4
   },
   {
    "id": "Hypoxidaceae",
@@ -4680,7 +5077,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 235,
    "dist": {
@@ -4691,7 +5089,8 @@
     "3": 11,
     "8": 8,
     "6": 1
-   }
+   },
+   "ageMy": 22.3
   },
   {
    "id": "Doryanthaceae",
@@ -4712,12 +5111,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "5": 2
-   }
+   },
+   "ageMy": 11.8
   },
   {
    "id": "Ixioliriaceae",
@@ -4737,13 +5138,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "3": 5,
     "4": 2
-   }
+   },
+   "ageMy": 7.8
   },
   {
    "id": "Tecophilaeaceae",
@@ -4764,14 +5167,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 35,
    "dist": {
     "2": 17,
     "8": 9,
     "7": 1
-   }
+   },
+   "ageMy": 38.5
   },
   {
    "id": "Iridaceae",
@@ -4794,7 +5199,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3575,
    "dist": {
@@ -4807,7 +5213,8 @@
     "5": 38,
     "9": 2,
     "6": 2
-   }
+   },
+   "ageMy": 55.7
   },
   {
    "id": "Xeronemataceae",
@@ -4827,13 +5234,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 73.7
   },
   {
    "id": "Asphodelaceae",
@@ -4856,7 +5265,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1680,
    "dist": {
@@ -4867,7 +5277,8 @@
     "4": 21,
     "6": 11,
     "8": 2
-   }
+   },
+   "ageMy": 52.3
   },
   {
    "id": "Amaryllidaceae",
@@ -4890,7 +5301,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3474,
    "dist": {
@@ -4902,7 +5314,8 @@
     "4": 101,
     "5": 20,
     "6": 3
-   }
+   },
+   "ageMy": 55.2
   },
   {
    "id": "Asparagaceae",
@@ -4925,7 +5338,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4760,
    "dist": {
@@ -4937,14 +5351,19 @@
     "1": 192,
     "8": 154,
     "6": 16
-   }
+   },
+   "ageMy": 59.2
   },
   {
    "id": "Commelinids",
    "parent": "Monocots",
    "rank": "clade",
    "name": "Commelinids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 108.2,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Arecales",
@@ -4956,9 +5375,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 3865
+   "gbifSpeciesCount": 3865,
+   "ageMy": 97.2
   },
   {
    "id": "Dasypogonaceae",
@@ -4981,12 +5402,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 23,
    "dist": {
     "5": 20
-   }
+   },
+   "ageMy": 47.6
   },
   {
    "id": "Arecaceae",
@@ -5009,7 +5432,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3820,
    "dist": {
@@ -5021,7 +5445,8 @@
     "3": 85,
     "5": 59,
     "1": 2
-   }
+   },
+   "ageMy": 49.6
   },
   {
    "id": "Commelinales",
@@ -5033,9 +5458,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1309
+   "gbifSpeciesCount": 1309,
+   "ageMy": 68.5
   },
   {
    "id": "Hanguanaceae",
@@ -5056,14 +5483,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 33,
    "dist": {
     "4": 23,
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 7.3
   },
   {
    "id": "Commelinaceae",
@@ -5086,7 +5515,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1059,
    "dist": {
@@ -5097,7 +5527,8 @@
     "3": 78,
     "5": 31,
     "6": 6
-   }
+   },
+   "ageMy": 49.6
   },
   {
    "id": "Philydraceae",
@@ -5119,7 +5550,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6,
    "dist": {
@@ -5127,7 +5559,8 @@
     "4": 2,
     "3": 1,
     "6": 1
-   }
+   },
+   "ageMy": 13.8
   },
   {
    "id": "Pontederiaceae",
@@ -5150,7 +5583,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 69,
    "dist": {
@@ -5161,7 +5595,8 @@
     "2": 5,
     "5": 4,
     "1": 1
-   }
+   },
+   "ageMy": 12.7
   },
   {
    "id": "Haemodoraceae",
@@ -5184,7 +5619,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 142,
    "dist": {
@@ -5193,7 +5629,8 @@
     "8": 8,
     "7": 2,
     "4": 1
-   }
+   },
+   "ageMy": 38.2
   },
   {
    "id": "Zingiberales",
@@ -5205,9 +5642,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 3757
+   "gbifSpeciesCount": 3757,
+   "ageMy": 58.3
   },
   {
    "id": "Strelitziaceae",
@@ -5230,13 +5669,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 28,
    "dist": {
     "2": 11,
     "8": 1
-   }
+   },
+   "ageMy": 31.7
   },
   {
    "id": "Lowiaceae",
@@ -5256,13 +5697,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 32,
    "dist": {
     "4": 28,
     "3": 4
-   }
+   },
+   "ageMy": 15.2
   },
   {
    "id": "Heliconiaceae",
@@ -5284,7 +5727,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 240,
    "dist": {
@@ -5292,7 +5736,8 @@
     "7": 17,
     "4": 4,
     "6": 3
-   }
+   },
+   "ageMy": 42.0
   },
   {
    "id": "Musaceae",
@@ -5315,7 +5760,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 144,
    "dist": {
@@ -5324,7 +5770,8 @@
     "2": 4,
     "5": 2,
     "6": 2
-   }
+   },
+   "ageMy": 19.6
   },
   {
    "id": "Cannaceae",
@@ -5346,13 +5793,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 57,
    "dist": {
     "8": 11,
     "7": 5
-   }
+   },
+   "ageMy": 5.5
   },
   {
    "id": "Marantaceae",
@@ -5375,7 +5824,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 763,
    "dist": {
@@ -5385,7 +5835,8 @@
     "7": 23,
     "3": 9,
     "6": 2
-   }
+   },
+   "ageMy": 27.1
   },
   {
    "id": "Costaceae",
@@ -5407,7 +5858,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 187,
    "dist": {
@@ -5417,7 +5869,8 @@
     "7": 11,
     "3": 8,
     "5": 2
-   }
+   },
+   "ageMy": 18.0
   },
   {
    "id": "Zingiberaceae",
@@ -5440,7 +5893,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2299,
    "dist": {
@@ -5451,7 +5905,8 @@
     "6": 13,
     "5": 12,
     "7": 5
-   }
+   },
+   "ageMy": 25.9
   },
   {
    "id": "Poales",
@@ -5463,9 +5918,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 33582
+   "gbifSpeciesCount": 33582,
+   "ageMy": 101.0
   },
   {
    "id": "Typhaceae",
@@ -5488,7 +5945,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 149,
    "dist": {
@@ -5500,7 +5958,8 @@
     "8": 4,
     "5": 3,
     "6": 1
-   }
+   },
+   "ageMy": 54.3
   },
   {
    "id": "Bromeliaceae",
@@ -5523,14 +5982,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4391,
    "dist": {
     "8": 3419,
     "7": 489,
     "2": 1
-   }
+   },
+   "ageMy": 31.8
   },
   {
    "id": "Rapateaceae",
@@ -5551,13 +6012,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 108,
    "dist": {
     "8": 96,
     "2": 1
-   }
+   },
+   "ageMy": 24.8
   },
   {
    "id": "Xyridaceae",
@@ -5578,7 +6041,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 280,
@@ -5588,7 +6052,8 @@
     "4": 19,
     "3": 6,
     "6": 4
-   }
+   },
+   "ageMy": 58.9
   },
   {
    "id": "Eriocaulaceae",
@@ -5611,7 +6076,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1336,
    "dist": {
@@ -5623,7 +6089,8 @@
     "7": 32,
     "6": 6,
     "1": 1
-   }
+   },
+   "ageMy": 48.9
   },
   {
    "id": "Mayacaceae",
@@ -5644,14 +6111,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 7,
    "dist": {
     "8": 4,
     "2": 1,
     "7": 1
-   }
+   },
+   "ageMy": 77.2
   },
   {
    "id": "Thurniaceae",
@@ -5671,13 +6140,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6,
    "dist": {
     "8": 3,
     "2": 1
-   }
+   },
+   "ageMy": 22.1
   },
   {
    "id": "Juncaceae",
@@ -5700,7 +6171,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 890,
    "dist": {
@@ -5713,7 +6185,8 @@
     "2": 66,
     "9": 7,
     "6": 4
-   }
+   },
+   "ageMy": 43.6
   },
   {
    "id": "Cyperaceae",
@@ -5736,7 +6209,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8441,
    "dist": {
@@ -5749,7 +6223,8 @@
     "1": 479,
     "6": 190,
     "9": 33
-   }
+   },
+   "ageMy": 44.6
   },
   {
    "id": "Restionaceae",
@@ -5772,7 +6247,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 640,
    "dist": {
@@ -5782,7 +6258,8 @@
     "8": 2,
     "3": 2,
     "9": 1
-   }
+   },
+   "ageMy": 75.9
   },
   {
    "id": "Flagellariaceae",
@@ -5803,7 +6280,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 9,
    "dist": {
@@ -5812,7 +6290,8 @@
     "2": 2,
     "3": 1,
     "5": 1
-   }
+   },
+   "ageMy": 3.4
   },
   {
    "id": "Joinvilleaceae",
@@ -5832,13 +6311,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "6": 3,
     "4": 2
-   }
+   },
+   "ageMy": 0.7
   },
   {
    "id": "Ecdeiocoleaceae",
@@ -5858,12 +6339,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "5": 3
-   }
+   },
+   "ageMy": 41.4
   },
   {
    "id": "Poaceae",
@@ -5886,7 +6369,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 17140,
    "dist": {
@@ -5899,7 +6383,8 @@
     "1": 1166,
     "6": 177,
     "9": 41
-   }
+   },
+   "ageMy": 39.8
   },
   {
    "id": "Ceratophyllales",
@@ -5911,9 +6396,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 13
+   "gbifSpeciesCount": 13,
+   "ageMy": 32.5
   },
   {
    "id": "Ceratophyllaceae",
@@ -5934,7 +6421,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 12,
    "dist": {
@@ -5946,14 +6434,19 @@
     "8": 2,
     "6": 2,
     "5": 1
-   }
+   },
+   "ageMy": 32.5
   },
   {
    "id": "Eudicots",
    "parent": "Angiosperms",
    "rank": "clade",
    "name": "Eudicots",
-   "ids": {}
+   "ids": {},
+   "ageMy": 131.7,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Ranunculales",
@@ -5965,9 +6458,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 7918
+   "gbifSpeciesCount": 7918,
+   "ageMy": 112.9
   },
   {
    "id": "Eupteleaceae",
@@ -5988,13 +6483,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "3": 2,
     "4": 1
-   }
+   },
+   "ageMy": 22.6
   },
   {
    "id": "Papaveraceae",
@@ -6017,7 +6514,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1290,
    "dist": {
@@ -6029,7 +6527,8 @@
     "8": 14,
     "6": 1,
     "5": 1
-   }
+   },
+   "ageMy": 87.2
   },
   {
    "id": "Circaeasteraceae",
@@ -6049,13 +6548,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "3": 2,
     "4": 1
-   }
+   },
+   "ageMy": 86.3
   },
   {
    "id": "Lardizabalaceae",
@@ -6078,14 +6579,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 46,
    "dist": {
     "3": 37,
     "4": 13,
     "8": 2
-   }
+   },
+   "ageMy": 51.9
   },
   {
    "id": "Menispermaceae",
@@ -6107,7 +6610,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 185,
@@ -6117,7 +6621,8 @@
     "5": 24,
     "7": 21,
     "6": 14
-   }
+   },
+   "ageMy": 67.3
   },
   {
    "id": "Berberidaceae",
@@ -6140,7 +6645,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 944,
    "dist": {
@@ -6150,7 +6656,8 @@
     "7": 56,
     "1": 12,
     "2": 6
-   }
+   },
+   "ageMy": 41.8
   },
   {
    "id": "Ranunculaceae",
@@ -6173,7 +6680,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4886,
    "dist": {
@@ -6186,7 +6694,8 @@
     "5": 129,
     "9": 13,
     "6": 6
-   }
+   },
+   "ageMy": 43.5
   },
   {
    "id": "Proteales",
@@ -6198,9 +6707,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2700
+   "gbifSpeciesCount": 2700,
+   "ageMy": 112.9
   },
   {
    "id": "Sabiaceae",
@@ -6221,7 +6732,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 201,
    "dist": {
@@ -6229,7 +6741,8 @@
     "3": 48,
     "4": 46,
     "7": 13
-   }
+   },
+   "ageMy": 68.2
   },
   {
    "id": "Nelumbonaceae",
@@ -6250,7 +6763,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 18,
    "dist": {
@@ -6260,7 +6774,8 @@
     "5": 1,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 23.4
   },
   {
    "id": "Platanaceae",
@@ -6282,7 +6797,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 79,
    "dist": {
@@ -6291,7 +6807,8 @@
     "8": 1,
     "1": 1,
     "3": 1
-   }
+   },
+   "ageMy": 10.6
   },
   {
    "id": "Proteaceae",
@@ -6314,7 +6831,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2372,
    "dist": {
@@ -6325,7 +6843,8 @@
     "6": 54,
     "3": 24,
     "7": 2
-   }
+   },
+   "ageMy": 46.1
   },
   {
    "id": "Trochodendrales",
@@ -6337,9 +6856,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 15
+   "gbifSpeciesCount": 15,
+   "ageMy": 9.1
   },
   {
    "id": "Trochodendraceae",
@@ -6360,13 +6881,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 15,
    "dist": {
     "3": 2,
     "4": 1
-   }
+   },
+   "ageMy": 9.1
   },
   {
    "id": "Buxales",
@@ -6378,9 +6901,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 151
+   "gbifSpeciesCount": 151,
+   "ageMy": 85.1
   },
   {
    "id": "Buxaceae",
@@ -6402,7 +6927,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 145,
    "dist": {
@@ -6412,14 +6938,19 @@
     "4": 23,
     "7": 7,
     "1": 2
-   }
+   },
+   "ageMy": 85.1
   },
   {
    "id": "Core eudicots",
    "parent": "Eudicots",
    "rank": "clade",
    "name": "Core eudicots",
-   "ids": {}
+   "ids": {},
+   "ageMy": 123.7,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Gunnerales",
@@ -6431,9 +6962,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 113
+   "gbifSpeciesCount": 113,
+   "ageMy": 104.6
   },
   {
    "id": "Myrothamnaceae",
@@ -6454,12 +6987,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 2
-   }
+   },
+   "ageMy": 8.6
   },
   {
    "id": "Gunneraceae",
@@ -6480,7 +7015,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 111,
    "dist": {
@@ -6491,7 +7027,8 @@
     "4": 2,
     "9": 1,
     "2": 1
-   }
+   },
+   "ageMy": 82.3
   },
   {
    "id": "Dilleniales",
@@ -6503,9 +7040,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 679
+   "gbifSpeciesCount": 679,
+   "ageMy": 50.8
   },
   {
    "id": "Dilleniaceae",
@@ -6526,7 +7065,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 678,
    "dist": {
@@ -6537,14 +7077,19 @@
     "2": 20,
     "7": 7,
     "3": 5
-   }
+   },
+   "ageMy": 50.8
   },
   {
    "id": "Superrosids",
    "parent": "Core eudicots",
    "rank": "clade",
    "name": "Superrosids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 122.4,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Saxifragales",
@@ -6556,9 +7101,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4436
+   "gbifSpeciesCount": 4436,
+   "ageMy": 121.4
   },
   {
    "id": "Peridiscaceae",
@@ -6579,13 +7126,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 11,
    "dist": {
     "2": 9,
     "8": 2
-   }
+   },
+   "ageMy": 117.5
   },
   {
    "id": "Paeoniaceae",
@@ -6606,7 +7155,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 31,
@@ -6614,7 +7164,8 @@
     "2": 2,
     "7": 2,
     "4": 1
-   }
+   },
+   "ageMy": 14.5
   },
   {
    "id": "Altingiaceae",
@@ -6636,7 +7187,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 26,
    "dist": {
@@ -6644,7 +7196,8 @@
     "4": 8,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 24.2
   },
   {
    "id": "Hamamelidaceae",
@@ -6667,7 +7220,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 161,
    "dist": {
@@ -6677,7 +7231,8 @@
     "7": 9,
     "8": 4,
     "5": 3
-   }
+   },
+   "ageMy": 91.8
   },
   {
    "id": "Cercidiphyllaceae",
@@ -6698,12 +7253,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
     "3": 2
-   }
+   },
+   "ageMy": 3.1
   },
   {
    "id": "Daphniphyllaceae",
@@ -6723,13 +7280,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 41,
    "dist": {
     "4": 24,
     "3": 14
-   }
+   },
+   "ageMy": 14.9
   },
   {
    "id": "Iteaceae",
@@ -6750,7 +7309,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 35,
    "dist": {
@@ -6758,7 +7318,8 @@
     "4": 6,
     "7": 4,
     "2": 1
-   }
+   },
+   "ageMy": 89.3
   },
   {
    "id": "Grossulariaceae",
@@ -6780,7 +7341,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 316,
    "dist": {
@@ -6790,7 +7352,8 @@
     "1": 12,
     "4": 9,
     "2": 3
-   }
+   },
+   "ageMy": 21.5
   },
   {
    "id": "Saxifragaceae",
@@ -6813,7 +7376,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1270,
    "dist": {
@@ -6824,7 +7388,8 @@
     "2": 23,
     "8": 8,
     "9": 1
-   }
+   },
+   "ageMy": 47.6
   },
   {
    "id": "Crassulaceae",
@@ -6847,7 +7412,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2281,
    "dist": {
@@ -6860,7 +7426,8 @@
     "5": 18,
     "6": 1,
     "9": 1
-   }
+   },
+   "ageMy": 59.5
   },
   {
    "id": "Aphanopetalaceae",
@@ -6879,11 +7446,13 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "5": 2
-   }
+   },
+   "ageMy": 12.2
   },
   {
    "id": "Tetracarpaeaceae",
@@ -6902,12 +7471,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 78.8
   },
   {
    "id": "Penthoraceae",
@@ -6927,14 +7498,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "4": 2,
     "3": 1,
     "7": 1
-   }
+   },
+   "ageMy": 3.4
   },
   {
    "id": "Haloragaceae",
@@ -6956,7 +7529,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 202,
    "dist": {
@@ -6969,7 +7543,8 @@
     "1": 5,
     "6": 4,
     "9": 2
-   }
+   },
+   "ageMy": 26.4
   },
   {
    "id": "Cynomoriaceae",
@@ -6990,21 +7565,27 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "1": 1,
     "2": 1,
     "3": 1
-   }
+   },
+   "ageMy": 105.1
   },
   {
    "id": "Rosids",
    "parent": "Superrosids",
    "rank": "clade",
    "name": "Rosids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 121.3,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Vitales",
@@ -7016,9 +7597,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1433
+   "gbifSpeciesCount": 1433,
+   "ageMy": 58.0
   },
   {
    "id": "Vitaceae",
@@ -7041,7 +7624,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1433,
    "dist": {
@@ -7053,14 +7637,19 @@
     "5": 34,
     "6": 14,
     "1": 1
-   }
+   },
+   "ageMy": 58.0
   },
   {
    "id": "Fabids",
    "parent": "Rosids",
    "rank": "clade",
    "name": "Fabids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 116.8,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Zygophyllales",
@@ -7072,9 +7661,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 380
+   "gbifSpeciesCount": 380,
+   "ageMy": 60.9
   },
   {
    "id": "Krameriaceae",
@@ -7095,13 +7686,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 20,
    "dist": {
     "7": 10,
     "8": 9
-   }
+   },
+   "ageMy": 15.8
   },
   {
    "id": "Zygophyllaceae",
@@ -7123,7 +7716,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 360,
    "dist": {
@@ -7135,7 +7729,8 @@
     "4": 25,
     "1": 6,
     "6": 1
-   }
+   },
+   "ageMy": 60.0
   },
   {
    "id": "Fabales",
@@ -7147,9 +7742,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 31077
+   "gbifSpeciesCount": 31077,
+   "ageMy": 96.1
   },
   {
    "id": "Quillajaceae",
@@ -7169,12 +7766,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "8": 2
-   }
+   },
+   "ageMy": 98.7
   },
   {
    "id": "Fabaceae",
@@ -7197,7 +7796,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 29470,
    "dist": {
@@ -7210,7 +7810,8 @@
     "1": 1106,
     "6": 184,
     "9": 1
-   }
+   },
+   "ageMy": 84.8
   },
   {
    "id": "Surianaceae",
@@ -7231,7 +7832,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
@@ -7242,7 +7844,8 @@
     "3": 1,
     "4": 1,
     "6": 1
-   }
+   },
+   "ageMy": 47.5
   },
   {
    "id": "Polygalaceae",
@@ -7264,7 +7867,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1593,
    "dist": {
@@ -7276,7 +7880,8 @@
     "5": 84,
     "1": 51,
     "6": 5
-   }
+   },
+   "ageMy": 59.8
   },
   {
    "id": "Rosales",
@@ -7288,9 +7893,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 23764
+   "gbifSpeciesCount": 23764,
+   "ageMy": 99.0
   },
   {
    "id": "Rosaceae",
@@ -7312,7 +7919,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 2362,
@@ -7324,7 +7932,8 @@
     "5": 47,
     "9": 9,
     "6": 6
-   }
+   },
+   "ageMy": 94.6
   },
   {
    "id": "Barbeyaceae",
@@ -7343,13 +7952,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 1,
     "3": 1
-   }
+   },
+   "ageMy": 60.8
   },
   {
    "id": "Dirachmaceae",
@@ -7369,12 +7980,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "2": 2
-   }
+   },
+   "ageMy": 60.8
   },
   {
    "id": "Elaeagnaceae",
@@ -7396,7 +8009,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 137,
    "dist": {
@@ -7405,7 +8019,8 @@
     "7": 4,
     "1": 2,
     "5": 1
-   }
+   },
+   "ageMy": 24.3
   },
   {
    "id": "Rhamnaceae",
@@ -7427,7 +8042,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1636,
    "dist": {
@@ -7440,7 +8056,8 @@
     "1": 32,
     "6": 30,
     "9": 1
-   }
+   },
+   "ageMy": 51.4
   },
   {
    "id": "Ulmaceae",
@@ -7461,7 +8078,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 160,
    "dist": {
@@ -7471,7 +8089,8 @@
     "4": 9,
     "1": 7,
     "2": 2
-   }
+   },
+   "ageMy": 74.2
   },
   {
    "id": "Cannabaceae",
@@ -7493,7 +8112,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 175,
    "dist": {
@@ -7505,7 +8125,8 @@
     "6": 14,
     "5": 7,
     "1": 4
-   }
+   },
+   "ageMy": 71.2
   },
   {
    "id": "Moraceae",
@@ -7527,7 +8148,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1940,
    "dist": {
@@ -7539,7 +8161,8 @@
     "7": 62,
     "5": 55,
     "1": 1
-   }
+   },
+   "ageMy": 42.5
   },
   {
    "id": "Urticaceae",
@@ -7561,7 +8184,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2373,
    "dist": {
@@ -7573,7 +8197,8 @@
     "7": 94,
     "5": 29,
     "1": 20
-   }
+   },
+   "ageMy": 46.7
   },
   {
    "id": "Fagales",
@@ -7585,9 +8210,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 3093
+   "gbifSpeciesCount": 3093,
+   "ageMy": 102.8
   },
   {
    "id": "Nothofagaceae",
@@ -7607,7 +8234,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 90,
    "dist": {
@@ -7615,7 +8243,8 @@
     "8": 12,
     "5": 11,
     "6": 5
-   }
+   },
+   "ageMy": 20.2
   },
   {
    "id": "Fagaceae",
@@ -7637,7 +8266,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1837,
    "dist": {
@@ -7647,7 +8277,8 @@
     "1": 99,
     "8": 40,
     "2": 19
-   }
+   },
+   "ageMy": 40.2
   },
   {
    "id": "Myricaceae",
@@ -7669,7 +8300,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 152,
    "dist": {
@@ -7680,7 +8312,8 @@
     "4": 4,
     "1": 2,
     "6": 1
-   }
+   },
+   "ageMy": 39.3
   },
   {
    "id": "Juglandaceae",
@@ -7701,7 +8334,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 323,
    "dist": {
@@ -7711,7 +8345,8 @@
     "4": 19,
     "1": 1,
     "2": 1
-   }
+   },
+   "ageMy": 50.2
   },
   {
    "id": "Casuarinaceae",
@@ -7732,14 +8367,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 131,
    "dist": {
     "5": 67,
     "6": 14,
     "4": 12
-   }
+   },
+   "ageMy": 35.3
   },
   {
    "id": "Ticodendraceae",
@@ -7758,13 +8395,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 78.4
   },
   {
    "id": "Betulaceae",
@@ -7786,7 +8425,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 525,
    "dist": {
@@ -7796,7 +8436,8 @@
     "4": 13,
     "8": 5,
     "2": 2
-   }
+   },
+   "ageMy": 68.3
   },
   {
    "id": "Cucurbitales",
@@ -7808,9 +8449,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4059
+   "gbifSpeciesCount": 4059,
+   "ageMy": 64.6
   },
   {
    "id": "Apodanthaceae",
@@ -7831,7 +8474,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 12,
    "dist": {
@@ -7840,7 +8484,8 @@
     "5": 3,
     "2": 1,
     "3": 1
-   }
+   },
+   "ageMy": 45.2
   },
   {
    "id": "Anisophylleaceae",
@@ -7860,14 +8505,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 92,
    "dist": {
     "4": 31,
     "2": 22,
     "8": 4
-   }
+   },
+   "ageMy": 34.3
   },
   {
    "id": "Corynocarpaceae",
@@ -7887,14 +8534,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "5": 3,
     "6": 2,
     "4": 1
-   }
+   },
+   "ageMy": 10.4
   },
   {
    "id": "Coriariaceae",
@@ -7914,7 +8563,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 20,
    "dist": {
@@ -7926,7 +8576,8 @@
     "6": 1,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 11.8
   },
   {
    "id": "Cucurbitaceae",
@@ -7948,7 +8599,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1362,
    "dist": {
@@ -7960,7 +8612,8 @@
     "5": 37,
     "6": 27,
     "1": 4
-   }
+   },
+   "ageMy": 35.5
   },
   {
    "id": "Tetramelaceae",
@@ -7980,14 +8633,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "4": 2,
     "3": 1,
     "5": 1
-   }
+   },
+   "ageMy": 16.2
   },
   {
    "id": "Datiscaceae",
@@ -8006,7 +8661,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
@@ -8014,7 +8670,8 @@
     "3": 1,
     "4": 1,
     "7": 1
-   }
+   },
+   "ageMy": 12.9
   },
   {
    "id": "Begoniaceae",
@@ -8035,7 +8692,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2562,
    "dist": {
@@ -8045,7 +8703,8 @@
     "2": 178,
     "7": 127,
     "6": 2
-   }
+   },
+   "ageMy": 25.4
   },
   {
    "id": "Celastrales",
@@ -8057,9 +8716,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1730
+   "gbifSpeciesCount": 1730,
+   "ageMy": 70.2
   },
   {
    "id": "Lepidobotryaceae",
@@ -8079,13 +8740,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 1,
     "8": 1
-   }
+   },
+   "ageMy": 21.7
   },
   {
    "id": "Celastraceae",
@@ -8107,7 +8770,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1664,
    "dist": {
@@ -8119,7 +8783,8 @@
     "5": 70,
     "6": 37,
     "1": 6
-   }
+   },
+   "ageMy": 70.2
   },
   {
    "id": "Oxalidales",
@@ -8131,9 +8796,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2473
+   "gbifSpeciesCount": 2473,
+   "ageMy": 106.4
   },
   {
    "id": "Huaceae",
@@ -8153,12 +8820,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "2": 4
-   }
+   },
+   "ageMy": 21.9
   },
   {
    "id": "Connaraceae",
@@ -8179,7 +8848,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 321,
    "dist": {
@@ -8190,7 +8860,8 @@
     "7": 9,
     "6": 4,
     "5": 2
-   }
+   },
+   "ageMy": 27.7
   },
   {
    "id": "Oxalidaceae",
@@ -8211,7 +8882,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 794,
    "dist": {
@@ -8224,7 +8896,8 @@
     "6": 6,
     "1": 1,
     "9": 1
-   }
+   },
+   "ageMy": 45.7
   },
   {
    "id": "Cunoniaceae",
@@ -8245,7 +8918,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 416,
    "dist": {
@@ -8255,7 +8929,8 @@
     "5": 42,
     "2": 34,
     "7": 4
-   }
+   },
+   "ageMy": 74.6
   },
   {
    "id": "Elaeocarpaceae",
@@ -8276,7 +8951,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 865,
    "dist": {
@@ -8287,7 +8963,8 @@
     "3": 59,
     "2": 13,
     "7": 9
-   }
+   },
+   "ageMy": 84.5
   },
   {
    "id": "Cephalotaceae",
@@ -8307,12 +8984,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 75.6
   },
   {
    "id": "Brunelliaceae",
@@ -8331,13 +9010,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 71,
    "dist": {
     "8": 60,
     "7": 1
-   }
+   },
+   "ageMy": 12.2
   },
   {
    "id": "Malpighiales",
@@ -8349,9 +9030,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 25514
+   "gbifSpeciesCount": 25514,
+   "ageMy": 102.6
   },
   {
    "id": "Pandaceae",
@@ -8372,14 +9055,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 21,
    "dist": {
     "2": 10,
     "4": 7,
     "3": 1
-   }
+   },
+   "ageMy": 45.2
   },
   {
    "id": "Irvingiaceae",
@@ -8400,13 +9085,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 15,
    "dist": {
     "2": 10,
     "4": 2
-   }
+   },
+   "ageMy": 11.8
   },
   {
    "id": "Ctenolophonaceae",
@@ -8425,13 +9112,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "2": 1,
     "4": 1
-   }
+   },
+   "ageMy": 87.5
   },
   {
    "id": "Rhizophoraceae",
@@ -8453,7 +9142,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 196,
    "dist": {
@@ -8464,7 +9154,8 @@
     "5": 18,
     "3": 14,
     "7": 3
-   }
+   },
+   "ageMy": 59.3
   },
   {
    "id": "Erythroxylaceae",
@@ -8484,7 +9175,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 316,
    "dist": {
@@ -8495,7 +9187,8 @@
     "5": 3,
     "3": 2,
     "6": 1
-   }
+   },
+   "ageMy": 44.6
   },
   {
    "id": "Ochnaceae",
@@ -8517,7 +9210,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 773,
    "dist": {
@@ -8528,7 +9222,8 @@
     "3": 4,
     "6": 2,
     "5": 1
-   }
+   },
+   "ageMy": 58.2
   },
   {
    "id": "Bonnetiaceae",
@@ -8548,13 +9243,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 44,
    "dist": {
     "8": 35,
     "4": 3
-   }
+   },
+   "ageMy": 57.4
   },
   {
    "id": "Clusiaceae",
@@ -8576,7 +9273,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1096,
    "dist": {
@@ -8587,7 +9285,8 @@
     "7": 21,
     "3": 21,
     "5": 9
-   }
+   },
+   "ageMy": 51.1
   },
   {
    "id": "Calophyllaceae",
@@ -8608,7 +9307,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 491,
    "dist": {
@@ -8619,7 +9319,8 @@
     "5": 11,
     "3": 5,
     "7": 3
-   }
+   },
+   "ageMy": 60.6
   },
   {
    "id": "Podostemaceae",
@@ -8640,7 +9341,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 443,
    "dist": {
@@ -8650,7 +9352,8 @@
     "3": 15,
     "7": 10,
     "5": 2
-   }
+   },
+   "ageMy": 49.5
   },
   {
    "id": "Hypericaceae",
@@ -8672,7 +9375,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 775,
    "dist": {
@@ -8684,7 +9388,8 @@
     "4": 60,
     "5": 4,
     "6": 1
-   }
+   },
+   "ageMy": 47.6
   },
   {
    "id": "Caryocaraceae",
@@ -8705,12 +9410,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 33,
    "dist": {
     "8": 26
-   }
+   },
+   "ageMy": 13.5
   },
   {
    "id": "Lophopyxidaceae",
@@ -8729,13 +9436,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "4": 1,
     "6": 1
-   }
+   },
+   "ageMy": 59.0
   },
   {
    "id": "Putranjivaceae",
@@ -8755,7 +9464,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 268,
    "dist": {
@@ -8766,7 +9476,8 @@
     "6": 7,
     "5": 5,
     "7": 4
-   }
+   },
+   "ageMy": 13.1
   },
   {
    "id": "Centroplacaceae",
@@ -8786,14 +9497,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
     "4": 7,
     "3": 2,
     "2": 1
-   }
+   },
+   "ageMy": 63.5
   },
   {
    "id": "Elatinaceae",
@@ -8814,7 +9527,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 65,
    "dist": {
@@ -8827,7 +9541,8 @@
     "7": 8,
     "9": 1,
     "6": 1
-   }
+   },
+   "ageMy": 39.9
   },
   {
    "id": "Malpighiaceae",
@@ -8849,7 +9564,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1651,
    "dist": {
@@ -8860,7 +9576,8 @@
     "3": 28,
     "6": 14,
     "5": 3
-   }
+   },
+   "ageMy": 51.3
   },
   {
    "id": "Balanopaceae",
@@ -8879,13 +9596,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 9,
    "dist": {
     "6": 8,
     "5": 1
-   }
+   },
+   "ageMy": 19.1
   },
   {
    "id": "Trigoniaceae",
@@ -8905,7 +9624,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 39,
    "dist": {
@@ -8913,7 +9633,8 @@
     "7": 2,
     "4": 1,
     "2": 1
-   }
+   },
+   "ageMy": 38.3
   },
   {
    "id": "Dichapetalaceae",
@@ -8934,7 +9655,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 235,
    "dist": {
@@ -8945,7 +9667,8 @@
     "7": 3,
     "3": 2,
     "6": 2
-   }
+   },
+   "ageMy": 16.3
   },
   {
    "id": "Euphroniaceae",
@@ -8964,12 +9687,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "8": 3
-   }
+   },
+   "ageMy": 54.5
   },
   {
    "id": "Chrysobalanaceae",
@@ -8991,7 +9716,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 627,
    "dist": {
@@ -9001,7 +9727,8 @@
     "7": 13,
     "6": 13,
     "5": 2
-   }
+   },
+   "ageMy": 33.7
   },
   {
    "id": "Humiriaceae",
@@ -9021,13 +9748,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 84,
    "dist": {
     "8": 66,
     "2": 1
-   }
+   },
+   "ageMy": 24.4
   },
   {
    "id": "Achariaceae",
@@ -9049,7 +9778,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 222,
    "dist": {
@@ -9060,7 +9790,8 @@
     "3": 3,
     "5": 3,
     "6": 2
-   }
+   },
+   "ageMy": 64.9
   },
   {
    "id": "Violaceae",
@@ -9082,7 +9813,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1871,
    "dist": {
@@ -9095,7 +9827,8 @@
     "5": 51,
     "6": 27,
     "9": 3
-   }
+   },
+   "ageMy": 70.6
   },
   {
    "id": "Goupiaceae",
@@ -9114,12 +9847,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "8": 2
-   }
+   },
+   "ageMy": 83.1
   },
   {
    "id": "Passifloraceae",
@@ -9141,7 +9876,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 999,
    "dist": {
@@ -9152,7 +9888,8 @@
     "3": 18,
     "5": 6,
     "6": 2
-   }
+   },
+   "ageMy": 58.3
   },
   {
    "id": "Lacistemataceae",
@@ -9172,13 +9909,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 19,
    "dist": {
     "8": 18,
     "7": 1
-   }
+   },
+   "ageMy": 25.5
   },
   {
    "id": "Salicaceae",
@@ -9198,7 +9937,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 480,
@@ -9209,7 +9949,8 @@
     "7": 205,
     "6": 96,
     "5": 16
-   }
+   },
+   "ageMy": 62.6
   },
   {
    "id": "Peraceae",
@@ -9230,7 +9971,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 142,
    "dist": {
@@ -9239,7 +9981,8 @@
     "4": 7,
     "3": 3,
     "7": 1
-   }
+   },
+   "ageMy": 74.2
   },
   {
    "id": "Rafflesiaceae",
@@ -9261,13 +10004,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 51,
    "dist": {
     "4": 50,
     "3": 1
-   }
+   },
+   "ageMy": 73.2
   },
   {
    "id": "Euphorbiaceae",
@@ -9289,7 +10034,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 2154,
@@ -9300,7 +10046,8 @@
     "5": 272,
     "6": 202,
     "1": 192
-   }
+   },
+   "ageMy": 61.9
   },
   {
    "id": "Linaceae",
@@ -9321,7 +10068,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 371,
    "dist": {
@@ -9333,7 +10081,8 @@
     "4": 24,
     "6": 10,
     "5": 3
-   }
+   },
+   "ageMy": 56.8
   },
   {
    "id": "Ixonanthaceae",
@@ -9353,7 +10102,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 21,
    "dist": {
@@ -9361,7 +10111,8 @@
     "2": 6,
     "4": 3,
     "3": 1
-   }
+   },
+   "ageMy": 28.8
   },
   {
    "id": "Picrodendraceae",
@@ -9381,7 +10132,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 122,
    "dist": {
@@ -9391,7 +10143,8 @@
     "4": 8,
     "8": 6,
     "7": 6
-   }
+   },
+   "ageMy": 46.1
   },
   {
    "id": "Phyllanthaceae",
@@ -9414,7 +10167,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2795,
    "dist": {
@@ -9426,14 +10180,19 @@
     "5": 161,
     "7": 57,
     "1": 2
-   }
+   },
+   "ageMy": 71.9
   },
   {
    "id": "Malvids",
    "parent": "Rosids",
    "rank": "clade",
    "name": "Malvids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 117.0,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Geraniales",
@@ -9445,9 +10204,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2184
+   "gbifSpeciesCount": 2184,
+   "ageMy": 102.4
   },
   {
    "id": "Geraniaceae",
@@ -9469,7 +10230,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2120,
    "dist": {
@@ -9482,7 +10244,8 @@
     "5": 23,
     "6": 6,
     "9": 1
-   }
+   },
+   "ageMy": 68.4
   },
   {
    "id": "Francoaceae",
@@ -9504,14 +10267,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "8": 20,
     "2": 16,
     "3": 1
-   }
+   },
+   "ageMy": 77.2
   },
   {
    "id": "Myrtales",
@@ -9523,9 +10288,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 19300
+   "gbifSpeciesCount": 19300,
+   "ageMy": 96.6
   },
   {
    "id": "Combretaceae",
@@ -9547,7 +10314,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 781,
    "dist": {
@@ -9558,7 +10326,8 @@
     "3": 27,
     "6": 25,
     "7": 15
-   }
+   },
+   "ageMy": 70.7
   },
   {
    "id": "Lythraceae",
@@ -9580,7 +10349,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 885,
    "dist": {
@@ -9592,7 +10362,8 @@
     "5": 28,
     "1": 18,
     "6": 7
-   }
+   },
+   "ageMy": 47.8
   },
   {
    "id": "Onagraceae",
@@ -9614,7 +10385,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1488,
    "dist": {
@@ -9627,7 +10399,8 @@
     "2": 27,
     "6": 3,
     "9": 3
-   }
+   },
+   "ageMy": 60.6
   },
   {
    "id": "Vochysiaceae",
@@ -9649,14 +10422,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 285,
    "dist": {
     "8": 245,
     "2": 3,
     "7": 2
-   }
+   },
+   "ageMy": 36.4
   },
   {
    "id": "Myrtaceae",
@@ -9677,7 +10452,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "5": 2405,
@@ -9689,7 +10465,8 @@
     "3": 93,
     "9": 1,
     "1": 1
-   }
+   },
+   "ageMy": 45.0
   },
   {
    "id": "Melastomataceae",
@@ -9711,7 +10488,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7330,
    "dist": {
@@ -9722,7 +10500,8 @@
     "3": 163,
     "6": 52,
     "5": 9
-   }
+   },
+   "ageMy": 44.2
   },
   {
    "id": "Crypteroniaceae",
@@ -9743,13 +10522,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
     "4": 12,
     "3": 1
-   }
+   },
+   "ageMy": 22.8
   },
   {
    "id": "Alzateaceae",
@@ -9768,12 +10549,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "8": 1
-   }
+   },
+   "ageMy": 30.9
   },
   {
    "id": "Penaeaceae",
@@ -9794,12 +10577,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 90,
    "dist": {
     "2": 39
-   }
+   },
+   "ageMy": 21.0
   },
   {
    "id": "Crossosomatales",
@@ -9811,9 +10596,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 88
+   "gbifSpeciesCount": 88,
+   "ageMy": 84.6
   },
   {
    "id": "Aphloiaceae",
@@ -9832,12 +10619,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 69.7
   },
   {
    "id": "Geissolomataceae",
@@ -9856,12 +10645,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 51.6
   },
   {
    "id": "Strasburgeriaceae",
@@ -9881,13 +10672,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 23.5
   },
   {
    "id": "Staphyleaceae",
@@ -9908,7 +10701,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 60,
    "dist": {
@@ -9917,7 +10711,8 @@
     "8": 7,
     "7": 7,
     "1": 1
-   }
+   },
+   "ageMy": 17.6
   },
   {
    "id": "Guamatelaceae",
@@ -9936,13 +10731,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 25.8
   },
   {
    "id": "Stachyuraceae",
@@ -9961,13 +10758,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 14,
    "dist": {
     "3": 9,
     "4": 5
-   }
+   },
+   "ageMy": 4.8
   },
   {
    "id": "Crossosomataceae",
@@ -9989,12 +10788,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 9,
    "dist": {
     "7": 7
-   }
+   },
+   "ageMy": 17.0
   },
   {
    "id": "Picramniales",
@@ -10006,9 +10807,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 63
+   "gbifSpeciesCount": 63,
+   "ageMy": 73.3
   },
   {
    "id": "Picramniaceae",
@@ -10028,13 +10831,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 63,
    "dist": {
     "8": 53,
     "7": 12
-   }
+   },
+   "ageMy": 73.3
   },
   {
    "id": "Huerteales",
@@ -10046,9 +10851,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 33
+   "gbifSpeciesCount": 33,
+   "ageMy": 63.3
   },
   {
    "id": "Gerrardinaceae",
@@ -10067,12 +10874,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 2
-   }
+   },
+   "ageMy": 57.3
   },
   {
    "id": "Petenaeaceae",
@@ -10091,13 +10900,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 57.3
   },
   {
    "id": "Tapisciaceae",
@@ -10117,7 +10928,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7,
    "dist": {
@@ -10125,7 +10937,8 @@
     "3": 2,
     "4": 1,
     "7": 1
-   }
+   },
+   "ageMy": 39.9
   },
   {
    "id": "Dipentodontaceae",
@@ -10145,7 +10958,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 23,
    "dist": {
@@ -10155,7 +10969,8 @@
     "7": 3,
     "6": 2,
     "5": 1
-   }
+   },
+   "ageMy": 30.4
   },
   {
    "id": "Sapindales",
@@ -10167,9 +10982,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 8918
+   "gbifSpeciesCount": 8918,
+   "ageMy": 83.4
   },
   {
    "id": "Biebersteiniaceae",
@@ -10188,14 +11005,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "3": 4,
     "1": 2,
     "4": 1
-   }
+   },
+   "ageMy": 43.8
   },
   {
    "id": "Nitrariaceae",
@@ -10216,7 +11035,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
@@ -10226,7 +11046,8 @@
     "2": 3,
     "5": 1,
     "7": 1
-   }
+   },
+   "ageMy": 51.3
   },
   {
    "id": "Kirkiaceae",
@@ -10245,12 +11066,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6,
    "dist": {
     "2": 6
-   }
+   },
+   "ageMy": 0.0
   },
   {
    "id": "Burseraceae",
@@ -10272,7 +11095,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 872,
    "dist": {
@@ -10283,7 +11107,8 @@
     "3": 21,
     "6": 13,
     "5": 5
-   }
+   },
+   "ageMy": 30.5
   },
   {
    "id": "Anacardiaceae",
@@ -10305,7 +11130,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1293,
    "dist": {
@@ -10317,7 +11143,8 @@
     "6": 33,
     "5": 11,
     "1": 8
-   }
+   },
+   "ageMy": 43.8
   },
   {
    "id": "Sapindaceae",
@@ -10339,7 +11166,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2702,
    "dist": {
@@ -10351,7 +11179,8 @@
     "7": 161,
     "6": 115,
     "1": 18
-   }
+   },
+   "ageMy": 60.8
   },
   {
    "id": "Rutaceae",
@@ -10372,7 +11201,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "5": 535,
@@ -10383,7 +11213,8 @@
     "6": 186,
     "7": 103,
     "1": 18
-   }
+   },
+   "ageMy": 64.4
   },
   {
    "id": "Simaroubaceae",
@@ -10405,7 +11236,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 168,
    "dist": {
@@ -10416,7 +11248,8 @@
     "6": 15,
     "3": 9,
     "5": 5
-   }
+   },
+   "ageMy": 48.6
   },
   {
    "id": "Meliaceae",
@@ -10438,7 +11271,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1006,
    "dist": {
@@ -10449,7 +11283,8 @@
     "6": 47,
     "5": 45,
     "7": 29
-   }
+   },
+   "ageMy": 50.6
   },
   {
    "id": "Malvales",
@@ -10461,9 +11296,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 9953
+   "gbifSpeciesCount": 9953,
+   "ageMy": 70.1
   },
   {
    "id": "Cytinaceae",
@@ -10483,7 +11320,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 13,
    "dist": {
@@ -10492,7 +11330,8 @@
     "8": 2,
     "1": 2,
     "3": 2
-   }
+   },
+   "ageMy": 38.6
   },
   {
    "id": "Muntingiaceae",
@@ -10514,13 +11353,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "8": 3,
     "7": 2
-   }
+   },
+   "ageMy": 38.6
   },
   {
    "id": "Neuradaceae",
@@ -10540,14 +11381,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 9,
    "dist": {
     "2": 7,
     "3": 2,
     "4": 1
-   }
+   },
+   "ageMy": 76.3
   },
   {
    "id": "Malvaceae",
@@ -10569,7 +11412,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7390,
    "dist": {
@@ -10581,7 +11425,8 @@
     "3": 447,
     "6": 123,
     "1": 62
-   }
+   },
+   "ageMy": 38.4
   },
   {
    "id": "Sphaerosepalaceae",
@@ -10601,12 +11446,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 22,
    "dist": {
     "2": 20
-   }
+   },
+   "ageMy": 50.8
   },
   {
    "id": "Thymelaeaceae",
@@ -10628,7 +11475,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1167,
    "dist": {
@@ -10641,7 +11489,8 @@
     "6": 46,
     "7": 20,
     "9": 1
-   }
+   },
+   "ageMy": 30.1
   },
   {
    "id": "Bixaceae",
@@ -10662,7 +11511,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
@@ -10671,7 +11521,8 @@
     "7": 7,
     "5": 4,
     "4": 2
-   }
+   },
+   "ageMy": 40.5
   },
   {
    "id": "Cistaceae",
@@ -10692,7 +11543,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "1": 159,
@@ -10701,7 +11553,8 @@
     "7": 43,
     "8": 10,
     "4": 1
-   }
+   },
+   "ageMy": 30.8
   },
   {
    "id": "Sarcolaenaceae",
@@ -10722,12 +11575,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 84,
    "dist": {
     "2": 72
-   }
+   },
+   "ageMy": 3.5
   },
   {
    "id": "Dipterocarpaceae",
@@ -10749,7 +11604,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 653,
    "dist": {
@@ -10758,7 +11614,8 @@
     "3": 10,
     "8": 1,
     "6": 1
-   }
+   },
+   "ageMy": 11.6
   },
   {
    "id": "Brassicales",
@@ -10769,8 +11626,10 @@
     "gbif": 7225535
    },
    "provenance": {
-    "ids": "gbif"
-   }
+    "ids": "gbif",
+    "ageMy": "megatree"
+   },
+   "ageMy": 79.0
   },
   {
    "id": "Akaniaceae",
@@ -10790,14 +11649,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "5": 1,
     "3": 1,
     "4": 1
-   }
+   },
+   "ageMy": 16.6
   },
   {
    "id": "Tropaeolaceae",
@@ -10817,13 +11678,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 119,
    "dist": {
     "8": 96,
     "7": 1
-   }
+   },
+   "ageMy": 71.1
   },
   {
    "id": "Moringaceae",
@@ -10843,14 +11706,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 16,
    "dist": {
     "2": 11,
     "4": 2,
     "3": 1
-   }
+   },
+   "ageMy": 11.8
   },
   {
    "id": "Caricaceae",
@@ -10872,14 +11737,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 55,
    "dist": {
     "8": 40,
     "7": 8,
     "2": 2
-   }
+   },
+   "ageMy": 32.1
   },
   {
    "id": "Limnanthaceae",
@@ -10900,12 +11767,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 12,
    "dist": {
     "7": 9
-   }
+   },
+   "ageMy": 73.3
   },
   {
    "id": "Setchellanthaceae",
@@ -10924,12 +11793,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "7": 1
-   }
+   },
+   "ageMy": 72.3
   },
   {
    "id": "Koeberliniaceae",
@@ -10949,13 +11820,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 57.8
   },
   {
    "id": "Bataceae",
@@ -10975,7 +11848,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
@@ -10983,7 +11857,8 @@
     "5": 1,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 32.6
   },
   {
    "id": "Salvadoraceae",
@@ -11005,14 +11880,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 11,
    "dist": {
     "2": 7,
     "4": 6,
     "3": 5
-   }
+   },
+   "ageMy": 27.8
   },
   {
    "id": "Emblingiaceae",
@@ -11031,12 +11908,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "5": 1
-   }
+   },
+   "ageMy": 63.5
   },
   {
    "id": "Tovariaceae",
@@ -11055,13 +11934,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "8": 2,
     "7": 1
-   }
+   },
+   "ageMy": 59.5
   },
   {
    "id": "Pentadiplandraceae",
@@ -11080,12 +11961,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 55.4
   },
   {
    "id": "Gyrostemonaceae",
@@ -11106,12 +11989,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 21,
    "dist": {
     "5": 20
-   }
+   },
+   "ageMy": 5.9
   },
   {
    "id": "Resedaceae",
@@ -11131,7 +12016,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 117,
    "dist": {
@@ -11141,7 +12027,8 @@
     "4": 17,
     "7": 10,
     "8": 9
-   }
+   },
+   "ageMy": 44.0
   },
   {
    "id": "Capparaceae",
@@ -11163,7 +12050,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 569,
    "dist": {
@@ -11175,7 +12063,8 @@
     "5": 23,
     "6": 7,
     "1": 1
-   }
+   },
+   "ageMy": 38.2
   },
   {
    "id": "Cleomaceae",
@@ -11196,7 +12085,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 329,
    "dist": {
@@ -11207,7 +12097,8 @@
     "4": 24,
     "5": 15,
     "1": 3
-   }
+   },
+   "ageMy": 38.3
   },
   {
    "id": "Brassicaceae",
@@ -11228,7 +12119,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 1846,
@@ -11240,14 +12132,19 @@
     "5": 184,
     "6": 9,
     "9": 7
-   }
+   },
+   "ageMy": 28.1
   },
   {
    "id": "Superasterids",
    "parent": "Core eudicots",
    "rank": "clade",
    "name": "Superasterids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 121.4,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Berberidopsidales",
@@ -11259,9 +12156,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4
+   "gbifSpeciesCount": 4,
+   "ageMy": 27.1
   },
   {
    "id": "Aextoxicaceae",
@@ -11281,12 +12180,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "8": 1
-   }
+   },
+   "ageMy": 27.1
   },
   {
    "id": "Berberidopsidaceae",
@@ -11307,13 +12208,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "5": 2,
     "8": 2
-   }
+   },
+   "ageMy": 18.1
   },
   {
    "id": "Santalales",
@@ -11325,9 +12228,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 3128
+   "gbifSpeciesCount": 3128,
+   "ageMy": 103.6
   },
   {
    "id": "Olacaceae",
@@ -11348,7 +12253,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 82,
    "dist": {
@@ -11359,7 +12265,8 @@
     "7": 8,
     "3": 6,
     "6": 6
-   }
+   },
+   "ageMy": 103.6
   },
   {
    "id": "Opiliaceae",
@@ -11378,7 +12285,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "4": 14,
@@ -11387,7 +12295,8 @@
     "3": 5,
     "5": 5,
     "7": 4
-   }
+   },
+   "ageMy": 28.7
   },
   {
    "id": "Balanophoraceae",
@@ -11408,7 +12317,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 65,
    "dist": {
@@ -11419,7 +12329,8 @@
     "6": 4,
     "7": 2,
     "5": 2
-   }
+   },
+   "ageMy": 75.5
   },
   {
    "id": "Santalaceae",
@@ -11441,7 +12352,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 99,
    "dist": {
@@ -11454,7 +12366,8 @@
     "6": 39,
     "1": 33,
     "9": 1
-   }
+   },
+   "ageMy": 79.9
   },
   {
    "id": "Misodendraceae",
@@ -11474,12 +12387,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 27,
    "dist": {
     "8": 8
-   }
+   },
+   "ageMy": 30.6
   },
   {
    "id": "Schoepfiaceae",
@@ -11500,7 +12415,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 44,
    "dist": {
@@ -11508,7 +12424,8 @@
     "7": 7,
     "3": 4,
     "4": 3
-   }
+   },
+   "ageMy": 45.4
   },
   {
    "id": "Loranthaceae",
@@ -11530,7 +12447,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1376,
    "dist": {
@@ -11542,7 +12460,8 @@
     "7": 60,
     "6": 4,
     "1": 1
-   }
+   },
+   "ageMy": 47.4
   },
   {
    "id": "Caryophyllales",
@@ -11554,9 +12473,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 19648
+   "gbifSpeciesCount": 19648,
+   "ageMy": 107.1
   },
   {
    "id": "Frankeniaceae",
@@ -11576,7 +12497,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 91,
    "dist": {
@@ -11587,7 +12509,8 @@
     "3": 6,
     "7": 6,
     "4": 1
-   }
+   },
+   "ageMy": 12.8
   },
   {
    "id": "Tamaricaceae",
@@ -11609,7 +12532,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 152,
    "dist": {
@@ -11617,7 +12541,8 @@
     "4": 40,
     "1": 21,
     "2": 16
-   }
+   },
+   "ageMy": 29.8
   },
   {
    "id": "Plumbaginaceae",
@@ -11639,7 +12564,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1346,
    "dist": {
@@ -11652,7 +12578,8 @@
     "5": 5,
     "6": 2,
     "9": 1
-   }
+   },
+   "ageMy": 41.7
   },
   {
    "id": "Polygonaceae",
@@ -11674,7 +12601,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2229,
    "dist": {
@@ -11687,7 +12615,8 @@
     "5": 40,
     "6": 6,
     "9": 3
-   }
+   },
+   "ageMy": 42.1
   },
   {
    "id": "Droseraceae",
@@ -11709,7 +12638,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 277,
    "dist": {
@@ -11722,7 +12652,8 @@
     "1": 6,
     "6": 4,
     "9": 1
-   }
+   },
+   "ageMy": 63.0
   },
   {
    "id": "Nepenthaceae",
@@ -11741,7 +12672,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "4": 210,
@@ -11749,7 +12681,8 @@
     "2": 3,
     "6": 2,
     "3": 1
-   }
+   },
+   "ageMy": 25.7
   },
   {
    "id": "Drosophyllaceae",
@@ -11769,13 +12702,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "1": 1,
     "2": 1
-   }
+   },
+   "ageMy": 57.9
   },
   {
    "id": "Dioncophyllaceae",
@@ -11796,12 +12731,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "2": 3
-   }
+   },
+   "ageMy": 7.1
   },
   {
    "id": "Ancistrocladaceae",
@@ -11819,13 +12756,15 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "2": 14,
     "4": 6,
     "3": 1
-   }
+   },
+   "ageMy": 3.8
   },
   {
    "id": "Rhabdodendraceae",
@@ -11844,12 +12783,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "8": 3
-   }
+   },
+   "ageMy": 4.4
   },
   {
    "id": "Simmondsiaceae",
@@ -11869,12 +12810,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "7": 1
-   }
+   },
+   "ageMy": 100.9
   },
   {
    "id": "Physenaceae",
@@ -11893,12 +12836,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "2": 2
-   }
+   },
+   "ageMy": 42.1
   },
   {
    "id": "Asteropeiaceae",
@@ -11917,12 +12862,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 9,
    "dist": {
     "2": 8
-   }
+   },
+   "ageMy": 42.1
   },
   {
    "id": "Macarthuriaceae",
@@ -11941,12 +12888,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 9,
    "dist": {
     "5": 9
-   }
+   },
+   "ageMy": 80.7
   },
   {
    "id": "Microteaceae",
@@ -11965,12 +12914,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 14,
    "dist": {
     "8": 10
-   }
+   },
+   "ageMy": 135.8
   },
   {
    "id": "Caryophyllaceae",
@@ -11992,7 +12943,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4685,
    "dist": {
@@ -12005,7 +12957,8 @@
     "5": 61,
     "6": 40,
     "9": 12
-   }
+   },
+   "ageMy": 58.9
   },
   {
    "id": "Achatocarpaceae",
@@ -12025,13 +12978,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 10,
    "dist": {
     "8": 7,
     "7": 5
-   }
+   },
+   "ageMy": 4.2
   },
   {
    "id": "Amaranthaceae",
@@ -12054,7 +13009,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3351,
    "dist": {
@@ -12067,7 +13023,8 @@
     "4": 206,
     "6": 24,
     "9": 5
-   }
+   },
+   "ageMy": 43.7
   },
   {
    "id": "Stegnospermataceae",
@@ -12086,13 +13043,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "7": 4,
     "8": 1
-   }
+   },
+   "ageMy": 0.9
   },
   {
    "id": "Limeaceae",
@@ -12111,14 +13070,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 29,
    "dist": {
     "2": 23,
     "3": 3,
     "4": 1
-   }
+   },
+   "ageMy": 16.2
   },
   {
    "id": "Lophiocarpaceae",
@@ -12138,14 +13099,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "2": 7,
     "3": 1,
     "4": 1
-   }
+   },
+   "ageMy": 50.1
   },
   {
    "id": "Kewaceae",
@@ -12164,12 +13127,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "2": 8
-   }
+   },
+   "ageMy": 77.8
   },
   {
    "id": "Barbeuiaceae",
@@ -12188,12 +13153,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 77.8
   },
   {
    "id": "Gisekiaceae",
@@ -12212,14 +13179,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "2": 7,
     "3": 2,
     "4": 2
-   }
+   },
+   "ageMy": 3.4
   },
   {
    "id": "Aizoaceae",
@@ -12242,7 +13211,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2178,
    "dist": {
@@ -12254,7 +13224,8 @@
     "7": 4,
     "1": 3,
     "6": 2
-   }
+   },
+   "ageMy": 67.9
   },
   {
    "id": "Phytolaccaceae",
@@ -12274,7 +13245,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 74,
    "dist": {
@@ -12284,7 +13256,8 @@
     "2": 4,
     "4": 2,
     "6": 1
-   }
+   },
+   "ageMy": 19.0
   },
   {
    "id": "Petiveriaceae",
@@ -12304,7 +13277,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 0,
    "dist": {
@@ -12312,7 +13286,8 @@
     "7": 4,
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 34.0
   },
   {
    "id": "Sarcobataceae",
@@ -12332,12 +13307,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "7": 2
-   }
+   },
+   "ageMy": 58.9
   },
   {
    "id": "Nyctaginaceae",
@@ -12359,7 +13336,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 634,
    "dist": {
@@ -12371,7 +13349,8 @@
     "6": 22,
     "5": 19,
     "1": 2
-   }
+   },
+   "ageMy": 56.1
   },
   {
    "id": "Molluginaceae",
@@ -12392,7 +13371,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 116,
    "dist": {
@@ -12404,7 +13384,8 @@
     "7": 3,
     "1": 2,
     "6": 2
-   }
+   },
+   "ageMy": 69.5
   },
   {
    "id": "Montiaceae",
@@ -12427,7 +13408,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 326,
    "dist": {
@@ -12439,7 +13421,8 @@
     "4": 2,
     "1": 1,
     "2": 1
-   }
+   },
+   "ageMy": 28.0
   },
   {
    "id": "Didiereaceae",
@@ -12461,12 +13444,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 22,
    "dist": {
     "2": 20
-   }
+   },
+   "ageMy": 30.1
   },
   {
    "id": "Basellaceae",
@@ -12488,7 +13473,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 31,
    "dist": {
@@ -12496,7 +13482,8 @@
     "2": 4,
     "7": 2,
     "4": 1
-   }
+   },
+   "ageMy": 18.5
   },
   {
    "id": "Halophytaceae",
@@ -12515,12 +13502,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "8": 1
-   }
+   },
+   "ageMy": 38.1
   },
   {
    "id": "Talinaceae",
@@ -12540,7 +13529,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 37,
    "dist": {
@@ -12549,7 +13539,8 @@
     "7": 7,
     "3": 1,
     "4": 1
-   }
+   },
+   "ageMy": 15.8
   },
   {
    "id": "Portulacaceae",
@@ -12569,7 +13560,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 185,
    "dist": {
@@ -12581,7 +13573,8 @@
     "5": 12,
     "1": 8,
     "6": 7
-   }
+   },
+   "ageMy": 11.6
   },
   {
    "id": "Anacampserotaceae",
@@ -12602,7 +13595,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 53,
    "dist": {
@@ -12610,7 +13604,8 @@
     "8": 3,
     "7": 2,
     "5": 1
-   }
+   },
+   "ageMy": 19.4
   },
   {
    "id": "Cactaceae",
@@ -12632,21 +13627,27 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 1229,
     "7": 853,
     "4": 2,
     "2": 1
-   }
+   },
+   "ageMy": 21.6
   },
   {
    "id": "Asterids",
    "parent": "Superasterids",
    "rank": "clade",
    "name": "Asterids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 114.6,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Cornales",
@@ -12658,9 +13659,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 1093
+   "gbifSpeciesCount": 1093,
+   "ageMy": 104.1
   },
   {
    "id": "Nyssaceae",
@@ -12682,7 +13685,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 91,
    "dist": {
@@ -12690,7 +13694,8 @@
     "3": 11,
     "7": 4,
     "8": 1
-   }
+   },
+   "ageMy": 71.1
   },
   {
    "id": "Hydrostachyaceae",
@@ -12709,12 +13714,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 23,
    "dist": {
     "2": 22
-   }
+   },
+   "ageMy": 41.9
   },
   {
    "id": "Hydrangeaceae",
@@ -12736,7 +13743,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 312,
    "dist": {
@@ -12745,7 +13753,8 @@
     "4": 31,
     "8": 12,
     "6": 1
-   }
+   },
+   "ageMy": 52.1
   },
   {
    "id": "Loasaceae",
@@ -12767,7 +13776,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 417,
    "dist": {
@@ -12776,7 +13786,8 @@
     "6": 3,
     "2": 2,
     "3": 1
-   }
+   },
+   "ageMy": 53.9
   },
   {
    "id": "Curtisiaceae",
@@ -12796,12 +13807,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "2": 1
-   }
+   },
+   "ageMy": 59.4
   },
   {
    "id": "Grubbiaceae",
@@ -12820,12 +13833,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "2": 3
-   }
+   },
+   "ageMy": 16.2
   },
   {
    "id": "Cornaceae",
@@ -12845,7 +13860,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 245,
    "dist": {
@@ -12857,7 +13873,8 @@
     "8": 3,
     "5": 2,
     "6": 1
-   }
+   },
+   "ageMy": 68.0
   },
   {
    "id": "Ericales",
@@ -12869,9 +13886,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 17629
+   "gbifSpeciesCount": 17629,
+   "ageMy": 103.6
   },
   {
    "id": "Balsaminaceae",
@@ -12892,7 +13911,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1265,
    "dist": {
@@ -12902,7 +13922,8 @@
     "7": 7,
     "1": 2,
     "8": 1
-   }
+   },
+   "ageMy": 31.3
   },
   {
    "id": "Marcgraviaceae",
@@ -12924,13 +13945,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 169,
    "dist": {
     "8": 137,
     "7": 8
-   }
+   },
+   "ageMy": 10.4
   },
   {
    "id": "Tetrameristaceae",
@@ -12951,13 +13974,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "8": 3,
     "4": 1
-   }
+   },
+   "ageMy": 50.5
   },
   {
    "id": "Fouquieriaceae",
@@ -12978,12 +14003,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
     "7": 11
-   }
+   },
+   "ageMy": 7.9
   },
   {
    "id": "Polemoniaceae",
@@ -13005,7 +14032,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "7": 384,
@@ -13013,7 +14041,8 @@
     "3": 18,
     "1": 6,
     "4": 1
-   }
+   },
+   "ageMy": 40.3
   },
   {
    "id": "Lecythidaceae",
@@ -13035,7 +14064,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 471,
    "dist": {
@@ -13046,7 +14076,8 @@
     "5": 6,
     "3": 5,
     "7": 1
-   }
+   },
+   "ageMy": 51.7
   },
   {
    "id": "Sladeniaceae",
@@ -13066,14 +14097,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3,
    "dist": {
     "3": 2,
     "4": 1,
     "2": 1
-   }
+   },
+   "ageMy": 0.0
   },
   {
    "id": "Pentaphylacaceae",
@@ -13095,7 +14128,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 645,
    "dist": {
@@ -13105,7 +14139,8 @@
     "7": 19,
     "2": 7,
     "6": 7
-   }
+   },
+   "ageMy": 99.7
   },
   {
    "id": "Sapotaceae",
@@ -13128,7 +14163,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1832,
    "dist": {
@@ -13139,7 +14175,8 @@
     "7": 57,
     "5": 38,
     "3": 31
-   }
+   },
+   "ageMy": 28.2
   },
   {
    "id": "Ebenaceae",
@@ -13160,7 +14197,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1039,
    "dist": {
@@ -13171,7 +14209,8 @@
     "6": 39,
     "7": 24,
     "5": 22
-   }
+   },
+   "ageMy": 38.4
   },
   {
    "id": "Primulaceae",
@@ -13194,7 +14233,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3856,
    "dist": {
@@ -13207,7 +14247,8 @@
     "1": 187,
     "5": 60,
     "9": 2
-   }
+   },
+   "ageMy": 60.7
   },
   {
    "id": "Theaceae",
@@ -13230,7 +14271,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 504,
    "dist": {
@@ -13238,7 +14280,8 @@
     "3": 186,
     "8": 23,
     "7": 4
-   }
+   },
+   "ageMy": 33.3
   },
   {
    "id": "Symplocaceae",
@@ -13258,7 +14301,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 501,
    "dist": {
@@ -13268,7 +14312,8 @@
     "5": 19,
     "7": 18,
     "6": 10
-   }
+   },
+   "ageMy": 23.6
   },
   {
    "id": "Diapensiaceae",
@@ -13290,7 +14335,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 23,
    "dist": {
@@ -13298,7 +14344,8 @@
     "7": 7,
     "4": 5,
     "1": 1
-   }
+   },
+   "ageMy": 28.1
   },
   {
    "id": "Styracaceae",
@@ -13320,7 +14367,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 201,
    "dist": {
@@ -13330,7 +14378,8 @@
     "7": 19,
     "6": 1,
     "1": 1
-   }
+   },
+   "ageMy": 41.0
   },
   {
    "id": "Sarraceniaceae",
@@ -13352,13 +14401,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 96,
    "dist": {
     "7": 34,
     "8": 20
-   }
+   },
+   "ageMy": 41.3
   },
   {
    "id": "Roridulaceae",
@@ -13377,12 +14428,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "2": 2
-   }
+   },
+   "ageMy": 84.8
   },
   {
    "id": "Actinidiaceae",
@@ -13404,7 +14457,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 525,
    "dist": {
@@ -13414,7 +14468,8 @@
     "7": 23,
     "6": 1,
     "5": 1
-   }
+   },
+   "ageMy": 35.3
   },
   {
    "id": "Clethraceae",
@@ -13435,7 +14490,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 121,
    "dist": {
@@ -13444,7 +14500,8 @@
     "4": 17,
     "3": 8,
     "2": 1
-   }
+   },
+   "ageMy": 8.3
   },
   {
    "id": "Cyrillaceae",
@@ -13465,13 +14522,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
     "8": 10,
     "7": 2
-   }
+   },
+   "ageMy": 61.8
   },
   {
    "id": "Ericaceae",
@@ -13494,7 +14553,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5782,
    "dist": {
@@ -13507,7 +14567,8 @@
     "1": 67,
     "6": 37,
     "9": 3
-   }
+   },
+   "ageMy": 59.1
   },
   {
    "id": "Mitrastemonaceae",
@@ -13526,7 +14587,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 3,
    "dist": {
@@ -13534,14 +14596,19 @@
     "4": 1,
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 102.1
   },
   {
    "id": "Lamiids",
    "parent": "Asterids",
    "rank": "clade",
    "name": "Lamiids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 102.4,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Icacinales",
@@ -13553,9 +14620,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 230
+   "gbifSpeciesCount": 230,
+   "ageMy": 68.4
   },
   {
    "id": "Oncothecaceae",
@@ -13574,12 +14643,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "6": 2
-   }
+   },
+   "ageMy": 68.4
   },
   {
    "id": "Icacinaceae",
@@ -13600,7 +14671,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 228,
    "dist": {
@@ -13611,7 +14683,8 @@
     "7": 4,
     "6": 1,
     "5": 1
-   }
+   },
+   "ageMy": 55.6
   },
   {
    "id": "Metteniusales",
@@ -13623,9 +14696,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 70
+   "gbifSpeciesCount": 70,
+   "ageMy": 0.0
   },
   {
    "id": "Metteniusaceae",
@@ -13646,7 +14721,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 70,
    "dist": {
@@ -13657,7 +14733,8 @@
     "3": 4,
     "5": 1,
     "6": 1
-   }
+   },
+   "ageMy": 0.0
   },
   {
    "id": "Garryales",
@@ -13669,9 +14746,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 36
+   "gbifSpeciesCount": 36,
+   "ageMy": 43.5
   },
   {
    "id": "Eucommiaceae",
@@ -13691,12 +14770,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
     "3": 1
-   }
+   },
+   "ageMy": 43.5
   },
   {
    "id": "Garryaceae",
@@ -13717,7 +14798,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 34,
    "dist": {
@@ -13725,7 +14807,8 @@
     "3": 10,
     "8": 3,
     "4": 2
-   }
+   },
+   "ageMy": 28.9
   },
   {
    "id": "Gentianales",
@@ -13737,9 +14820,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 28216
+   "gbifSpeciesCount": 28216,
+   "ageMy": 67.7
   },
   {
    "id": "Rubiaceae",
@@ -13762,7 +14847,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 17268,
    "dist": {
@@ -13775,7 +14861,8 @@
     "5": 397,
     "1": 326,
     "9": 5
-   }
+   },
+   "ageMy": 49.7
   },
   {
    "id": "Gentianaceae",
@@ -13798,7 +14885,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2303,
    "dist": {
@@ -13811,7 +14899,8 @@
     "5": 56,
     "6": 7,
     "9": 2
-   }
+   },
+   "ageMy": 28.0
   },
   {
    "id": "Loganiaceae",
@@ -13833,7 +14922,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 593,
    "dist": {
@@ -13844,7 +14934,8 @@
     "6": 49,
     "7": 36,
     "3": 32
-   }
+   },
+   "ageMy": 39.5
   },
   {
    "id": "Gelsemiaceae",
@@ -13865,7 +14956,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 20,
    "dist": {
@@ -13874,7 +14966,8 @@
     "4": 2,
     "7": 2,
     "3": 1
-   }
+   },
+   "ageMy": 25.2
   },
   {
    "id": "Apocynaceae",
@@ -13897,7 +14990,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8021,
    "dist": {
@@ -13909,7 +15003,8 @@
     "6": 215,
     "5": 176,
     "1": 30
-   }
+   },
+   "ageMy": 30.9
   },
   {
    "id": "Boraginales",
@@ -13921,9 +15016,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 4406
+   "gbifSpeciesCount": 4406,
+   "ageMy": 61.2
   },
   {
    "id": "Boraginaceae",
@@ -13946,7 +15043,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2645,
    "dist": {
@@ -13958,7 +15056,8 @@
     "4": 321,
     "5": 171,
     "6": 12
-   }
+   },
+   "ageMy": 61.2
   },
   {
    "id": "Vahliales",
@@ -13970,9 +15069,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 6
+   "gbifSpeciesCount": 6,
+   "ageMy": 46.3
   },
   {
    "id": "Vahliaceae",
@@ -13991,14 +15092,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6,
    "dist": {
     "2": 5,
     "4": 2,
     "3": 2
-   }
+   },
+   "ageMy": 46.3
   },
   {
    "id": "Solanales",
@@ -14010,9 +15113,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 6434
+   "gbifSpeciesCount": 6434,
+   "ageMy": 66.6
   },
   {
    "id": "Convolvulaceae",
@@ -14034,7 +15139,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2609,
    "dist": {
@@ -14047,7 +15153,8 @@
     "1": 54,
     "6": 31,
     "9": 3
-   }
+   },
+   "ageMy": 51.6
   },
   {
    "id": "Solanaceae",
@@ -14069,7 +15176,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 1967,
@@ -14080,7 +15188,8 @@
     "4": 141,
     "6": 38,
     "1": 23
-   }
+   },
+   "ageMy": 39.2
   },
   {
    "id": "Montiniaceae",
@@ -14101,12 +15210,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "2": 5
-   }
+   },
+   "ageMy": 26.2
   },
   {
    "id": "Sphenocleaceae",
@@ -14126,7 +15237,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 2,
    "dist": {
@@ -14134,7 +15246,8 @@
     "3": 1,
     "4": 1,
     "5": 1
-   }
+   },
+   "ageMy": 56.5
   },
   {
    "id": "Hydroleaceae",
@@ -14154,7 +15267,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 19,
    "dist": {
@@ -14164,7 +15278,8 @@
     "3": 1,
     "4": 1,
     "5": 1
-   }
+   },
+   "ageMy": 0.7
   },
   {
    "id": "Lamiales",
@@ -14176,9 +15291,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 36404
+   "gbifSpeciesCount": 36404,
+   "ageMy": 71.0
   },
   {
    "id": "Plocospermataceae",
@@ -14197,13 +15314,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 1,
    "dist": {
     "7": 1,
     "8": 1
-   }
+   },
+   "ageMy": 77.0
   },
   {
    "id": "Carlemanniaceae",
@@ -14223,13 +15342,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "4": 5,
     "3": 3
-   }
+   },
+   "ageMy": 0.6
   },
   {
    "id": "Oleaceae",
@@ -14252,7 +15373,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1140,
    "dist": {
@@ -14264,7 +15386,8 @@
     "5": 31,
     "6": 24,
     "1": 15
-   }
+   },
+   "ageMy": 32.1
   },
   {
    "id": "Tetrachondraceae",
@@ -14283,13 +15406,15 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 2,
     "5": 1,
     "7": 1
-   }
+   },
+   "ageMy": 31.7
   },
   {
    "id": "Calceolariaceae",
@@ -14309,14 +15434,16 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "8": 271,
     "7": 4,
     "5": 2,
     "9": 2
-   }
+   },
+   "ageMy": 14.4
   },
   {
    "id": "Gesneriaceae",
@@ -14339,7 +15466,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4515,
    "dist": {
@@ -14351,7 +15479,8 @@
     "7": 123,
     "5": 9,
     "1": 5
-   }
+   },
+   "ageMy": 38.6
   },
   {
    "id": "Plantaginaceae",
@@ -14374,7 +15503,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2909,
    "dist": {
@@ -14387,7 +15517,8 @@
     "4": 220,
     "6": 16,
     "9": 8
-   }
+   },
+   "ageMy": 51.2
   },
   {
    "id": "Scrophulariaceae",
@@ -14409,7 +15540,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2826,
    "dist": {
@@ -14422,7 +15554,8 @@
     "7": 57,
     "6": 13,
     "9": 1
-   }
+   },
+   "ageMy": 52.9
   },
   {
    "id": "Stilbaceae",
@@ -14442,13 +15575,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 51,
    "dist": {
     "2": 40,
     "3": 3
-   }
+   },
+   "ageMy": 18.8
   },
   {
    "id": "Linderniaceae",
@@ -14469,7 +15604,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 352,
    "dist": {
@@ -14481,7 +15617,8 @@
     "7": 9,
     "6": 7,
     "1": 1
-   }
+   },
+   "ageMy": 40.3
   },
   {
    "id": "Byblidaceae",
@@ -14501,13 +15638,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "5": 8,
     "4": 1
-   }
+   },
+   "ageMy": 15.5
   },
   {
    "id": "Martyniaceae",
@@ -14529,13 +15668,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 21,
    "dist": {
     "7": 9,
     "8": 8
-   }
+   },
+   "ageMy": 13.3
   },
   {
    "id": "Pedaliaceae",
@@ -14557,7 +15698,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 85,
    "dist": {
@@ -14565,7 +15707,8 @@
     "4": 5,
     "5": 3,
     "3": 1
-   }
+   },
+   "ageMy": 7.6
   },
   {
    "id": "Acanthaceae",
@@ -14588,7 +15731,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 6508,
    "dist": {
@@ -14600,7 +15744,8 @@
     "5": 53,
     "6": 34,
     "1": 5
-   }
+   },
+   "ageMy": 135.8
   },
   {
    "id": "Bignoniaceae",
@@ -14623,7 +15768,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1451,
    "dist": {
@@ -14634,7 +15780,8 @@
     "3": 42,
     "5": 19,
     "6": 4
-   }
+   },
+   "ageMy": 42.7
   },
   {
    "id": "Lentibulariaceae",
@@ -14656,7 +15803,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 482,
    "dist": {
@@ -14668,7 +15816,8 @@
     "3": 50,
     "1": 40,
     "6": 5
-   }
+   },
+   "ageMy": 32.9
   },
   {
    "id": "Schlegeliaceae",
@@ -14687,13 +15836,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 43,
    "dist": {
     "8": 38,
     "7": 3
-   }
+   },
+   "ageMy": 4.1
   },
   {
    "id": "Thomandersiaceae",
@@ -14712,12 +15863,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "2": 6
-   }
+   },
+   "ageMy": 3.6
   },
   {
    "id": "Verbenaceae",
@@ -14739,7 +15892,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 1246,
    "dist": {
@@ -14752,7 +15906,8 @@
     "5": 2,
     "9": 1,
     "6": 1
-   }
+   },
+   "ageMy": 30.6
   },
   {
    "id": "Lamiaceae",
@@ -14774,7 +15929,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 2820,
@@ -14786,7 +15942,8 @@
     "5": 504,
     "6": 116,
     "9": 1
-   }
+   },
+   "ageMy": 34.3
   },
   {
    "id": "Mazaceae",
@@ -14806,7 +15963,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 51,
    "dist": {
@@ -14814,7 +15972,8 @@
     "4": 9,
     "5": 4,
     "1": 1
-   }
+   },
+   "ageMy": 17.5
   },
   {
    "id": "Phrymaceae",
@@ -14836,7 +15995,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 300,
    "dist": {
@@ -14846,7 +16006,8 @@
     "5": 17,
     "8": 11,
     "2": 4
-   }
+   },
+   "ageMy": 33.2
   },
   {
    "id": "Paulowniaceae",
@@ -14866,13 +16027,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 13,
    "dist": {
     "3": 9,
     "4": 5
-   }
+   },
+   "ageMy": 3.3
   },
   {
    "id": "Orobanchaceae",
@@ -14894,7 +16057,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 884,
@@ -14906,14 +16070,19 @@
     "5": 53,
     "6": 3,
     "9": 1
-   }
+   },
+   "ageMy": 35.2
   },
   {
    "id": "Campanulids",
    "parent": "Asterids",
    "rank": "clade",
    "name": "Campanulids",
-   "ids": {}
+   "ids": {},
+   "ageMy": 102.7,
+   "provenance": {
+    "ageMy": "megatree"
+   }
   },
   {
    "id": "Aquifoliales",
@@ -14925,9 +16094,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 842
+   "gbifSpeciesCount": 842,
+   "ageMy": 92.0
   },
   {
    "id": "Stemonuraceae",
@@ -14948,7 +16119,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 87,
    "dist": {
@@ -14958,7 +16130,8 @@
     "3": 4,
     "8": 2,
     "5": 2
-   }
+   },
+   "ageMy": 25.3
   },
   {
    "id": "Cardiopteridaceae",
@@ -14979,7 +16152,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 55,
    "dist": {
@@ -14989,7 +16163,8 @@
     "6": 5,
     "3": 3,
     "5": 2
-   }
+   },
+   "ageMy": 65.9
   },
   {
    "id": "Phyllonomaceae",
@@ -15008,13 +16183,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 5,
    "dist": {
     "8": 5,
     "7": 1
-   }
+   },
+   "ageMy": 56.4
   },
   {
    "id": "Helwingiaceae",
@@ -15035,13 +16212,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7,
    "dist": {
     "3": 4,
     "4": 3
-   }
+   },
+   "ageMy": 0.4
   },
   {
    "id": "Aquifoliaceae",
@@ -15063,7 +16242,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 830,
    "dist": {
@@ -15075,7 +16255,8 @@
     "2": 4,
     "1": 2,
     "5": 2
-   }
+   },
+   "ageMy": 43.2
   },
   {
    "id": "Asterales",
@@ -15087,9 +16268,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 55706
+   "gbifSpeciesCount": 55706,
+   "ageMy": 83.2
   },
   {
    "id": "Rousseaceae",
@@ -15110,7 +16293,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7,
    "dist": {
@@ -15118,7 +16302,8 @@
     "5": 4,
     "2": 1,
     "6": 1
-   }
+   },
+   "ageMy": 62.4
   },
   {
    "id": "Campanulaceae",
@@ -15140,7 +16325,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 3357,
    "dist": {
@@ -15153,7 +16339,8 @@
     "6": 130,
     "5": 105,
     "9": 1
-   }
+   },
+   "ageMy": 45.6
   },
   {
    "id": "Pentaphragmataceae",
@@ -15172,13 +16359,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 42,
    "dist": {
     "4": 31,
     "3": 2
-   }
+   },
+   "ageMy": 78.1
   },
   {
    "id": "Stylidiaceae",
@@ -15200,7 +16389,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 334,
    "dist": {
@@ -15208,7 +16398,8 @@
     "4": 8,
     "8": 2,
     "3": 2
-   }
+   },
+   "ageMy": 6.1
   },
   {
    "id": "Alseuosmiaceae",
@@ -15229,14 +16420,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 12,
    "dist": {
     "5": 7,
     "6": 2,
     "4": 1
-   }
+   },
+   "ageMy": 18.6
   },
   {
    "id": "Phellinaceae",
@@ -15255,12 +16448,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree-stem"
    },
    "gbifSpeciesCount": 11,
    "dist": {
     "6": 10
-   }
+   },
+   "ageMy": 31.4
   },
   {
    "id": "Argophyllaceae",
@@ -15280,13 +16475,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 26,
    "dist": {
     "5": 17,
     "6": 8
-   }
+   },
+   "ageMy": 0.1
   },
   {
    "id": "Menyanthaceae",
@@ -15308,7 +16505,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 88,
    "dist": {
@@ -15320,7 +16518,8 @@
     "8": 6,
     "1": 2,
     "6": 1
-   }
+   },
+   "ageMy": 39.3
   },
   {
    "id": "Goodeniaceae",
@@ -15342,7 +16541,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 571,
    "dist": {
@@ -15353,7 +16553,8 @@
     "3": 4,
     "8": 3,
     "7": 2
-   }
+   },
+   "ageMy": 32.7
   },
   {
    "id": "Calyceraceae",
@@ -15374,13 +16575,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 55,
    "dist": {
     "8": 46,
     "9": 1
-   }
+   },
+   "ageMy": 13.0
   },
   {
    "id": "Asteraceae",
@@ -15403,7 +16606,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 51202,
    "dist": {
@@ -15416,7 +16620,8 @@
     "5": 1458,
     "6": 189,
     "9": 34
-   }
+   },
+   "ageMy": 45.3
   },
   {
    "id": "Escalloniales",
@@ -15428,9 +16633,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 174
+   "gbifSpeciesCount": 174,
+   "ageMy": 91.7
   },
   {
    "id": "Escalloniaceae",
@@ -15452,7 +16659,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 174,
    "dist": {
@@ -15462,7 +16670,8 @@
     "6": 6,
     "3": 1,
     "2": 1
-   }
+   },
+   "ageMy": 91.7
   },
   {
    "id": "Bruniales",
@@ -15474,9 +16683,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 108
+   "gbifSpeciesCount": 108,
+   "ageMy": 78.3
   },
   {
    "id": "Columelliaceae",
@@ -15496,12 +16707,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 8,
    "dist": {
     "8": 8
-   }
+   },
+   "ageMy": 33.6
   },
   {
    "id": "Bruniaceae",
@@ -15522,12 +16735,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 100,
    "dist": {
     "2": 77
-   }
+   },
+   "ageMy": 45.5
   },
   {
    "id": "Paracryphiales",
@@ -15539,9 +16754,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 40
+   "gbifSpeciesCount": 40,
+   "ageMy": 53.1
   },
   {
    "id": "Paracryphiaceae",
@@ -15562,14 +16779,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 40,
    "dist": {
     "4": 17,
     "6": 13,
     "5": 7
-   }
+   },
+   "ageMy": 53.1
   },
   {
    "id": "Dipsacales",
@@ -15581,9 +16800,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 2036
+   "gbifSpeciesCount": 2036,
+   "ageMy": 70.9
   },
   {
    "id": "Adoxaceae",
@@ -15604,9 +16825,11 @@
    "provenance": {
     "speciesCount": "estimate",
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 0
+   "gbifSpeciesCount": 0,
+   "ageMy": 58.9
   },
   {
    "id": "Caprifoliaceae",
@@ -15628,7 +16851,8 @@
    "provenance": {
     "speciesCount": "wcvp",
     "ids": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "dist": {
     "3": 516,
@@ -15639,7 +16863,8 @@
     "4": 117,
     "9": 1,
     "5": 1
-   }
+   },
+   "ageMy": 52.6
   },
   {
    "id": "Apiales",
@@ -15651,9 +16876,11 @@
    },
    "provenance": {
     "ids": "gbif",
-    "gbifSpeciesCount": "gbif"
+    "gbifSpeciesCount": "gbif",
+    "ageMy": "megatree"
    },
-   "gbifSpeciesCount": 7460
+   "gbifSpeciesCount": 7460,
+   "ageMy": 70.5
   },
   {
    "id": "Pennantiaceae",
@@ -15672,12 +16899,14 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4,
    "dist": {
     "5": 4
-   }
+   },
+   "ageMy": 21.7
   },
   {
    "id": "Torricelliaceae",
@@ -15698,14 +16927,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 12,
    "dist": {
     "2": 8,
     "4": 3,
     "3": 2
-   }
+   },
+   "ageMy": 75.5
   },
   {
    "id": "Griseliniaceae",
@@ -15725,13 +16956,15 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 7,
    "dist": {
     "8": 5,
     "5": 2
-   }
+   },
+   "ageMy": 15.3
   },
   {
    "id": "Pittosporaceae",
@@ -15753,7 +16986,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 336,
    "dist": {
@@ -15762,7 +16996,8 @@
     "6": 77,
     "3": 53,
     "2": 20
-   }
+   },
+   "ageMy": 19.1
   },
   {
    "id": "Araliaceae",
@@ -15785,7 +17020,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 2187,
    "dist": {
@@ -15798,7 +17034,8 @@
     "7": 44,
     "1": 8,
     "9": 4
-   }
+   },
+   "ageMy": 39.7
   },
   {
    "id": "Myodocarpaceae",
@@ -15818,14 +17055,16 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 20,
    "dist": {
     "6": 14,
     "5": 1,
     "4": 1
-   }
+   },
+   "ageMy": 28.3
   },
   {
    "id": "Apiaceae",
@@ -15848,7 +17087,8 @@
     "speciesCount": "wcvp",
     "ids": "gbif",
     "gbifSpeciesCount": "gbif",
-    "dist": "wcvp"
+    "dist": "wcvp",
+    "ageMy": "megatree"
    },
    "gbifSpeciesCount": 4892,
    "dist": {
@@ -15861,7 +17101,8 @@
     "5": 202,
     "9": 12,
     "6": 11
-   }
+   },
+   "ageMy": 56.0
   }
  ]
 }

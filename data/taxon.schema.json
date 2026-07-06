@@ -22,6 +22,10 @@
       "description": "Native species richness per WGSRPD level-1 botanical continent, keyed by code (1 Europe … 9 Antarctic). From WCVP; set by build/wcvp.py. The viz aggregates it up to internal nodes.",
       "additionalProperties": {"type": "integer"}
     },
+    "ageMy": {
+      "type": "number",
+      "description": "Divergence age in millions of years, from the dated plant megatree via build/ages.py. Crown age (MRCA of members) where the clade has ≥2 tips; stem age for monotypic lineages (provenance.ageMy = 'megatree' or 'megatree-stem'). Vascular plants only; bryophytes are null."
+    },
     "ids": {
       "type": "object",
       "additionalProperties": false,

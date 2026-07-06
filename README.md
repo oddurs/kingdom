@@ -15,6 +15,7 @@ data/taxon.schema.json  JSON Schema for a taxon record
 build/build.py          validates taxa.json, derives the nested tree, injects it
 build/fetch.py          enriches taxa.json with GBIF ids + metrics (run with internet)
 build/wcvp.py           applies Kew WCVP accepted-species counts (needs the dump)
+build/ages.py           derives divergence ages from a dated megatree (auto-fetchable)
 build/template.html     markup + CSS + JS, with a /*__DATA__*/ placeholder
 plant-tree.html         generated, self-contained visualization (commit artifact)
 ```
@@ -56,6 +57,7 @@ carrying `provenance: estimate` are approximate and await a sourced value —
 python3 build/build.py     # validate taxa.json → derive tree → plant-tree.html
 python3 build/fetch.py     # (with internet) fill GBIF ids + metrics into taxa.json
 python3 build/wcvp.py      # apply Kew WCVP accepted-species counts (needs the dump)
+python3 build/ages.py      # derive divergence ages from a dated megatree
 ```
 
 `fetch.py` is idempotent and throttled. It writes GBIF `usageKey`s (identifiers +
@@ -63,10 +65,18 @@ deep links) and GBIF species counts (stored separately as `gbifSpeciesCount`,
 since the backbone count includes synonyms and is *not* the accepted-species
 display number).
 
-`wcvp.py` sets the honest `speciesCount` from Kew's [WCVP](https://sftp.kew.org/pub/data-repositories/WCVP/)
-— accepted species only. WCVP is a bulk download (~440 MB), not an API: unzip it
-into `data/wcvp/` (git-ignored) and run the script. Families WCVP circumscribes
-differently (e.g. Adoxaceae → Viburnaceae, some fern families) keep their estimate.
+`wcvp.py` sets the honest `speciesCount` (accepted species only) and native
+`dist`ribution from Kew's [WCVP](https://sftp.kew.org/pub/data-repositories/WCVP/).
+WCVP is a bulk download (~440 MB), not an API: unzip it into `data/wcvp/`
+(git-ignored) and run the script. Families WCVP circumscribes differently
+(e.g. Adoxaceae → Viburnaceae, some fern families) keep their estimate.
+
+`ages.py` derives a divergence `ageMy` for each clade from the dated
+[plant megatree](https://github.com/megatrees/plant_20221117) (Jin & Qian 2022;
+Smith & Brown 2018; Zanne 2014) — a single 2.9 MB Newick it reads from
+`data/megatree/` (git-ignored). Crown age via the MRCA of a clade's tips, with
+light outlier rejection to reject the occasional misplaced genus; monotypic
+lineages get a stem age. Vascular plants only, so bryophytes stay undated.
 
 Edit the data in `data/taxa.json` or the presentation in `build/template.html`,
 then rebuild.

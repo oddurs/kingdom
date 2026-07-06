@@ -210,6 +210,9 @@
   .pex{display:flex; flex-wrap:wrap; gap:6px}
   .pex .exchip{font-family:var(--sans); font-size:11.5px; color:var(--dim);
     background:#0d1712; border:1px solid var(--edge); border-radius:20px; padding:3px 10px}
+  /* origin time-bar (geological periods) */
+  .potl{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:9px; background:#0b1410}
+  .potl .band{stroke:#0b1410; stroke-width:.4}
   /* distribution mini-map (WGSRPD level-1) */
   .pdistlabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
@@ -378,6 +381,7 @@
       <div class="pcommon" id="pcommon"></div>
       <p class="pblurb" id="pblurb"></p>
       <div id="pexwrap"></div>
+      <div id="porigin"></div>
       <div id="pdist"></div>
       <div class="pstats" id="pstats"></div>
       <div class="pactions" id="pactions"></div>
@@ -1057,6 +1061,27 @@ function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; 
 function revealNode(n){ let p=n.parent, changed=false;
   while(p){ if((p.children||[]).length && !p.open){ p.open=true; changed=true; } p=p.parent; }
   if(changed){ render(); relabelAll(); } }
+// ---------- origin time-bar (geological periods, Ma) ----------
+const GEOP=[['Silurian',444,419,'#4f8f79'],['Devonian',419,359,'#3f7f88'],
+  ['Carboniferous',359,299,'#566f9e'],['Permian',299,252,'#8a6cae'],
+  ['Triassic',252,201,'#a76aa0'],['Jurassic',201,145,'#c17f68'],
+  ['Cretaceous',145,66,'#8faa55'],['Paleogene',66,23,'#d3a24a'],
+  ['Neogene',23,2.6,'#dcc06a'],['Quaternary',2.6,0,'#c9c9c9']];
+const TMAX=445;
+function periodOf(a){ for(const p of GEOP) if(a<=p[1]&&a>p[2]) return p; return GEOP[GEOP.length-1]; }
+function originBar(node){
+  const a=node.ageMy; if(a==null) return '';
+  const W=220,BH=13,Y=6, x=v=>(TMAX-v)/TMAX*W;
+  const bands=GEOP.map(p=>{const x0=x(p[1]),x1=x(p[2]);
+    return `<rect class="band" x="${x0.toFixed(1)}" y="${Y}" width="${(x1-x0).toFixed(1)}" height="${BH}" fill="${p[3]}" fill-opacity="0.5"><title>${p[0]} ${p[1]}–${p[2]} Ma</title></rect>`;}).join('');
+  const mx=x(a).toFixed(1), per=periodOf(a);
+  const marker=`<path d="M${mx},${Y-3} l-3.5,-5 l7,0 z" fill="#fff"/><line x1="${mx}" y1="${Y-3}" x2="${mx}" y2="${Y+BH+1}" stroke="#fff" stroke-width="1"/>`;
+  const shown=a<10?a:Math.round(a);
+  return `<div class="pdistlabel"><span>Origin</span><span class="cod">~${shown} Ma · ${per[0]}</span></div>`+
+    `<svg class="potl" viewBox="0 0 220 30" preserveAspectRatio="none" role="img" aria-label="Origin about ${Math.round(a)} million years ago, ${per[0]} period">${bands}${marker}`+
+    `<text x="1" y="29" style="font-size:7px;fill:var(--faint)">445 Ma</text>`+
+    `<text x="219" y="29" text-anchor="end" style="font-size:7px;fill:var(--faint)">now</text></svg>`;
+}
 // ---------- distribution mini-map (WGSRPD level-1 botanical continents) ----------
 const CONTINENTS={"1":"Europe","2":"Africa","3":"Asia-Temperate","4":"Asia-Tropical",
   "5":"Australasia","6":"Pacific","7":"Northern America","8":"Southern America","9":"Antarctic"};
@@ -1095,6 +1120,7 @@ function select(n, opts){
   const bl=document.getElementById('pblurb'); bl.textContent=n.blurb||''; bl.style.display=n.blurb?'block':'none';
   document.getElementById('pexwrap').innerHTML = (n.examples&&n.examples.length)
     ? `<div class="pexlabel">Examples</div><div class="pex">${n.examples.map(x=>`<span class="exchip">${escp(x)}</span>`).join('')}</div>` : '';
+  document.getElementById('porigin').innerHTML = originBar(n);
   document.getElementById('pdist').innerHTML = distMap(n, lc);
   const hasKids=(n.children||[]).length>0;
   document.getElementById('pstats').innerHTML =
