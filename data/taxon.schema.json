@@ -17,6 +17,11 @@
     "gbifSpeciesCount": {"type": "number", "description": "GBIF backbone species count (includes synonyms/unplaced; documented, not the display count)."},
     "examples": {"type": "array", "items": {"type": "string"}},
     "blurb": {"type": "string"},
+    "dist": {
+      "type": "object",
+      "description": "Native species richness per WGSRPD level-1 botanical continent, keyed by code (1 Europe … 9 Antarctic). From WCVP; set by build/wcvp.py. The viz aggregates it up to internal nodes.",
+      "additionalProperties": {"type": "integer"}
+    },
     "ids": {
       "type": "object",
       "additionalProperties": false,
