@@ -844,7 +844,8 @@ const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).fo
 function applyState(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); render(); relabelAll(); }
 function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } }
 function toOrders(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); setActive('btnOrders'); fit(650); }
-function expandAll(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0; }); setActive('btnExpand'); fit(650); }
+// stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
+function expandAll(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); setActive('btnExpand'); fit(650); }
 function collapseTop(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
 function setModeButtons(m){
