@@ -462,14 +462,17 @@ function prep(n, depth, lineage, parent){
   n._id=UID++; n.depth=depth; n.parent=parent;
   n.lineage = ANCHORS[n.name] || lineage;
   const kids=n.children||[];
-  let famCount=0, agg=0, distAgg={};
-  if(kids.length===0){ agg=n.speciesCount||1; famCount=(n.rank==='family')?1:0;
-    if(n.dist) for(const c in n.dist) distAgg[c]=n.dist[c]; }
-  for(const k of kids){ prep(k, depth+1, n.lineage, n); agg+=k.agg; famCount+=k.famCount;
-    for(const c in k.distAgg) distAgg[c]=(distAgg[c]||0)+k.distAgg[c]; }
+  // a family counts as one family and keeps its OWN distribution, even now that
+  // it has genus children (genera carry no dist of their own).
+  let famCount=(n.rank==='family')?1:0, agg=0, distAgg={};
+  if(n.dist) for(const c in n.dist) distAgg[c]=n.dist[c];
+  if(kids.length===0) agg=n.speciesCount||1;
+  for(const k of kids){ prep(k, depth+1, n.lineage, n); agg+=k.agg;
+    if(n.rank!=='family') famCount+=k.famCount;
+    if(n.rank!=='family') for(const c in k.distAgg) distAgg[c]=(distAgg[c]||0)+k.distAgg[c]; }
   n.agg=agg; n.famCount=famCount; n.distAgg=distAgg;
-  // default open: everything internal EXCEPT orders (orders collapse to hide families)
-  n.open = kids.length>0 && n.rank!=='order';
+  // default open: internal nodes EXCEPT orders (hide families) and families (hide genera)
+  n.open = kids.length>0 && n.rank!=='order' && n.rank!=='family';
   if(agg>MAXAGG) MAXAGG=agg;
   return n;
 }
@@ -1154,15 +1157,15 @@ function select(n, opts){
     if(navigator.clipboard) navigator.clipboard.writeText(url);
     cp.textContent='Copied ✓'; setTimeout(()=>cp.textContent='Copy link',1200); };
   act.appendChild(cp);
-  // external references — links resolve from the name; GBIF deep-links when we hold a verified id
-  const q=encodeURIComponent(n.name), gid=n.ids&&n.ids.gbif;
+  // external references — links resolve from the name; POWO/GBIF deep-link when we hold a verified id
+  const q=encodeURIComponent(n.name), gid=n.ids&&n.ids.gbif, pid=n.ids&&n.ids.powo;
   const refs=[
-    ['POWO','https://powo.science.kew.org/results?q='+q, false],
-    ['GBIF', gid?('https://www.gbif.org/species/'+gid):('https://www.gbif.org/species/search?q='+q), !!gid],
-    ['Wikipedia','https://en.wikipedia.org/wiki/'+q, false]
+    ['POWO', pid?('https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:'+pid):('https://powo.science.kew.org/results?q='+q), !!pid, pid?('verified POWO id '+pid):''],
+    ['GBIF', gid?('https://www.gbif.org/species/'+gid):('https://www.gbif.org/species/search?q='+q), !!gid, gid?('verified GBIF id '+gid):''],
+    ['Wikipedia','https://en.wikipedia.org/wiki/'+q, false, '']
   ];
   document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
-    refs.map(([t,u,v])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${v?' title="verified GBIF id '+gid+'"':''}>${t}</a>`).join('')+'</div>';
+    refs.map(([t,u,v,ti])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${ti?' title="'+ti+'"':''}>${t}</a>`).join('')+'</div>';
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
   if(opts.center!==false) focusNode(n);
   updateHash();
@@ -1345,11 +1348,11 @@ toursbar.innerHTML = '<span class="slabel">Tours</span>'
   + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
 
-let totLeaves=0, totFam=0, totSpp=ROOT.agg;
-(function w(n){ if(!(n.children||[]).length){ totLeaves++; if(n.rank==='family') totFam++; } (n.children||[]).forEach(w); })(ROOT);
+let totFam=0, totGen=0, totSpp=ROOT.agg;
+(function w(n){ if(n.rank==='family') totFam++; else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
 document.getElementById('footer').innerHTML =
-  `<span><span class="k">taxa</span> <b>${UID}</b></span>`+
   `<span><span class="k">families</span> <b>${totFam}</b></span>`+
+  `<span><span class="k">genera</span> <b>${totGen.toLocaleString()}</b></span>`+
   `<span><span class="k">orders</span> <b>86</b></span>`+
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
   `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
