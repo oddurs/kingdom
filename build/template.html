@@ -94,16 +94,17 @@
   svg{width:100%; height:100%; display:block}
   #viewport{will-change:transform}
 
-  .link{fill:none; stroke:var(--lc,var(--line)); stroke-opacity:.34; stroke-width:1.4px;
-    transition:stroke-opacity .2s, stroke-width .2s;}
+  .link{fill:none; stroke:var(--lc,var(--line)); stroke-opacity:.4; stroke-width:var(--lw,1.4px);
+    stroke-linecap:round; stroke-linejoin:round; transition:stroke-opacity .2s;}
   .node{cursor:pointer}
-  .node .halo{fill:var(--lc); opacity:0; transition:opacity .2s}
+  /* --glow: a faint always-on luminance, scaled by clade size, so the tree reads as lit from within */
+  .node .halo{fill:var(--lc); opacity:var(--glow,0); transition:opacity .2s}
   .node circle.dot{
     fill:var(--ground); stroke:var(--lc,var(--l-root)); stroke-width:1.8px;
     transition:transform .18s, fill .18s, stroke-width .18s;
   }
   .node.branch circle.dot{fill:var(--lc,var(--l-root))} /* collapsed w/ hidden children = filled */
-  .node.open circle.dot{fill:var(--ground)}             /* expanded = hollow */
+  .node.open circle.dot{fill:color-mix(in srgb, var(--lc) 20%, var(--ground))} /* expanded = faintly lit, not a void */
   .node text{
     font-family:var(--serif); font-size:12.5px; fill:var(--ink); paint-order:stroke;
     stroke:var(--ground); stroke-width:3px; stroke-linejoin:round;
@@ -144,7 +145,7 @@
   /* focus/hover lineage highlight */
   .stage.focusing .link{stroke-opacity:.07}
   .stage.focusing .node{opacity:.28; transition:opacity .2s}
-  .link.lit{stroke-opacity:.9 !important; stroke-width:2.4px}
+  .link.lit{stroke-opacity:.92 !important}   /* brighten only — width already carries richness */
   .node.lit{opacity:1 !important}
   .node.lit .halo{opacity:.18}
 
@@ -492,6 +493,11 @@ function prep(n, depth, lineage, parent){
 const ROOT = prep(DATA.tree, 0, 'root', null);
 const K = 26/Math.sqrt(MAXAGG);
 function radius(n){ return Math.min(26, 2.4 + K*Math.sqrt(n.agg)); }
+// organic rendering: branch thickness and node luminance both scale with the richness a branch carries
+const richness = n => Math.sqrt(n.agg)/Math.sqrt(MAXAGG);          // 0..1
+const linkW = n => (0.6 + 5.2*richness(n)).toFixed(2)+'px';        // fine twig → thick trunk
+const glowOf = n => (0.05 + 0.13*richness(n)).toFixed(3);          // faint tip → glowing clade
+const haloR = n => (radius(n)*0.6 + 11).toFixed(1);                // soft surrounding cloud, not a tight rim
 const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 // ---------- colour modes (recolour the whole tree by a chosen dimension) ----------
 let colorMode='lineage';
@@ -581,7 +587,8 @@ function render(){
     const id=l.s._id+'-'+l.t._id; seenL.add(id);
     let el=linkEls.get(id);
     if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
-      el.style.setProperty('--lc', color(l.t)); gLinks.appendChild(el); linkEls.set(id,el); }
+      el.style.setProperty('--lc', color(l.t)); el.style.setProperty('--lw', linkW(l.t));
+      gLinks.appendChild(el); linkEls.set(id,el); }
     el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
   }
   // nodes
@@ -590,8 +597,8 @@ function render(){
     let el=nodeEls.get(n._id);
     if(!el){
       el=document.createElementNS(NS,'g'); el.setAttribute('class','node');
-      el.style.setProperty('--lc', color(n));
-      const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', radius(n)+9);
+      el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n));
+      const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', haloR(n));
       const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot'); dot.setAttribute('r', radius(n));
       const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
       const txt=document.createElementNS(NS,'text');
