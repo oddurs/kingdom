@@ -19,6 +19,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "taxa.json"
 GENERA = ROOT / "data" / "genera.json"
+WORLDMAP = ROOT / "data" / "worldmap.json"
 SCHEMA = ROOT / "data" / "taxon.schema.json"
 TEMPLATE = ROOT / "build" / "template.html"
 OUT = ROOT / "plant-tree.html"
@@ -116,6 +117,8 @@ def main() -> None:
 
     tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
+    if WORLDMAP.exists():
+        data["worldmap"] = json.loads(WORLDMAP.read_text())
 
     template = TEMPLATE.read_text()
     if PLACEHOLDER not in template:
