@@ -831,8 +831,10 @@ function renderTreemap(){
 }
 gTree.addEventListener('click', e=>{ const g=e.target.closest('[data-id]'); if(!g) return;
   const n=idMap.get(+g.dataset.id); if(!n) return;
-  if((n.children||[]).length && !n.open) toggle(n);
-  select(n,{center:false}); render(); });
+  select(n,{center:false});
+  // drill: a clade with children re-roots so its own children (down to genera) fill the frame
+  if((n.children||[]).length && n!==renderRoot) reroot(n); else render();
+});
 gTree.addEventListener('mousemove', e=>{ const g=e.target.closest('[data-id]');
   if(!g){ hideTip(); return; } const n=idMap.get(+g.dataset.id); if(n){ showTip(n,e); moveTip(e); } });
 gTree.addEventListener('mouseleave', ()=> hideTip());
