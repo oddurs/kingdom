@@ -464,13 +464,13 @@ function prep(n, depth, lineage, parent){
   const kids=n.children||[];
   // a family counts as one family and keeps its OWN distribution, even now that
   // it has genus children (genera carry no dist of their own).
-  let famCount=(n.rank==='family')?1:0, agg=0, distAgg={};
+  let famCount=(n.rank==='family')?1:0, genCount=(n.rank==='genus')?1:0, agg=0, distAgg={};
   if(n.dist) for(const c in n.dist) distAgg[c]=n.dist[c];
   if(kids.length===0) agg=n.speciesCount||1;
-  for(const k of kids){ prep(k, depth+1, n.lineage, n); agg+=k.agg;
+  for(const k of kids){ prep(k, depth+1, n.lineage, n); agg+=k.agg; genCount+=k.genCount;
     if(n.rank!=='family') famCount+=k.famCount;
     if(n.rank!=='family') for(const c in k.distAgg) distAgg[c]=(distAgg[c]||0)+k.distAgg[c]; }
-  n.agg=agg; n.famCount=famCount; n.distAgg=distAgg;
+  n.agg=agg; n.famCount=famCount; n.genCount=genCount; n.distAgg=distAgg;
   // default open: internal nodes EXCEPT orders (hide families) and families (hide genera)
   n.open = kids.length>0 && n.rank!=='order' && n.rank!=='family';
   if(agg>MAXAGG) MAXAGG=agg;
@@ -1140,9 +1140,13 @@ function select(n, opts){
   document.getElementById('porigin').innerHTML = originBar(n);
   document.getElementById('pdist').innerHTML = distMap(n, lc);
   const hasKids=(n.children||[]).length>0;
+  // a family shows how many genera it holds; higher clades show family count
+  const midStat = n.rank==='family'
+    ? `<div class="pstat"><b>${n.genCount.toLocaleString()}</b><span>gen${n.genCount===1?'us':'era'}</span></div>`
+    : (hasKids?`<div class="pstat"><b>${n.famCount}</b><span>famil${n.famCount===1?'y':'ies'}</span></div>`:'');
   document.getElementById('pstats').innerHTML =
     `<div class="pstat"><b>~${n.agg.toLocaleString()}</b><span>species</span></div>`+
-    (hasKids?`<div class="pstat"><b>${n.famCount}</b><span>famil${n.famCount===1?'y':'ies'}</span></div>`:'')+
+    midStat+
     `<div class="pstat"><b>${n.depth}</b><span>rank depth</span></div>`;
   const act=document.getElementById('pactions'); act.innerHTML='';
   if(hasKids){ const b=document.createElement('button'); b.className='ctl';
@@ -1180,13 +1184,14 @@ document.getElementById('pclose').onclick=closePanel;
 const STORIES = {
   carnivores:{ label:'Carnivores', names:['Nepenthaceae','Sarraceniaceae','Droseraceae','Drosophyllaceae','Dioncophyllaceae','Lentibulariaceae','Cephalotaceae','Byblidaceae','Roridulaceae'] },
   crops:{ label:'Crops we eat', names:['Poaceae','Fabaceae','Solanaceae','Brassicaceae','Rosaceae','Cucurbitaceae','Rutaceae','Amaryllidaceae','Musaceae','Malvaceae','Arecaceae','Zingiberaceae','Vitaceae','Anacardiaceae','Apiaceae','Convolvulaceae','Polygonaceae'] },
-  giants:{ label:'Biggest families', compute:true }
+  giants:{ label:'Biggest families', compute:'family' },
+  biggen:{ label:'Biggest genera', compute:'genus' }
 };
 let activeStory=null;
-function allLeaves(){ const a=[]; (function w(n){ if(!(n.children||[]).length) a.push(n); (n.children||[]).forEach(w); })(ROOT); return a; }
+function nodesOfRank(rank){ const a=[]; (function w(n){ if(n.rank===rank) a.push(n); (n.children||[]).forEach(w); })(ROOT); return a; }
 function storyNodes(id){
   const st=STORIES[id];
-  if(st.compute){ return allLeaves().sort((a,b)=>b.agg-a.agg).slice(0,12); }
+  if(st.compute){ return nodesOfRank(st.compute).sort((a,b)=>b.agg-a.agg).slice(0,12); }
   const want=new Set(st.names), out=[];
   (function w(n){ if(want.has(n.name)) out.push(n); (n.children||[]).forEach(w); })(ROOT);
   return out;
@@ -1215,7 +1220,8 @@ function showStoryList(id, ns){
   document.getElementById('pdetail').hidden=true;
   const pl=document.getElementById('plist'); pl.hidden=false;
   const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
-  pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} families &middot; tap one to explore</div>`+
+  const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
+  pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
     rows.map(n=>`<div class="lrow" data-id="${n._id}"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
