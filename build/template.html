@@ -65,7 +65,15 @@
   button.ctl:hover{color:var(--ink); border-color:var(--faint)}
   button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
-  .seg{display:inline-flex; gap:5px; padding-right:9px; margin-right:3px; border-right:1px solid var(--line)}
+  /* segmented control: a cohesive group of mutually-exclusive options */
+  .seg{display:inline-flex; gap:2px; padding:2px; background:#0b1611; border:1px solid var(--edge); border-radius:9px}
+  .seg button.ctl{border:1px solid transparent; background:transparent; border-radius:7px; padding:6px 11px}
+  .seg button.ctl:hover{border-color:transparent; background:#ffffff0a}
+  .seg button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:transparent}
+  /* utility buttons sit quieter than the primary segmented groups */
+  .util{display:inline-flex; gap:6px; margin-left:2px}
+  .util button.ctl{color:var(--faint); background:transparent}
+  .util button.ctl:hover{color:var(--ink); background:#ffffff0a; border-color:var(--edge)}
 
   /* ---------- legend ---------- */
   .legend{
@@ -80,7 +88,8 @@
   .legend .note{font-family:var(--mono); font-size:10.5px; color:var(--faint)}
 
   /* ---------- stage ---------- */
-  main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none}
+  main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none;
+    background:radial-gradient(closest-side at 50% 48%, #16271f 0%, #0f1c16 42%, transparent 78%);}
   main.stage.grabbing{cursor:grabbing}
   svg{width:100%; height:100%; display:block}
   #viewport{will-change:transform}
@@ -354,17 +363,21 @@
       <span class="hint" id="qhint"></span>
     </div>
     <span class="seg" id="viewseg">
-      <button class="ctl on" id="btnTree">Tree</button>
-      <button class="ctl" id="btnRadial">Radial</button>
+      <button class="ctl" id="btnTree">Tree</button>
+      <button class="ctl on" id="btnRadial">Radial</button>
       <button class="ctl" id="btnSun">Sunburst</button>
       <button class="ctl" id="btnTreemap">Treemap</button>
     </span>
-    <button class="ctl on" id="btnOrders">Orders</button>
-    <button class="ctl" id="btnExpand">Expand all</button>
-    <button class="ctl" id="btnCollapse">Collapse</button>
-    <button class="ctl" id="btnFit">Fit</button>
-    <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
-    <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
+    <span class="seg" id="depthseg">
+      <button class="ctl on" id="btnOrders">Orders</button>
+      <button class="ctl" id="btnExpand">Expand all</button>
+      <button class="ctl" id="btnCollapse">Collapse</button>
+    </span>
+    <span class="util">
+      <button class="ctl" id="btnFit">Fit</button>
+      <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
+      <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
+    </span>
   </div>
 </header>
 
@@ -497,7 +510,7 @@ function color(n){
 
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
-let mode='tree';
+let mode='radial';   // radial fills the frame and reads as a living organism — the landing view
 let renderRoot=ROOT;                    // re-root / focus-on-subtree
 let leafCursor=0, leafTotal=0;
 let visibleNodes=[];
@@ -963,7 +976,7 @@ function fit(dur){
   animateT(computeFitT(nodes, mode), dur||0);
 }
 function computeFitT(nodes, forMode){
-  const pl = forMode==='radial'?160:40, pr = forMode==='radial'?160:180, pv = forMode==='radial'?160:20;
+  const pl = forMode==='radial'?95:40, pr = forMode==='radial'?95:180, pv = forMode==='radial'?95:20;
   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
   for(const n of nodes){ x0=Math.min(x0,n.x-pl); x1=Math.max(x1,n.x+pr); y0=Math.min(y0,n.y-pv); y1=Math.max(y1,n.y+pv); }
   const r=stage.getBoundingClientRect();
