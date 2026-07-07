@@ -16,6 +16,7 @@ build/build.py          validates taxa.json, derives the nested tree, injects it
 build/fetch.py          enriches taxa.json with GBIF ids + metrics (run with internet)
 build/wcvp.py           applies Kew WCVP accepted-species counts (needs the dump)
 build/ages.py           derives divergence ages from a dated megatree (auto-fetchable)
+build/genera.py         extracts the ~14k accepted genera from WCVP (the genus tier)
 build/template.html     markup + CSS + JS, with a /*__DATA__*/ placeholder
 plant-tree.html         generated, self-contained visualization (commit artifact)
 ```

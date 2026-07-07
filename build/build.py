@@ -18,6 +18,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "taxa.json"
+GENERA = ROOT / "data" / "genera.json"
 SCHEMA = ROOT / "data" / "taxon.schema.json"
 TEMPLATE = ROOT / "build" / "template.html"
 OUT = ROOT / "plant-tree.html"
@@ -58,14 +59,24 @@ def validate(meta, taxa):
     return errors
 
 
-def build_tree(taxa):
-    """Reconstruct the nested tree, children in first-seen (file) order."""
+def build_tree(taxa, genera_by_family=None):
+    """Reconstruct the nested tree, children in first-seen (file) order.
+
+    When genera_by_family is given, each family gains its accepted genera as a
+    third tier of (leaf) children."""
+    genera_by_family = genera_by_family or {}
     children = {}
     root = None
     for t in taxa:
         children.setdefault(t["parent"], []).append(t)
         if t["parent"] is None:
             root = t
+
+    def genus_node(g):
+        out = {"name": g["name"], "rank": "genus", "speciesCount": g["speciesCount"]}
+        if g.get("powo"):
+            out["ids"] = {"powo": g["powo"]}
+        return out
 
     def node(rec):
         out = {}
@@ -75,9 +86,11 @@ def build_tree(taxa):
                     out["ids"] = rec["ids"]
             elif f in rec:
                 out[f] = rec[f]
-        kids = children.get(rec["id"], [])
+        kids = [node(k) for k in children.get(rec["id"], [])]
+        if rec["rank"] == "family":
+            kids += [genus_node(g) for g in genera_by_family.get(rec["name"], [])]
         if kids:
-            out["children"] = [node(k) for k in kids]
+            out["children"] = kids
         return out
 
     return node(root)
@@ -94,7 +107,14 @@ def main() -> None:
             print("  -", e, file=sys.stderr)
         raise SystemExit(1)
 
-    tree = build_tree(taxa)
+    genera_by_family = {}
+    ngenera = 0
+    if GENERA.exists():
+        for g in json.loads(GENERA.read_text()):
+            genera_by_family.setdefault(g["family"], []).append(g)
+            ngenera += 1
+
+    tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
 
     template = TEMPLATE.read_text()
@@ -105,7 +125,8 @@ def main() -> None:
 
     fams = sum(1 for t in taxa if t["rank"] == "family")
     withids = sum(1 for t in taxa if t.get("ids", {}).get("gbif"))
-    print(f"validated {len(taxa)} taxa ({fams} families), {withids} with GBIF ids")
+    print(f"validated {len(taxa)} taxa ({fams} families) + {ngenera} genera, "
+          f"{withids} with GBIF ids")
     print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size / 1024:.0f} KB)")
 
 
