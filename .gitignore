@@ -10,3 +10,9 @@ data/wcvp/
 
 # dated plant megatree (Jin & Qian 2022; regenerate from GitHub)
 data/megatree/
+
+# WCUPS useful-plants dump (regenerate from KNB DOI 10.5063/F1CV4G34)
+data/useful/
+
+# raw geodata (regenerate; only the derived worldmap.json is committed)
+data/geo/
