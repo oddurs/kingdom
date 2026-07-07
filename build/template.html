@@ -1048,24 +1048,38 @@ function zoomBtn(f){ const r=stage.getBoundingClientRect(),mx=r.width/2,my=r.hei
 // ---------- search ----------
 const q=document.getElementById('q'), qhint=document.getElementById('qhint');
 let matches=[];
-q.addEventListener('input', ()=>{
+// cap how many matches expand the tree: a broad substring hits thousands of genera,
+// and opening each match's ancestor families would render tens of thousands of nodes.
+const SEARCH_CAP=50;
+let qtimer=null, searchOpened=[];
+q.addEventListener('input', ()=>{ clearTimeout(qtimer); qtimer=setTimeout(runSearch,140); });
+function runSearch(){
   const s=q.value.trim().toLowerCase();
   document.querySelectorAll('.node.match').forEach(e=>e.classList.remove('match'));
+  for(const n of searchOpened) n.open=false;   // undo the previous search's expansion so it can't accumulate
+  searchOpened=[];
   matches=[];
-  if(s.length<2){ qhint.textContent=''; return; }
+  if(s.length<2){ qhint.textContent=''; render(); relabelAll(); return; }
+  const hits=[];
   (function w(n){
-    const hit = n.name.toLowerCase().includes(s) || (n.common&&n.common.toLowerCase().includes(s));
-    if(hit) matches.push(n);
+    const nm=n.name.toLowerCase(), cm=n.common?n.common.toLowerCase():'';
+    if(nm.includes(s)||cm.includes(s)){
+      hits.push([nm.startsWith(s)?0:(cm.startsWith(s)?1:2), n]);   // prefix matches rank first
+    }
     (n.children||[]).forEach(w);
   })(ROOT);
-  // open ancestors of every match
-  for(const m of matches){ let p=m.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
-  if(matches.length && renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); }   // search spans the whole tree
+  hits.sort((a,b)=>a[0]-b[0]||a[1].name.length-b[1].name.length);
+  const total=hits.length;
+  matches=hits.slice(0,SEARCH_CAP).map(h=>h[1]);
+  // reveal only the best match's lineage — opening every match's family would render tens of thousands of genera
+  let p=matches[0].parent;
+  while(p){ if((p.children||[]).length && !p.open){ p.open=true; searchOpened.push(p); } p=p.parent; }
+  if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); }   // search spans the whole tree
   render(); relabelAll();
   for(const m of matches){ const el=nodeEls.get(m._id); if(el) el.classList.add('match'); }
-  qhint.textContent = matches.length? matches.length+' found' : 'none';
-  if(matches.length){ focusNode(matches[0]); }
-});
+  qhint.textContent = total>SEARCH_CAP ? total+' found · refine to narrow' : (total? total+' found' : 'none');
+  focusNode(matches[0]);
+}
 function focusNode(n){
   const r=stage.getBoundingClientRect(); const k=Math.max(T.k,0.75);
   animateT({k, x:r.width*0.42 - n.x*k, y:r.height/2 - n.y*k}, 550);
