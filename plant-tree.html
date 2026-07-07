@@ -212,6 +212,26 @@
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; gap:6px; z-index:6}
   .zoomctl button{width:32px; height:32px; font-size:16px; line-height:1; padding:0}
 
+  /* ---------- time scrubber ---------- */
+  .timebar{position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:8;
+    display:flex; align-items:center; gap:13px; width:min(680px,90vw); padding:11px 15px;
+    background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
+    border-radius:12px; box-shadow:0 10px 30px #0008}
+  .timebar[hidden]{display:none}
+  .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
+    background:#0d1712; color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
+  .tbplay:hover{border-color:var(--l-fern)}
+  .tbtrack{position:relative; flex:1; height:26px; cursor:pointer; border-radius:6px; overflow:hidden}
+  .tbbands{position:absolute; inset:0}
+  .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.42}
+  /* dark "curtain" over time not yet reached (right of the handle); retracts as time advances */
+  .tbfill{position:absolute; top:0; bottom:0; right:0; background:#0a120ecc;
+    border-left:2px solid #fff; pointer-events:none}
+  .tbknob{position:absolute; top:50%; left:0; width:13px; height:13px; margin:-6.5px 0 0 -6.5px;
+    border-radius:50%; background:#fff; box-shadow:0 0 10px #fff9; pointer-events:none}
+  .tblabel{flex:none; min-width:118px; text-align:right; font-family:var(--mono); font-size:11px; color:var(--ink)}
+  .tblabel .per{color:var(--dim)}
+
   /* ---------- detail panel ---------- */
   .panel{
     position:absolute; top:12px; right:12px; width:330px; max-width:calc(100% - 24px);
@@ -402,6 +422,7 @@
       <button class="ctl" id="btnCollapse">Collapse</button>
     </span>
     <span class="util">
+      <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
       <button class="ctl" id="btnFit">Fit</button>
       <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
       <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
@@ -434,6 +455,14 @@
   <div class="zoomctl">
     <button class="ctl" id="zin" aria-label="Zoom in">+</button>
     <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
+  </div>
+  <div class="timebar" id="timebar" hidden>
+    <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
+    <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
+      <div class="tbbands" id="tbbands"></div>
+      <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+    </div>
+    <div class="tblabel" id="tblabel"></div>
   </div>
   <div class="focusbar" id="focusbar">
     <span class="flabel">Focused</span>
@@ -512,6 +541,11 @@ function prep(n, depth, lineage, parent){
     if(n.rank!=='family') famCount+=k.famCount;
     if(n.rank!=='family') for(const c in k.distAgg) distAgg[c]=(distAgg[c]||0)+k.distAgg[c]; }
   n.agg=agg; n.famCount=famCount; n.genCount=genCount; n.distAgg=distAgg;
+  // effAge = when this lineage first appears on the timeline: its own crown age, or —
+  // for undated clades — the oldest age among its descendants.
+  let ea = (typeof n.ageMy==='number') ? n.ageMy : null;
+  for(const k of kids){ if(k.effAge!=null && (ea==null || k.effAge>ea)) ea=k.effAge; }
+  n.effAge=ea;
   // default open: internal nodes EXCEPT orders (hide families) and families (hide genera)
   n.open = kids.length>0 && n.rank!=='order' && n.rank!=='family';
   if(agg>MAXAGG) MAXAGG=agg;
@@ -544,6 +578,7 @@ function color(n){
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
 let mode='radial';   // radial fills the frame and reads as a living organism — the landing view
+let timeMode=false, timeNow=0;   // geological-time scrubber (C4)
 let renderRoot=ROOT;                    // re-root / focus-on-subtree
 let leafCursor=0, leafTotal=0;
 let visibleNodes=[];
@@ -615,7 +650,7 @@ function render(){
     let el=linkEls.get(id);
     if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
       el.style.setProperty('--lc', color(l.t)); el.style.setProperty('--lw', linkW(l.t));
-      gLinks.appendChild(el); linkEls.set(id,el); }
+      el.__age=l.t.effAge; gLinks.appendChild(el); linkEls.set(id,el); }
     el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
   }
   // nodes
@@ -624,7 +659,7 @@ function render(){
     let el=nodeEls.get(n._id);
     if(!el){
       el=document.createElementNS(NS,'g'); el.setAttribute('class','node');
-      el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n));
+      el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n)); el.__age=n.effAge;
       const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', haloR(n));
       const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot'); dot.setAttribute('r', radius(n));
       const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
@@ -649,6 +684,7 @@ function render(){
   for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
   for(const [id,el] of linkEls){ if(!seenL.has(id)){ el.remove(); linkEls.delete(id);} }
   labelLOD(); renderMinimap();
+  if(timeMode) applyTime();   // re-apply the time filter after any re-render
 }
 
 // ---------- semantic zoom: hide crowded leaf labels, reveal on zoom ----------
@@ -904,6 +940,7 @@ function setModeButtons(m){
 let morphing=false;
 function switchMode(m){
   if(mode===m || morphing) return;
+  if(timeMode && (m==='treemap'||m==='sunburst')) exitTime();   // time filter only applies to the node views
   hideTip();
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const nodeLink = x => x==='tree' || x==='radial';
@@ -1521,6 +1558,66 @@ function exportPNG(){
   img.src=url;
 }
 document.getElementById('btnExport').onclick=exportPNG;
+
+// ---------- time scrubber: grow the tree through geological time ----------
+const timebar=document.getElementById('timebar'), tbtrack=document.getElementById('tbtrack'),
+      tbfill=document.getElementById('tbfill'), tbbands=document.getElementById('tbbands'),
+      tblabel=document.getElementById('tblabel'), tbplay=document.getElementById('tbplay'),
+      btnTime=document.getElementById('btnTime');
+const TFADE=14;   // Ma over which a lineage blooms in after its origin
+function ageOpacity(a, T){ if(a==null) return 1; if(T>a) return 0; return Math.min(1,(a-T)/TFADE); }
+function applyTime(){
+  for(const el of nodeEls.values()){ const o=ageOpacity(el.__age,timeNow); el.style.opacity=o; el.style.pointerEvents=o<0.5?'none':''; }
+  for(const el of linkEls.values()){ el.style.opacity=ageOpacity(el.__age,timeNow); }
+}
+function buildBands(){
+  tbbands.innerHTML = GEOP.map(p=>{
+    const left=(TMAX-p[1])/TMAX*100, w=(p[1]-p[2])/TMAX*100;
+    return `<div class="bd" style="left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;background:${p[3]}" title="${p[0]} ${p[1]}–${p[2]} Ma"></div>`;
+  }).join('');
+}
+function setTime(t){
+  timeNow=Math.max(0,Math.min(TMAX,t));
+  tbfill.style.width=(timeNow/TMAX*100).toFixed(2)+'%';   // curtain covers the not-yet-reached future
+  const per=periodOf(timeNow);
+  tblabel.innerHTML=`${Math.round(timeNow)} Ma <span class="per">· ${per[0]}</span>`;
+  tbtrack.setAttribute('aria-valuenow', Math.round(timeNow));
+  if(timeMode) applyTime();
+}
+function trackTime(clientX){ const r=tbtrack.getBoundingClientRect();
+  return TMAX*(1-Math.max(0,Math.min(1,(clientX-r.left)/r.width))); }
+let tbDrag=false;
+tbtrack.addEventListener('pointerdown', e=>{ e.stopPropagation(); pausePlay(); tbDrag=true;
+  tbtrack.setPointerCapture(e.pointerId); setTime(trackTime(e.clientX)); });
+tbtrack.addEventListener('pointermove', e=>{ if(tbDrag){ e.stopPropagation(); setTime(trackTime(e.clientX)); } });
+tbtrack.addEventListener('pointerup', ()=>{ tbDrag=false; });
+tbtrack.addEventListener('keydown', e=>{ const step=e.shiftKey?50:10;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); setTime(timeNow+step); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); setTime(timeNow-step); } });
+let playing=false, playRAF=0;
+function play(){
+  if(playing){ pausePlay(); return; }
+  if(timeNow<=0.5) setTime(TMAX);          // at "now" already → restart from the origin
+  playing=true; tbplay.innerHTML='&#10074;&#10074;';
+  const from=timeNow, dur=Math.max(2500, from/TMAX*15000), t0=performance.now();
+  (function step(now){ if(!playing) return; const e=Math.min(1,(now-t0)/dur);
+    setTime(from*(1-e)); if(e<1) playRAF=requestAnimationFrame(step); else pausePlay(); })(t0);
+}
+function pausePlay(){ playing=false; cancelAnimationFrame(playRAF); tbplay.innerHTML='&#9654;'; }
+tbplay.onclick=play;
+function enterTime(){
+  timeMode=true; btnTime.classList.add('on'); btnTime.setAttribute('aria-pressed','true');
+  timebar.hidden=false; buildBands();
+  if(mode==='treemap'||mode==='sunburst') switchMode('radial');
+  setTime(0);   // begin at the present — the full tree — then scrub/play back into deep time
+}
+function exitTime(){
+  timeMode=false; btnTime.classList.remove('on'); btnTime.setAttribute('aria-pressed','false');
+  timebar.hidden=true; pausePlay();
+  for(const el of nodeEls.values()){ el.style.opacity=''; el.style.pointerEvents=''; }
+  for(const el of linkEls.values()) el.style.opacity='';
+}
+btnTime.onclick=()=> timeMode?exitTime():enterTime();
 
 // ---------- buttons + boot ----------
 document.getElementById('btnOrders').onclick=toOrders;
