@@ -983,9 +983,9 @@ const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome';
 stage.addEventListener('pointerdown', e=>{
   if(e.target.closest(OVERLAY_SEL)) return;   // let the overlay's own buttons receive the click
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); }
-  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; panDragged=false; stage.classList.add('grabbing'); }
-  stage.setPointerCapture(e.pointerId);
+  if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); stage.setPointerCapture(e.pointerId); }
+  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; panDragged=false; stage.classList.add('grabbing'); stage.setPointerCapture(e.pointerId); }
+  // clicking a node: do NOT capture the pointer — let the node receive its own click (toggle + select)
 });
 stage.addEventListener('pointermove', e=>{
   if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
