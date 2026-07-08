@@ -117,8 +117,18 @@
   main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none;
     background:radial-gradient(closest-side at 50% 48%, #16271f 0%, #0f1c16 42%, transparent 78%);}
   main.stage.grabbing{cursor:grabbing}
-  svg{width:100%; height:100%; display:block}
+  svg{width:100%; height:100%; display:block; position:relative; z-index:1}
   #viewport{will-change:transform}
+  /* ambient "living pulse": the whole organism breathes and drifts, very slowly (D3).
+     Purely decorative, compositor-driven, and off entirely under reduced-motion. */
+  @media (prefers-reduced-motion: no-preference){
+    @keyframes scenebreathe{ 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(5px,-4px) scale(1.006)} }
+    svg#svg{ transform-origin:50% 50%; animation:scenebreathe 24s ease-in-out infinite; }
+    @keyframes atmospulse{ 0%,100%{opacity:.85} 50%{opacity:1} }
+    .stage::after{content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+      background:radial-gradient(closest-side at 50% 48%, #1a2d24 0%, transparent 68%);
+      opacity:.85; animation:atmospulse 9s ease-in-out infinite;}
+  }
 
   .link{fill:none; stroke:var(--lc,var(--line)); stroke-opacity:.4; stroke-width:var(--lw,1.4px);
     stroke-linecap:round; stroke-linejoin:round; transition:stroke-opacity .2s;}
@@ -990,6 +1000,7 @@ function crossfade(m, reduce){
 // their new positions, new nodes grow out from their parent, removed nodes recede into it.
 function animateStructural(mutate, opts={}){
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(glideRAF){ cancelAnimationFrame(glideRAF); glideRAF=0; }  // don't fight momentum with a fit
   if(_structFinish) _structFinish();                       // settle any in-flight animation first
   if(mode!=='tree' && mode!=='radial'){ mutate(); render(); relabelAll(); if(opts.fit) fit(reduce?0:600); return; }
 
@@ -1018,8 +1029,21 @@ function animateStructural(mutate, opts={}){
   const posOf=(n,e)=>{ const en=endPos.get(n._id); const s = entering.has(n._id) ? anchor(n,startPos) : (startPos.get(n._id)||en);
     return {x:lerp(s.x,en.x,e), y:lerp(s.y,en.y,e)}; };
 
+  // stagger: entering nodes ripple out from their anchor, one wave per depth level
+  const enterDepth=new Map(); let maxD=1;
+  for(const nid of entering){ let d=0,q=idMap.get(nid); while(q && !startPos.has(q._id)){ d++; q=q.parent; } enterDepth.set(nid,d); if(d>maxD) maxD=d; }
+  const enterOrd=new Map(); let ord=0; for(const n of nodes) if(entering.has(n._id)) enterOrd.set(n._id, ord++);
+  const STEP=54;   // per depth-level wave + a gentle sibling cascade so even one-level expands ripple
+  const stag=nid=>Math.min((enterDepth.get(nid)||1)-1,6)*STEP + Math.min((enterOrd.get(nid)||0)*9, 260);
+  let maxStag=0; for(const nid of entering){ const s=stag(nid); if(s>maxStag) maxStag=s; }
+  const dur=opts.dur||480, total=dur+maxStag;
+  let nowElapsed=0;
+  const enterP=nid=>Math.max(0,Math.min(1,(nowElapsed-stag(nid))/dur));   // per-node local progress
+  const eOut=p=>1-Math.pow(1-p,3);
+  const eBack=p=>{ const c1=1.15, c3=c1+1; return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2); };  // gentle overshoot
+
   stage.classList.add('animating');
-  const dur=opts.dur||560, t0=performance.now(); let done=false;
+  const t0=performance.now(); let done=false;
   function finish(){ if(done) return; done=true; _structFinish=null;
     for(const [,el] of park.nodes) el.remove();
     for(const [,el] of park.links) el.remove();
@@ -1030,22 +1054,25 @@ function animateStructural(mutate, opts={}){
   }
   _structFinish=finish;
   (function step(now){ if(done) return;
-    const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
-    if(opts.fit){ T={x:lerp(startT.x,endT.x,e),y:lerp(startT.y,endT.y,e),k:lerp(startT.k,endT.k,e)};
+    nowElapsed=now-t0;
+    const pAll=Math.min(1,nowElapsed/total), eAll=eOut(pAll);   // viewport + surviving nodes glide over the whole span
+    if(opts.fit){ T={x:lerp(startT.x,endT.x,eAll),y:lerp(startT.y,endT.y,eAll),k:lerp(startT.k,endT.k,eAll)};
       vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
-    for(const n of nodes){ const el=nodeEls.get(n._id); if(!el) continue; const q=posOf(n,e);
-      if(entering.has(n._id)){ el.setAttribute('transform',`translate(${q.x},${q.y}) scale(${(0.25+0.75*e).toFixed(3)})`); el.style.opacity=Math.min(1,e*1.6).toFixed(3); }
-      else el.setAttribute('transform',`translate(${q.x},${q.y})`); }
+    for(const n of nodes){ const el=nodeEls.get(n._id); if(!el) continue;
+      if(entering.has(n._id)){ const np=enterP(n._id), q=posOf(n,eOut(np)), sc=0.2+0.8*eBack(np);
+        el.setAttribute('transform',`translate(${q.x},${q.y}) scale(${sc.toFixed(3)})`); el.style.opacity=Math.min(1,np*1.8).toFixed(3); }
+      else { const q=posOf(n,eAll); el.setAttribute('transform',`translate(${q.x},${q.y})`); } }
     for(const l of links){ const le=linkEls.get(l.s._id+'-'+l.t._id); if(!le) continue;
-      const sp=posOf(l.s,e), tp=posOf(l.t,e); le.setAttribute('d', linkD(sp.x,sp.y,tp.x,tp.y));
-      if(entering.has(l.t._id)) le.style.opacity=Math.min(1,e*1.6).toFixed(3); }
-    for(const [id,el] of park.nodes){ const n=idMap.get(id); const s=startPos.get(id)||{x:0,y:0}; const a=n?anchor(n,endPos):s;
-      el.setAttribute('transform',`translate(${lerp(s.x,a.x,e)},${lerp(s.y,a.y,e)}) scale(${(1-0.75*e).toFixed(3)})`); el.style.opacity=(1-e).toFixed(3); }
+      const es = entering.has(l.s._id)?eOut(enterP(l.s._id)):eAll, et = entering.has(l.t._id)?eOut(enterP(l.t._id)):eAll;
+      const sp=posOf(l.s,es), tp=posOf(l.t,et); le.setAttribute('d', linkD(sp.x,sp.y,tp.x,tp.y));
+      if(entering.has(l.t._id)) le.style.opacity=Math.min(1,enterP(l.t._id)*1.8).toFixed(3); }
+    for(const [id,el] of park.nodes){ const n=idMap.get(id); const s=startPos.get(id)||{x:0,y:0}, a=n?anchor(n,endPos):s;
+      el.setAttribute('transform',`translate(${lerp(s.x,a.x,eAll)},${lerp(s.y,a.y,eAll)}) scale(${(1-0.75*eAll).toFixed(3)})`); el.style.opacity=(1-eAll).toFixed(3); }
     for(const [id,el] of park.links){ const b=id.split('-'), sN=idMap.get(+b[0]), tN=idMap.get(+b[1]);
       const ss=startPos.get(+b[0])||(sN?anchor(sN,endPos):{x:0,y:0}), ts=startPos.get(+b[1])||ss;
       const aS=endPos.has(+b[0])?endPos.get(+b[0]):(sN?anchor(sN,endPos):ss), aT=tN?anchor(tN,endPos):aS;
-      el.setAttribute('d', linkD(lerp(ss.x,aS.x,e),lerp(ss.y,aS.y,e),lerp(ts.x,aT.x,e),lerp(ts.y,aT.y,e))); el.style.opacity=(1-e).toFixed(3); }
-    if(p<1) requestAnimationFrame(step); else finish();
+      el.setAttribute('d', linkD(lerp(ss.x,aS.x,eAll),lerp(ss.y,aS.y,eAll),lerp(ts.x,aT.x,eAll),lerp(ts.y,aT.y,eAll))); el.style.opacity=(1-eAll).toFixed(3); }
+    if(nowElapsed<total) requestAnimationFrame(step); else finish();
   })(t0);
 }
 
@@ -1129,20 +1156,25 @@ function animateT(target,dur){
     if(p<1) requestAnimationFrame(step); })(t0);
 }
 // pan (1 pointer) + pinch-zoom (2 pointers)
-const pointers=new Map(); let pan=null, pinch=null, panDragged=false;
+const pointers=new Map(); let pan=null, pinch=null, panDragged=false, glideRAF=0;
 // overlay UI floating over the stage — clicks here must NOT be hijacked for panning
-const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome';
+const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar';
+function stopGlide(){ cancelAnimationFrame(glideRAF); glideRAF=0; }
 stage.addEventListener('pointerdown', e=>{
   if(e.target.closest(OVERLAY_SEL)) return;   // let the overlay's own buttons receive the click
+  stopGlide();
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pointers.size===2){ startPinch(); pan=null; stage.classList.remove('grabbing'); stage.setPointerCapture(e.pointerId); }
-  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y}; panDragged=false; stage.classList.add('grabbing'); stage.setPointerCapture(e.pointerId); }
+  else if(!e.target.closest('.node')){ pan={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y,vx:0,vy:0,lx:e.clientX,ly:e.clientY,lt:performance.now()}; panDragged=false; stage.classList.add('grabbing'); stage.setPointerCapture(e.pointerId); }
   // clicking a node: do NOT capture the pointer — let the node receive its own click (toggle + select)
 });
 stage.addEventListener('pointermove', e=>{
   if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pinch && pointers.size>=2){ doPinch(); return; }
   if(pan){ if(Math.abs(e.clientX-pan.x)+Math.abs(e.clientY-pan.y)>4) panDragged=true;
+    const now=performance.now(), dt=Math.max(1,now-pan.lt);   // track velocity for flick-to-glide
+    pan.vx=0.75*pan.vx+0.25*(e.clientX-pan.lx)/dt; pan.vy=0.75*pan.vy+0.25*(e.clientY-pan.ly)/dt;
+    pan.lx=e.clientX; pan.ly=e.clientY; pan.lt=now;
     T.x=pan.tx+(e.clientX-pan.x); T.y=pan.ty+(e.clientY-pan.y); applyT(); }
 });
 // click on empty background closes the panel (but not right after a drag)
@@ -1151,7 +1183,18 @@ stage.addEventListener('click', e=>{
   if(!panDragged) closePanel();
 });
 function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null;
-  if(pointers.size===0){ pan=null; stage.classList.remove('grabbing'); } }
+  if(pointers.size===0){
+    if(pan && panDragged && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+      const cap=2.6, sp=Math.hypot(pan.vx,pan.vy);                // flick → glide with friction
+      let vx=pan.vx, vy=pan.vy;
+      if(sp>cap){ vx*=cap/sp; vy*=cap/sp; }
+      if(Math.hypot(vx,vy)>0.14){ let last=performance.now();
+        (function glide(now){ const dt=Math.min(40,now-last); last=now;
+          const f=Math.pow(0.86, dt/16); vx*=f; vy*=f; T.x+=vx*dt; T.y+=vy*dt; applyT();
+          if(Math.hypot(vx,vy)>0.02){ glideRAF=requestAnimationFrame(glide); } else glideRAF=0;
+        })(last); }
+    }
+    pan=null; stage.classList.remove('grabbing'); } }
 stage.addEventListener('pointerup', endPtr);
 stage.addEventListener('pointercancel', endPtr);
 function two(){ return [...pointers.values()].slice(0,2); }
