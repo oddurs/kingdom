@@ -563,6 +563,7 @@ const ANCHORS = {
 // ---------- preprocess ----------
 let UID=0, MAXAGG=1;
 function prep(n, depth, lineage, parent){
+  if(n.n!==undefined){ n.name=n.n; n.rank='genus'; n.speciesCount=n.s; if(n.p!==undefined) n.ids={powo:n.p}; }  // rehydrate compact genus record (E5)
   n._id=UID++; n.depth=depth; n.parent=parent;
   n.lineage = ANCHORS[n.name] || lineage;
   const kids=n.children||[];
