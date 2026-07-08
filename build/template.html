@@ -16,6 +16,8 @@
     --l-bryo:#8fce9f; --l-fern:#46b06a; --l-gymno:#35b8b0; --l-basal:#bf8ad4;
     --l-mono:#e3b24a; --l-rosid:#e67e6b; --l-asterid:#8f9be8; --l-eudicot:#ec9a4f;
     --l-root:#9fb0a4;
+    /* motion tokens — one shared language for every surface (D4) */
+    --dur-1:.15s; --dur-2:.3s; --ease-out:cubic-bezier(.22,.61,.36,1); --ease-settle:cubic-bezier(.16,.9,.3,1);
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
@@ -65,6 +67,11 @@
     border-radius:10px; box-shadow:0 14px 38px #000a; z-index:30;
   }
   .qresults[hidden]{display:none}
+  @keyframes popin{from{opacity:0; transform:translateY(-6px) scale(.985)} to{opacity:1; transform:none}}
+  .qresults{animation:popin var(--dur-1) var(--ease-out)}
+  /* selection ripple — a brief ring when a node is chosen */
+  @keyframes selripple{from{transform:scale(.5); opacity:.5} to{transform:scale(2.7); opacity:0}}
+  .selripple{fill:none; stroke-width:2; transform-origin:0 0; animation:selripple .6s var(--ease-out) forwards; pointer-events:none}
   .qrow{
     display:flex; align-items:center; gap:9px; width:100%; text-align:left;
     padding:7px 9px; border:0; border-radius:7px; background:none; cursor:pointer;
@@ -85,10 +92,11 @@
   button.ctl{
     font-family:var(--sans); font-size:12px; color:var(--dim);
     background:#0d1712; border:1px solid var(--edge); border-radius:7px;
-    padding:7px 11px; cursor:pointer; transition:color .15s,border-color .15s,background .15s;
+    padding:7px 11px; cursor:pointer; transition:color .15s,border-color .15s,background .15s,transform .1s var(--ease-out);
     white-space:nowrap;
   }
   button.ctl:hover{color:var(--ink); border-color:var(--faint)}
+  button.ctl:active{transform:scale(.94)}
   button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
   /* segmented control: a cohesive group of mutually-exclusive options */
@@ -250,9 +258,9 @@
     background:var(--panel); backdrop-filter:blur(10px);
     border:1px solid var(--edge); border-left:3px solid var(--l-root); border-radius:12px;
     padding:16px 18px 18px; box-shadow:0 18px 48px #000a;
-    opacity:0; transform:translateX(12px); pointer-events:none;
+    opacity:0; transform:translateX(20px) scale(.985); pointer-events:none;
     white-space:normal; overflow-wrap:break-word;
-    transition:opacity .18s, transform .18s;
+    transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
   }
   .panel.open{opacity:1; transform:none; pointer-events:auto}
   .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:6px;
@@ -375,10 +383,12 @@
     letter-spacing:.6px; text-transform:uppercase; color:var(--faint); pointer-events:none}
 
   /* ---------- focus (re-root) bar ---------- */
-  .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:none; align-items:center; gap:9px;
+  .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:flex; align-items:center; gap:9px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge);
-    border-left:3px solid var(--l-fern); border-radius:10px; padding:7px 9px 7px 13px; box-shadow:0 10px 28px #0009}
-  .focusbar.show{display:flex}
+    border-left:3px solid var(--l-fern); border-radius:10px; padding:7px 9px 7px 13px; box-shadow:0 10px 28px #0009;
+    opacity:0; transform:translateY(-8px); pointer-events:none;
+    transition:opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-settle)}
+  .focusbar.show{opacity:1; transform:none; pointer-events:auto}
   .focusbar .flabel{font-family:var(--mono); font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--faint)}
   .focusbar .fname{font-family:var(--serif); font-size:15px; color:var(--ink); font-style:italic}
   .focusbar button{width:auto; height:26px; padding:0 9px; font-size:11px}
@@ -444,7 +454,7 @@
 <div class="legend" id="legend"></div>
 
 <main class="stage" id="stage">
-  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="treemap"></g></g></svg>
+  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
   <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true">
     <button class="pclose" id="pclose" aria-label="Close">&times;</button>
@@ -632,6 +642,11 @@ const svg=document.getElementById('svg');
 const gLinks=document.getElementById('links');
 const gNodes=document.getElementById('nodes');
 const gTree=document.getElementById('treemap');
+const gRipples=document.getElementById('ripples');
+function ripple(n){ if((mode!=='tree'&&mode!=='radial') || !nodeEls.has(n._id) || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const g=document.createElementNS(NS,'g'); g.setAttribute('transform',`translate(${n.x},${n.y})`);
+  const c=document.createElementNS(NS,'circle'); c.setAttribute('r',(radius(n)+5).toFixed(1)); c.setAttribute('class','selripple'); c.style.stroke=color(n);
+  g.appendChild(c); gRipples.appendChild(g); setTimeout(()=>g.remove(),650); }
 const NS='http://www.w3.org/2000/svg';
 const nodeEls=new Map(), linkEls=new Map();
 
@@ -677,7 +692,7 @@ function render(){
       const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
       const txt=document.createElementNS(NS,'text');
       el.append(halo,dot,tog,txt);
-      el.addEventListener('click', e=>{ e.stopPropagation(); toggle(n); select(n,{center:false}); });
+      el.addEventListener('click', e=>{ e.stopPropagation(); ripple(n); toggle(n); select(n,{center:false}); });
       el.addEventListener('mouseenter', e=>{ hoverOn(n); showTip(n,e); });
       el.addEventListener('mousemove', e=> moveTip(e));
       el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
