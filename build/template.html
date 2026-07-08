@@ -767,12 +767,12 @@ function updateFocusBar(){
 function reroot(n){
   if(!(n.children||[]).length || n===renderRoot) return;
   if(activeStory) clearStory(false);
-  renderRoot=n; n.open=true;
-  render(); relabelAll(); updateFocusBar(); setKb(n,false); fit(650);
+  animateStructural(()=>{ renderRoot=n; n.open=true; }, {fit:true});
+  updateFocusBar(); setKb(n,false);
 }
-function exitFocus(){ renderRoot=ROOT; render(); relabelAll(); updateFocusBar(); fit(650); }
+function exitFocus(){ animateStructural(()=>{ renderRoot=ROOT; }, {fit:true}); updateFocusBar(); }
 function focusUp(){ if(renderRoot!==ROOT && renderRoot.parent){ rerootTo(renderRoot.parent); } }
-function rerootTo(n){ renderRoot=n; render(); relabelAll(); updateFocusBar(); fit(650); }
+function rerootTo(n){ animateStructural(()=>{ renderRoot=n; }, {fit:true}); updateFocusBar(); }
 document.getElementById('fbexit').onclick=exitFocus;
 document.getElementById('fbup').onclick=focusUp;
 
@@ -927,12 +927,12 @@ function setOpenAll(v){ (function w(n){ if((n.children||[]).length){ n.open=v; w
 function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) labelNode(el,n); } }
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
 
-function applyState(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); render(); relabelAll(); }
+function eachNode(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); }
 function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } }
-function toOrders(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); setActive('btnOrders'); fit(650); }
+function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); }, {fit:true}); updateFocusBar(); setActive('btnOrders'); }
 // stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
-function expandAll(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); setActive('btnExpand'); fit(650); }
-function collapseTop(){ resetFocus(); applyState(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); setActive('btnCollapse'); fit(650); }
+function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setActive('btnExpand'); }
+function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setActive('btnCollapse'); }
 function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
 function setModeButtons(m){
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
@@ -998,6 +998,12 @@ function animateStructural(mutate, opts={}){
   const {nodes,links}=layout();
   const endPos=new Map(); for(const n of nodes) endPos.set(n._id,{x:n.x,y:n.y});
   if(reduce){ render(); relabelAll(); if(opts.fit) fit(0); return; }
+
+  // very large deltas (e.g. Expand all → ~470 families) read as chaos if every node sprouts
+  // individually; ease the viewport instead and let the structure resolve in place.
+  let delta=0; for(const id of endPos.keys()) if(!startPos.has(id)) delta++;
+  for(const id of startPos.keys()) if(!endPos.has(id)) delta++;
+  if(delta>200){ render(); relabelAll(); fit(opts.fit?640:0); return; }
 
   const startT={...T}, endT = opts.fit ? computeFitT(nodes,mode) : {...T};
   const lerp=(a,b,e)=>a+(b-a)*e;
@@ -1268,9 +1274,10 @@ const panel=document.getElementById('panel');
 const escp=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 let selected=null;
 function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; } return a; }
-function revealNode(n){ let p=n.parent, changed=false;
-  while(p){ if((p.children||[]).length && !p.open){ p.open=true; changed=true; } p=p.parent; }
-  if(changed){ render(); relabelAll(); } }
+function revealNode(n){ let p=n.parent, need=false;
+  while(p){ if((p.children||[]).length && !p.open){ need=true; break; } p=p.parent; }
+  if(need) animateStructural(()=>{ let q=n.parent; while(q){ if((q.children||[]).length) q.open=true; q=q.parent; } });
+}
 // ---------- origin time-bar (geological periods, Ma) ----------
 const GEOP=[['Silurian',444,419,'#4f8f79'],['Devonian',419,359,'#3f7f88'],
   ['Carboniferous',359,299,'#566f9e'],['Permian',299,252,'#8a6cae'],
