@@ -230,6 +230,15 @@
 
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; gap:6px; z-index:6}
   .zoomctl button{width:32px; height:32px; font-size:16px; line-height:1; padding:0}
+  /* dev perf HUD — off by default; ?perf in the URL or the ` key toggles it */
+  .perfhud{position:absolute; right:14px; bottom:92px; z-index:9; pointer-events:none;
+    font-family:var(--mono); font-size:10.5px; line-height:1.5; color:var(--dim);
+    background:#06100bd9; border:1px solid var(--edge); border-radius:8px; padding:8px 11px;
+    white-space:pre; min-width:126px; box-shadow:0 8px 22px #0008}
+  .perfhud[hidden]{display:none}
+  .perfhud b{color:var(--l-fern); font-weight:600}
+  .perfhud .warn{color:var(--l-mono)}
+  .perfhud .bad{color:var(--l-rosid)}
 
   /* ---------- time scrubber ---------- */
   .timebar{position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:8;
@@ -477,6 +486,7 @@
     <button class="ctl" id="zin" aria-label="Zoom in">+</button>
     <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
   </div>
+  <div class="perfhud" id="perfhud" hidden aria-hidden="true"></div>
   <div class="timebar" id="timebar" hidden>
     <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
     <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
@@ -1767,6 +1777,33 @@ document.getElementById('btnTree').onclick=()=>switchMode('tree');
 document.getElementById('btnRadial').onclick=()=>switchMode('radial');
 document.getElementById('btnSun').onclick=()=>switchMode('sunburst');
 document.getElementById('btnTreemap').onclick=()=>switchMode('treemap');
+
+// ---------- dev perf HUD (E1) — off by default; `?perf` in the URL or the ` key toggles it ----------
+const perfhud=document.getElementById('perfhud');
+let perfOn=/[?#][^]*perf/.test(location.href), lastRenderMs=0, _pFrames=0, _pFps=0, _pFt=0, _pT0=0, _pLast=0, _pSample=0, _pEls=0;
+{ const _render=render; render=function(){ const t=performance.now(); _render(); lastRenderMs=performance.now()-t; }; }
+function drawPerf(){
+  const heap = performance.memory ? Math.round(performance.memory.usedJSHeapSize/1048576)+'M' : '—';
+  const cls = _pFps>=55?'':(_pFps>=30?'warn':'bad');
+  perfhud.innerHTML =
+    `fps <b class="${cls}">${_pFps||'–'}</b> · <b>${_pFt.toFixed(1)}</b>ms\n`+
+    `render <b>${lastRenderMs.toFixed(1)}</b>ms\n`+
+    `els <b>${_pEls.toLocaleString()}</b> · vis <b>${(visibleNodes||[]).length}</b>\n`+
+    `heap ${heap}`;
+}
+function perfLoop(now){
+  if(!perfOn) return;
+  if(!_pT0){ _pT0=now; _pLast=now; }
+  const dt=now-_pLast; _pLast=now; _pFrames++;
+  _pFt = _pFt ? _pFt*0.9+dt*0.1 : dt;
+  if(now-_pT0>=500){ _pFps=Math.round(_pFrames*1000/(now-_pT0)); _pFrames=0; _pT0=now; }
+  if(now-_pSample>600){ _pSample=now; _pEls=svg.getElementsByTagName('*').length; drawPerf(); }
+  requestAnimationFrame(perfLoop);
+}
+function togglePerf(on){ perfOn = on!==undefined?on:!perfOn; perfhud.hidden=!perfOn; perfhud.setAttribute('aria-hidden', String(!perfOn));
+  if(perfOn){ _pT0=0; _pFrames=0; _pSample=0; requestAnimationFrame(perfLoop); } }
+document.addEventListener('keydown', e=>{ if(e.key==='`' && document.activeElement!==q){ e.preventDefault(); togglePerf(); } });
+if(perfOn) togglePerf(true);
 
 render(); applyT(); fit(0);
 applyHash();
