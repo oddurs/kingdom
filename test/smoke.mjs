@@ -1,0 +1,227 @@
+#!/usr/bin/env node
+// Regression smoke for the built plant-tree.html.
+//
+// Boots headless Chrome against the self-contained file over the DevTools
+// protocol and asserts the invariants that every sprint has checked by hand:
+// it loads clean, the data is intact, all four views render, the core
+// interactions work, viewport virtualization bounds the DOM, and
+// reduced-motion falls to instant.
+//
+// Usage:   node test/smoke.mjs [path/to/plant-tree.html]
+// Chrome:  set $CHROME to override the auto-detected browser binary.
+// Exit:    0 = all checks passed, 1 = a check failed or the app errored.
+
+import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const TARGET = resolve(process.argv[2] || `${HERE}/../plant-tree.html`);
+const PORT = 9222 + (process.pid % 900); // avoid collisions across parallel runs
+
+const CHROME =
+  process.env.CHROME ||
+  [
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+  ].find(existsSync);
+
+if (!existsSync(TARGET)) {
+  console.error(`✗ build not found: ${TARGET}\n  run: python3 build/build.py`);
+  process.exit(1);
+}
+if (!CHROME) {
+  console.error("✗ no Chrome/Chromium found — set $CHROME to the binary path");
+  process.exit(1);
+}
+
+// ---------- minimal CDP session ----------
+// Opens a headless page, exposes ev() to evaluate expressions in it, and
+// collects any console errors / uncaught exceptions the app throws.
+async function session(flags, run) {
+  const proc = spawn(CHROME, [
+    "--headless",
+    "--disable-gpu",
+    `--remote-debugging-port=${PORT}`,
+    "--window-size=1400,880",
+    ...flags,
+    `file://${TARGET}`,
+  ]);
+  try {
+    const target = await poll(async () => {
+      try {
+        const list = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json();
+        return list.find((t) => t.type === "page");
+      } catch {
+        return null;
+      }
+    }, 8000, "devtools target");
+
+    const ws = new WebSocket(target.webSocketDebuggerUrl);
+    await new Promise((r, j) => {
+      ws.addEventListener("open", r, { once: true });
+      ws.addEventListener("error", j, { once: true });
+    });
+
+    let id = 0;
+    const send = (method, params) =>
+      new Promise((res) => {
+        const i = ++id;
+        const on = (e) => {
+          const d = JSON.parse(e.data);
+          if (d.id === i) {
+            ws.removeEventListener("message", on);
+            res(d.result);
+          }
+        };
+        ws.addEventListener("message", on);
+        ws.send(JSON.stringify({ id: i, method, params }));
+      });
+
+    const errors = [];
+    ws.addEventListener("message", (e) => {
+      const d = JSON.parse(e.data);
+      if (d.method === "Runtime.exceptionThrown")
+        errors.push(d.params.exceptionDetails.exception?.description || d.params.exceptionDetails.text);
+      if (d.method === "Runtime.consoleAPICalled" && d.params.type === "error")
+        errors.push(d.params.args.map((a) => a.value).join(" "));
+    });
+
+    await send("Runtime.enable", {});
+    const ev = async (expr) =>
+      (await send("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true }))
+        .result.value;
+
+    // wait for the app to boot (ROOT prepped), then dismiss the welcome overlay
+    await poll(() => ev(`typeof ROOT!=='undefined' && !!ROOT`), 8000, "app boot");
+    await ev(`(()=>{const w=document.getElementById('wexplore'); if(w) w.click();})()`);
+    await wait(600);
+
+    return await run({ ev, errors, send });
+  } finally {
+    proc.kill();
+  }
+}
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+async function poll(fn, timeoutMs, what) {
+  const t0 = Date.now();
+  for (;;) {
+    const v = await fn();
+    if (v) return v;
+    if (Date.now() - t0 > timeoutMs) throw new Error(`timed out waiting for ${what}`);
+    await wait(120);
+  }
+}
+
+// ---------- tiny assertion harness ----------
+const results = [];
+function check(name, pass, detail = "") {
+  results.push({ name, pass: !!pass, detail });
+  console.log(`  ${pass ? "✓" : "✗"} ${name}${detail ? `  — ${detail}` : ""}`);
+}
+const near = (a, b, tol) => typeof a === "number" && Math.abs(a - b) <= tol;
+
+// ---------- the suite ----------
+async function main() {
+  console.log(`smoke: ${TARGET}\n`);
+
+  await session([], async ({ ev, errors }) => {
+    // wait for an expected condition rather than a fixed sleep — view morphs and the
+    // treemap/sunburst crossfade land on their own timers, so we poll for the outcome.
+    const until = async (expr) => {
+      try { await poll(() => ev(expr), 4000, expr); return true; } catch { return false; }
+    };
+
+    // data integrity
+    const nodes = await ev(`(function c(n){let k=1;(n.children||[]).forEach(x=>k+=c(x));return k;})(ROOT)`);
+    check("tree has 14,740 nodes", nodes === 14740, String(nodes));
+    const ang = await ev(`(()=>{const a=nodeByName('Angiosperms'); return a&&a.effAge;})()`);
+    check("Angiosperms effAge ≈ 139 Ma", near(ang, 139, 1.5), String(ang));
+    const genera = await ev(`(()=>{const a=nodeByName('Asteraceae'); return (a.children||[]).length;})()`);
+    check("Asteraceae has 1,730 genera", genera === 1730, String(genera));
+    const tar = await ev(`(()=>{const g=nodeByName('Taraxacum'); return g&&g.rank==='genus'&&!!(g.ids&&g.ids.powo);})()`);
+    check("genus rehydrates (Taraxacum: genus + POWO id)", tar);
+
+    // four views render. Each switch owns an animated transition (view-morph or crossfade)
+    // with its own internal timers and a morphing guard, so we let one fully land before the
+    // next — probing only once the view is idle in its target mode.
+    const VIEW = 800;
+    await ev(`switchMode('tree')`); await wait(VIEW);
+    check("tree view renders nodes", (await ev(`mode==='tree' && document.querySelectorAll('.node').length>0`)) === true);
+    await ev(`switchMode('treemap')`); await wait(VIEW);
+    check("treemap view renders cells", (await ev(`mode==='treemap' && document.querySelectorAll('.tmcell').length>0`)) === true);
+    await ev(`switchMode('sunburst')`); await wait(VIEW);
+    check("sunburst view renders cells", (await ev(`mode==='sunburst' && document.querySelectorAll('.sbcell').length>0`)) === true);
+    await ev(`switchMode('radial')`); await wait(VIEW);
+    check("radial view renders nodes", (await ev(`mode==='radial' && document.querySelectorAll('.node').length>0`)) === true);
+
+    // expand / collapse
+    await ev(`document.getElementById('btnExpand').click()`);
+    await until(`visibleNodes.length>400`);
+    const expanded = await ev(`visibleNodes.length`);
+    await ev(`document.getElementById('btnCollapse').click()`);
+    await until(`visibleNodes.length<50`);
+    const collapsed = await ev(`visibleNodes.length`);
+    check("expand-all then collapse changes the frontier", expanded > collapsed, `${expanded} → ${collapsed}`);
+
+    // search navigates
+    await ev(`(()=>{const q=document.getElementById('q'); q.value='Poaceae'; q.dispatchEvent(new Event('input'));})()`);
+    await until(`document.querySelectorAll('.qrow').length>0`);
+    await ev(`(()=>{const r=document.querySelector('.qrow'); if(r) r.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));})()`);
+    check("search navigates to a taxon", await until(`selected && selected.name==='Poaceae'`));
+
+    // viewport virtualization bounds the DOM when zoomed in
+    await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
+    await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);
+    await until(`visibleNodes.length>1000`);
+    await until(`_structRunning===false`); await wait(150); // let the reroot fit-animation settle so culling is live
+    const dataN = await ev(`visibleNodes.length`);
+    // zoom into the middle of the fan and read the mounted count in the SAME evaluate — a
+    // stray headless resize would otherwise re-fit and clobber a manually-set transform.
+    const mounted = await ev(`(()=>{ T.k=1; T.x=-100; T.y=-8000; applyT(); return document.querySelectorAll('#nodes .node').length; })()`);
+    check("virtualization bounds the DOM zoomed in", mounted > 0 && mounted < dataN / 3, `${mounted} mounted of ${dataN}`);
+
+    // timeline
+    await ev(`exitFocus(); switchMode('radial')`); await wait(500);
+    await ev(`document.getElementById('btnTime').click()`); await wait(500);
+    const timeOn = await ev(`timeMode===true`);
+    await ev(`setTime(200)`); await wait(300);
+    await ev(`play()`); await wait(700);
+    await ev(`pausePlay(); document.getElementById('btnTime').click()`); await wait(400);
+    check("timeline toggles on, plays, and toggles off", timeOn && (await ev(`timeMode===false`)));
+
+    // perf HUD (E1)
+    await ev(`togglePerf(true)`); await wait(300);
+    check("perf HUD toggles on", (await ev(`!document.getElementById('perfhud').hidden`)) === true);
+
+    check("no console errors or exceptions", errors.length === 0, errors.slice(0, 3).join(" | "));
+  });
+
+  // reduced-motion: a fresh session with the media feature forced
+  await session(["--force-prefers-reduced-motion"], async ({ ev, errors }) => {
+    check("reduced-motion is active", (await ev(`matchMedia('(prefers-reduced-motion:reduce)').matches`)) === true);
+    check("ambient breathe is off under reduced-motion",
+      (await ev(`getComputedStyle(document.getElementById('svg')).animationName`)) === "none");
+    await ev(`switchMode('tree'); (()=>{const n=nodeByName('Fabaceae'); if(n) toggle(n);})()`); await wait(500);
+    check("structural change is instant (no animating class)",
+      (await ev(`!document.getElementById('stage').classList.contains('animating')`)) === true);
+    check("no console errors under reduced-motion", errors.length === 0, errors.slice(0, 3).join(" | "));
+  });
+
+  const failed = results.filter((r) => !r.pass);
+  console.log(`\n${results.length - failed.length}/${results.length} checks passed`);
+  if (failed.length) {
+    console.error(`FAILED: ${failed.map((r) => r.name).join(", ")}`);
+    process.exit(1);
+  }
+}
+
+main().catch((e) => {
+  console.error("smoke runner error:", e.message);
+  process.exit(1);
+});
