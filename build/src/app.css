@@ -42,7 +42,7 @@
   .search input{
     font-family:var(--sans); font-size:13px; color:var(--ink);
     background:#0c1712; border:1px solid var(--edge); border-radius:7px;
-    padding:7px 30px 7px 11px; width:210px; outline:none; transition:border-color .15s,box-shadow .15s;
+    padding:7px 30px 7px 11px; width:210px; outline:none; transition:border-color var(--dur-1),box-shadow var(--dur-1);
   }
   .search input::placeholder{color:var(--faint)}
   .search input::-webkit-search-cancel-button{-webkit-appearance:none; appearance:none}  /* our own count/hint sits here */
@@ -84,7 +84,7 @@
   button.ctl{
     font-family:var(--sans); font-size:12px; color:var(--dim);
     background:#0d1712; border:1px solid var(--edge); border-radius:7px;
-    padding:7px 11px; cursor:pointer; transition:color .15s,border-color .15s,background .15s,transform .1s var(--ease-out);
+    padding:7px 11px; cursor:pointer; transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1),transform .1s var(--ease-out);
     white-space:nowrap;
   }
   button.ctl:hover{color:var(--ink); border-color:var(--faint)}
@@ -189,11 +189,7 @@
   .node.lit{opacity:1 !important}
   .node.lit .halo{opacity:.18}
 
-  /* search matches */
-  .node.match circle.dot{stroke:#fff}
-  .node.match .halo{opacity:.28}
-  @keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}
-  .node.match .halo{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.1}50%{opacity:.4}}   /* storyline highlight halo (.hl) */
 
   /* ---------- tooltip ---------- */
   .tip{
@@ -298,7 +294,7 @@
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
   .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:9px; background:#0b1410}
   .pdistmap .wmland{fill:#25332c; stroke:none}
-  .pdistmap .reg{stroke:none; transition:fill-opacity .15s}
+  .pdistmap .reg{stroke:none; transition:fill-opacity var(--dur-1)}
   .pstats{display:flex; gap:20px; margin-top:15px; padding-top:13px; border-top:1px solid var(--line)}
   .pstat{display:flex; flex-direction:column; gap:2px}
   .pstat b{font-family:var(--mono); font-size:16px; color:#fff; font-weight:600; font-variant-numeric:tabular-nums}
@@ -319,7 +315,7 @@
   .stories .slabel{font-family:var(--mono); font-size:9.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin-right:2px}
   .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:#0d1712;
     border:1px solid var(--edge); border-radius:20px; padding:4px 11px; cursor:pointer;
-    transition:color .15s,border-color .15s,background .15s; white-space:nowrap}
+    transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1); white-space:nowrap}
   .schip:hover{color:var(--ink); border-color:var(--faint)}
   .schip.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern); font-weight:600}
   .schip.clear{border-style:dashed}

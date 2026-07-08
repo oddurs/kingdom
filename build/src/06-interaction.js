@@ -1,11 +1,6 @@
 // ---------- interaction ----------
 function toggle(n){ if((n.children||[]).length) animateStructural(()=>{ n.open=!n.open; }); }
 
-function setOpenAll(v){ (function w(n){ if((n.children||[]).length){ n.open=v; w2(n);} })(ROOT);
-  function w2(n){ for(const k of (n.children||[])) { if((k.children||[]).length){k.open=v;} w2(k);} }
-  // relabel everything
-  render(); relabelAll();
-}
 function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) labelNode(el,n); } }
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
 
