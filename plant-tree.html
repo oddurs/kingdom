@@ -154,7 +154,7 @@
     stroke:var(--ground); stroke-width:3px; stroke-linejoin:round;
     transition:fill .18s, opacity .2s; dominant-baseline:middle;
   }
-  .node.lodhide text{opacity:0; pointer-events:none}   /* semantic zoom: hide crowded labels */
+  /* semantic zoom (E2): crowded labels aren't hidden — they're never built (see labelLOD/setLabel) */
   /* view morph / structural animation: hide labels + freeze CSS transitions while nodes fly to new positions */
   .stage.morphing .node text, .stage.animating .node text{opacity:0 !important; transition:none}
   .stage.morphing .link, .stage.animating .link{transition:none}
@@ -699,23 +699,19 @@ function render(){
       el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n)); el.__age=n.effAge;
       const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', haloR(n));
       const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot'); dot.setAttribute('r', radius(n));
-      const tog=document.createElementNS(NS,'text'); tog.setAttribute('class','toggle');
-      const txt=document.createElementNS(NS,'text');
-      el.append(halo,dot,tog,txt);
+      el.append(halo,dot);   // label + toggle glyph are added lazily (E2 DOM diet)
       el.addEventListener('click', e=>{ e.stopPropagation(); ripple(n); toggle(n); select(n,{center:false}); });
       el.addEventListener('mouseenter', e=>{ hoverOn(n); showTip(n,e); });
       el.addEventListener('mousemove', e=> moveTip(e));
       el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
       gNodes.appendChild(el); nodeEls.set(n._id, el);
-      labelNode(el, n);
     }
     const hasKids=(n.children||[]).length>0;
     el.classList.toggle('branch', hasKids && !n.open);
     el.classList.toggle('open', hasKids && n.open);
-    const tog=el.querySelector('.toggle');
-    tog.textContent = hasKids ? (n.open?'':'+') : '';
+    updateToggle(el, n, hasKids);   // "+" glyph only on collapsed branches
     el.setAttribute('transform',`translate(${n.x},${n.y})`);
-    if(mode==='radial') labelNode(el,n);   // rotation depends on angle, which changes each layout
+    // labels are (re)built lazily by labelLOD, which runs at the end of render()
   }
   // remove stale — or, mid-animation, hand exiting els to the animator to recede first
   for(const [id,el] of nodeEls){ if(!seenN.has(id)){ if(_deferStale){ _deferStale.nodes.push([id,el]); } else el.remove(); nodeEls.delete(id);} }
@@ -739,9 +735,24 @@ function labelLOD(){
       show = gap>=12 || n.agg>4000;               // always keep the big families legible
     }
     if(n===selected || n===kb || el.classList.contains('match') || el.classList.contains('hl')) show=true;
-    el.classList.toggle('lodhide', !show);
+    setLabel(el, n, show);
   }
   lastLODk=k;
+}
+// ---------- lazy per-node text: build the label / toggle glyph only when needed (E2 DOM diet) ----------
+function updateToggle(el, n, hasKids){
+  if(hasKids && !n.open){                                  // collapsed branch → "+" affordance
+    if(!el.__tog){ el.__tog=document.createElementNS(NS,'text'); el.__tog.setAttribute('class','toggle');
+      el.__tog.textContent='+'; el.appendChild(el.__tog); }
+  } else if(el.__tog){ el.__tog.remove(); el.__tog=null; }
+}
+function setLabel(el, n, show){
+  // radial interior clades stay unlabelled; everything else gets a label only when LOD permits
+  const wants = show && (mode==='tree' || !(n.open && (n.children||[]).length));
+  if(wants){
+    if(!el.__lab){ el.__lab=document.createElementNS(NS,'text'); el.appendChild(el.__lab); }
+    labelNode(el, n);
+  } else if(el.__lab){ el.__lab.remove(); el.__lab=null; }
 }
 
 // ---------- minimap ----------
@@ -917,7 +928,7 @@ function renderSunburst(){
 }
 
 function labelNode(el, n){
-  const txt=el.querySelector('text:not(.toggle)');
+  const txt=el.__lab; if(!txt) return;
   while(txt.firstChild) txt.removeChild(txt.firstChild);
   const hasKids=(n.children||[]).length>0;
   const r=radius(n);
