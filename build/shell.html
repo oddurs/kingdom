@@ -1,0 +1,122 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yggdrasil — a living tree</title>
+<meta name="description" content="An interactive tree of the plant kingdom — every family of land plant, sized by species richness and coloured by lineage, across four linked views.">
+<meta name="theme-color" content="#0d1512">
+<meta property="og:title" content="Yggdrasil — a living tree">
+<meta property="og:description" content="Explore ~390,000 species across 611 branches of the plant family tree — tree, radial, sunburst and treemap views, with guided tours.">
+<meta property="og:type" content="website">
+<style>
+/*__CSS__*/</style>
+
+<header class="bar">
+  <div class="brand">
+    <h1>Yggdrasil &middot; <em>a living tree</em></h1>
+    <p>Every family of land plant, from mosses to orchids &middot; sized by species richness, coloured by lineage</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="controls">
+    <div class="search">
+      <input id="q" type="search" placeholder="Find a family or plant&hellip;" autocomplete="off" spellcheck="false" aria-label="Search families and genera" role="combobox" aria-expanded="false" aria-controls="qresults" aria-autocomplete="list">
+      <span class="hint" id="qhint"></span>
+      <div class="qresults" id="qresults" role="listbox" hidden></div>
+    </div>
+    <span class="seg" id="viewseg">
+      <button class="ctl" id="btnTree">Tree</button>
+      <button class="ctl on" id="btnRadial">Radial</button>
+      <button class="ctl" id="btnSun">Sunburst</button>
+      <button class="ctl" id="btnTreemap">Treemap</button>
+    </span>
+    <span class="seg" id="depthseg">
+      <button class="ctl on" id="btnOrders">Orders</button>
+      <button class="ctl" id="btnExpand">Expand all</button>
+      <button class="ctl" id="btnCollapse">Collapse</button>
+    </span>
+    <span class="util">
+      <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
+      <button class="ctl" id="btnFit">Fit</button>
+      <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
+      <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
+    </span>
+  </div>
+</header>
+
+<div class="legend" id="legend"></div>
+
+<main class="stage" id="stage">
+  <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
+  <div class="tip" id="tip"></div>
+  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true">
+    <button class="pclose" id="pclose" aria-label="Close">&times;</button>
+    <div id="pdetail">
+      <nav class="pcrumb" id="pcrumb"></nav>
+      <span class="prank" id="prank"></span>
+      <h2 class="pname" id="pname"></h2>
+      <div class="pcommon" id="pcommon"></div>
+      <p class="pblurb" id="pblurb"></p>
+      <div id="pexwrap"></div>
+      <div id="porigin"></div>
+      <div id="pdist"></div>
+      <div class="pstats" id="pstats"></div>
+      <div class="pactions" id="pactions"></div>
+      <div id="prefs"></div>
+    </div>
+    <div id="plist" hidden></div>
+  </aside>
+  <div class="zoomctl">
+    <button class="ctl" id="zin" aria-label="Zoom in">+</button>
+    <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
+  </div>
+  <div class="perfhud" id="perfhud" hidden aria-hidden="true"></div>
+  <div class="timebar" id="timebar" hidden>
+    <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
+    <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
+      <div class="tbbands" id="tbbands"></div>
+      <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+    </div>
+    <div class="tblabel" id="tblabel"></div>
+  </div>
+  <div class="focusbar" id="focusbar">
+    <span class="flabel">Focused</span>
+    <span class="fname" id="fbname"></span>
+    <button class="ctl" id="fbup" title="Up one level">&#9650;</button>
+    <button class="ctl" id="fbexit">Show all</button>
+  </div>
+  <div class="tourcard" id="tourcard" role="dialog" aria-label="Guided tour">
+    <div class="thead"><span class="ttitle" id="ttitle"></span><span class="tourdots" id="tourdots"></span><span class="tstep" id="tstep"></span></div>
+    <h3 class="tname" id="tname"></h3>
+    <p class="ttext" id="ttext"></p>
+    <div class="tnav">
+      <button class="ctl" id="tprev">&lsaquo; Back</button>
+      <button class="ctl" id="tnext">Next &rsaquo;</button>
+      <span class="sp"></span>
+      <button class="ctl" id="texit">Exit tour</button>
+    </div>
+  </div>
+  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome — about this visualization">
+    <div class="card">
+      <h2>Yggdrasil &middot; <em>a living tree</em></h2>
+      <p class="lead">Every family of land plant, from mosses to orchids &mdash; sized by species richness, coloured by lineage. Roughly 390,000 species across 611 branches, from one root.</p>
+      <ul>
+        <li><b>Four views</b><span>Tree, Radial and Sunburst show how plants are related; Treemap sizes them by richness. Switch anytime &mdash; they morph.</span></li>
+        <li><b>Move</b><span>Drag to pan, scroll or pinch to zoom, or drag the minimap. Zoom in and deeper names appear.</span></li>
+        <li><b>Dig in</b><span>Click any branch for its story; &ldquo;Focus subtree&rdquo; dives into a single clade.</span></li>
+        <li><b>Discover</b><span>Highlight carnivores, crops or the biggest families &mdash; or take a guided tour.</span></li>
+      </ul>
+      <div class="wact">
+        <button class="ctl primary" id="wtour">Take the tour &rsaquo;</button>
+        <button class="ctl" id="wexplore">Explore on my own</button>
+      </div>
+    </div>
+  </div>
+  <div class="minimap hide" id="minimap" aria-hidden="true">
+    <svg id="mmsvg" viewBox="0 0 190 132" preserveAspectRatio="none"><g id="mmroot"><g id="mmcontent"></g><rect class="mvp" id="mmvp" x="0" y="0" width="0" height="0"></rect></g></svg>
+    <span class="mmlabel">Overview</span>
+  </div>
+</main>
+
+<footer class="meta" id="footer"></footer>
+
+<script>
+const DATA = /*__DATA__*/;
+
+/*__JS__*/</script>

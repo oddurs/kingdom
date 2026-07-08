@@ -17,8 +17,11 @@ build/fetch.py          enriches taxa.json with GBIF ids + metrics (run with int
 build/wcvp.py           applies Kew WCVP accepted-species counts (needs the dump)
 build/ages.py           derives divergence ages from a dated megatree (auto-fetchable)
 build/genera.py         extracts the ~14k accepted genera from WCVP (the genus tier)
-build/template.html     markup + CSS + JS, with a /*__DATA__*/ placeholder
+build/shell.html        HTML shell with /*__CSS__*/, /*__JS__*/, /*__DATA__*/ placeholders
+build/src/app.css       the stylesheet
+build/src/*.js          the app, split into ordered modules (concatenated by build.py)
 plant-tree.html         generated, self-contained visualization (commit artifact)
+test/smoke.mjs          headless-Chrome regression suite (node test/smoke.mjs)
 ```
 
 ## Data
