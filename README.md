@@ -1,11 +1,14 @@
-# Kingdom — a living tree of the plant kingdom
+# Yggdrasil — a living tree of the plant kingdom
 
 An interactive taxonomic tree of every family of land plant, from mosses to
-orchids. Nodes are **sized by species richness** and **coloured by lineage**;
-the tree opens collapsed at order level and expands to families on click.
+orchids, down to ~14,000 genera. Nodes are **sized by species richness** and
+**coloured by lineage**; the tree opens collapsed at order level and expands to
+families and genera on click, with tree · radial · sunburst · treemap views, a
+geological time scrubber, and a distribution map.
 
-`plant-tree.html` is a single self-contained page — no build tools, no external
-dependencies, no network calls. Open it in any browser.
+`plant-tree.html` is a single self-contained page — no runtime dependencies and
+no network calls, so it runs from a `file://` URL in any browser. See
+[ARCHITECTURE.md](ARCHITECTURE.md) for how it's authored and how it renders.
 
 ## What's inside
 
@@ -82,8 +85,22 @@ Smith & Brown 2018; Zanne 2014) — a single 2.9 MB Newick it reads from
 light outlier rejection to reject the occasional misplaced genus; monotypic
 lineages get a stem age. Vascular plants only, so bryophytes stay undated.
 
-Edit the data in `data/taxa.json` or the presentation in `build/template.html`,
-then rebuild.
+Edit the data in `data/taxa.json` or the presentation in `build/src/` (the
+stylesheet and the JS modules), then rebuild.
+
+## Develop & test
+
+```sh
+make            # list targets
+make build      # rebuild plant-tree.html from build/src + data
+make test       # build, then run the headless-Chrome regression suite
+make serve      # build + serve the repo at http://localhost:8000
+```
+
+`test/smoke.mjs` boots headless Chrome against the built page and asserts the
+invariants — data integrity, all four views, the core interactions, viewport
+virtualization, and reduced-motion — with no npm dependencies. See
+[ARCHITECTURE.md](ARCHITECTURE.md) for the source layout and the render model.
 
 ## Controls
 
