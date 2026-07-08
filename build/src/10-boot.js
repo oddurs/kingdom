@@ -18,12 +18,10 @@ function entranceGrow(){
   animateStructural(()=>{ for(const [id,v] of saved) idMap.get(id).open=v; }, {fit:false, dur:820});  // ...then unfurl
 }
 
-// ---------- legend + footer ----------
-const legend=document.getElementById('legend');
+// ---------- colour legend + highlight/tour menus + footer ----------
+// The controls live in header popover menus (see #menu-colour / #menu-explore); this
+// just populates the pre-placed #cmode / #lgswatches / #stories / #toursbar elements.
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
-legend.innerHTML = `<span class="stories" id="cmode"></span><span class="lgswatches" id="lgswatches"></span>`
-  + `<span class="sep"></span><span class="stories" id="stories"></span>`
-  + `<span class="sep"></span><span class="stories" id="toursbar"></span>`;
 function legendSwatches(){
   if(colorMode==='age')
     return GEOP.map(p=>`<span class="lg"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
@@ -63,6 +61,35 @@ document.getElementById('footer').innerHTML =
   `<span><span class="k">orders</span> <b>86</b></span>`+
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
   `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
+
+// ---------- header popover menus (G2) ----------
+let openMenu=null;
+function closeMenu(){ if(!openMenu) return;
+  const btn=document.querySelector(`[data-menu="${openMenu.dataset.for}"]`); if(btn) btn.setAttribute('aria-expanded','false');
+  openMenu.hidden=true; openMenu.classList.remove('open'); openMenu=null; }
+function toggleMenu(name){
+  const m=document.getElementById('menu-'+name), btn=document.querySelector(`[data-menu="${name}"]`);
+  if(!m||!btn) return;
+  if(openMenu===m){ closeMenu(); return; }
+  closeMenu();
+  m.dataset.for=name; m.hidden=false; m.classList.add('open');
+  const r=btn.getBoundingClientRect(), mw=m.getBoundingClientRect().width;   // now measurable
+  m.style.top=(r.bottom+8)+'px';
+  m.style.left=Math.max(12, Math.min(r.right-mw, innerWidth-mw-12))+'px';    // right-align to the button, clamp on-screen
+  btn.setAttribute('aria-expanded','true'); openMenu=m;
+}
+document.addEventListener('click', e=>{
+  const trig=e.target.closest('[data-menu]');
+  if(trig){ e.stopPropagation(); toggleMenu(trig.dataset.menu); return; }
+  if(!openMenu) return;
+  if(e.target.closest('.menu')){                       // a click inside the open menu
+    if(e.target.closest('button') && !e.target.closest('[data-cmode]')) closeMenu();   // an action closes it; colour settings stay
+    return;
+  }
+  closeMenu();                                          // click outside closes
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && openMenu){ closeMenu(); } });
+window.addEventListener('resize', ()=>{ if(openMenu) closeMenu(); });
 
 // ---------- PNG / poster export ----------
 function contentBBox(){
