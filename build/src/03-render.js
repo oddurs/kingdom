@@ -132,7 +132,7 @@ function labelLOD(){
       const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*560*k : DY*k;
       show = gap>=12 || n.agg>4000;               // always keep the big families legible
     }
-    if(n===selected || n===kb || el.classList.contains('match') || el.classList.contains('hl')) show=true;
+    if(n===selected || n===kb || el.classList.contains('hl')) show=true;   // never cull a focused / highlighted label
     setLabel(el, n, show);
   }
   lastLODk=k;
