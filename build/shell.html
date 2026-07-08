@@ -42,21 +42,39 @@
       <button class="ctl" id="btnSun">Sunburst</button>
       <button class="ctl" id="btnTreemap">Treemap</button>
     </span>
+    <span class="barsep"></span>
+    <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
+    <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<span class="caret">&#9662;</span></button>
+    <span class="barsep"></span>
+    <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
+    <button class="ctl" id="btnFit">Fit</button>
+    <button class="ctl menu-btn iconbtn" data-menu="more" aria-haspopup="true" aria-expanded="false" aria-label="More options">&hellip;</button>
+  </div>
+</header>
+
+<!-- header popover menus: secondary controls tuck out of the way (G2) -->
+<div class="menu" id="menu-colour" role="menu" hidden>
+  <span class="stories" id="cmode"></span>
+  <div class="lgswatches" id="lgswatches"></div>
+</div>
+<div class="menu" id="menu-explore" role="menu" hidden>
+  <span class="stories" id="stories"></span>
+  <span class="stories" id="toursbar"></span>
+</div>
+<div class="menu" id="menu-more" role="menu" hidden>
+  <div class="menu-sec">
+    <span class="menu-label">Depth</span>
     <span class="seg" id="depthseg">
       <button class="ctl on" id="btnOrders">Orders</button>
       <button class="ctl" id="btnExpand">Expand all</button>
       <button class="ctl" id="btnCollapse">Collapse</button>
     </span>
-    <span class="util">
-      <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
-      <button class="ctl" id="btnFit">Fit</button>
-      <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
-      <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
-    </span>
   </div>
-</header>
-
-<div class="legend" id="legend"></div>
+  <div class="menu-sec">
+    <button class="ctl wide" id="btnExport" title="Download the current view as a PNG">Export as PNG</button>
+    <button class="ctl wide" id="btnHelp" title="About &amp; controls">About &amp; controls</button>
+  </div>
+</div>
 
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>

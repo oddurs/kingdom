@@ -115,17 +115,31 @@
   .util button.ctl{color:var(--faint); background:transparent}
   .util button.ctl:hover{color:var(--ink); background:#ffffff0a; border-color:var(--edge)}
 
-  /* ---------- legend ---------- */
-  .legend{
-    display:flex; gap:16px; flex-wrap:wrap; align-items:center;
-    padding:9px 22px; border-bottom:1px solid var(--line);
-    font-size:11.5px; color:var(--dim); background:#0c1512aa; z-index:4;
+  /* ---------- header popover menus (G2) ---------- */
+  .barsep{width:1px; height:20px; background:var(--edge); align-self:center; margin:0 2px}
+  .menu-btn{display:inline-flex; align-items:center; gap:4px}
+  .menu-btn .caret{font-size:8px; opacity:.55; transition:transform var(--dur-1) var(--ease-out)}
+  .menu-btn[aria-expanded="true"]{color:var(--ink); border-color:var(--faint)}
+  .menu-btn[aria-expanded="true"] .caret{transform:rotate(180deg); opacity:.9}
+  .iconbtn{font-size:15px; line-height:1; padding:6px 10px}
+  .menu{
+    position:fixed; z-index:40; min-width:190px; max-width:min(320px,92vw); padding:11px 12px;
+    display:flex; flex-direction:column; gap:11px;
+    background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
+    border-radius:12px; box-shadow:0 16px 40px #000a;
+    animation:popin var(--dur-1) var(--ease-out);
   }
-  .legend .lgswatches{display:contents}
-  .legend .lg{display:flex; align-items:center; gap:6px; cursor:default}
-  .legend .dot{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor}
-  .legend .sep{width:1px; height:13px; background:var(--line)}
-  .legend .note{font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+  .menu[hidden]{display:none}
+  .menu-sec{display:flex; flex-direction:column; gap:8px}
+  .menu-sec + .menu-sec{padding-top:11px; border-top:1px solid var(--line)}
+  .menu-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint)}
+  .menu .stories{flex-wrap:wrap}
+  .menu .ctl.wide{width:100%; text-align:left}
+  .menu #depthseg{align-self:flex-start}
+  /* colour legend swatches, now inside the Colour menu */
+  .lgswatches{display:flex; flex-direction:column; gap:6px}
+  .lg{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--dim); cursor:default}
+  .lg .dot{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor; flex:none}
 
   /* ---------- stage ---------- */
   main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none;
@@ -412,13 +426,9 @@
     header.bar{padding:10px 14px; gap:9px}
     .brand{flex-basis:100%; min-width:0}
     .brand h1{font-size:16px; line-height:1.2; white-space:normal; overflow-wrap:break-word}
-    .brand p{display:none}
     .spacer{display:none}
     .controls{width:100%; gap:6px}
     .search{flex:1 1 100%} .search input{width:100%}
-    .legend{gap:9px 14px; padding:8px 14px; flex-wrap:nowrap; overflow-x:auto;
-      white-space:nowrap; -webkit-overflow-scrolling:touch}
-    .legend .lg{flex:0 0 auto} .legend .note,.legend .sep{display:none}
     footer.meta{gap:14px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap}
     footer.meta>span{flex:0 0 auto}
     .zoomctl{right:12px; bottom:12px}
@@ -466,21 +476,39 @@
       <button class="ctl" id="btnSun">Sunburst</button>
       <button class="ctl" id="btnTreemap">Treemap</button>
     </span>
+    <span class="barsep"></span>
+    <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
+    <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<span class="caret">&#9662;</span></button>
+    <span class="barsep"></span>
+    <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
+    <button class="ctl" id="btnFit">Fit</button>
+    <button class="ctl menu-btn iconbtn" data-menu="more" aria-haspopup="true" aria-expanded="false" aria-label="More options">&hellip;</button>
+  </div>
+</header>
+
+<!-- header popover menus: secondary controls tuck out of the way (G2) -->
+<div class="menu" id="menu-colour" role="menu" hidden>
+  <span class="stories" id="cmode"></span>
+  <div class="lgswatches" id="lgswatches"></div>
+</div>
+<div class="menu" id="menu-explore" role="menu" hidden>
+  <span class="stories" id="stories"></span>
+  <span class="stories" id="toursbar"></span>
+</div>
+<div class="menu" id="menu-more" role="menu" hidden>
+  <div class="menu-sec">
+    <span class="menu-label">Depth</span>
     <span class="seg" id="depthseg">
       <button class="ctl on" id="btnOrders">Orders</button>
       <button class="ctl" id="btnExpand">Expand all</button>
       <button class="ctl" id="btnCollapse">Collapse</button>
     </span>
-    <span class="util">
-      <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
-      <button class="ctl" id="btnFit">Fit</button>
-      <button class="ctl" id="btnExport" title="Download the current view as a PNG" aria-label="Export as PNG">Export</button>
-      <button class="ctl" id="btnHelp" title="About &amp; controls" aria-label="About and controls">?</button>
-    </span>
   </div>
-</header>
-
-<div class="legend" id="legend"></div>
+  <div class="menu-sec">
+    <button class="ctl wide" id="btnExport" title="Download the current view as a PNG">Export as PNG</button>
+    <button class="ctl wide" id="btnHelp" title="About &amp; controls">About &amp; controls</button>
+  </div>
+</div>
 
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
@@ -1676,12 +1704,10 @@ function entranceGrow(){
   animateStructural(()=>{ for(const [id,v] of saved) idMap.get(id).open=v; }, {fit:false, dur:820});  // ...then unfurl
 }
 
-// ---------- legend + footer ----------
-const legend=document.getElementById('legend');
+// ---------- colour legend + highlight/tour menus + footer ----------
+// The controls live in header popover menus (see #menu-colour / #menu-explore); this
+// just populates the pre-placed #cmode / #lgswatches / #stories / #toursbar elements.
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
-legend.innerHTML = `<span class="stories" id="cmode"></span><span class="lgswatches" id="lgswatches"></span>`
-  + `<span class="sep"></span><span class="stories" id="stories"></span>`
-  + `<span class="sep"></span><span class="stories" id="toursbar"></span>`;
 function legendSwatches(){
   if(colorMode==='age')
     return GEOP.map(p=>`<span class="lg"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
@@ -1721,6 +1747,35 @@ document.getElementById('footer').innerHTML =
   `<span><span class="k">orders</span> <b>86</b></span>`+
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
   `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
+
+// ---------- header popover menus (G2) ----------
+let openMenu=null;
+function closeMenu(){ if(!openMenu) return;
+  const btn=document.querySelector(`[data-menu="${openMenu.dataset.for}"]`); if(btn) btn.setAttribute('aria-expanded','false');
+  openMenu.hidden=true; openMenu.classList.remove('open'); openMenu=null; }
+function toggleMenu(name){
+  const m=document.getElementById('menu-'+name), btn=document.querySelector(`[data-menu="${name}"]`);
+  if(!m||!btn) return;
+  if(openMenu===m){ closeMenu(); return; }
+  closeMenu();
+  m.dataset.for=name; m.hidden=false; m.classList.add('open');
+  const r=btn.getBoundingClientRect(), mw=m.getBoundingClientRect().width;   // now measurable
+  m.style.top=(r.bottom+8)+'px';
+  m.style.left=Math.max(12, Math.min(r.right-mw, innerWidth-mw-12))+'px';    // right-align to the button, clamp on-screen
+  btn.setAttribute('aria-expanded','true'); openMenu=m;
+}
+document.addEventListener('click', e=>{
+  const trig=e.target.closest('[data-menu]');
+  if(trig){ e.stopPropagation(); toggleMenu(trig.dataset.menu); return; }
+  if(!openMenu) return;
+  if(e.target.closest('.menu')){                       // a click inside the open menu
+    if(e.target.closest('button') && !e.target.closest('[data-cmode]')) closeMenu();   // an action closes it; colour settings stay
+    return;
+  }
+  closeMenu();                                          // click outside closes
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && openMenu){ closeMenu(); } });
+window.addEventListener('resize', ()=>{ if(openMenu) closeMenu(); });
 
 // ---------- PNG / poster export ----------
 function contentBBox(){
