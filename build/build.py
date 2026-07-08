@@ -21,9 +21,17 @@ DATA = ROOT / "data" / "taxa.json"
 GENERA = ROOT / "data" / "genera.json"
 WORLDMAP = ROOT / "data" / "worldmap.json"
 SCHEMA = ROOT / "data" / "taxon.schema.json"
-TEMPLATE = ROOT / "build" / "template.html"
+SHELL = ROOT / "build" / "shell.html"
+SRC = ROOT / "build" / "src"
 OUT = ROOT / "plant-tree.html"
 PLACEHOLDER = "/*__DATA__*/"
+
+# The single inline <script> body, concatenated from these modules in this order.
+# They share one scope (as the original monolith did); order is load order.
+MODULES = [
+    "01-prep.js", "02-layout.js", "03-render.js", "04-minimap.js", "05-views.js",
+    "06-interaction.js", "07-navigation.js", "08-panels.js", "09-story.js", "10-boot.js",
+]
 
 # viz-facing node fields, in output order (provenance is intentionally omitted —
 # the visualization doesn't render it; it lives in the canonical data).
@@ -123,15 +131,24 @@ def main() -> None:
     if WORLDMAP.exists():
         data["worldmap"] = json.loads(WORLDMAP.read_text())
 
-    template = TEMPLATE.read_text()
-    if PLACEHOLDER not in template:
-        raise SystemExit(f"placeholder {PLACEHOLDER!r} not found in template")
+    # Assemble the single self-contained page: the HTML shell with the CSS and the
+    # concatenated JS modules inlined, then the data injected.
+    shell = SHELL.read_text()
+    css = (SRC / "app.css").read_text()
+    js = "".join((SRC / m).read_text() for m in MODULES)
+    for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell")):
+        if ph not in shell:
+            raise SystemExit(f"placeholder {ph!r} not found in {where}")
     # Embed as JSON.parse('…') rather than a raw JS object literal: V8 parses a JSON string
     # ~4x faster than the equivalent object literal for a payload this size (E5). Escape the
     # blob into a single-quoted JS string (backslash first, then quote, then </ for tag safety).
     blob = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     esc = blob.replace("\\", "\\\\").replace("'", "\\'").replace("</", "<\\/")
-    OUT.write_text(template.replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
+    out = (shell
+           .replace("/*__CSS__*/", css)
+           .replace("/*__JS__*/", js)
+           .replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
+    OUT.write_text(out)
 
     fams = sum(1 for t in taxa if t["rank"] == "family")
     withids = sum(1 for t in taxa if t.get("ids", {}).get("gbif"))
