@@ -669,6 +669,87 @@ function linkPathRadial(s,t){
   const a1=Math.atan2(s.y,s.x), a2=Math.atan2(t.y,t.x), mr=(r1+r2)/2;
   return `M${s.x},${s.y}C${mr*Math.cos(a1)},${mr*Math.sin(a1)} ${mr*Math.cos(a2)},${mr*Math.sin(a2)} ${t.x},${t.y}`;
 }
+// ---------- virtualized render (E3): only on-screen nodes hold DOM ----------
+// Steady-state (idle / pan / zoom) keeps a <g> only for nodes within the viewport (+margin), so
+// the SVG element count — and the pan/zoom recomposite cost — is bounded by the screen, not the
+// tree size. During a structural animation culling is suspended and the whole working set mounts
+// (as before), then re-culls on finish. Node shells are pooled to avoid create/GC churn on pan.
+const nodePool=[];
+let lastLayout=null;                 // cached {nodes,links} so a pan can re-cull without re-laying out
+let _structRunning=false;            // true mid structural animation → suspend culling
+let _vw=1400, _vh=880;               // cached stage size (avoid getBoundingClientRect per pan frame)
+let _cullX=1e9, _cullY=1e9, _cullK=0;  // T at the last cull — re-cull only after enough motion
+function refreshStageSize(){ const r=stage.getBoundingClientRect(); if(r.width) _vw=r.width; if(r.height) _vh=r.height; }
+const CULL_MIN=400, CULL_MARGIN=340; // small trees mount whole (cull overhead not worth it)
+function virtualOn(){ return (mode==='tree'||mode==='radial') && !_structRunning && lastLayout && lastLayout.nodes.length>=CULL_MIN; }
+function inView(n){ const sx=n.x*T.k+T.x, sy=n.y*T.k+T.y;
+  return sx>=-CULL_MARGIN && sx<=_vw+CULL_MARGIN && sy>=-CULL_MARGIN && sy<=_vh+CULL_MARGIN; }
+
+function acquireShell(n){
+  let el=nodePool.pop();
+  if(!el){
+    el=document.createElementNS(NS,'g');
+    const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo');
+    const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot');
+    el.append(halo,dot); el.__halo=halo; el.__dot=dot;
+    // listeners bound once; they act on whichever node the shell currently hosts
+    el.addEventListener('click', e=>{ e.stopPropagation(); const m=el.__node; if(!m) return; ripple(m); toggle(m); select(m,{center:false}); });
+    el.addEventListener('mouseenter', e=>{ const m=el.__node; if(m){ hoverOn(m); showTip(m,e); } });
+    el.addEventListener('mousemove', e=> moveTip(e));
+    el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
+  }
+  el.setAttribute('class','node');                 // reset any classes left by a prior occupant
+  el.__node=n; el.__age=n.effAge; el.__born=false;
+  el.style.opacity=''; el.style.pointerEvents='';
+  el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n));
+  el.__halo.setAttribute('r', haloR(n)); el.__dot.setAttribute('r', radius(n));
+  return el;
+}
+function releaseShell(el){
+  if(el.__lab){ el.__lab.remove(); el.__lab=null; }
+  if(el.__tog){ el.__tog.remove(); el.__tog=null; }
+  el.__node=null; el.remove();
+  if(nodePool.length<600) nodePool.push(el);
+}
+function ensureNode(n, repos){
+  let el=nodeEls.get(n._id), fresh=false;
+  if(!el){ el=acquireShell(n); nodeEls.set(n._id, el); gNodes.appendChild(el); fresh=true;
+    if(n===selected) el.classList.add('selected');            // restore transient state on (re)mount
+    if(n===kb) el.classList.add('kbfocus');
+    if(activeStory && storySet && storySet.has(n._id)) el.classList.add('hl'); }
+  if(fresh || repos){
+    const hasKids=(n.children||[]).length>0;
+    el.classList.toggle('branch', hasKids && !n.open);
+    el.classList.toggle('open', hasKids && n.open);
+    updateToggle(el, n, hasKids);                              // "+" glyph only on collapsed branches
+    el.setAttribute('transform',`translate(${n.x},${n.y})`);
+  }
+}
+function ensureLink(l, repos){
+  const id=l.s._id+'-'+l.t._id;
+  let el=linkEls.get(id), fresh=false;
+  if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
+    el.style.setProperty('--lc', color(l.t)); el.style.setProperty('--lw', linkW(l.t));
+    el.__age=l.t.effAge; gLinks.appendChild(el); linkEls.set(id,el); fresh=true; }
+  if(fresh || repos) el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
+}
+// mount the on-screen set (or everything, when culling is off). repos=true refreshes positions &
+// classes of already-mounted elements — needed after a layout change, skipped on a pure pan.
+function applyMount(repos){
+  if(!lastLayout) return;
+  const {nodes, links}=lastLayout, cull=virtualOn();
+  const keep=new Set();
+  for(const n of nodes){ if(!cull || inView(n)){ keep.add(n._id); ensureNode(n, repos); } }
+  for(const [id,el] of [...nodeEls]){ if(!keep.has(id)){ nodeEls.delete(id);
+    if(_deferStale){ _deferStale.nodes.push([id,el]); } else releaseShell(el); } }
+  const keepL=new Set();
+  for(const l of links){ if(keep.has(l.s._id) || keep.has(l.t._id)){ keepL.add(l.s._id+'-'+l.t._id); ensureLink(l, repos); } }
+  for(const [id,el] of [...linkEls]){ if(!keepL.has(id)){ linkEls.delete(id);
+    if(_deferStale){ _deferStale.links.push([id,el]); } else el.remove(); } }
+  _cullX=T.x; _cullY=T.y; _cullK=T.k;
+  labelLOD();
+  if(timeMode) applyTime();          // keep newly-mounted nodes consistent with the time curtain
+}
 function render(){
   if(mode==='treemap' || mode==='sunburst'){
     gLinks.style.display='none'; gNodes.style.display='none'; gTree.style.display='';
@@ -679,45 +760,9 @@ function render(){
   gLinks.style.display=''; gNodes.style.display=''; gTree.style.display='none';
   const {nodes, links}=layout();
   visibleNodes = nodes.slice().sort((a,b)=> mode==='radial' ? (a.pa-b.pa) : (a.y-b.y));
-  const seenN=new Set(), seenL=new Set();
-
-  // links
-  for(const l of links){
-    const id=l.s._id+'-'+l.t._id; seenL.add(id);
-    let el=linkEls.get(id);
-    if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
-      el.style.setProperty('--lc', color(l.t)); el.style.setProperty('--lw', linkW(l.t));
-      el.__age=l.t.effAge; gLinks.appendChild(el); linkEls.set(id,el); }
-    el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
-  }
-  // nodes
-  for(const n of nodes){
-    seenN.add(n._id);
-    let el=nodeEls.get(n._id);
-    if(!el){
-      el=document.createElementNS(NS,'g'); el.setAttribute('class','node');
-      el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n)); el.__age=n.effAge;
-      const halo=document.createElementNS(NS,'circle'); halo.setAttribute('class','halo'); halo.setAttribute('r', haloR(n));
-      const dot=document.createElementNS(NS,'circle'); dot.setAttribute('class','dot'); dot.setAttribute('r', radius(n));
-      el.append(halo,dot);   // label + toggle glyph are added lazily (E2 DOM diet)
-      el.addEventListener('click', e=>{ e.stopPropagation(); ripple(n); toggle(n); select(n,{center:false}); });
-      el.addEventListener('mouseenter', e=>{ hoverOn(n); showTip(n,e); });
-      el.addEventListener('mousemove', e=> moveTip(e));
-      el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
-      gNodes.appendChild(el); nodeEls.set(n._id, el);
-    }
-    const hasKids=(n.children||[]).length>0;
-    el.classList.toggle('branch', hasKids && !n.open);
-    el.classList.toggle('open', hasKids && n.open);
-    updateToggle(el, n, hasKids);   // "+" glyph only on collapsed branches
-    el.setAttribute('transform',`translate(${n.x},${n.y})`);
-    // labels are (re)built lazily by labelLOD, which runs at the end of render()
-  }
-  // remove stale — or, mid-animation, hand exiting els to the animator to recede first
-  for(const [id,el] of nodeEls){ if(!seenN.has(id)){ if(_deferStale){ _deferStale.nodes.push([id,el]); } else el.remove(); nodeEls.delete(id);} }
-  for(const [id,el] of linkEls){ if(!seenL.has(id)){ if(_deferStale){ _deferStale.links.push([id,el]); } else el.remove(); linkEls.delete(id);} }
-  labelLOD(); renderMinimap();
-  if(timeMode) applyTime();   // re-apply the time filter after any re-render
+  lastLayout={nodes, links};
+  applyMount(true);
+  renderMinimap();
 }
 
 // ---------- semantic zoom: hide crowded leaf labels, reveal on zoom ----------
@@ -1060,6 +1105,7 @@ function animateStructural(mutate, opts={}){
     const mx=(sx+tx)/2; return `M${sx},${sy}C${mx},${sy} ${mx},${ty} ${tx},${ty}`; };
 
   const park={nodes:[],links:[]};
+  _structRunning=true;                                     // suspend culling: mount the whole working set
   _deferStale=park; render(); _deferStale=null;            // build new DOM; hand exiting els to us
   const entering=new Set(); for(const n of nodes) if(!startPos.has(n._id)) entering.add(n._id);
   const posOf=(n,e)=>{ const en=endPos.get(n._id); const s = entering.has(n._id) ? anchor(n,startPos) : (startPos.get(n._id)||en);
@@ -1080,7 +1126,7 @@ function animateStructural(mutate, opts={}){
 
   stage.classList.add('animating');
   const t0=performance.now(); let done=false;
-  function finish(){ if(done) return; done=true; _structFinish=null;
+  function finish(){ if(done) return; done=true; _structFinish=null; _structRunning=false;   // resume culling
     for(const [,el] of park.nodes) el.remove();
     for(const [,el] of park.links) el.remove();
     if(opts.fit) T=endT;
@@ -1159,7 +1205,11 @@ function hideTip(){ tip.classList.remove('show'); }
 const vp=document.getElementById('viewport');
 let T={x:60,y:0,k:1};
 function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`);
-  updateMinimapVP(); if(Math.abs(T.k-lastLODk)>0.002) labelLOD(); }
+  updateMinimapVP();
+  if(virtualOn()){                                         // re-cull, but only after the viewport has
+    if(Math.abs(T.x-_cullX)+Math.abs(T.y-_cullY) > CULL_MARGIN*0.4 || Math.abs(T.k-_cullK) > 0.008)
+      applyMount(false);                                   // moved enough — the margin covers the gap between culls
+  } else if(Math.abs(T.k-lastLODk)>0.002) labelLOD(); }
 function fit(dur){
   if(mode==='sunburst'){
     const r=stage.getBoundingClientRect();
@@ -1816,9 +1866,10 @@ function togglePerf(on){ perfOn = on!==undefined?on:!perfOn; perfhud.hidden=!per
 document.addEventListener('keydown', e=>{ if(e.key==='`' && document.activeElement!==q){ e.preventDefault(); togglePerf(); } });
 if(perfOn) togglePerf(true);
 
+refreshStageSize();
 render(); applyT(); fit(0);
 applyHash();
 const _welcomed = initWelcome();
 if(!location.hash && !_welcomed) maybeEntrance();   // returning visitor: grow right away
-window.addEventListener('resize', ()=>{ if(!selected && !activeStory) fit(0); });
+window.addEventListener('resize', ()=>{ refreshStageSize(); if(!selected && !activeStory) fit(0); else applyMount(false); });
 </script>
