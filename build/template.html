@@ -1570,11 +1570,21 @@ document.getElementById('texit').onclick=endTour;
 const welcome=document.getElementById('welcome');
 function showWelcome(){ welcome.classList.add('show'); }
 function hideWelcome(){ welcome.classList.remove('show'); try{localStorage.setItem('biomi_seen','1');}catch(e){} }
-document.getElementById('wexplore').onclick=hideWelcome;
+document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
 document.getElementById('btnHelp').onclick=showWelcome;
 function initWelcome(){ let seen; try{ seen=localStorage.getItem('biomi_seen'); }catch(e){ seen='1'; }
-  if(!seen && !location.hash) showWelcome(); }
+  if(!seen && !location.hash){ showWelcome(); return true; } return false; }
+// signature entrance: the tree grows out from its root once, when first revealed (D5)
+let didEntrance=false;
+function maybeEntrance(){ if(didEntrance) return; didEntrance=true; setTimeout(entranceGrow, 130); }
+function entranceGrow(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches || (mode!=='tree'&&mode!=='radial') || selected) return;
+  const saved=new Map(); eachNode(n=>{ if((n.children||[]).length) saved.set(n._id, n.open); });
+  eachNode(n=>{ if((n.children||[]).length) n.open=false; });   // collapse to the root...
+  render();
+  animateStructural(()=>{ for(const [id,v] of saved) idMap.get(id).open=v; }, {fit:false, dur:820});  // ...then unfurl
+}
 
 // ---------- legend + footer ----------
 const legend=document.getElementById('legend');
@@ -1693,7 +1703,10 @@ const timebar=document.getElementById('timebar'), tbtrack=document.getElementByI
 const TFADE=14;   // Ma over which a lineage blooms in after its origin
 function ageOpacity(a, T){ if(a==null) return 1; if(T>a) return 0; return Math.min(1,(a-T)/TFADE); }
 function applyTime(){
-  for(const el of nodeEls.values()){ const o=ageOpacity(el.__age,timeNow); el.style.opacity=o; el.style.pointerEvents=o<0.5?'none':''; }
+  const pulse = playing || tbDrag;   // only mark births while advancing time, not on the initial paint
+  for(const [nid,el] of nodeEls){ const o=ageOpacity(el.__age,timeNow), born=o>0.5;
+    if(pulse && born && !el.__born && el.__age!=null){ const n=idMap.get(nid); if(n && radius(n)>6) ripple(n); }
+    el.__born=born; el.style.opacity=o; el.style.pointerEvents=o<0.5?'none':''; }
   for(const el of linkEls.values()){ el.style.opacity=ageOpacity(el.__age,timeNow); }
 }
 function buildBands(){
@@ -1756,12 +1769,8 @@ document.getElementById('btnSun').onclick=()=>switchMode('sunburst');
 document.getElementById('btnTreemap').onclick=()=>switchMode('treemap');
 
 render(); applyT(); fit(0);
-if(!matchMedia('(prefers-reduced-motion:reduce)').matches){        // gentle entrance: the tree fades in
-  vp.style.opacity='0'; vp.style.transition='opacity .9s ease';
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ vp.style.opacity='1';
-    setTimeout(()=>{ vp.style.transition=''; }, 950); }));
-}
 applyHash();
-initWelcome();
+const _welcomed = initWelcome();
+if(!location.hash && !_welcomed) maybeEntrance();   // returning visitor: grow right away
 window.addEventListener('resize', ()=>{ if(!selected && !activeStory) fit(0); });
 </script>
