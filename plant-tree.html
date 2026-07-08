@@ -137,9 +137,10 @@
     transition:fill .18s, opacity .2s; dominant-baseline:middle;
   }
   .node.lodhide text{opacity:0; pointer-events:none}   /* semantic zoom: hide crowded labels */
-  /* view morph: hide labels + freeze transitions while nodes fly to new positions */
-  .stage.morphing .node text{opacity:0 !important; transition:none}
-  .stage.morphing .link{transition:none}
+  /* view morph / structural animation: hide labels + freeze CSS transitions while nodes fly to new positions */
+  .stage.morphing .node text, .stage.animating .node text{opacity:0 !important; transition:none}
+  .stage.morphing .link, .stage.animating .link{transition:none}
+  .stage.animating .node .dot, .stage.animating .node .halo{transition:none}
   .node text .rank{font-family:var(--mono)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
   .node text tspan.count{font-family:var(--mono); font-size:9.5px; fill:var(--faint)}
@@ -579,6 +580,7 @@ function color(n){
 const DX=212, DY=28, RING=140;
 let mode='radial';   // radial fills the frame and reads as a living organism — the landing view
 let timeMode=false, timeNow=0;   // geological-time scrubber (C4)
+let _deferStale=null, _structFinish=null;   // structural-animation plumbing (D1)
 let renderRoot=ROOT;                    // re-root / focus-on-subtree
 let leafCursor=0, leafTotal=0;
 let visibleNodes=[];
@@ -680,9 +682,9 @@ function render(){
     el.setAttribute('transform',`translate(${n.x},${n.y})`);
     if(mode==='radial') labelNode(el,n);   // rotation depends on angle, which changes each layout
   }
-  // remove stale
-  for(const [id,el] of nodeEls){ if(!seenN.has(id)){ el.remove(); nodeEls.delete(id);} }
-  for(const [id,el] of linkEls){ if(!seenL.has(id)){ el.remove(); linkEls.delete(id);} }
+  // remove stale — or, mid-animation, hand exiting els to the animator to recede first
+  for(const [id,el] of nodeEls){ if(!seenN.has(id)){ if(_deferStale){ _deferStale.nodes.push([id,el]); } else el.remove(); nodeEls.delete(id);} }
+  for(const [id,el] of linkEls){ if(!seenL.has(id)){ if(_deferStale){ _deferStale.links.push([id,el]); } else el.remove(); linkEls.delete(id);} }
   labelLOD(); renderMinimap();
   if(timeMode) applyTime();   // re-apply the time filter after any re-render
 }
@@ -915,8 +917,7 @@ function labelNode(el, n){
 }
 
 // ---------- interaction ----------
-function toggle(n){ if((n.children||[]).length){ n.open=!n.open;
-  const el=nodeEls.get(n._id); if(el){ labelNode(el,n);} render(); } }
+function toggle(n){ if((n.children||[]).length) animateStructural(()=>{ n.open=!n.open; }); }
 
 function setOpenAll(v){ (function w(n){ if((n.children||[]).length){ n.open=v; w2(n);} })(ROOT);
   function w2(n){ for(const k of (n.children||[])) { if((k.children||[]).length){k.open=v;} w2(k);} }
@@ -982,6 +983,64 @@ function crossfade(m, reduce){
     vp.style.opacity='1';
     setTimeout(()=>{ vp.style.transition=''; morphing=false; }, 230);
   }, 210);
+}
+
+// ---------- structural animation: grow / collapse / reflow (D1) ----------
+// Generalises the view-morph to changes that add or remove nodes: surviving nodes tween to
+// their new positions, new nodes grow out from their parent, removed nodes recede into it.
+function animateStructural(mutate, opts={}){
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(_structFinish) _structFinish();                       // settle any in-flight animation first
+  if(mode!=='tree' && mode!=='radial'){ mutate(); render(); relabelAll(); if(opts.fit) fit(reduce?0:600); return; }
+
+  const startPos=new Map(); for(const n of visibleNodes) startPos.set(n._id,{x:n.x,y:n.y});
+  mutate();
+  const {nodes,links}=layout();
+  const endPos=new Map(); for(const n of nodes) endPos.set(n._id,{x:n.x,y:n.y});
+  if(reduce){ render(); relabelAll(); if(opts.fit) fit(0); return; }
+
+  const startT={...T}, endT = opts.fit ? computeFitT(nodes,mode) : {...T};
+  const lerp=(a,b,e)=>a+(b-a)*e;
+  const anchor=(n,map)=>{ let p=n.parent; while(p){ if(map.has(p._id)) return map.get(p._id); p=p.parent; } return map.get(n._id)||{x:n.x,y:n.y}; };
+  const linkD=(sx,sy,tx,ty)=>{ if(mode==='radial'){ const r1=Math.hypot(sx,sy),r2=Math.hypot(tx,ty),a1=Math.atan2(sy,sx),a2=Math.atan2(ty,tx),mr=(r1+r2)/2;
+      return `M${sx},${sy}C${mr*Math.cos(a1)},${mr*Math.sin(a1)} ${mr*Math.cos(a2)},${mr*Math.sin(a2)} ${tx},${ty}`; }
+    const mx=(sx+tx)/2; return `M${sx},${sy}C${mx},${sy} ${mx},${ty} ${tx},${ty}`; };
+
+  const park={nodes:[],links:[]};
+  _deferStale=park; render(); _deferStale=null;            // build new DOM; hand exiting els to us
+  const entering=new Set(); for(const n of nodes) if(!startPos.has(n._id)) entering.add(n._id);
+  const posOf=(n,e)=>{ const en=endPos.get(n._id); const s = entering.has(n._id) ? anchor(n,startPos) : (startPos.get(n._id)||en);
+    return {x:lerp(s.x,en.x,e), y:lerp(s.y,en.y,e)}; };
+
+  stage.classList.add('animating');
+  const dur=opts.dur||560, t0=performance.now(); let done=false;
+  function finish(){ if(done) return; done=true; _structFinish=null;
+    for(const [,el] of park.nodes) el.remove();
+    for(const [,el] of park.links) el.remove();
+    if(opts.fit) T=endT;
+    for(const n of nodes){ const el=nodeEls.get(n._id); if(el) el.style.opacity=''; }
+    for(const l of links){ const le=linkEls.get(l.s._id+'-'+l.t._id); if(le) le.style.opacity=''; }
+    render(); relabelAll(); applyT(); labelLOD(); stage.classList.remove('animating');
+  }
+  _structFinish=finish;
+  (function step(now){ if(done) return;
+    const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+    if(opts.fit){ T={x:lerp(startT.x,endT.x,e),y:lerp(startT.y,endT.y,e),k:lerp(startT.k,endT.k,e)};
+      vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`); }
+    for(const n of nodes){ const el=nodeEls.get(n._id); if(!el) continue; const q=posOf(n,e);
+      if(entering.has(n._id)){ el.setAttribute('transform',`translate(${q.x},${q.y}) scale(${(0.25+0.75*e).toFixed(3)})`); el.style.opacity=Math.min(1,e*1.6).toFixed(3); }
+      else el.setAttribute('transform',`translate(${q.x},${q.y})`); }
+    for(const l of links){ const le=linkEls.get(l.s._id+'-'+l.t._id); if(!le) continue;
+      const sp=posOf(l.s,e), tp=posOf(l.t,e); le.setAttribute('d', linkD(sp.x,sp.y,tp.x,tp.y));
+      if(entering.has(l.t._id)) le.style.opacity=Math.min(1,e*1.6).toFixed(3); }
+    for(const [id,el] of park.nodes){ const n=idMap.get(id); const s=startPos.get(id)||{x:0,y:0}; const a=n?anchor(n,endPos):s;
+      el.setAttribute('transform',`translate(${lerp(s.x,a.x,e)},${lerp(s.y,a.y,e)}) scale(${(1-0.75*e).toFixed(3)})`); el.style.opacity=(1-e).toFixed(3); }
+    for(const [id,el] of park.links){ const b=id.split('-'), sN=idMap.get(+b[0]), tN=idMap.get(+b[1]);
+      const ss=startPos.get(+b[0])||(sN?anchor(sN,endPos):{x:0,y:0}), ts=startPos.get(+b[1])||ss;
+      const aS=endPos.has(+b[0])?endPos.get(+b[0]):(sN?anchor(sN,endPos):ss), aT=tN?anchor(tN,endPos):aS;
+      el.setAttribute('d', linkD(lerp(ss.x,aS.x,e),lerp(ss.y,aS.y,e),lerp(ts.x,aT.x,e),lerp(ts.y,aT.y,e))); el.style.opacity=(1-e).toFixed(3); }
+    if(p<1) requestAnimationFrame(step); else finish();
+  })(t0);
 }
 
 // hover lineage-to-root
