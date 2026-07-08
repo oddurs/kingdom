@@ -74,9 +74,12 @@ def build_tree(taxa, genera_by_family=None):
             root = t
 
     def genus_node(g):
-        out = {"name": g["name"], "rank": "genus", "speciesCount": g["speciesCount"]}
+        # Compact genus record (E5): the 14k genera dominate the payload, so they use short keys
+        # (n=name, s=speciesCount, p=powo) and drop the constant rank="genus". prep() in the
+        # template rehydrates them to full node fields. Family/order nodes keep readable keys.
+        out = {"n": g["name"], "s": g["speciesCount"]}
         if g.get("powo"):
-            out["ids"] = {"powo": g["powo"]}
+            out["p"] = g["powo"]
         return out
 
     def node(rec):
@@ -123,8 +126,12 @@ def main() -> None:
     template = TEMPLATE.read_text()
     if PLACEHOLDER not in template:
         raise SystemExit(f"placeholder {PLACEHOLDER!r} not found in template")
-    blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    OUT.write_text(template.replace(PLACEHOLDER, blob))
+    # Embed as JSON.parse('…') rather than a raw JS object literal: V8 parses a JSON string
+    # ~4x faster than the equivalent object literal for a payload this size (E5). Escape the
+    # blob into a single-quoted JS string (backslash first, then quote, then </ for tag safety).
+    blob = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    esc = blob.replace("\\", "\\\\").replace("'", "\\'").replace("</", "<\\/")
+    OUT.write_text(template.replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
 
     fams = sum(1 for t in taxa if t["rank"] == "family")
     withids = sum(1 for t in taxa if t.get("ids", {}).get("gbif"))
