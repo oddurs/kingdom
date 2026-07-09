@@ -206,6 +206,10 @@ async function main() {
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
 
+    // PNG export builds its SVG/style without throwing (regression guard for the export path)
+    const exportOk = await ev(`(()=>{ try{ buildExportSVG(); return true; }catch(e){ return 'threw: '+e.message; } })()`);
+    check("PNG export builds without error", exportOk === true, exportOk === true ? "" : String(exportOk));
+
     check("no console errors or exceptions", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 
