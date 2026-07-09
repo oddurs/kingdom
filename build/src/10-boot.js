@@ -60,7 +60,7 @@ document.getElementById('footer').innerHTML =
   `<span><span class="k">genera</span> <b>${totGen.toLocaleString()}</b></span>`+
   `<span><span class="k">orders</span> <b>86</b></span>`+
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
-  `<span class="k">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
+  `<span class="k src">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
 
 // ---------- header popover menus (G2) ----------
 let openMenu=null;
