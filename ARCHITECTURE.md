@@ -10,7 +10,8 @@ page; nothing is loaded at runtime.
 
 ```
 build/shell.html      HTML skeleton with three slots: /*__CSS__*/ /*__JS__*/ /*__DATA__*/
-build/src/app.css     the stylesheet
+design/tokens.css     the design tokens (:root custom properties) — shared source of truth
+build/src/app.css     the component & layout stylesheet
 build/src/*.js        the app, as ten ordered modules (one shared scope)
 data/taxa.json        canonical taxa (flat, one record per taxon)
 data/genera.json      the ~14k accepted genera (the genus tier)
@@ -20,11 +21,16 @@ data/genera.json      the ~14k accepted genera (the genus tier)
 plant-tree.html       one self-contained page (CSS + JS + data all inlined)
 ```
 
-`build.py` reads the shell, inlines `app.css` into the `/*__CSS__*/` slot,
-concatenates the JS modules **in the order listed in `MODULES`** into
-`/*__JS__*/`, and injects the data into `/*__DATA__*/`. The modules share one
-scope, exactly as the code did when it was a single file — the split is for
-authoring, not isolation, so there is no module system at runtime.
+`build.py` reads the shell, concatenates the CSS parts **in the order listed in
+`CSS_PARTS`** (`design/tokens.css` then `build/src/app.css`) into the
+`/*__CSS__*/` slot, concatenates the JS modules **in the order listed in
+`MODULES`** into `/*__JS__*/`, and injects the data into `/*__DATA__*/`. The
+modules share one scope, exactly as the code did when it was a single file — the
+split is for authoring, not isolation, so there is no module system at runtime.
+
+Tokens come first so every rule in `app.css` can reference the custom
+properties. `design/tokens.css` is deliberately separate: it is the **single
+source of truth** the design-system workshop imports too (see below).
 
 The data is embedded as `JSON.parse('…')` rather than a raw JS object literal:
 V8 parses a JSON string several times faster than the equivalent literal at this
@@ -99,3 +105,26 @@ protocol and asserts the invariants — data integrity, all four views, the core
 interactions, that virtualization bounds the DOM, and that reduced-motion falls
 to instant — with no npm dependencies. `make check` builds and runs it; it is
 the pre-commit gate.
+
+## Design system
+
+The chrome around the canvas — controls, menus, chips, search, tooltips, the
+specimen detail card — is a small **CSS-class design system**, not a component
+runtime. Its foundation is `design/tokens.css` (colour, type, motion, radius as
+`:root` custom properties); the components are the class rules in
+`build/src/app.css` (`.ctl`, `.seg`, `.menu`, `.schip`/`.pref`/`.exchip`,
+`.search`, `.tip`, `.panel`, …).
+
+A **Storybook** workshop documents them (`.storybook/`, `stories/`). It is
+strictly dev-only tooling: the shipped `plant-tree.html` still has zero runtime
+dependencies, and `build.py`/`make check` never touch npm. The crucial property
+is a single source of truth — `.storybook/preview.js` imports the *same*
+`design/tokens.css` and `build/src/app.css` the app build concatenates, so a
+story renders the exact shipping CSS and cannot drift from the app. Change a
+rule once; both the page and the workshop update.
+
+```
+npm install            # one-time, pulls the dev-only Storybook toolchain
+make storybook         # workshop at http://localhost:6006
+make storybook-build   # static site → storybook-static/ (git-ignored)
+```

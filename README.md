@@ -102,6 +102,20 @@ invariants — data integrity, all four views, the core interactions, viewport
 virtualization, and reduced-motion — with no npm dependencies. See
 [ARCHITECTURE.md](ARCHITECTURE.md) for the source layout and the render model.
 
+## Design system
+
+The UI is a small CSS-class design system — tokens in `design/tokens.css`,
+components (`.ctl`, `.seg`, `.menu`, chips, `.search`, `.tip`, `.panel`) in
+`build/src/app.css` — documented in a Storybook workshop that imports the *same*
+files the app build uses, so it can never drift from the shipped page. It's
+dev-only; the app itself keeps zero runtime dependencies.
+
+```sh
+npm install            # one-time (dev-only Storybook toolchain)
+make storybook         # workshop at http://localhost:6006
+make storybook-build   # static site → storybook-static/
+```
+
 ## Controls
 
 Drag to pan, scroll or pinch to zoom. **Click** a node to open its detail panel
