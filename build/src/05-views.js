@@ -1,8 +1,8 @@
 // ---------- re-root / focus on subtree ----------
 const focusbar=document.getElementById('focusbar');
 function updateFocusBar(){
-  if(renderRoot===ROOT){ focusbar.classList.remove('show'); return; }
-  focusbar.classList.add('show');
+  if(renderRoot===ROOT){ focusbar.classList.remove('show'); focusbar.inert=true; return; }
+  focusbar.classList.add('show'); focusbar.inert=false;
   focusbar.style.setProperty('--lc', color(renderRoot));   // lineage dot before the focused name
   document.getElementById('fbname').textContent=renderRoot.name;
   document.getElementById('fbup').style.display = (renderRoot.parent && renderRoot.parent!==ROOT) ? '' : 'none';

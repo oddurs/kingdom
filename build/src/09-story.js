@@ -116,12 +116,12 @@ function showTourStep(){
   document.getElementById('tourdots').innerHTML=tour.steps.map((_,i)=>`<i class="${i===tourStep?'on':''}"></i>`).join('');
   document.getElementById('tprev').disabled=tourStep===0;
   document.getElementById('tnext').textContent = tourStep===tour.steps.length-1 ? 'Finish' : 'Next ›';
-  tourcard.classList.add('show');
+  tourcard.classList.add('show'); tourcard.inert=false;
   if(n) select(n);
 }
 function tourNext(){ if(!tour) return; if(tourStep<tour.steps.length-1){ tourStep++; showTourStep(); } else endTour(); }
 function tourPrev(){ if(tour && tourStep>0){ tourStep--; showTourStep(); } }
-function endTour(){ tour=null; tourcard.classList.remove('show'); }
+function endTour(){ tour=null; tourcard.classList.remove('show'); tourcard.inert=true; }
 document.getElementById('tnext').onclick=tourNext;
 document.getElementById('tprev').onclick=tourPrev;
 document.getElementById('texit').onclick=endTour;

@@ -101,13 +101,13 @@ function select(n, opts){
   ];
   document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
     refs.map(([t,u,v,ti])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${ti?' title="'+ti+'"':''}>${t}</a>`).join('')+'</div>';
-  panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+  panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); panel.inert=false;
   if(opts.center!==false) focusNode(n);
   updateHash();
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
   if(a){ const n=idMap.get(+a.dataset.id); if(n) select(n); } });
 function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
-  selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); updateHash(); }
+  selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); panel.inert=true; updateHash(); }
 document.getElementById('pclose').onclick=closePanel;
 
