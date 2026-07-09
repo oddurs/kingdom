@@ -101,7 +101,7 @@ function contentBBox(){
   }catch(e){ return {x:0,y:0,width:1500,height:900}; }
 }
 function exportStyle(){
-  const serif=cssVar('--serif'), sans=cssVar('--sans'), mono=cssVar('--mono');
+  const serif=cssVar('--serif'), sans=cssVar('--sans');
   const root=':root{'+['--ground','--ink','--dim','--faint','--line','--l-root'].map(v=>v+':'+cssVar(v)).join(';')+'}';
   return root+
     `.link{fill:none;stroke:var(--lc,var(--line));stroke-opacity:.34;stroke-width:1.4px}`+
@@ -110,7 +110,7 @@ function exportStyle(){
     `.node .halo{opacity:0}`+
     `.node text{font-family:${serif};font-size:12.5px;fill:var(--ink);paint-order:stroke;stroke:var(--ground);stroke-width:3px;stroke-linejoin:round;dominant-baseline:middle}`+
     `.node text tspan.common{font-family:${sans};font-size:10px;fill:var(--dim)}`+
-    `.node .toggle{font-family:${mono};font-size:10px;fill:var(--ground);text-anchor:middle;dominant-baseline:central;font-weight:700}`+
+    `.node .toggle{font-family:${sans};font-size:10px;fill:var(--ground);text-anchor:middle;dominant-baseline:central;font-weight:700}`+
     `.node.lodhide text{opacity:0}`+
     `text.tml{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600}`+
     `text.tmv{font-family:${mono};font-size:8.5px;fill:#0b141099}`+

@@ -168,7 +168,7 @@ function hoverOff(){
 const tip=document.getElementById('tip');
 function showTip(n,e){
   const hasKids=(n.children||[]).length>0;
-  tip.style.setProperty('border-left-color', color(n));
+  tip.style.setProperty('--lc', color(n));   // lineage dot before the rank
   const rank=n.rank.charAt(0).toUpperCase()+n.rank.slice(1);
   let stat = hasKids
     ? `<b>~${n.agg.toLocaleString()}</b> <span>species</span>&nbsp;&nbsp;<b>${n.famCount}</b> <span>famil${n.famCount===1?'y':'ies'}</span>`

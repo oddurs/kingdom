@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test check serve clean storybook storybook-build
+.PHONY: help build test check serve clean fonts storybook storybook-build storybook-deploy
 
 help: ## show this help
 	@grep -hE '^[a-z]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -18,6 +18,9 @@ check: test ## build + test — the pre-commit gate
 serve: build ## build, then serve the repo at http://localhost:8000
 	@echo "serving http://localhost:8000  (Ctrl-C to stop)"
 	@python3 -m http.server 8000
+
+fonts: ## regenerate design/fonts.css (inlined webfont) from node_modules (needs `npm install`)
+	python3 build/fonts.py
 
 storybook: ## run the design-system workshop at http://localhost:6006 (needs `npm install`)
 	npm run storybook

@@ -11,7 +11,7 @@ const labelled = (text, node) => {
   const wrap = document.createElement('div');
   const l = document.createElement('div');
   l.textContent = text;
-  l.style.cssText = 'font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:8px';
+  l.style.cssText = 'font-family:var(--sans);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:8px';
   wrap.append(l, node);
   return wrap;
 };
