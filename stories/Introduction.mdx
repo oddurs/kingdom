@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design/Introduction" />
+
+# Yggdrasil Design System
+
+A dark, luminous, botanical identity for an interactive tree of the plant kingdom.
+This workshop documents the **chrome around the canvas** — the controls, menus, chips,
+search, tooltips and the specimen detail card.
+
+## One source of truth
+
+The app ships as a **single self-contained HTML file** with zero runtime dependencies,
+built by `build/build.py`. There is no framework and no component runtime.
+
+So this Storybook does **not** re-implement the UI. Every story renders the *exact* CSS
+classes the app ships:
+
+- **Tokens** live in `design/tokens.css` — the `:root` custom properties.
+- **Components & layout** live in `build/src/app.css`.
+- `build.py` concatenates `tokens.css + app.css` into the page's single `<style>`.
+- `.storybook/preview.js` imports those **same two files**.
+
+Because both the app and the workshop read the same stylesheet, a component here
+**cannot drift** from the app. Change `app.css`, and both update.
+
+## What's a "component" here
+
+The building blocks are **CSS classes + HTML patterns**, not custom elements:
+
+| Class | Role |
+| --- | --- |
+| `.ctl` | the base control button (+ `.on`, `.menu-btn`, `.iconbtn`, `.wide`, `.primary`) |
+| `.seg` | segmented control — mutually-exclusive options |
+| `.menu` | header popover menu (`.menu-sec`, `.menu-label`) |
+| `.schip` / `.pref` / `.exchip` | story / reference / example chips |
+| `.search` | the find field |
+| `.tip` | hover tooltip |
+| `.panel` | the detail **specimen card**, tinted by lineage via `--lc` |
+
+## Foundations
+
+See **Design → Colour / Typography / Motion / Radius** for the token scales that
+everything else is built from.

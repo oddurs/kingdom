@@ -23,8 +23,14 @@ WORLDMAP = ROOT / "data" / "worldmap.json"
 SCHEMA = ROOT / "data" / "taxon.schema.json"
 SHELL = ROOT / "build" / "shell.html"
 SRC = ROOT / "build" / "src"
+DESIGN = ROOT / "design"
 OUT = ROOT / "plant-tree.html"
 PLACEHOLDER = "/*__DATA__*/"
+
+# CSS is concatenated in this order into the single <style>. The design tokens
+# (design/tokens.css) are the shared source of truth Storybook also imports;
+# they must come first so every rule below can reference the custom properties.
+CSS_PARTS = [DESIGN / "tokens.css", SRC / "app.css"]
 
 # The single inline <script> body, concatenated from these modules in this order.
 # They share one scope (as the original monolith did); order is load order.
@@ -134,7 +140,7 @@ def main() -> None:
     # Assemble the single self-contained page: the HTML shell with the CSS and the
     # concatenated JS modules inlined, then the data injected.
     shell = SHELL.read_text()
-    css = (SRC / "app.css").read_text()
+    css = "".join(p.read_text() for p in CSS_PARTS)
     js = "".join((SRC / m).read_text() for m in MODULES)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell")):
         if ph not in shell:

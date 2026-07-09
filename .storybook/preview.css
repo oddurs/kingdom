@@ -1,0 +1,16 @@
+/* Workshop-only backdrop. The app's own body is a full-viewport flex canvas with
+   overflow:hidden; neutralise that here so isolated components lay out normally,
+   while keeping the dark ground and the design tokens (imported ahead of this). */
+body {
+  display: block;
+  overflow: auto;
+  min-height: 100%;
+  margin: 0;
+  padding: 32px;
+  background: #0d1512;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+/* let the a11y/controls panels breathe; centre single components on the ground */
+.sb-show-main.sb-main-centered { padding: 32px; }
