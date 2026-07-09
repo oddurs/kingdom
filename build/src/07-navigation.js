@@ -41,7 +41,7 @@ function animateT(target,dur){
 // pan (1 pointer) + pinch-zoom (2 pointers)
 const pointers=new Map(); let pan=null, pinch=null, panDragged=false, glideRAF=0;
 // overlay UI floating over the stage — clicks here must NOT be hijacked for panning
-const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar';
+const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar,.modal';
 function stopGlide(){ cancelAnimationFrame(glideRAF); glideRAF=0; }
 stage.addEventListener('pointerdown', e=>{
   if(e.target.closest(OVERLAY_SEL)) return;   // let the overlay's own buttons receive the click

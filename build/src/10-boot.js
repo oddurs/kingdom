@@ -4,9 +4,77 @@ function showWelcome(){ welcome.classList.add('show'); }
 function hideWelcome(){ welcome.classList.remove('show'); try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
-document.getElementById('btnHelp').onclick=showWelcome;
 function initWelcome(){ let seen; try{ seen=localStorage.getItem('biomi_seen'); }catch(e){ seen='1'; }
   if(!seen && !location.hash){ showWelcome(); return true; } return false; }
+
+// ---------- secondary pages (About, Controls) — one modal shell, swapped body ----------
+const modal=document.getElementById('modal'), mbody=document.getElementById('mbody');
+let lastFocus=null;
+function openModal(html){
+  lastFocus=document.activeElement;
+  mbody.innerHTML=html;
+  modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+  if(typeof closeMenu==='function') closeMenu();
+  modal.scrollTop=0; document.getElementById('mclose').focus();
+}
+function closeModal(){ if(!modal.classList.contains('show')) return;
+  modal.classList.remove('show'); modal.setAttribute('aria-hidden','true');
+  if(lastFocus && lastFocus.focus) lastFocus.focus(); lastFocus=null;
+}
+document.getElementById('mclose').onclick=closeModal;
+modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')){ e.stopPropagation(); closeModal(); } });
+
+function aboutHTML(){
+  const stat=(n,l)=>`<div class="pstat"><b>${n}</b><span>${l}</span></div>`;
+  return `<h2>About Yggdrasil</h2>
+    <p class="msub"><em>A living tree of the plant kingdom.</em></p>
+    <p>Every family of land plant, from mosses to orchids &mdash; each branch sized by how many species it holds and coloured by its lineage. One root divides into the great limbs of green life, from the earliest liverworts to the flowering plants that now dominate the land.</p>
+    <div class="pstats" style="--lc:var(--l-fern)">
+      ${stat('~'+totSpp.toLocaleString(),'species')}${stat(totFam.toLocaleString(),'families')}${stat(totGen.toLocaleString(),'genera')}
+    </div>
+    <div class="msec"><h3>The tree</h3>
+      <p>The backbone follows current consensus classifications &mdash; <b>APG&nbsp;IV</b> for the flowering plants and <b>PPG&nbsp;I</b> for ferns and lycophytes. Ranks run from kingdom down through order and family, with accepted genera as the finest tier you can reach.</p></div>
+    <div class="msec"><h3>The numbers</h3>
+      <p>Species counts and native ranges come from Kew&rsquo;s <b>World Checklist of Vascular Plants</b>. Branch ages are read from a dated megatree of land plants, and each taxon links out to verified records where we hold them.</p></div>
+    <div class="msec"><h3>Sources</h3>
+      <div class="krow"><div class="kterm">Flowering plants</div><div class="kdesc">APG&nbsp;IV &mdash; <a class="ln" href="https://doi.org/10.1111/boj.12385" target="_blank" rel="noopener">Angiosperm Phylogeny Group, 2016</a></div></div>
+      <div class="krow"><div class="kterm">Ferns &amp; lycophytes</div><div class="kdesc">PPG&nbsp;I &mdash; <a class="ln" href="https://doi.org/10.1111/jse.12229" target="_blank" rel="noopener">Pteridophyte Phylogeny Group, 2016</a></div></div>
+      <div class="krow"><div class="kterm">Species &amp; range</div><div class="kdesc"><a class="ln" href="https://powo.science.kew.org/" target="_blank" rel="noopener">Kew WCVP / Plants of the World Online</a></div></div>
+      <div class="krow"><div class="kterm">Identifiers</div><div class="kdesc"><a class="ln" href="https://www.gbif.org/" target="_blank" rel="noopener">GBIF</a> backbone</div></div>
+    </div>
+    <div class="msec"><h3>Colophon</h3>
+      <p>Built as a single self-contained page &mdash; no frameworks, no tracking, works offline. Names are set in Iowan&nbsp;Old&nbsp;Style, the interface in Hanken&nbsp;Grotesk. Open source on <a class="ln" href="https://github.com/oddurs/kingdom" target="_blank" rel="noopener">GitHub</a>.</p></div>`;
+}
+function kbd(...keys){ return keys.map(k=>`<span class="kbd">${k}</span>`).join(' '); }
+function controlsHTML(){
+  const row=(t,d)=>`<div class="krow"><div class="kterm">${t}</div><div class="kdesc">${d}</div></div>`;
+  return `<h2>Controls &amp; shortcuts</h2>
+    <p class="msub">Move through the tree by mouse, touch, or keyboard.</p>
+    <div class="msec"><h3>Navigate</h3>
+      ${row('Pan','Drag anywhere on the canvas &mdash; or drag inside the overview minimap to leap.')}
+      ${row('Zoom','Scroll or pinch, or use the '+kbd('+')+kbd('&minus;')+' pill. Zoom in and deeper names surface.')}
+      ${row('Reframe','<b>Fit</b> reframes the whole tree in view.')}
+    </div>
+    <div class="msec"><h3>Explore</h3>
+      ${row('Open a branch','Click it for a detail card &mdash; story, origin, range and links.')}
+      ${row('Focus a clade','&ldquo;Focus subtree&rdquo; dives into one lineage; the focus bar takes you back up.')}
+      ${row('Quick look','Hover a branch for a tooltip.')}
+      ${row('Find','Type a family or plant into search; '+kbd('&uarr;')+kbd('&darr;')+' to pick, '+kbd('&crarr;')+' to jump.')}
+    </div>
+    <div class="msec"><h3>Keyboard</h3>
+      ${row(kbd('&uarr;')+kbd('&darr;'),'Previous / next branch')}
+      ${row(kbd('&rarr;'),'Expand &mdash; go deeper')}
+      ${row(kbd('&larr;'),'Collapse &mdash; go up a level')}
+      ${row(kbd('Esc'),'Close panels, menus and pages')}
+      ${row(kbd('&larr;')+kbd('&rarr;'),'Step through time (on the timeline)')}
+    </div>
+    <div class="msec"><h3>Views</h3>
+      ${row('Four ways','<b>Tree</b>, <b>Radial</b> and <b>Sunburst</b> show kinship; <b>Treemap</b> sizes by richness. Switch anytime &mdash; they morph.')}
+    </div>`;
+}
+document.getElementById('btnAbout').onclick=()=>openModal(aboutHTML());
+document.getElementById('btnKeys').onclick=()=>openModal(controlsHTML());
 // signature entrance: the tree grows out from its root once, when first revealed (D5)
 let didEntrance=false;
 function maybeEntrance(){ if(didEntrance) return; didEntrance=true; setTimeout(entranceGrow, 130); }

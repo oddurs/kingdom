@@ -389,7 +389,38 @@
   .welcome .wact{display:flex; gap:10px; flex-wrap:wrap}
   .welcome .wact button{font-size:13px; padding:9px 15px}
   .welcome .wact .primary{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern); font-weight:600}
-  #btnHelp{width:32px; padding:0; font-weight:700}
+
+  /* ---------- secondary modals (About, Controls) ---------- */
+  .modal{position:absolute; inset:0; z-index:22; display:flex; align-items:flex-start; justify-content:center;
+    padding:max(24px,6vh) 24px; overflow-y:auto; background:#06100bcc; backdrop-filter:blur(6px);
+    opacity:0; pointer-events:none; transition:opacity var(--dur-2)}
+  .modal.show{opacity:1; pointer-events:auto}
+  .sheet{position:relative; width:min(620px,100%); margin:auto;
+    background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-3);
+    padding:30px 34px 32px; box-shadow:0 34px 90px #000d;
+    transform:translateY(12px); transition:transform var(--dur-2) var(--ease-settle)}
+  .modal.show .sheet{transform:none}
+  .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1);
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:17px; line-height:1}
+  .mclose:hover{color:var(--ink); border-color:var(--faint)}
+  .mclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
+  .mbody h2{font-family:var(--serif); font-size:26px; font-weight:600; margin:0 0 5px; padding-right:34px; line-height:1.1}
+  .mbody .msub{font-size:14px; color:var(--dim); margin:0 0 8px; line-height:1.5}
+  .mbody p{font-size:13.5px; line-height:1.6; color:var(--ink); opacity:.92; margin:0 0 11px}
+  .mbody a.ln{color:var(--l-fern); text-decoration:none}
+  .mbody a.ln:hover{text-decoration:underline}
+  .msec{margin-top:24px}
+  .msec > h3{font-family:var(--sans); font-size:10px; font-weight:600; letter-spacing:var(--track-label);
+    text-transform:uppercase; color:var(--faint); margin:0 0 12px; padding-bottom:9px; border-bottom:1px solid var(--line)}
+  /* a term ↔ description grid, for controls and sources */
+  .krow{display:flex; gap:16px; padding:9px 0; align-items:baseline}
+  .krow + .krow{border-top:1px solid var(--line)}
+  .kterm{flex:0 0 148px; color:var(--ink); font-size:13px; font-weight:500; display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+  .kdesc{flex:1; color:var(--dim); font-size:13px; line-height:1.5}
+  .kdesc .ln{color:var(--l-fern); text-decoration:none} .kdesc .ln:hover{text-decoration:underline}
+  .kbd{display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px;
+    font-size:12px; font-weight:600; color:var(--dim); background:#0d1712; border:1px solid var(--edge);
+    border-bottom-width:2px; border-radius:var(--r-1); font-variant-numeric:tabular-nums}
 
   /* ---------- minimap ---------- */
   .minimap{position:absolute; left:16px; bottom:16px; width:190px; height:132px; z-index:6;
