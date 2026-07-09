@@ -107,6 +107,8 @@
   button.ctl:active{transform:scale(.94)}
   button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
+  /* every interactive chip/link gets the same visible keyboard focus ring */
+  .schip:focus-visible, .pref:focus-visible, .qrow:focus-visible, .pclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
   /* segmented control: a cohesive group of mutually-exclusive options */
   .seg{display:inline-flex; gap:2px; padding:2px; background:#0b1611; border:1px solid var(--edge); border-radius:var(--r-2)}
   .seg button.ctl{border:1px solid transparent; background:transparent; border-radius:var(--r-1); padding:6px 11px}
@@ -436,14 +438,22 @@
   @media (max-width:680px){
     .minimap{display:none}
     header.bar{padding:10px 14px; gap:9px}
+    /* compact brand: mark + name on one line, tagline dropped so the canvas gets the room */
     .brand{flex-basis:100%; min-width:0}
-    .brand h1{font-size:16px; line-height:1.2; white-space:normal; overflow-wrap:break-word}
+    .wm-tag{display:none}
+    .wm-name{font-size:19px}
+    .mark{width:30px; height:30px}
     .spacer{display:none}
     .controls{width:100%; gap:6px}
     .search{flex:1 1 100%} .search input{width:100%}
+    .barsep{display:none}
     footer.meta{gap:14px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap}
     footer.meta>span{flex:0 0 auto}
+    footer .src{margin-left:0}
+    /* roomier taps: bigger zoom pill, comfortable button height */
     .zoomctl{right:12px; bottom:12px}
+    .zoomctl button{width:42px; height:42px; font-size:18px}
+    button.ctl{padding:9px 12px}
     .panel{top:auto; bottom:0; left:0; right:auto; width:100vw; max-width:100vw; max-height:62%;
       overflow-x:hidden;
       border:1px solid var(--edge); border-top:3px solid var(--l-root); border-radius:var(--r-3) var(--r-3) 0 0;
