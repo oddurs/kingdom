@@ -48,7 +48,7 @@ function acquireShell(n){
     el.addEventListener('click', e=>{ e.stopPropagation(); const m=el.__node; if(!m) return; ripple(m); toggle(m); select(m,{center:false}); });
     el.addEventListener('mouseenter', e=>{ const m=el.__node; if(m){ hoverOn(m); showTip(m,e); } });
     el.addEventListener('mousemove', e=> moveTip(e));
-    el.addEventListener('mouseleave', ()=>{ hoverOff(); hideTip(); });
+    el.addEventListener('mouseleave', ()=>{ hoverOff(); });   // hoverOff hides the tip after its debounce window
   }
   el.setAttribute('class','node');                 // reset any classes left by a prior occupant
   el.__node=n; el.__age=n.effAge; el.__born=false;
