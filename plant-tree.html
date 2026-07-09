@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Yggdrasil — a living tree</title>
 <meta name="description" content="An interactive tree of the plant kingdom — every family of land plant, sized by species richness and coloured by lineage, across four linked views.">
@@ -512,6 +516,8 @@
     *{transition:none !important; animation:none !important}
   }
 </style>
+</head>
+<body>
 
 <!-- brand mark: a radial node-burst — a luminous root with branches radiating out, echoing the radial view -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ygg-mark" viewBox="0 0 40 40">
@@ -2101,3 +2107,5 @@ const _welcomed = initWelcome();
 if(!location.hash && !_welcomed) maybeEntrance();   // returning visitor: grow right away
 window.addEventListener('resize', ()=>{ refreshStageSize(); if(!selected && !activeStory) fit(0); else applyMount(false); });
 </script>
+</body>
+</html>
