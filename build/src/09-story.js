@@ -117,7 +117,9 @@ function showTourStep(){
   document.getElementById('tprev').disabled=tourStep===0;
   document.getElementById('tnext').textContent = tourStep===tour.steps.length-1 ? 'Finish' : 'Next ›';
   tourcard.classList.add('show'); tourcard.inert=false;
-  if(n) select(n);
+  // on phones the panel becomes a bottom sheet that would stack under the tour card and
+  // hide the highlighted node — keep the tour card as the single narrative surface there
+  if(n) select(n, matchMedia('(max-width:680px)').matches ? {panel:false} : {});
 }
 function tourNext(){ if(!tour) return; if(tourStep<tour.steps.length-1){ tourStep++; showTourStep(); } else endTour(); }
 function tourPrev(){ if(tour && tourStep>0){ tourStep--; showTourStep(); } }

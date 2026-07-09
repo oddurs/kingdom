@@ -52,9 +52,10 @@ function select(n, opts){
   opts=opts||{};
   if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
   selected=n;
-  document.getElementById('pdetail').hidden=false; document.getElementById('plist').hidden=true;
   if(opts.center!==false) revealNode(n);
   const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
+  if(opts.panel!==false){                     // tours on mobile highlight + centre without opening the panel
+  document.getElementById('pdetail').hidden=false; document.getElementById('plist').hidden=true;
   const lc=color(n);
   panel.style.setProperty('--lc', lc);   // drives the lineage dot in the nameplate
   const chain=ancestors(n);
@@ -102,6 +103,7 @@ function select(n, opts){
   document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
     refs.map(([t,u,v,ti])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${ti?' title="'+ti+'"':''}>${t}</a>`).join('')+'</div>';
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); panel.inert=false;
+  }
   if(opts.center!==false){
     // treemap/sunburst draw the selection outline only at render time and have no
     // node layer to pan; repaint to show it. tree/radial centre the chosen node.
