@@ -57,6 +57,7 @@ function select(n, opts){
   const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
   const lc=color(n);
   panel.style.borderLeftColor=lc; panel.style.borderTopColor=lc;
+  panel.style.setProperty('--lc', lc);   // drives the nameplate wash + stat-strip tint
   const chain=ancestors(n);
   document.getElementById('pcrumb').innerHTML = chain.map((c,i)=>
     i===chain.length-1 ? `<span style="color:var(--dim)">${escp(c.name)}</span>`
