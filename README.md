@@ -110,11 +110,18 @@ components (`.ctl`, `.seg`, `.menu`, chips, `.search`, `.tip`, `.panel`) in
 files the app build uses, so it can never drift from the shipped page. It's
 dev-only; the app itself keeps zero runtime dependencies.
 
+**Live workshop: <https://oddurs.github.io/kingdom/storybook/>**
+
 ```sh
-npm install            # one-time (dev-only Storybook toolchain)
-make storybook         # workshop at http://localhost:6006
-make storybook-build   # static site → storybook-static/
+npm install             # one-time (dev-only Storybook toolchain)
+make storybook          # workshop at http://localhost:6006
+make storybook-build    # static site → storybook-static/
+make storybook-deploy   # refresh the committed storybook/ folder → publishes on Pages
 ```
+
+The published site lives in the committed `storybook/` folder (a build artifact,
+like `plant-tree.html`); GitHub Pages serves it at the URL above. Run
+`make storybook-deploy` and commit to update it.
 
 ## Controls
 
