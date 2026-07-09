@@ -724,7 +724,11 @@ const richness = n => Math.sqrt(n.agg)/Math.sqrt(MAXAGG);          // 0..1
 const linkW = n => (0.6 + 5.2*richness(n)).toFixed(2)+'px';        // fine twig → thick trunk
 const glowOf = n => (0.05 + 0.13*richness(n)).toFixed(3);          // faint tip → glowing clade
 const haloR = n => (radius(n)*0.6 + 11).toFixed(1);                // soft surrounding cloud, not a tight rim
-const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+// Memoized: the theme is static (no runtime theming), so each token resolves once.
+// color() calls this per node/link/minimap-dot/search-row — uncached it forced a
+// style recalc on every call during full-mount renders.
+const _cssVarCache = new Map();
+const cssVar = v => { let c = _cssVarCache.get(v); if (c === undefined) { c = getComputedStyle(document.documentElement).getPropertyValue(v).trim(); _cssVarCache.set(v, c); } return c; };
 // ---------- colour modes (recolour the whole tree by a chosen dimension) ----------
 let colorMode='lineage';
 const CMODES=[['lineage','Lineage'],['age','Age'],['region','Region']];
