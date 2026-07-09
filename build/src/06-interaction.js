@@ -144,18 +144,25 @@ function animateStructural(mutate, opts={}){
   })(t0);
 }
 
-// hover lineage-to-root
+// hover lineage-to-root — debounced so sweeping node→node stays calmly focused
+// instead of flashing the whole scene dim↔full across every gap between nodes
 const stage=document.getElementById('stage');
+let hoverClear=null;
+function clearLit(){ document.querySelectorAll('.node.lit,.link.lit').forEach(e=>e.classList.remove('lit')); }
 function hoverOn(n){
+  if(hoverClear){ clearTimeout(hoverClear); hoverClear=null; }
+  clearLit();                          // swap the lit lineage without releasing the focus dim
   stage.classList.add('focusing');
   let cur=n;
   while(cur){ const el=nodeEls.get(cur._id); if(el) el.classList.add('lit');
     if(cur.parent){ const lid=cur.parent._id+'-'+cur._id; const le=linkEls.get(lid); if(le) le.classList.add('lit'); }
     cur=cur.parent; }
 }
-function hoverOff(){ stage.classList.remove('focusing');
-  document.querySelectorAll('.node.lit').forEach(e=>e.classList.remove('lit'));
-  document.querySelectorAll('.link.lit').forEach(e=>e.classList.remove('lit')); }
+function hoverOff(){
+  if(hoverClear) clearTimeout(hoverClear);
+  // hold the focus briefly: a re-enter within the window cancels this, so no flicker between nodes
+  hoverClear=setTimeout(()=>{ stage.classList.remove('focusing'); clearLit(); hideTip(); hoverClear=null; }, 140);
+}
 
 // tooltip
 const tip=document.getElementById('tip');
