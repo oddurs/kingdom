@@ -31,7 +31,7 @@
   <div class="brand">
     <svg class="mark" aria-hidden="true"><use href="#ygg-mark"/></svg>
     <span class="wordmark">
-      <span class="wm-name">Yggdrasil</span>
+      <h1 class="wm-name">Yggdrasil</h1>
       <span class="wm-tag"><em>a living tree</em> of the plant kingdom</span>
     </span>
   </div>
@@ -86,7 +86,7 @@
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
-  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true">
+  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true" inert>
     <button class="pclose" id="pclose" aria-label="Close">&times;</button>
     <div id="pdetail">
       <nav class="pcrumb" id="pcrumb"></nav>
@@ -116,13 +116,13 @@
     </div>
     <div class="tblabel" id="tblabel"></div>
   </div>
-  <div class="focusbar" id="focusbar">
+  <div class="focusbar" id="focusbar" inert>
     <span class="flabel">Focused</span>
     <span class="fname" id="fbname"></span>
     <button class="ctl" id="fbup" title="Up one level">&#9650;</button>
     <button class="ctl" id="fbexit">Show all</button>
   </div>
-  <div class="tourcard" id="tourcard" role="dialog" aria-label="Guided tour">
+  <div class="tourcard" id="tourcard" role="dialog" aria-label="Guided tour" inert>
     <div class="thead"><span class="ttitle" id="ttitle"></span><span class="tourdots" id="tourdots"></span><span class="tstep" id="tstep"></span></div>
     <h3 class="tname" id="tname"></h3>
     <p class="ttext" id="ttext"></p>
@@ -133,7 +133,7 @@
       <button class="ctl" id="texit">Exit tour</button>
     </div>
   </div>
-  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome — about this visualization">
+  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome — about this visualization" inert>
     <div class="card">
       <svg class="mark mark-lg"><use href="#ygg-mark"/></svg>
       <h2>Yggdrasil &middot; <em>a living tree</em></h2>
@@ -151,7 +151,7 @@
     </div>
   </div>
   <!-- secondary pages (About, Controls) share one modal shell; body is filled by openModal() -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Information">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Information" inert>
     <div class="sheet" id="msheet">
       <button class="mclose" id="mclose" aria-label="Close">&times;</button>
       <div class="mbody" id="mbody"></div>

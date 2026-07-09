@@ -24,7 +24,7 @@
     transition:transform var(--dur-2) var(--ease-settle), filter var(--dur-2) var(--ease-out)}
   .brand:hover .mark{transform:rotate(20deg); filter:drop-shadow(0 0 9px color-mix(in srgb, var(--l-fern) 70%, transparent))}
   .wordmark{display:flex; flex-direction:column; line-height:1}
-  .wm-name{font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:.2px}
+  .wm-name{font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:.2px; margin:0}
   .wm-tag{margin-top:4px; font-size:11.5px; color:var(--dim); letter-spacing:.3px}
   .wm-tag em{font-style:italic; color:var(--l-fern); font-weight:500}
   .mark-lg{width:54px; height:54px; display:block; margin:0 auto 12px}
@@ -254,6 +254,7 @@
   .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
     background:#0d1712; color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
   .tbplay:hover{border-color:var(--l-fern)}
+  .tbplay:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
   .tbtrack{position:relative; flex:1; height:26px; cursor:pointer; border-radius:var(--r-1); overflow:hidden}
   .tbbands{position:absolute; inset:0}
   .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.42}

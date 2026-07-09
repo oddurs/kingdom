@@ -1,7 +1,7 @@
 // ---------- welcome / onboarding ----------
 const welcome=document.getElementById('welcome');
-function showWelcome(){ welcome.classList.add('show'); }
-function hideWelcome(){ welcome.classList.remove('show'); try{localStorage.setItem('biomi_seen','1');}catch(e){} }
+function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; }
+function hideWelcome(){ welcome.classList.remove('show'); welcome.inert=true; try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
 function initWelcome(){ let seen; try{ seen=localStorage.getItem('biomi_seen'); }catch(e){ seen='1'; }
@@ -13,12 +13,12 @@ let lastFocus=null;
 function openModal(html){
   lastFocus=document.activeElement;
   mbody.innerHTML=html;
-  modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+  modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); modal.inert=false;
   if(typeof closeMenu==='function') closeMenu();
   modal.scrollTop=0; document.getElementById('mclose').focus();
 }
 function closeModal(){ if(!modal.classList.contains('show')) return;
-  modal.classList.remove('show'); modal.setAttribute('aria-hidden','true');
+  modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); modal.inert=true;
   if(lastFocus && lastFocus.focus) lastFocus.focus(); lastFocus=null;
 }
 document.getElementById('mclose').onclick=closeModal;
@@ -248,6 +248,7 @@ function setTime(t){
   const per=periodOf(timeNow);
   tblabel.innerHTML=`${Math.round(timeNow)} Ma <span class="per">· ${per[0]}</span>`;
   tbtrack.setAttribute('aria-valuenow', Math.round(timeNow));
+  tbtrack.setAttribute('aria-valuetext', timeNow<1 ? 'Present day' : Math.round(timeNow)+' million years ago, '+per[0]);
   if(timeMode) applyTime();
 }
 function trackTime(clientX){ const r=tbtrack.getBoundingClientRect();
