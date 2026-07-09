@@ -127,4 +127,11 @@ rule once; both the page and the workshop update.
 npm install            # one-time, pulls the dev-only Storybook toolchain
 make storybook         # workshop at http://localhost:6006
 make storybook-build   # static site → storybook-static/ (git-ignored)
+make storybook-deploy  # refresh the committed storybook/ folder for Pages
 ```
+
+The workshop is published to GitHub Pages at `/kingdom/storybook/` from the
+committed `storybook/` folder — a build artifact, exactly like `plant-tree.html`.
+Pages already serves the repo root (legacy build), so the published site is
+purely additive: the app at `/kingdom/` is untouched. `make storybook-deploy`
+regenerates the folder; commit it to publish.

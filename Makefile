@@ -25,5 +25,9 @@ storybook: ## run the design-system workshop at http://localhost:6006 (needs `np
 storybook-build: ## build the static design-system site to storybook-static/
 	npm run build-storybook
 
+storybook-deploy: storybook-build ## rebuild + refresh the committed storybook/ folder (served on Pages at /kingdom/storybook/)
+	rm -rf storybook && mkdir storybook && cp -r storybook-static/. storybook/
+	@echo "refreshed storybook/ — commit it to publish to https://oddurs.github.io/kingdom/storybook/"
+
 clean: ## remove build caches
 	rm -rf build/__pycache__ storybook-static
