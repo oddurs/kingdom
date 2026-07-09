@@ -5,12 +5,12 @@ function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
 
 function eachNode(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); }
-function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } }
-function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); }, {fit:true}); updateFocusBar(); setActive('btnOrders'); }
+function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); render(); relabelAll(); } }
+function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnOrders'); }
 // stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
-function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setActive('btnExpand'); }
-function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setActive('btnCollapse'); }
-function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
+function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnExpand'); }
+function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnCollapse'); }
+function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
 function setModeButtons(m){
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
   document.getElementById('btnRadial').classList.toggle('on', m==='radial');
