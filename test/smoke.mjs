@@ -189,6 +189,14 @@ async function main() {
     const navReset = await until(`renderRoot===ROOT && selected && selected.name==='Poaceae' && !!nodeEls.get(selected._id)`, 4000);
     check("search-nav from a focused subtree resets root and mounts target", navReset === true);
 
+    // alt-view selection: nav in treemap must repaint the selection outline (regression: select() didn't render).
+    // Use the orders frontier so the target is a leaf cell (an open internal node has no cell to outline).
+    await ev(`closePanel(); closeResults(); toOrders(); switchMode('treemap')`); await wait(VIEW);
+    await ev(`navTo(nodeByName('Asterales'))`); await wait(400);
+    const tmSel = await until(`mode==='treemap' && selected && selected.name==='Asterales' && !!document.querySelector('#treemap [data-id="'+selected._id+'"] rect[stroke="#fff"]')`, 6000);
+    check("treemap selection outline follows nav", tmSel === true);
+    await ev(`switchMode('radial')`); await wait(VIEW);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

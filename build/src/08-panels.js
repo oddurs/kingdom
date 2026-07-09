@@ -102,7 +102,11 @@ function select(n, opts){
   document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
     refs.map(([t,u,v,ti])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${ti?' title="'+ti+'"':''}>${t}</a>`).join('')+'</div>';
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); panel.inert=false;
-  if(opts.center!==false) focusNode(n);
+  if(opts.center!==false){
+    // treemap/sunburst draw the selection outline only at render time and have no
+    // node layer to pan; repaint to show it. tree/radial centre the chosen node.
+    if(mode==='treemap'||mode==='sunburst') render(); else focusNode(n);
+  }
   updateHash();
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
