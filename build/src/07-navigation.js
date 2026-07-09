@@ -103,6 +103,7 @@ stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
 stage.addEventListener('keydown', e=>{
   if(document.activeElement===q || !kb) return;
   const vis=visibleNodes, i=vis.indexOf(kb), hasKids=(kb.children||[]).length>0;
+  if(i<0 && vis.length && (e.key==='ArrowDown'||e.key==='ArrowUp')){ setKb(vis[0]); e.preventDefault(); return; }  // focus fell out of view → re-seed
   switch(e.key){
     case 'ArrowDown': if(i<vis.length-1){ setKb(vis[i+1]); } e.preventDefault(); break;
     case 'ArrowUp': if(i>0){ setKb(vis[i-1]); } e.preventDefault(); break;
@@ -171,7 +172,7 @@ function setActive(i){
   rows.forEach((r,j)=>r.classList.toggle('active', j===activeIdx));
   rows[activeIdx].scrollIntoView({block:'nearest'});
 }
-function navTo(n){ closeResults(); if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } select(n); focusNode(n); q.blur(); }
+function navTo(n){ closeResults(); resetFocus(); select(n); q.blur(); }  // resetFocus re-renders if focused; select() centres
 qres.addEventListener('mousedown', e=>{        // mousedown fires before the input's blur
   const row=e.target.closest('.qrow'), act=e.target.closest('[data-act]');
   if(row){ e.preventDefault(); navTo(hitList[+row.dataset.i]); }

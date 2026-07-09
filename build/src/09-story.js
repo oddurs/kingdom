@@ -70,6 +70,7 @@ function applyHash(){
   const sel=params.get('sel'); if(sel){ const n=nodeByName(sel); if(n) select(n); }
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && document.activeElement!==q){
+  if(modal.classList.contains('show')) return;   // the modal owns Escape while open
   if(welcome.classList.contains('show')) hideWelcome();
   else if(tour) endTour(); else if(selected) closePanel(); else if(activeStory) clearStory(); } });
 

@@ -1151,12 +1151,12 @@ function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
 
 function eachNode(fn){ (function w(n){ fn(n); (n.children||[]).forEach(w); })(ROOT); }
-function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } }
-function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); }, {fit:true}); updateFocusBar(); setActive('btnOrders'); }
+function resetFocus(){ if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); render(); relabelAll(); } }
+function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='order'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnOrders'); }
 // stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
-function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setActive('btnExpand'); }
-function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setActive('btnCollapse'); }
-function setActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
+function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnExpand'); }
+function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnCollapse'); }
+function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
 function setModeButtons(m){
   document.getElementById('btnTree').classList.toggle('on', m==='tree');
   document.getElementById('btnRadial').classList.toggle('on', m==='radial');
@@ -1445,6 +1445,7 @@ stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
 stage.addEventListener('keydown', e=>{
   if(document.activeElement===q || !kb) return;
   const vis=visibleNodes, i=vis.indexOf(kb), hasKids=(kb.children||[]).length>0;
+  if(i<0 && vis.length && (e.key==='ArrowDown'||e.key==='ArrowUp')){ setKb(vis[0]); e.preventDefault(); return; }  // focus fell out of view → re-seed
   switch(e.key){
     case 'ArrowDown': if(i<vis.length-1){ setKb(vis[i+1]); } e.preventDefault(); break;
     case 'ArrowUp': if(i>0){ setKb(vis[i-1]); } e.preventDefault(); break;
@@ -1513,7 +1514,7 @@ function setActive(i){
   rows.forEach((r,j)=>r.classList.toggle('active', j===activeIdx));
   rows[activeIdx].scrollIntoView({block:'nearest'});
 }
-function navTo(n){ closeResults(); if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); } select(n); focusNode(n); q.blur(); }
+function navTo(n){ closeResults(); resetFocus(); select(n); q.blur(); }  // resetFocus re-renders if focused; select() centres
 qres.addEventListener('mousedown', e=>{        // mousedown fires before the input's blur
   const row=e.target.closest('.qrow'), act=e.target.closest('[data-act]');
   if(row){ e.preventDefault(); navTo(hitList[+row.dataset.i]); }
@@ -1627,8 +1628,9 @@ function select(n, opts){
     fb.onclick=()=>reroot(n); act.appendChild(fb); }
   const cp=document.createElement('button'); cp.className='ctl'; cp.textContent='Copy link';
   cp.onclick=()=>{ const url=location.origin+location.pathname+'#sel='+encodeURIComponent(n.name);
-    if(navigator.clipboard) navigator.clipboard.writeText(url);
-    cp.textContent='Copied ✓'; setTimeout(()=>cp.textContent='Copy link',1200); };
+    const done=ok=>{ cp.textContent=ok?'Copied ✓':'Press ⌘C'; setTimeout(()=>cp.textContent='Copy link',1400); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(()=>done(true),()=>done(false));
+    else done(false); };
   act.appendChild(cp);
   // external references — links resolve from the name; POWO/GBIF deep-link when we hold a verified id
   const q=encodeURIComponent(n.name), gid=n.ids&&n.ids.gbif, pid=n.ids&&n.ids.powo;
@@ -1721,6 +1723,7 @@ function applyHash(){
   const sel=params.get('sel'); if(sel){ const n=nodeByName(sel); if(n) select(n); }
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && document.activeElement!==q){
+  if(modal.classList.contains('show')) return;   // the modal owns Escape while open
   if(welcome.classList.contains('show')) hideWelcome();
   else if(tour) endTour(); else if(selected) closePanel(); else if(activeStory) clearStory(); } });
 

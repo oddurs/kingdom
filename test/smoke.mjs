@@ -169,11 +169,25 @@ async function main() {
     const collapsed = await ev(`visibleNodes.length`);
     check("expand-all then collapse changes the frontier", expanded > collapsed, `${expanded} → ${collapsed}`);
 
+    // depth segment reflects the active choice (regression: setActive name collision left it stuck)
+    await ev(`document.getElementById('btnExpand').click()`); await wait(120);
+    const depthState = await ev(`document.getElementById('btnExpand').classList.contains('on') && !document.getElementById('btnOrders').classList.contains('on')`);
+    check("depth segment marks the active button", depthState === true);
+    await ev(`document.getElementById('btnOrders').click()`); await wait(120);
+
     // search navigates
     await ev(`(()=>{const q=document.getElementById('q'); q.value='Poaceae'; q.dispatchEvent(new Event('input'));})()`);
     await until(`document.querySelectorAll('.qrow').length>0`);
     await ev(`(()=>{const r=document.querySelector('.qrow'); if(r) r.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));})()`);
     check("search navigates to a taxon", await until(`selected && selected.name==='Poaceae'`));
+
+    // search-nav out of a focused subtree resets the root AND mounts the target (regression: resetFocus didn't re-render)
+    await ev(`(()=>{const a=nodeByName('Asteraceae'); reroot(a);})()`); await until(`renderRoot && renderRoot.name==='Asteraceae'`, 4000);
+    await ev(`(()=>{const q=document.getElementById('q'); q.value='Poaceae'; q.dispatchEvent(new Event('input'));})()`);
+    await until(`document.querySelectorAll('.qrow').length>0`);
+    await ev(`(()=>{const r=[...document.querySelectorAll('.qrow')].find(x=>/Poaceae/.test(x.textContent)); if(r) r.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));})()`);
+    const navReset = await until(`renderRoot===ROOT && selected && selected.name==='Poaceae' && !!nodeEls.get(selected._id)`, 4000);
+    check("search-nav from a focused subtree resets root and mounts target", navReset === true);
 
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
