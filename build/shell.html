@@ -72,7 +72,8 @@
   </div>
   <div class="menu-sec">
     <button class="ctl wide" id="btnExport" title="Download the current view as a PNG">Export as PNG</button>
-    <button class="ctl wide" id="btnHelp" title="About &amp; controls">About &amp; controls</button>
+    <button class="ctl wide" id="btnKeys" title="Controls &amp; keyboard shortcuts">Controls &amp; shortcuts</button>
+    <button class="ctl wide" id="btnAbout" title="About Yggdrasil, the data &amp; sources">About</button>
   </div>
 </div>
 
@@ -141,6 +142,13 @@
         <button class="ctl primary" id="wtour">Take the tour &rsaquo;</button>
         <button class="ctl" id="wexplore">Explore on my own</button>
       </div>
+    </div>
+  </div>
+  <!-- secondary pages (About, Controls) share one modal shell; body is filled by openModal() -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Information">
+    <div class="sheet" id="msheet">
+      <button class="mclose" id="mclose" aria-label="Close">&times;</button>
+      <div class="mbody" id="mbody"></div>
     </div>
   </div>
   <div class="minimap hide" id="minimap" aria-hidden="true">

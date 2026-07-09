@@ -199,6 +199,13 @@ async function main() {
     await ev(`togglePerf(true)`); await wait(300);
     check("perf HUD toggles on", (await ev(`!document.getElementById('perfhud').hidden`)) === true);
 
+    // secondary pages (About / Controls modals)
+    await ev(`document.getElementById('btnAbout').click()`); await wait(200);
+    const aboutOpen = await ev(`document.getElementById('modal').classList.contains('show') && /About Yggdrasil/.test(document.getElementById('mbody').textContent)`);
+    await ev(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}))`); await wait(200);
+    const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
+    check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
+
     check("no console errors or exceptions", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 

@@ -114,7 +114,8 @@ specimen detail card — is a small **CSS-class design system**, not a component
 runtime. Its foundation is `design/tokens.css` (colour, type, motion, radius as
 `:root` custom properties); the components are the class rules in
 `build/src/app.css` (`.ctl`, `.seg`, `.menu`, `.schip`/`.pref`/`.exchip`,
-`.search`, `.tip`, `.panel`, …).
+`.search`, `.tip`, `.panel`, `.modal`, …). Secondary pages (About, Controls)
+share one `.modal` shell whose body is filled by `openModal()`.
 
 Type is two families: a serif for names/display and one sans (Hanken Grotesk,
 inlined via `design/fonts.css`) for everything else — labels are sans, uppercase
