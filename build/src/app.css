@@ -41,7 +41,7 @@
   .search input:focus{border-color:var(--l-fern); box-shadow:0 0 0 3px #46b06a22}
   .search .hint{
     position:absolute; right:9px; top:50%; transform:translateY(-50%);
-    font-family:var(--mono); font-size:10px; color:var(--faint); pointer-events:none;
+    font-family:var(--sans); font-size:10px; color:var(--faint); pointer-events:none;
   }
   /* search results palette */
   .qresults{
@@ -66,10 +66,10 @@
   .qrow .qnm{flex:1; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .qrow .qnm em{font-style:normal; color:var(--l-fern); font-weight:600}
   .qrow .qcm{flex:none; max-width:34%; font-size:11px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .qrow .qct{flex:none; font-family:var(--mono); font-size:10px; color:var(--faint); font-variant-numeric:tabular-nums}
+  .qrow .qct{flex:none; font-family:var(--sans); font-size:10px; color:var(--faint); font-variant-numeric:tabular-nums}
   .qfoot{display:flex; justify-content:space-between; align-items:center; gap:10px;
     padding:7px 10px 5px; margin-top:3px; border-top:1px solid var(--line);
-    font-family:var(--mono); font-size:10px; color:var(--faint)}
+    font-family:var(--sans); font-size:10px; color:var(--faint)}
   .qfoot button{font-family:var(--sans); font-size:11.5px; color:var(--l-fern); background:none;
     border:0; cursor:pointer; padding:2px 4px; border-radius:5px}
   .qfoot button:hover{background:#ffffff10}
@@ -107,7 +107,7 @@
   .menu[hidden]{display:none}
   .menu-sec{display:flex; flex-direction:column; gap:8px}
   .menu-sec + .menu-sec{padding-top:11px; border-top:1px solid var(--line)}
-  .menu-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint)}
+  .menu-label{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint)}
   .menu .stories{flex-wrap:wrap}
   .menu .ctl.wide{width:100%; text-align:left}
   .menu #depthseg{align-self:flex-start}
@@ -157,10 +157,10 @@
   .stage.morphing .node text, .stage.animating .node text{opacity:0 !important; transition:none}
   .stage.morphing .link, .stage.animating .link{transition:none}
   .stage.animating .node .dot, .stage.animating .node .halo{transition:none}
-  .node text .rank{font-family:var(--mono)}
+  .node text .rank{font-family:var(--sans)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
-  .node text tspan.count{font-family:var(--mono); font-size:9.5px; fill:var(--faint)}
-  .node .toggle{font-family:var(--mono); font-size:10px; fill:var(--ground); text-anchor:middle;
+  .node text tspan.count{font-family:var(--sans); font-size:9.5px; fill:var(--faint); font-variant-numeric:tabular-nums}
+  .node .toggle{font-family:var(--sans); font-size:10px; fill:var(--ground); text-anchor:middle;
     stroke:none; pointer-events:none; dominant-baseline:central; font-weight:700}
 
   /* ---------- treemap ---------- */
@@ -168,9 +168,9 @@
   .tmcell rect{transition:fill-opacity .12s}
   .tmcell:hover rect{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
   text.tml{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600}
-  text.tmh{font-family:var(--mono); font-size:9px; letter-spacing:.5px; text-transform:uppercase; pointer-events:none}
+  text.tmh{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; pointer-events:none}
   .tmgroup rect{pointer-events:none}
-  text.tmv{font-family:var(--mono); font-size:8.5px; fill:#0b141099; pointer-events:none}
+  text.tmv{font-family:var(--sans); font-size:8.5px; fill:#0b141099; pointer-events:none}
 
   /* ---------- sunburst ---------- */
   .sbcell{cursor:pointer; transition:fill-opacity .12s}
@@ -199,26 +199,28 @@
     position:absolute; pointer-events:none; z-index:9; opacity:0; transform:translateY(4px);
     transition:opacity .12s, transform .12s; max-width:300px;
     background:var(--panel); backdrop-filter:blur(8px);
-    border:1px solid var(--edge); border-left-width:3px; border-radius:var(--r-2);
+    border:1px solid var(--edge); border-radius:var(--r-2);
     padding:10px 13px; box-shadow:0 12px 34px #0009;
   }
   .tip.show{opacity:1; transform:translateY(0)}
-  .tip .rk{font-family:var(--mono); font-size:9.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim)}
+  /* rank led by the lineage dot, matching the panel */
+  .tip .rk{display:inline-flex; align-items:center; gap:7px; font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--dim)}
+  .tip .rk::before{content:''; width:7px; height:7px; border-radius:50%; flex:none; background:var(--lc,var(--l-root)); box-shadow:0 0 7px var(--lc,var(--l-root))}
   .tip .nm{font-family:var(--serif); font-size:16px; margin:3px 0 1px}
   .tip .cm{font-size:12px; color:var(--dim); line-height:1.35}
   .tip .bl{font-size:12px; color:var(--ink); line-height:1.42; margin-top:8px; opacity:.92}
   .tip .ex{font-size:11.5px; color:var(--dim); line-height:1.4; margin-top:7px; font-family:var(--sans)}
-  .tip .ex i{font-family:var(--mono); font-size:9px; color:var(--faint); text-transform:uppercase;
+  .tip .ex i{font-family:var(--sans); font-size:9px; color:var(--faint); text-transform:uppercase; font-weight:600;
     letter-spacing:.6px; font-style:normal; margin-right:4px}
   .tip .st{margin-top:8px; padding-top:8px; border-top:1px solid var(--line);
-    display:flex; gap:14px; font-family:var(--mono); font-size:11px; color:var(--ink)}
+    display:flex; gap:14px; font-family:var(--sans); font-size:11px; color:var(--ink); font-variant-numeric:tabular-nums}
   .tip .st b{color:#fff; font-weight:600} .tip .st span{color:var(--faint)}
 
   /* ---------- footer ---------- */
   footer.meta{
     display:flex; gap:20px; flex-wrap:wrap; align-items:center;
     padding:8px 22px; border-top:1px solid var(--line); background:#0c1512aa;
-    font-family:var(--mono); font-size:10.5px; color:var(--faint); z-index:4;
+    font-family:var(--sans); font-size:11px; color:var(--faint); z-index:4; font-variant-numeric:tabular-nums;
   }
   footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}
   footer .src{margin-left:auto; color:var(--faint)}   /* provenance sits right, apart from the live counts */
@@ -235,7 +237,7 @@
   .zoomctl button:focus-visible{outline:2px solid var(--l-fern); outline-offset:-2px}
   /* dev perf HUD — off by default; ?perf in the URL or the ` key toggles it */
   .perfhud{position:absolute; right:14px; bottom:92px; z-index:9; pointer-events:none;
-    font-family:var(--mono); font-size:10.5px; line-height:1.5; color:var(--dim);
+    font-family:var(--sans); font-size:10.5px; line-height:1.5; color:var(--dim); font-variant-numeric:tabular-nums;
     background:#06100bd9; border:1px solid var(--edge); border-radius:var(--r-2); padding:8px 11px;
     white-space:pre; min-width:126px; box-shadow:0 8px 22px #0008}
   .perfhud[hidden]{display:none}
@@ -260,18 +262,16 @@
     border-left:2px solid #fff; pointer-events:none}
   .tbknob{position:absolute; top:50%; left:0; width:13px; height:13px; margin:-6.5px 0 0 -6.5px;
     border-radius:50%; background:#fff; box-shadow:0 0 10px #fff9; pointer-events:none}
-  .tblabel{flex:none; min-width:118px; text-align:right; font-family:var(--mono); font-size:11px; color:var(--ink)}
+  .tblabel{flex:none; min-width:118px; text-align:right; font-family:var(--sans); font-size:11px; color:var(--ink); font-variant-numeric:tabular-nums}
   .tblabel .per{color:var(--dim)}
 
   /* ---------- detail panel ---------- */
   .panel{
     position:absolute; top:12px; right:12px; width:330px; max-width:calc(100% - 24px);
     max-height:calc(100% - 24px); overflow-y:auto; z-index:8;
-    /* the card's top wears its lineage colour as a soft nameplate wash */
-    background:linear-gradient(180deg, color-mix(in srgb, var(--lc,var(--l-root)) 11%, transparent) 0, transparent 120px), var(--panel);
-    backdrop-filter:blur(10px);
-    border:1px solid var(--edge); border-left:3px solid var(--l-root); border-radius:var(--r-2);
-    padding:16px 18px 18px; box-shadow:0 18px 48px #000a;
+    background:var(--panel); backdrop-filter:blur(10px);
+    border:1px solid var(--edge); border-radius:var(--r-2);
+    padding:18px 18px 18px; box-shadow:0 18px 48px #000a;
     opacity:0; transform:translateX(20px) scale(.985); pointer-events:none;
     white-space:normal; overflow-wrap:break-word;
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
@@ -280,17 +280,20 @@
   .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1);
     background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:15px; line-height:1}
   .pclose:hover{color:var(--ink); border-color:var(--faint)}
-  .pcrumb{font-family:var(--mono); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
+  .pcrumb{font-family:var(--sans); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
   .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
   .pcrumb a:hover{color:var(--ink); text-decoration:underline}
   .pcrumb .sepc{opacity:.5; margin:0 3px}
-  .prank{display:inline-block; font-family:var(--mono); font-size:9px; letter-spacing:1.2px; text-transform:uppercase;
-    color:var(--ground); background:var(--l-root); padding:2px 7px; border-radius:4px}
+  /* rank as a plain tracked label led by a small glowing lineage dot (echoes the tree's nodes) */
+  .prank{display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-size:9.5px;
+    letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--dim)}
+  .prank::before{content:''; width:8px; height:8px; border-radius:50%; flex:none;
+    background:var(--lc,var(--l-root)); box-shadow:0 0 8px var(--lc,var(--l-root))}
   .pname{font-family:var(--serif); font-size:23px; font-weight:600; margin:9px 0 2px; line-height:1.12}
   .pcommon{font-size:13px; color:var(--dim); margin-bottom:2px}
   .pblurb{font-size:13.5px; line-height:1.5; color:var(--ink); margin:11px 0 0; opacity:.94}
-  .pexlabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:14px 0 6px}
-  .preflabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:15px 0 7px}
+  .pexlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:14px 0 6px}
+  .preflabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px}
   .prefs{display:flex; flex-wrap:wrap; gap:6px}
   .pref{font-family:var(--sans); font-size:11px; color:var(--l-fern); text-decoration:none;
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 11px 3px 9px; background:#0d1712; white-space:nowrap}
@@ -304,33 +307,32 @@
   .potl{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:#0b1410}
   .potl .band{stroke:#0b1410; stroke-width:.4}
   /* distribution mini-map (WGSRPD level-1) */
-  .pdistlabel{font-family:var(--mono); font-size:9px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
+  .pdistlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
   .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:#0b1410}
   .pdistmap .wmland{fill:#25332c; stroke:none}
   .pdistmap .reg{stroke:none; transition:fill-opacity var(--dur-1)}
   /* stats read as one inset data strip, tinted by lineage, split by hairlines */
   .pstats{display:flex; margin-top:16px; padding:12px 6px;
-    background:color-mix(in srgb, var(--lc,var(--l-root)) 7%, #0b1410);
-    border:1px solid var(--edge); border-radius:var(--r-2)}
+    background:#0b1410; border:1px solid var(--edge); border-radius:var(--r-2)}
   .pstat{flex:1; display:flex; flex-direction:column; gap:3px; padding:0 12px}
   .pstat + .pstat{border-left:1px solid var(--line)}
-  .pstat b{font-family:var(--mono); font-size:16px; color:#fff; font-weight:600; font-variant-numeric:tabular-nums; line-height:1}
-  .pstat span{font-size:9.5px; color:var(--faint); text-transform:uppercase; letter-spacing:.5px}
+  .pstat b{font-family:var(--sans); font-size:16px; color:#fff; font-weight:600; font-variant-numeric:tabular-nums; line-height:1}
+  .pstat span{font-size:9.5px; color:var(--faint); text-transform:uppercase; font-weight:600; letter-spacing:var(--track-label)}
   .pactions{display:flex; gap:8px; margin-top:16px}
   #plist .lhead{font-family:var(--serif); font-size:19px; font-weight:600; margin:0 0 2px; padding-right:26px}
-  #plist .lsub{font-family:var(--mono); font-size:9.5px; color:var(--faint); text-transform:uppercase; letter-spacing:.6px; margin-bottom:11px}
+  #plist .lsub{font-family:var(--sans); font-size:9.5px; color:var(--faint); text-transform:uppercase; font-weight:600; letter-spacing:var(--track-label); margin-bottom:11px}
   .lrow{display:flex; align-items:center; gap:9px; padding:7px 7px; border-radius:var(--r-1); cursor:pointer; border:1px solid transparent}
   .lrow:hover{background:#0e1a14; border-color:var(--edge)}
   .lrow .ldot{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 6px currentColor}
   .lrow .ltx{min-width:0}
   .lrow .lname{font-family:var(--serif); font-size:13.5px; color:var(--ink)}
   .lrow .lcom{font-size:11px; color:var(--dim)}
-  .lrow .lcount{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; flex:0 0 auto}
+  .lrow .lcount{margin-left:auto; font-family:var(--sans); font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; flex:0 0 auto}
 
   /* ---------- storylines ---------- */
   .stories{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
-  .stories .slabel{font-family:var(--mono); font-size:9.5px; letter-spacing:.8px; text-transform:uppercase; color:var(--faint); margin-right:2px}
+  .stories .slabel{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin-right:2px}
   .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:#0d1712;
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:4px 11px; cursor:pointer;
     transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1); white-space:nowrap}
@@ -355,11 +357,11 @@
     transition:opacity .2s, transform .2s}
   .tourcard.show{opacity:1; transform:translateX(-50%); pointer-events:auto}
   .tourcard .thead{display:flex; align-items:center; gap:10px; margin-bottom:7px}
-  .tourcard .ttitle{font-family:var(--mono); font-size:9.5px; letter-spacing:1.1px; text-transform:uppercase; color:var(--l-fern)}
+  .tourcard .ttitle{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--l-fern)}
   .tourdots{display:flex; gap:5px; align-items:center}
   .tourdots i{width:6px; height:6px; border-radius:50%; background:var(--faint); opacity:.45; transition:all .2s}
   .tourdots i.on{background:var(--l-fern); opacity:1; transform:scale(1.25)}
-  .tourcard .tstep{font-family:var(--mono); font-size:9.5px; color:var(--faint); margin-left:auto}
+  .tourcard .tstep{font-family:var(--sans); font-size:9.5px; color:var(--faint); margin-left:auto; font-variant-numeric:tabular-nums}
   .tourcard .tname{font-family:var(--serif); font-size:20px; margin:0 0 5px; line-height:1.15}
   .tourcard .tname em{font-style:normal; font-size:12px; color:var(--dim); font-family:var(--sans); margin-left:6px}
   .tourcard .ttext{font-size:13.5px; line-height:1.52; color:var(--ink); opacity:.95; margin:0}
@@ -382,7 +384,7 @@
   .welcome .lead{font-size:13.5px; color:var(--dim); line-height:1.55; margin:0 0 18px}
   .welcome ul{list-style:none; padding:0; margin:0 0 22px; display:grid; gap:11px}
   .welcome li{font-size:13px; color:var(--ink); line-height:1.45; display:flex; gap:12px; align-items:baseline}
-  .welcome li b{font-family:var(--mono); font-size:9.5px; color:var(--l-fern); text-transform:uppercase;
+  .welcome li b{font-family:var(--sans); font-size:9.5px; color:var(--l-fern); text-transform:uppercase; font-weight:600;
     letter-spacing:.6px; flex:0 0 76px; font-weight:600}
   .welcome .wact{display:flex; gap:10px; flex-wrap:wrap}
   .welcome .wact button{font-size:13px; padding:9px 15px}
@@ -397,18 +399,19 @@
   .minimap .mvp{fill:#46b06a26; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
   .minimap line{stroke:var(--faint); stroke-width:.6px; stroke-opacity:.55; vector-effect:non-scaling-stroke}
   .minimap.hide{display:none}
-  .minimap .mmlabel{position:absolute; left:8px; top:6px; font-family:var(--mono); font-size:8.5px;
-    letter-spacing:.6px; text-transform:uppercase; color:var(--faint); pointer-events:none}
+  .minimap .mmlabel{position:absolute; left:8px; top:6px; font-family:var(--sans); font-size:8.5px;
+    letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); pointer-events:none}
 
   /* ---------- focus (re-root) bar ---------- */
   .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:flex; align-items:center; gap:9px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge);
-    border-left:3px solid var(--l-fern); border-radius:var(--r-2); padding:7px 9px 7px 13px; box-shadow:0 10px 28px #0009;
+    border-radius:var(--r-2); padding:7px 11px; box-shadow:0 10px 28px #0009;
     opacity:0; transform:translateY(-8px); pointer-events:none;
     transition:opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-settle)}
   .focusbar.show{opacity:1; transform:none; pointer-events:auto}
-  .focusbar .flabel{font-family:var(--mono); font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--faint)}
-  .focusbar .fname{font-family:var(--serif); font-size:15px; color:var(--ink); font-style:italic}
+  .focusbar .flabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint)}
+  .focusbar .fname{display:inline-flex; align-items:center; gap:8px; font-family:var(--serif); font-size:15px; color:var(--ink); font-style:italic}
+  .focusbar .fname::before{content:''; width:8px; height:8px; border-radius:50%; flex:none; background:var(--lc,var(--l-fern)); box-shadow:0 0 8px var(--lc,var(--l-fern))}
   .focusbar button{width:auto; height:26px; padding:0 9px; font-size:11px}
 
   @media (max-width:680px){
@@ -432,7 +435,7 @@
     button.ctl{padding:9px 12px}
     .panel{top:auto; bottom:0; left:0; right:auto; width:100vw; max-width:100vw; max-height:62%;
       overflow-x:hidden;
-      border:1px solid var(--edge); border-top:3px solid var(--l-root); border-radius:var(--r-3) var(--r-3) 0 0;
+      border:1px solid var(--edge); border-radius:var(--r-3) var(--r-3) 0 0;
       transform:translateY(18px)}
     .panel.open{transform:none}
   }

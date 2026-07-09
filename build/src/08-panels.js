@@ -56,13 +56,12 @@ function select(n, opts){
   if(opts.center!==false) revealNode(n);
   const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
   const lc=color(n);
-  panel.style.borderLeftColor=lc; panel.style.borderTopColor=lc;
-  panel.style.setProperty('--lc', lc);   // drives the nameplate wash + stat-strip tint
+  panel.style.setProperty('--lc', lc);   // drives the lineage dot in the nameplate
   const chain=ancestors(n);
   document.getElementById('pcrumb').innerHTML = chain.map((c,i)=>
     i===chain.length-1 ? `<span style="color:var(--dim)">${escp(c.name)}</span>`
       : `<a data-id="${c._id}">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
-  const rk=document.getElementById('prank'); rk.textContent=n.rank; rk.style.background=lc;
+  const rk=document.getElementById('prank'); rk.textContent=n.rank;
   document.getElementById('pname').textContent=n.name;
   const cm=document.getElementById('pcommon'); cm.textContent=n.common||''; cm.style.display=n.common?'block':'none';
   const bl=document.getElementById('pblurb'); bl.textContent=n.blurb||''; bl.style.display=n.blurb?'block':'none';

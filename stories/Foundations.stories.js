@@ -16,8 +16,8 @@ const grid = (min = 150) => {
   return d;
 };
 const label = (name, val) => `
-  <div style="font-family:var(--mono);font-size:11px;color:var(--ink);margin-top:9px">${name}</div>
-  <div style="font-family:var(--mono);font-size:10px;color:var(--faint)">${val}</div>`;
+  <div style="font-family:var(--sans);font-size:11px;color:var(--ink);margin-top:9px">${name}</div>
+  <div style="font-family:var(--sans);font-size:10px;color:var(--faint);font-variant-numeric:tabular-nums">${val}</div>`;
 
 // ---- Colour -------------------------------------------------------------
 export const Colour = () => {
@@ -46,21 +46,35 @@ export const Colour = () => {
 
 // ---- Typography ---------------------------------------------------------
 export const Typography = () => {
+  // Two families: a serif for names/display, one sans (Hanken Grotesk) for
+  // everything else — labels and data are sans conventions, not a third family.
   const roles = [
-    ['--serif', 'Serif — display & taxon names', 'Angiosperms · Caryophyllales'],
-    ['--sans', 'Sans — UI & body', 'Stem-succulents of the Americas'],
-    ['--mono', 'Mono — data, labels & counts', '~389,873 species · 611 branches'],
+    ['--serif', 'Display / names', 'Angiosperms · Caryophyllales', '38px'],
+    ['--sans', 'Text / UI', 'Stem-succulents of the Americas', '26px'],
   ];
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'display:flex;flex-direction:column;gap:22px;padding:32px';
-  roles.forEach(([tok, role, sample]) => {
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:26px;padding:32px';
+  roles.forEach(([tok, role, sample, size]) => {
     const b = document.createElement('div');
     b.innerHTML = `
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:var(--faint)">${role}</div>
-      <div style="font-family:var(${tok});font-size:26px;color:var(--ink);margin-top:6px">${sample}</div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:6px">var(${tok}) → ${cssvar(tok)}</div>`;
+      <div style="font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--faint)">${role}</div>
+      <div style="font-family:var(${tok});font-size:${size};color:var(--ink);margin-top:8px;letter-spacing:var(--track-display)">${sample}</div>
+      <div style="font-family:var(--sans);font-size:10px;color:var(--faint);margin-top:6px">var(${tok})</div>`;
     wrap.append(b);
   });
+  // the two sans conventions that replaced mono: tracked labels + tabular data
+  const conv = document.createElement('div');
+  conv.style.cssText = 'border-top:1px solid var(--line);padding-top:22px;display:flex;gap:56px;flex-wrap:wrap';
+  conv.innerHTML = `
+    <div>
+      <div style="font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--faint)">Label — sans, uppercase, tracked</div>
+      <div style="font-family:var(--sans);font-size:9.5px;font-weight:600;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--dim);margin-top:8px">Examples · Native range · References</div>
+    </div>
+    <div>
+      <div style="font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--faint)">Data — sans, tabular figures</div>
+      <div style="font-family:var(--sans);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);margin-top:6px">389,873 · 14,129 · 611</div>
+    </div>`;
+  wrap.append(conv);
   return wrap;
 };
 
@@ -94,8 +108,8 @@ export const Motion = () => {
       <div style="display:flex;align-items:center;gap:16px;margin:10px 0">
         <div class="motion-demo" style="width:26px;height:26px;border-radius:var(--r-pill);background:var(--l-fern);
              transition:transform ${n.startsWith('--dur') ? `var(${n}) var(--ease-out)` : `var(--dur-2) var(${n})`}"></div>
-        <code style="font-family:var(--mono);font-size:12px;color:var(--ink)">var(${n})</code>
-        <span style="font-family:var(--mono);font-size:11px;color:var(--faint)">${cssvar(n)}</span>
+        <code style="font-family:var(--sans);font-size:12px;color:var(--ink)">var(${n})</code>
+        <span style="font-family:var(--sans);font-size:11px;color:var(--faint)">${cssvar(n)}</span>
         <span style="color:var(--dim);font-size:13px">${use}</span>
       </div>`).join('');
   wrap.querySelectorAll('.motion-demo').forEach((dot) => {

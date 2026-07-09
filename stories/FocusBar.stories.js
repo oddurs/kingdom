@@ -7,7 +7,7 @@ export default {
   parameters: { layout: 'centered', backgrounds: { default: 'ground' } },
 };
 
-export const Focused = () => el(`<div class="focusbar show" style="position:static;transform:none">
+export const Focused = () => el(`<div class="focusbar show" style="position:static;transform:none;--lc:var(--l-asterid)">
     <span class="flabel">Focused</span>
     <span class="fname">Asteraceae</span>
     <button class="ctl" title="Up one level">&#9650;</button>

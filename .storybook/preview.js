@@ -1,6 +1,7 @@
 // The workshop renders the *exact* CSS the app ships — the shared design tokens
 // plus the app stylesheet — so a component here can never drift from the app.
 // Import order mirrors build.py's CSS_PARTS (tokens first, so var(--…) resolves).
+import '../design/fonts.css';
 import '../design/tokens.css';
 import '../build/src/app.css';
 import './preview.css'; // workshop backdrop only — NOT shipped

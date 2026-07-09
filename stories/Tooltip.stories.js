@@ -8,7 +8,7 @@ export default {
 };
 
 export const Family = () =>
-  el(`<div class="tip show" style="position:static;border-left-color:var(--l-rosid);max-width:300px">
+  el(`<div class="tip show" style="position:static;--lc:var(--l-rosid);max-width:300px">
     <div class="rk">Family</div>
     <div class="nm">Cactaceae</div>
     <div class="cm">Cacti</div>
@@ -18,7 +18,7 @@ export const Family = () =>
   </div>`);
 
 export const Clade = () =>
-  el(`<div class="tip show" style="position:static;border-left-color:var(--l-asterid);max-width:300px">
+  el(`<div class="tip show" style="position:static;--lc:var(--l-asterid);max-width:300px">
     <div class="rk">Order &middot; click to expand</div>
     <div class="nm">Asterales</div>
     <div class="st"><span><b>~35,479</b> species</span><span><b>11</b> families</span></div>

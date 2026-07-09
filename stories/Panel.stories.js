@@ -10,7 +10,8 @@ export default {
 
 const card = (lc, inner) => {
   const n = el(`<aside class="panel" role="dialog" aria-label="Taxon detail">${inner}</aside>`);
-  n.style.cssText += `position:static;opacity:1;transform:none;max-height:none;width:330px;--lc:${lc};border-left-color:${lc};border-top-color:${lc}`;
+  // --lc drives the lineage dot in the nameplate; the card itself stays neutral
+  n.style.cssText += `position:static;opacity:1;transform:none;max-height:none;width:330px;--lc:${lc}`;
   return n;
 };
 
@@ -19,7 +20,7 @@ const body = ({ crumb, rank, name, common, blurb, examples, stats }) => `
   <nav class="pcrumb">${crumb.map((c, i) => i === crumb.length - 1
     ? `<span style="color:var(--dim)">${c}</span>`
     : `<a>${c}</a>`).join(' <span class="sepc">&rsaquo;</span> ')}</nav>
-  <span class="prank" style="background:var(--lc)">${rank}</span>
+  <span class="prank">${rank}</span>
   <h2 class="pname">${name}</h2>
   <div class="pcommon">${common}</div>
   <p class="pblurb">${blurb}</p>

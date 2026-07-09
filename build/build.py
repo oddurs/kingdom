@@ -27,10 +27,10 @@ DESIGN = ROOT / "design"
 OUT = ROOT / "plant-tree.html"
 PLACEHOLDER = "/*__DATA__*/"
 
-# CSS is concatenated in this order into the single <style>. The design tokens
-# (design/tokens.css) are the shared source of truth Storybook also imports;
-# they must come first so every rule below can reference the custom properties.
-CSS_PARTS = [DESIGN / "tokens.css", SRC / "app.css"]
+# CSS is concatenated in this order into the single <style>. fonts.css declares
+# the inlined @font-face; tokens.css (the shared source of truth Storybook also
+# imports) defines the custom properties; app.css consumes them.
+CSS_PARTS = [DESIGN / "fonts.css", DESIGN / "tokens.css", SRC / "app.css"]
 
 # The single inline <script> body, concatenated from these modules in this order.
 # They share one scope (as the original monolith did); order is load order.

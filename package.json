@@ -9,6 +9,7 @@
     "build-storybook": "storybook build -o storybook-static"
   },
   "devDependencies": {
+    "@fontsource-variable/hanken-grotesk": "^5.2.8",
     "@storybook/addon-a11y": "^8.6.0",
     "@storybook/addon-essentials": "^8.6.0",
     "@storybook/web-components-vite": "^8.6.0",
