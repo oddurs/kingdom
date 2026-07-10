@@ -129,7 +129,7 @@ function labelLOD(){
     const isLeaf=!(n.open && (n.children||[]).length);
     let show=true;
     if(isLeaf){                                   // the numerous frontier labels are what crowd
-      const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*560*k : DY*k;
+      const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*RADIAL_OUTER*k : DY*k;
       show = gap>=12 || n.agg>4000;               // always keep the big families legible
     }
     if(n===selected || n===kb || el.classList.contains('hl')) show=true;   // never cull a focused / highlighted label

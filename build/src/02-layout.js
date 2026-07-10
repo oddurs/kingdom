@@ -1,5 +1,6 @@
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
+const RADIAL_OUTER=560;   // radial layout radius — shared with the label-LOD gap estimate in 03-render
 let mode='radial';   // radial fills the frame and reads as a living organism — the landing view
 let timeMode=false, timeNow=0;   // geological-time scrubber (C4)
 let _deferStale=null, _structFinish=null;   // structural-animation plumbing (D1)
@@ -13,7 +14,7 @@ function layout(){
     // cluster layout: all frontier leaves on one outer ring (handles our very unbalanced depth)
     leafTotal=0; let maxD=1;
     (function c(n){ const k=n.open?(n.children||[]):[]; if(!k.length){ leafTotal++; if(RD(n)>maxD) maxD=RD(n); } else k.forEach(c); })(renderRoot);
-    const OUTER=560, ringStep=OUTER/maxD;
+    const OUTER=RADIAL_OUTER, ringStep=OUTER/maxD;
     leafCursor=0;
     const span=Math.PI*2*0.94, start=-Math.PI/2 + Math.PI*2*0.03;
     (function walk(n){
