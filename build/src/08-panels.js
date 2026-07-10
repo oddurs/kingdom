@@ -16,7 +16,8 @@ const GEOP=[['Silurian',444,419,'#4f8f79'],['Devonian',419,359,'#3f7f88'],
 const TMAX=445;
 function periodOf(a){ for(const p of GEOP) if(a<=p[1]&&a>p[2]) return p; return GEOP[GEOP.length-1]; }
 function originBar(node){
-  const a=node.ageMy; if(a==null) return '';
+  // dated crown age when we have it; otherwise effAge — when this lineage first appears
+  const a=node.ageMy!=null?node.ageMy:node.effAge; if(a==null) return '';
   const W=220,BH=13,Y=6, x=v=>(TMAX-v)/TMAX*W;
   const bands=GEOP.map(p=>{const x0=x(p[1]),x1=x(p[2]);
     return `<rect class="band" x="${x0.toFixed(1)}" y="${Y}" width="${(x1-x0).toFixed(1)}" height="${BH}" fill="${p[3]}" fill-opacity="0.5"><title>${p[0]} ${p[1]}–${p[2]} Ma</title></rect>`;}).join('');
@@ -65,12 +66,25 @@ function select(n, opts){
   const rk=document.getElementById('prank'); rk.textContent=n.rank;
   document.getElementById('pname').textContent=n.name;
   const cm=document.getElementById('pcommon'); cm.textContent=n.common||''; cm.style.display=n.common?'block':'none';
-  const bl=document.getElementById('pblurb'); bl.textContent=n.blurb||''; bl.style.display=n.blurb?'block':'none';
-  document.getElementById('pexwrap').innerHTML = (n.examples&&n.examples.length)
-    ? `<div class="pexlabel">Examples</div><div class="pex">${n.examples.map(x=>`<span class="exchip">${escp(x)}</span>`).join('')}</div>` : '';
+  const hasKids=(n.children||[]).length>0;
+  const bl=document.getElementById('pblurb');
+  let blurbText=n.blurb||'';
+  if(!blurbText && hasKids){                    // higher clades often lack a curated blurb — synthesize one
+    const spp='~'+n.agg.toLocaleString()+' species';
+    blurbText = n.rank==='family'
+      ? `A family of ${n.genCount.toLocaleString()} genera and ${spp}.`
+      : `This ${n.rank} spans ${n.famCount} famil${n.famCount===1?'y':'ies'} and ${spp} — open it to explore.`;
+  }
+  bl.textContent=blurbText; bl.style.display=blurbText?'block':'none';
+  let exHtml='';
+  if(n.examples&&n.examples.length) exHtml=`<div class="pexlabel">Examples</div><div class="pex">${n.examples.map(x=>`<span class="exchip">${escp(x)}</span>`).join('')}</div>`;
+  else if(hasKids){                              // no curated examples — surface the largest child groups
+    const top=[...n.children].sort((a,b)=>(b.agg||0)-(a.agg||0)).slice(0,4);
+    exHtml=`<div class="pexlabel">Largest groups</div><div class="pex">${top.map(c=>`<span class="exchip">${escp(c.name)}</span>`).join('')}</div>`;
+  }
+  document.getElementById('pexwrap').innerHTML=exHtml;
   document.getElementById('porigin').innerHTML = originBar(n);
   document.getElementById('pdist').innerHTML = distMap(n, lc);
-  const hasKids=(n.children||[]).length>0;
   // a family shows how many genera it holds; higher clades show family count
   const midStat = n.rank==='family'
     ? `<div class="pstat"><b>${n.genCount.toLocaleString()}</b><span>gen${n.genCount===1?'us':'era'}</span></div>`
