@@ -56,8 +56,8 @@
   html,body{height:100%;margin:0}
   body{
     background:
-      radial-gradient(1200px 800px at 18% 8%, #14231c 0%, transparent 60%),
-      radial-gradient(1000px 900px at 92% 100%, #101d18 0%, transparent 55%),
+      radial-gradient(1300px 850px at 16% 2%, #0f1813 0%, transparent 52%),
+      radial-gradient(1100px 950px at 96% 100%, #0e1611 0%, transparent 48%),
       var(--ground);
     color:var(--ink); font-family:var(--sans);
     display:flex; flex-direction:column; overflow:hidden;
@@ -72,15 +72,16 @@
     z-index:5;
   }
   /* brand lockup: the radial-burst mark + wordmark */
-  .brand{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit}
-  .mark{width:34px; height:34px; flex:none; color:var(--l-fern);
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit}
+  .mark{width:30px; height:30px; flex:none; color:var(--l-fern);
     filter:drop-shadow(0 0 5px color-mix(in srgb, var(--l-fern) 45%, transparent));
     transition:transform var(--dur-2) var(--ease-settle), filter var(--dur-2) var(--ease-out)}
   .brand:hover .mark{transform:rotate(20deg); filter:drop-shadow(0 0 9px color-mix(in srgb, var(--l-fern) 70%, transparent))}
   .wordmark{display:flex; flex-direction:column; line-height:1}
-  .wm-name{font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:.2px; margin:0}
-  .wm-tag{margin-top:4px; font-size:11.5px; color:var(--dim); letter-spacing:.3px}
-  .wm-tag em{font-style:italic; color:var(--l-fern); font-weight:500}
+  /* sans lockup: tight wordmark over a tracked uppercase eyebrow */
+  .wm-name{font-family:var(--sans); font-weight:700; font-size:18px; letter-spacing:-.02em; margin:0; color:var(--ink)}
+  .wm-tag{margin-top:4px; font-size:9px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--faint)}
+  .wm-tag em{font-style:normal; color:var(--l-fern)}
   .mark-lg{width:54px; height:54px; display:block; margin:0 auto 12px}
   .spacer{flex:1}
   .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -548,7 +549,7 @@
     <svg class="mark" aria-hidden="true"><use href="#ygg-mark"/></svg>
     <span class="wordmark">
       <h1 class="wm-name">Yggdrasil</h1>
-      <span class="wm-tag"><em>a living tree</em> of the plant kingdom</span>
+      <span class="wm-tag">The plant tree of life</span>
     </span>
   </div>
   <div class="spacer"></div>
