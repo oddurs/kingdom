@@ -66,7 +66,7 @@ function select(n, opts){
   const chain=ancestors(n);
   document.getElementById('pcrumb').innerHTML = chain.map((c,i)=>
     i===chain.length-1 ? `<span style="color:var(--dim)">${escp(c.name)}</span>`
-      : `<a data-id="${c._id}">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
+      : `<a data-id="${c._id}" role="link" tabindex="0">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
   const rk=document.getElementById('prank'); rk.textContent=n.rank;
   document.getElementById('pname').textContent=n.name;
   const cm=document.getElementById('pcommon'); cm.textContent=n.common||''; cm.style.display=n.common?'block':'none';
@@ -132,6 +132,8 @@ function select(n, opts){
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
   if(a){ const n=idMap.get(+a.dataset.id); if(n) select(n); } });
+document.getElementById('pcrumb').addEventListener('keydown', e=>{ if(e.key!=='Enter'&&e.key!==' ') return;
+  const a=e.target.closest('a'); if(a){ e.preventDefault(); const n=idMap.get(+a.dataset.id); if(n) select(n); } });
 function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
   selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); panel.inert=true; updateHash(); }
 document.getElementById('pclose').onclick=closePanel;

@@ -337,6 +337,7 @@
   .pcrumb{font-family:var(--sans); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
   .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
   .pcrumb a:hover{color:var(--ink); text-decoration:underline}
+  .pcrumb a:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px; border-radius:3px}
   .pcrumb .sepc{opacity:.5; margin:0 3px}
   /* rank as a plain tracked label led by a small glowing lineage dot (echoes the tree's nodes) */
   .prank{display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-size:9.5px;
@@ -378,6 +379,7 @@
   #plist .lsub{font-family:var(--sans); font-size:9.5px; color:var(--faint); text-transform:uppercase; font-weight:600; letter-spacing:var(--track-label); margin-bottom:11px}
   .lrow{display:flex; align-items:center; gap:9px; padding:7px 7px; border-radius:var(--r-1); cursor:pointer; border:1px solid transparent}
   .lrow:hover{background:#0e1a14; border-color:var(--edge)}
+  .lrow:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   .lrow .ldot{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 6px currentColor}
   .lrow .ltx{min-width:0}
   .lrow .lname{font-family:var(--serif); font-size:13.5px; color:var(--ink)}
@@ -1623,7 +1625,7 @@ function select(n, opts){
   const chain=ancestors(n);
   document.getElementById('pcrumb').innerHTML = chain.map((c,i)=>
     i===chain.length-1 ? `<span style="color:var(--dim)">${escp(c.name)}</span>`
-      : `<a data-id="${c._id}">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
+      : `<a data-id="${c._id}" role="link" tabindex="0">${escp(c.name)}</a>`).join(' <span class="sepc">›</span> ');
   const rk=document.getElementById('prank'); rk.textContent=n.rank;
   document.getElementById('pname').textContent=n.name;
   const cm=document.getElementById('pcommon'); cm.textContent=n.common||''; cm.style.display=n.common?'block':'none';
@@ -1689,6 +1691,8 @@ function select(n, opts){
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
   if(a){ const n=idMap.get(+a.dataset.id); if(n) select(n); } });
+document.getElementById('pcrumb').addEventListener('keydown', e=>{ if(e.key!=='Enter'&&e.key!==' ') return;
+  const a=e.target.closest('a'); if(a){ e.preventDefault(); const n=idMap.get(+a.dataset.id); if(n) select(n); } });
 function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
   selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); panel.inert=true; updateHash(); }
 document.getElementById('pclose').onclick=closePanel;
@@ -1735,10 +1739,11 @@ function showStoryList(id, ns){
   const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
   pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
-    rows.map(n=>`<div class="lrow" data-id="${n._id}"><span class="ldot" style="color:${color(n)}"></span>`+
+    rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
-  pl.querySelectorAll('.lrow').forEach(r=>r.onclick=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); });
+  pl.querySelectorAll('.lrow').forEach(r=>{ const go=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); };
+    r.onclick=go; r.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }; });
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
 }
 function clearStory(doHash){
@@ -1829,7 +1834,7 @@ document.getElementById('texit').onclick=endTour;
 
 // ---------- welcome / onboarding ----------
 const welcome=document.getElementById('welcome');
-function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; }
+function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; const b=document.getElementById('wtour'); if(b) b.focus(); }
 function hideWelcome(){ welcome.classList.remove('show'); welcome.inert=true; try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
@@ -1852,6 +1857,14 @@ function closeModal(){ if(!modal.classList.contains('show')) return;
 }
 document.getElementById('mclose').onclick=closeModal;
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+// keep Tab inside an open overlay (the rest of the page can't be inerted — the overlay lives inside it)
+function trapTab(e, box){ if(e.key!=='Tab') return;
+  const f=[...box.querySelectorAll('a[href],button:not([disabled]),input,[tabindex="0"]')].filter(x=>x.offsetParent);
+  if(!f.length) return; const first=f[0], last=f[f.length-1];
+  if(e.shiftKey){ if(document.activeElement===first || !box.contains(document.activeElement)){ e.preventDefault(); last.focus(); } }
+  else if(document.activeElement===last){ e.preventDefault(); first.focus(); } }
+modal.addEventListener('keydown', e=>trapTab(e, modal));
+welcome.addEventListener('keydown', e=>trapTab(e, welcome));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')){ e.stopPropagation(); closeModal(); } });
 
 function aboutHTML(){
