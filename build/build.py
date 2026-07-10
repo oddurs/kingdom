@@ -132,6 +132,15 @@ def main() -> None:
             genera_by_family.setdefault(g["family"], []).append(g)
             ngenera += 1
 
+    # warn on genera whose family name matches no family taxon — they are silently dropped
+    family_names = {t["name"] for t in taxa if t.get("rank") == "family"}
+    orphan_fams = [f for f in genera_by_family if f not in family_names]
+    if orphan_fams:
+        dropped = sum(len(genera_by_family[f]) for f in orphan_fams)
+        print(f"warning: {dropped} genera in {len(orphan_fams)} unmatched famil"
+              f"{'y' if len(orphan_fams) == 1 else 'ies'} were dropped "
+              f"(e.g. {', '.join(sorted(orphan_fams)[:5])})", file=sys.stderr)
+
     tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
     if WORLDMAP.exists():

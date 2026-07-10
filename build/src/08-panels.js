@@ -14,14 +14,14 @@ const GEOP=[['Silurian',444,419,'#4f8f79'],['Devonian',419,359,'#3f7f88'],
   ['Cretaceous',145,66,'#8faa55'],['Paleogene',66,23,'#d3a24a'],
   ['Neogene',23,2.6,'#dcc06a'],['Quaternary',2.6,0,'#c9c9c9']];
 const TMAX=445;
-function periodOf(a){ for(const p of GEOP) if(a<=p[1]&&a>p[2]) return p; return GEOP[GEOP.length-1]; }
+function periodOf(a){ for(const p of GEOP) if(a<=p[1]&&a>p[2]) return p; return a>GEOP[0][1] ? GEOP[0] : GEOP[GEOP.length-1]; }
 function originBar(node){
   // dated crown age when we have it; otherwise effAge — when this lineage first appears
   const a=node.ageMy!=null?node.ageMy:node.effAge; if(a==null) return '';
   const W=220,BH=13,Y=6, x=v=>(TMAX-v)/TMAX*W;
   const bands=GEOP.map(p=>{const x0=x(p[1]),x1=x(p[2]);
     return `<rect class="band" x="${x0.toFixed(1)}" y="${Y}" width="${(x1-x0).toFixed(1)}" height="${BH}" fill="${p[3]}" fill-opacity="0.5"><title>${p[0]} ${p[1]}–${p[2]} Ma</title></rect>`;}).join('');
-  const mx=x(a).toFixed(1), per=periodOf(a);
+  const mx=Math.max(0,Math.min(W,x(a))).toFixed(1), per=periodOf(a);   // clamp: some crown ages predate the 445 Ma axis
   const marker=`<path d="M${mx},${Y-3} l-3.5,-5 l7,0 z" fill="#fff"/><line x1="${mx}" y1="${Y-3}" x2="${mx}" y2="${Y+BH+1}" stroke="#fff" stroke-width="1"/>`;
   const shown=a<10?a:Math.round(a);
   return `<div class="pdistlabel"><span>Origin</span><span class="cod">~${shown} Ma · ${per[0]}</span></div>`+
