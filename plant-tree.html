@@ -54,6 +54,7 @@
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
+  .visually-hidden{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
   body{
     background:
       radial-gradient(1300px 850px at 16% 2%, #0f1813 0%, transparent 52%),
@@ -554,11 +555,11 @@
       <span class="hint" id="qhint"></span>
       <div class="qresults" id="qresults" role="listbox" hidden></div>
     </div>
-    <span class="seg" id="viewseg">
-      <button class="ctl" id="btnTree">Tree</button>
-      <button class="ctl on" id="btnRadial">Radial</button>
-      <button class="ctl" id="btnSun">Sunburst</button>
-      <button class="ctl" id="btnTreemap">Treemap</button>
+    <span class="seg" id="viewseg" role="group" aria-label="View">
+      <button class="ctl" id="btnTree" aria-pressed="false">Tree</button>
+      <button class="ctl on" id="btnRadial" aria-pressed="true">Radial</button>
+      <button class="ctl" id="btnSun" aria-pressed="false">Sunburst</button>
+      <button class="ctl" id="btnTreemap" aria-pressed="false">Treemap</button>
     </span>
     <span class="barsep"></span>
     <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
@@ -582,10 +583,10 @@
 <div class="menu" id="menu-more" role="menu" hidden>
   <div class="menu-sec">
     <span class="menu-label">Depth</span>
-    <span class="seg" id="depthseg">
-      <button class="ctl on" id="btnOrders">Orders</button>
-      <button class="ctl" id="btnExpand">Expand all</button>
-      <button class="ctl" id="btnCollapse">Collapse</button>
+    <span class="seg" id="depthseg" role="group" aria-label="Depth">
+      <button class="ctl on" id="btnOrders" aria-pressed="true">Orders</button>
+      <button class="ctl" id="btnExpand" aria-pressed="false">Expand all</button>
+      <button class="ctl" id="btnCollapse" aria-pressed="false">Collapse</button>
     </span>
   </div>
   <div class="menu-sec">
@@ -595,10 +596,11 @@
   </div>
 </div>
 
+<div id="a11y-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
-  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true" inert>
+  <aside class="panel" id="panel" aria-label="Taxon detail" aria-hidden="true" inert>
     <button class="pclose" id="pclose" aria-label="Close">&times;</button>
     <div id="pdetail">
       <nav class="pcrumb" id="pcrumb"></nav>
@@ -1170,16 +1172,16 @@ function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.op
 // stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
 function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnExpand'); }
 function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnCollapse'); }
-function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>document.getElementById(b).classList.toggle('on', b===id)); }
+function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>{ const on=b===id; const el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute('aria-pressed', on); }); }
 function setModeButtons(m){
-  document.getElementById('btnTree').classList.toggle('on', m==='tree');
-  document.getElementById('btnRadial').classList.toggle('on', m==='radial');
-  document.getElementById('btnSun').classList.toggle('on', m==='sunburst');
-  document.getElementById('btnTreemap').classList.toggle('on', m==='treemap');
+  [['btnTree','tree'],['btnRadial','radial'],['btnSun','sunburst'],['btnTreemap','treemap']].forEach(([b,v])=>{
+    const on=m===v, el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
+  });
 }
 let morphing=false;
 function switchMode(m){
   if(mode===m || morphing) return;
+  announce(({tree:'Tree',radial:'Radial',sunburst:'Sunburst',treemap:'Treemap'}[m]||m)+' view');
   if(timeMode && (m==='treemap'||m==='sunburst')) exitTime();   // time filter only applies to the node views
   hideTip();
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -1453,6 +1455,7 @@ function setKb(n, doPan){
   if(kb){ const pe=nodeEls.get(kb._id); if(pe) pe.classList.remove('kbfocus'); }
   kb=n; if(!n) return;
   const el=nodeEls.get(n._id); if(el) el.classList.add('kbfocus');
+  announce(a11yLabel(n)+(((n.children||[]).length)?(n.open?', expanded':', collapsed'):''));
   if(doPan!==false) focusNode(n);
 }
 stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
@@ -1554,6 +1557,10 @@ function focusNode(n){
 
 // ---------- detail panel ----------
 const panel=document.getElementById('panel');
+// screen-reader status: the SVG tree isn't traversable by AT, so we announce the
+// focused / selected taxon (and view changes) through a polite live region.
+function a11yLabel(n){ return n.name+', '+n.rank+', about '+n.agg.toLocaleString()+' species'; }
+function announce(msg){ const s=document.getElementById('a11y-status'); if(s) s.textContent=msg; }
 const escp=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 let selected=null;
 function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; } return a; }
@@ -1677,6 +1684,7 @@ function select(n, opts){
     // node layer to pan; repaint to show it. tree/radial centre the chosen node.
     if(mode==='treemap'||mode==='sunburst') render(); else focusNode(n);
   }
+  announce('Selected '+a11yLabel(n));
   updateHash();
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');

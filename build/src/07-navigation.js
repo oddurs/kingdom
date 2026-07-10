@@ -97,6 +97,7 @@ function setKb(n, doPan){
   if(kb){ const pe=nodeEls.get(kb._id); if(pe) pe.classList.remove('kbfocus'); }
   kb=n; if(!n) return;
   const el=nodeEls.get(n._id); if(el) el.classList.add('kbfocus');
+  announce(a11yLabel(n)+(((n.children||[]).length)?(n.open?', expanded':', collapsed'):''));
   if(doPan!==false) focusNode(n);
 }
 stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
