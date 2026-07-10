@@ -77,11 +77,9 @@
     filter:drop-shadow(0 0 5px color-mix(in srgb, var(--l-fern) 45%, transparent));
     transition:transform var(--dur-2) var(--ease-settle), filter var(--dur-2) var(--ease-out)}
   .brand:hover .mark{transform:rotate(20deg); filter:drop-shadow(0 0 9px color-mix(in srgb, var(--l-fern) 70%, transparent))}
-  .wordmark{display:flex; flex-direction:column; line-height:1}
-  /* sans lockup: tight wordmark over a tracked uppercase eyebrow */
-  .wm-name{font-family:var(--sans); font-weight:700; font-size:18px; letter-spacing:-.02em; margin:0; color:var(--ink)}
-  .wm-tag{margin-top:4px; font-size:9px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--faint)}
-  .wm-tag em{font-style:normal; color:var(--l-fern)}
+  .wordmark{display:flex; line-height:1}
+  /* sans wordmark */
+  .wm-name{font-family:var(--sans); font-weight:700; font-size:19px; letter-spacing:-.02em; margin:0; color:var(--ink)}
   .mark-lg{width:54px; height:54px; display:block; margin:0 auto 12px}
   .spacer{flex:1}
   .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -503,10 +501,8 @@
   @media (max-width:680px){
     .minimap{display:none}
     header.bar{padding:10px 14px; gap:9px}
-    /* compact brand: mark + name on one line, tagline dropped so the canvas gets the room */
     .brand{flex-basis:100%; min-width:0}
-    .wm-tag{display:none}
-    .wm-name{font-size:19px}
+    .wm-name{font-size:18px}
     .mark{width:30px; height:30px}
     .spacer{display:none}
     .controls{width:100%; gap:6px}
@@ -549,7 +545,6 @@
     <svg class="mark" aria-hidden="true"><use href="#ygg-mark"/></svg>
     <span class="wordmark">
       <h1 class="wm-name">Yggdrasil</h1>
-      <span class="wm-tag">The plant tree of life</span>
     </span>
   </div>
   <div class="spacer"></div>
