@@ -201,6 +201,11 @@ async function main() {
     await ev(`select(nodeByName('Poaceae'))`); await wait(150);
     check("selection is announced to the live region", (await ev(`/Poaceae/.test(document.getElementById('a11y-status').textContent)`)) === true);
 
+    // legend spotlight: hovering a lineage dims the rest (Sprint H)
+    await ev(`(()=>{const lg=[...document.querySelectorAll('#lgitems .lg')].find(x=>/Rosids/.test(x.textContent)); if(lg) lg.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));})()`); await wait(120);
+    check("legend spotlight dims to a lineage", (await ev(`document.getElementById('stage').classList.contains('focusing') && document.querySelectorAll('#nodes .node.lit').length>0`)) === true);
+    await ev(`document.getElementById('lgitems').dispatchEvent(new MouseEvent('mouseleave',{bubbles:true}))`); await wait(80);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

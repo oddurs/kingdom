@@ -71,7 +71,6 @@
 <!-- header popover menus: secondary controls tuck out of the way (G2) -->
 <div class="menu" id="menu-colour" role="menu" hidden>
   <span class="stories" id="cmode"></span>
-  <div class="lgswatches" id="lgswatches"></div>
 </div>
 <div class="menu" id="menu-explore" role="menu" hidden>
   <span class="stories" id="stories"></span>
@@ -167,6 +166,11 @@
       <button class="mclose" id="mclose" aria-label="Close">&times;</button>
       <div class="mbody" id="mbody"></div>
     </div>
+  </div>
+  <!-- persistent colour key; hovering an entry spotlights it in the tree -->
+  <div class="legendbar" id="legendbar">
+    <div class="lgtitle" id="lgtitle"></div>
+    <div class="lgitems" id="lgitems"></div>
   </div>
   <div class="minimap hide" id="minimap" aria-hidden="true">
     <svg id="mmsvg" viewBox="0 0 190 132" preserveAspectRatio="none"><g id="mmroot"><g id="mmcontent"></g><rect class="mvp" id="mmvp" x="0" y="0" width="0" height="0"></rect></g></svg>
