@@ -64,9 +64,11 @@ const CONTINENT_COL={"1":"#6f9fd8","2":"#e0a34a","3":"#7bbf6a","4":"#3fae9a","5"
   "6":"#cf88cf","7":"#8f9be8","8":"#d9c24e","9":"#b9c2bd"};
 function centreOf(n){ const d=n.distAgg; if(!d) return null;
   let best=null,bv=-1; for(const c in d){ if(d[c]>bv){bv=d[c]; best=c;} } return best; }
+// walk up until an ancestor actually has a distribution — genera carry an empty distAgg
+function regionCentre(n){ let m=n,c=null; while(m && !(c=centreOf(m))) m=m.parent; return c; }
 function color(n){
-  if(colorMode==='age') return n.ageMy==null ? UNCOL : periodOf(n.ageMy)[3];
-  if(colorMode==='region'){ const c=centreOf(n); return c ? CONTINENT_COL[c] : UNCOL; }
+  if(colorMode==='age'){ const a=n.ageMy!=null?n.ageMy:n.effAge; return a==null ? UNCOL : periodOf(a)[3]; }
+  if(colorMode==='region'){ const c=regionCentre(n); return c ? CONTINENT_COL[c] : UNCOL; }   // genera inherit the family's centre
   return cssVar(LINEAGES[n.lineage].c);
 }
 
