@@ -214,8 +214,7 @@
   .node text .rank{font-family:var(--sans)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
   .node text tspan.count{font-family:var(--sans); font-size:9.5px; fill:var(--faint); font-variant-numeric:tabular-nums}
-  .node .toggle{font-family:var(--sans); font-size:10px; fill:var(--ground); text-anchor:middle;
-    stroke:none; pointer-events:none; dominant-baseline:central; font-weight:700}
+  .node .toggle{fill:none; stroke:var(--ground); stroke-width:1.6px; stroke-linecap:round; pointer-events:none}
 
   /* ---------- treemap ---------- */
   .tmcell{cursor:pointer}
@@ -940,8 +939,9 @@ function labelLOD(){
 // ---------- lazy per-node text: build the label / toggle glyph only when needed (E2 DOM diet) ----------
 function updateToggle(el, n, hasKids){
   if(hasKids && !n.open){                                  // collapsed branch → "+" affordance
-    if(!el.__tog){ el.__tog=document.createElementNS(NS,'text'); el.__tog.setAttribute('class','toggle');
-      el.__tog.textContent='+'; el.appendChild(el.__tog); }
+    // drawn as a cross (not a text glyph) so it stays perfectly centred regardless of font metrics
+    if(!el.__tog){ el.__tog=document.createElementNS(NS,'path'); el.__tog.setAttribute('class','toggle');
+      el.__tog.setAttribute('d','M-3 0H3M0 -3V3'); el.appendChild(el.__tog); }
   } else if(el.__tog){ el.__tog.remove(); el.__tog=null; }
 }
 function setLabel(el, n, show){
@@ -1998,7 +1998,7 @@ function exportStyle(){
     `.node .halo{opacity:0}`+
     `.node text{font-family:${serif};font-size:12.5px;fill:var(--ink);paint-order:stroke;stroke:var(--ground);stroke-width:3px;stroke-linejoin:round;dominant-baseline:middle}`+
     `.node text tspan.common{font-family:${sans};font-size:10px;fill:var(--dim)}`+
-    `.node .toggle{font-family:${sans};font-size:10px;fill:var(--ground);text-anchor:middle;dominant-baseline:central;font-weight:700}`+
+    `.node .toggle{fill:none;stroke:var(--ground);stroke-width:1.6px;stroke-linecap:round}`+
     `.node.lodhide text{opacity:0}`+
     `text.tml{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600}`+
     `text.tmv{font-family:${sans};font-size:8.5px;fill:#0b141099}`+

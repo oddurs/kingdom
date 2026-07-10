@@ -140,8 +140,9 @@ function labelLOD(){
 // ---------- lazy per-node text: build the label / toggle glyph only when needed (E2 DOM diet) ----------
 function updateToggle(el, n, hasKids){
   if(hasKids && !n.open){                                  // collapsed branch → "+" affordance
-    if(!el.__tog){ el.__tog=document.createElementNS(NS,'text'); el.__tog.setAttribute('class','toggle');
-      el.__tog.textContent='+'; el.appendChild(el.__tog); }
+    // drawn as a cross (not a text glyph) so it stays perfectly centred regardless of font metrics
+    if(!el.__tog){ el.__tog=document.createElementNS(NS,'path'); el.__tog.setAttribute('class','toggle');
+      el.__tog.setAttribute('d','M-3 0H3M0 -3V3'); el.appendChild(el.__tog); }
   } else if(el.__tog){ el.__tog.remove(); el.__tog=null; }
 }
 function setLabel(el, n, show){

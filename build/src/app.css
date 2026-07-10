@@ -160,8 +160,7 @@
   .node text .rank{font-family:var(--sans)}
   .node text tspan.common{font-family:var(--sans); font-size:10px; fill:var(--dim)}
   .node text tspan.count{font-family:var(--sans); font-size:9.5px; fill:var(--faint); font-variant-numeric:tabular-nums}
-  .node .toggle{font-family:var(--sans); font-size:10px; fill:var(--ground); text-anchor:middle;
-    stroke:none; pointer-events:none; dominant-baseline:central; font-weight:700}
+  .node .toggle{fill:none; stroke:var(--ground); stroke-width:1.6px; stroke-linecap:round; pointer-events:none}
 
   /* ---------- treemap ---------- */
   .tmcell{cursor:pointer}
