@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test check serve clean fonts storybook storybook-build storybook-deploy
+.PHONY: help build test check serve clean fonts og storybook storybook-build storybook-deploy
 
 help: ## show this help
 	@grep -hE '^[a-z]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -21,6 +21,9 @@ serve: build ## build, then serve the repo at http://localhost:8000
 
 fonts: ## regenerate design/fonts.css (inlined webfont) from node_modules (needs `npm install`)
 	python3 build/fonts.py
+
+og: build ## regenerate og.jpg — the social-share preview (needs Chrome/Chromium)
+	node build/og.mjs
 
 storybook: ## run the design-system workshop at http://localhost:6006 (needs `npm install`)
 	npm run storybook
