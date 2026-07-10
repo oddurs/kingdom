@@ -98,17 +98,30 @@ function entranceGrow(){
 // The controls live in header popover menus (see #menu-colour / #menu-explore); this
 // just populates the pre-placed #cmode / #lgswatches / #stories / #toursbar elements.
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
+const LGTITLE={lineage:'Lineage', age:'Origin · period', region:'Native region'};
 function legendSwatches(){
   if(colorMode==='age')
-    return GEOP.map(p=>`<span class="lg"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
+    return GEOP.map((p,i)=>`<span class="lg" data-sp="age:${i}"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
   if(colorMode==='region')
-    return Object.keys(CONTINENT_COL).map(c=>`<span class="lg"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('');
-  return order.map(id=>`<span class="lg"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('');
+    return Object.keys(CONTINENT_COL).map(c=>`<span class="lg" data-sp="reg:${c}"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('');
+  return order.map(id=>`<span class="lg" data-sp="lin:${id}"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('');
 }
 function buildColorUI(){
   document.getElementById('cmode').innerHTML='<span class="slabel">Colour</span>'
     + CMODES.map(([id,l])=>`<button class="schip${id===colorMode?' on':''}" data-cmode="${id}">${l}</button>`).join('');
-  document.getElementById('lgswatches').innerHTML=legendSwatches();
+  document.getElementById('lgtitle').textContent=LGTITLE[colorMode]||'Colour';
+  document.getElementById('lgitems').innerHTML=legendSwatches();
+}
+// hovering a legend entry spotlights the matching taxa in the tree (reuses the .focusing/.lit dim)
+function nodeMatchesSp(sp, n){ const i=sp.indexOf(':'), k=sp.slice(0,i), v=sp.slice(i+1);
+  if(k==='lin') return n.lineage===v;
+  if(k==='age') return n.ageMy!=null && periodOf(n.ageMy)===GEOP[+v];
+  if(k==='reg') return centreOf(n)===v;
+  return false; }
+function legendSpotlight(sp){
+  if(!sp){ stage.classList.remove('focusing'); document.querySelectorAll('#nodes .node.lit').forEach(e=>e.classList.remove('lit')); return; }
+  stage.classList.add('focusing');
+  for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) el.classList.toggle('lit', nodeMatchesSp(sp,n)); }
 }
 buildColorUI();
 document.getElementById('cmode').addEventListener('click', e=>{
@@ -118,6 +131,10 @@ document.getElementById('cmode').addEventListener('click', e=>{
   render(); relabelAll();
   if(selected) select(selected,{center:false});
 });
+const lgitemsEl=document.getElementById('lgitems');
+lgitemsEl.addEventListener('mouseover', e=>{ const lg=e.target.closest('.lg'); if(lg&&lg.dataset.sp){
+  lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); lg.classList.add('on'); legendSpotlight(lg.dataset.sp); } });
+lgitemsEl.addEventListener('mouseleave', ()=>{ lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); legendSpotlight(null); });
 const storiesEl=document.getElementById('stories');
 storiesEl.innerHTML = '<span class="slabel">Highlight</span>'
   + Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
