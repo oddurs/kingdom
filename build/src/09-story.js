@@ -40,10 +40,11 @@ function showStoryList(id, ns){
   const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
   pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
-    rows.map(n=>`<div class="lrow" data-id="${n._id}"><span class="ldot" style="color:${color(n)}"></span>`+
+    rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
-  pl.querySelectorAll('.lrow').forEach(r=>r.onclick=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); });
+  pl.querySelectorAll('.lrow').forEach(r=>{ const go=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); };
+    r.onclick=go; r.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }; });
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
 }
 function clearStory(doHash){

@@ -1,6 +1,6 @@
 // ---------- welcome / onboarding ----------
 const welcome=document.getElementById('welcome');
-function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; }
+function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; const b=document.getElementById('wtour'); if(b) b.focus(); }
 function hideWelcome(){ welcome.classList.remove('show'); welcome.inert=true; try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
@@ -23,6 +23,14 @@ function closeModal(){ if(!modal.classList.contains('show')) return;
 }
 document.getElementById('mclose').onclick=closeModal;
 modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+// keep Tab inside an open overlay (the rest of the page can't be inerted — the overlay lives inside it)
+function trapTab(e, box){ if(e.key!=='Tab') return;
+  const f=[...box.querySelectorAll('a[href],button:not([disabled]),input,[tabindex="0"]')].filter(x=>x.offsetParent);
+  if(!f.length) return; const first=f[0], last=f[f.length-1];
+  if(e.shiftKey){ if(document.activeElement===first || !box.contains(document.activeElement)){ e.preventDefault(); last.focus(); } }
+  else if(document.activeElement===last){ e.preventDefault(); first.focus(); } }
+modal.addEventListener('keydown', e=>trapTab(e, modal));
+welcome.addEventListener('keydown', e=>trapTab(e, welcome));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')){ e.stopPropagation(); closeModal(); } });
 
 function aboutHTML(){
