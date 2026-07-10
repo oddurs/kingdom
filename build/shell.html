@@ -52,11 +52,11 @@
       <span class="hint" id="qhint"></span>
       <div class="qresults" id="qresults" role="listbox" hidden></div>
     </div>
-    <span class="seg" id="viewseg">
-      <button class="ctl" id="btnTree">Tree</button>
-      <button class="ctl on" id="btnRadial">Radial</button>
-      <button class="ctl" id="btnSun">Sunburst</button>
-      <button class="ctl" id="btnTreemap">Treemap</button>
+    <span class="seg" id="viewseg" role="group" aria-label="View">
+      <button class="ctl" id="btnTree" aria-pressed="false">Tree</button>
+      <button class="ctl on" id="btnRadial" aria-pressed="true">Radial</button>
+      <button class="ctl" id="btnSun" aria-pressed="false">Sunburst</button>
+      <button class="ctl" id="btnTreemap" aria-pressed="false">Treemap</button>
     </span>
     <span class="barsep"></span>
     <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
@@ -80,10 +80,10 @@
 <div class="menu" id="menu-more" role="menu" hidden>
   <div class="menu-sec">
     <span class="menu-label">Depth</span>
-    <span class="seg" id="depthseg">
-      <button class="ctl on" id="btnOrders">Orders</button>
-      <button class="ctl" id="btnExpand">Expand all</button>
-      <button class="ctl" id="btnCollapse">Collapse</button>
+    <span class="seg" id="depthseg" role="group" aria-label="Depth">
+      <button class="ctl on" id="btnOrders" aria-pressed="true">Orders</button>
+      <button class="ctl" id="btnExpand" aria-pressed="false">Expand all</button>
+      <button class="ctl" id="btnCollapse" aria-pressed="false">Collapse</button>
     </span>
   </div>
   <div class="menu-sec">
@@ -93,10 +93,11 @@
   </div>
 </div>
 
+<div id="a11y-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
-  <aside class="panel" id="panel" role="dialog" aria-label="Taxon detail" aria-hidden="true" inert>
+  <aside class="panel" id="panel" aria-label="Taxon detail" aria-hidden="true" inert>
     <button class="pclose" id="pclose" aria-label="Close">&times;</button>
     <div id="pdetail">
       <nav class="pcrumb" id="pcrumb"></nav>

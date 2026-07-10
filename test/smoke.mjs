@@ -197,6 +197,10 @@ async function main() {
     check("treemap selection outline follows nav", tmSel === true);
     await ev(`switchMode('radial')`); await wait(VIEW);
 
+    // accessibility: selecting a taxon announces it to the polite live region
+    await ev(`select(nodeByName('Poaceae'))`); await wait(150);
+    check("selection is announced to the live region", (await ev(`/Poaceae/.test(document.getElementById('a11y-status').textContent)`)) === true);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

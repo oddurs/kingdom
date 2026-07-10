@@ -1,5 +1,9 @@
 // ---------- detail panel ----------
 const panel=document.getElementById('panel');
+// screen-reader status: the SVG tree isn't traversable by AT, so we announce the
+// focused / selected taxon (and view changes) through a polite live region.
+function a11yLabel(n){ return n.name+', '+n.rank+', about '+n.agg.toLocaleString()+' species'; }
+function announce(msg){ const s=document.getElementById('a11y-status'); if(s) s.textContent=msg; }
 const escp=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 let selected=null;
 function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; } return a; }
@@ -123,6 +127,7 @@ function select(n, opts){
     // node layer to pan; repaint to show it. tree/radial centre the chosen node.
     if(mode==='treemap'||mode==='sunburst') render(); else focusNode(n);
   }
+  announce('Selected '+a11yLabel(n));
   updateHash();
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
