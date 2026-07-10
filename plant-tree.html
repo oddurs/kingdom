@@ -311,10 +311,13 @@
 
   /* ---------- time scrubber ---------- */
   .timebar{position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:8;
-    display:flex; align-items:center; gap:13px; width:min(680px,90vw); padding:11px 15px;
+    display:flex; flex-direction:column; gap:8px; width:min(680px,90vw); padding:10px 15px 11px;
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
     border-radius:var(--r-2); box-shadow:0 10px 30px #0008}
   .timebar[hidden]{display:none}
+  .tbhint{font-size:11px; color:var(--dim); text-align:center; line-height:1.3}
+  .tbhint b{color:var(--l-fern); font-weight:600}
+  .tbrow{display:flex; align-items:center; gap:13px}
   .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
     background:#0d1712; color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
   .tbplay:hover{border-color:var(--l-fern)}
@@ -636,12 +639,15 @@
   </div>
   <div class="perfhud" id="perfhud" hidden aria-hidden="true"></div>
   <div class="timebar" id="timebar" hidden>
-    <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
-    <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
-      <div class="tbbands" id="tbbands"></div>
-      <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+    <div class="tbhint">Drag back through <b>445 million years</b> — each lineage appears at its origin</div>
+    <div class="tbrow">
+      <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
+      <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
+        <div class="tbbands" id="tbbands"></div>
+        <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+      </div>
+      <div class="tblabel" id="tblabel"></div>
     </div>
-    <div class="tblabel" id="tblabel"></div>
   </div>
   <div class="focusbar" id="focusbar" inert>
     <span class="flabel">Focused</span>

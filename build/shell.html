@@ -119,12 +119,15 @@
   </div>
   <div class="perfhud" id="perfhud" hidden aria-hidden="true"></div>
   <div class="timebar" id="timebar" hidden>
-    <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
-    <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
-      <div class="tbbands" id="tbbands"></div>
-      <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+    <div class="tbhint">Drag back through <b>445 million years</b> — each lineage appears at its origin</div>
+    <div class="tbrow">
+      <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
+      <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
+        <div class="tbbands" id="tbbands"></div>
+        <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
+      </div>
+      <div class="tblabel" id="tblabel"></div>
     </div>
-    <div class="tblabel" id="tblabel"></div>
   </div>
   <div class="focusbar" id="focusbar" inert>
     <span class="flabel">Focused</span>
