@@ -102,7 +102,7 @@ function select(n, opts){
     fb.textContent='Focus subtree'; fb.title='Zoom into just this clade';
     fb.onclick=()=>reroot(n); act.appendChild(fb); }
   const cp=document.createElement('button'); cp.className='ctl'; cp.textContent='Copy link';
-  cp.onclick=()=>{ const url=location.origin+location.pathname+'#sel='+encodeURIComponent(n.name);
+  cp.onclick=()=>{ const url=location.origin+location.pathname+(shareHash()||'#sel='+encodeURIComponent(n.name));
     const done=ok=>{ cp.textContent=ok?'Copied ✓':'Press ⌘C'; setTimeout(()=>cp.textContent='Copy link',1400); };
     if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(()=>done(true),()=>done(false));
     else done(false); };

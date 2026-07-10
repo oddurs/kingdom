@@ -56,11 +56,15 @@ function clearStory(doHash){
   if(doHash!==false) updateHash();
 }
 // ---------- deep-linking ----------
-function updateHash(){
+function shareHash(){                          // '#sel=…&hl=…' for the current state (shared by updateHash + Copy link)
   const p=[];
   if(selected) p.push('sel='+encodeURIComponent(selected.name));
   if(activeStory) p.push('hl='+activeStory);
-  history.replaceState(null,'', p.length ? '#'+p.join('&') : location.pathname+location.search);
+  return p.length ? '#'+p.join('&') : '';
+}
+function updateHash(){
+  const h=shareHash();
+  history.replaceState(null,'', h || location.pathname+location.search);
 }
 function nodeByName(nm){ let f=null; (function w(n){ if(n.name===nm) f=n; (n.children||[]).forEach(w); })(ROOT); return f; }
 function applyHash(){
