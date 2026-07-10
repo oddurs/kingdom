@@ -99,11 +99,12 @@ function entranceGrow(){
 // just populates the pre-placed #cmode / #lgswatches / #stories / #toursbar elements.
 const order=['bryo','fern','gymno','basal','mono','rosid','asterid','eudicot'];
 const LGTITLE={lineage:'Lineage', age:'Origin · period', region:'Native region'};
+const NODATA_SW=`<span class="lg" data-sp="none"><span class="dot" style="color:${UNCOL}"></span>No data</span>`;
 function legendSwatches(){
   if(colorMode==='age')
-    return GEOP.map((p,i)=>`<span class="lg" data-sp="age:${i}"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('');
+    return GEOP.map((p,i)=>`<span class="lg" data-sp="age:${i}"><span class="dot" style="color:${p[3]}"></span>${p[0]}</span>`).join('')+NODATA_SW;
   if(colorMode==='region')
-    return Object.keys(CONTINENT_COL).map(c=>`<span class="lg" data-sp="reg:${c}"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('');
+    return Object.keys(CONTINENT_COL).map(c=>`<span class="lg" data-sp="reg:${c}"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('')+NODATA_SW;
   return order.map(id=>`<span class="lg" data-sp="lin:${id}"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('');
 }
 function buildColorUI(){
@@ -113,10 +114,12 @@ function buildColorUI(){
   document.getElementById('lgitems').innerHTML=legendSwatches();
 }
 // hovering a legend entry spotlights the matching taxa in the tree (reuses the .focusing/.lit dim)
-function nodeMatchesSp(sp, n){ const i=sp.indexOf(':'), k=sp.slice(0,i), v=sp.slice(i+1);
+function nodeMatchesSp(sp, n){
+  if(sp==='none') return color(n)===UNCOL;
+  const i=sp.indexOf(':'), k=sp.slice(0,i), v=sp.slice(i+1);
   if(k==='lin') return n.lineage===v;
-  if(k==='age') return n.ageMy!=null && periodOf(n.ageMy)===GEOP[+v];
-  if(k==='reg') return centreOf(n)===v;
+  if(k==='age'){ const a=n.ageMy!=null?n.ageMy:n.effAge; return a!=null && periodOf(a)===GEOP[+v]; }
+  if(k==='reg') return regionCentre(n)===v;
   return false; }
 function legendSpotlight(sp){
   if(!sp){ stage.classList.remove('focusing'); document.querySelectorAll('#nodes .node.lit').forEach(e=>e.classList.remove('lit')); return; }
