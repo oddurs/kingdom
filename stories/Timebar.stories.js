@@ -25,20 +25,26 @@ export const Playing = () => {
   // knob at ~139 Ma (angiosperm origin); curtain covers everything more recent
   const at = x(139);
   return el(`<div class="timebar" style="position:static;width:min(680px,90vw)">
-    <button class="tbplay" aria-label="Play through time">&#9654;</button>
-    <div class="tbtrack" role="slider" aria-valuemin="0" aria-valuemax="445" aria-valuenow="139">
-      <div class="tbbands">${bands}</div>
-      <div class="tbfill" style="width:${(100 - at).toFixed(1)}%"><span class="tbknob"></span></div>
+    <div class="tbhint">Drag back through <b>445 million years</b> — each lineage appears at its origin</div>
+    <div class="tbrow">
+      <button class="tbplay" aria-label="Play through time">&#9654;</button>
+      <div class="tbtrack" role="slider" aria-valuemin="0" aria-valuemax="445" aria-valuenow="139">
+        <div class="tbbands">${bands}</div>
+        <div class="tbfill" style="width:${(100 - at).toFixed(1)}%"><span class="tbknob"></span></div>
+      </div>
+      <div class="tblabel">139 Ma <span class="per">· Cretaceous</span></div>
     </div>
-    <div class="tblabel">139 Ma <span class="per">· Cretaceous</span></div>
   </div>`);
 };
 
 export const PresentDay = () => el(`<div class="timebar" style="position:static;width:min(680px,90vw)">
-    <button class="tbplay" aria-label="Play through time">&#9654;</button>
-    <div class="tbtrack" role="slider" aria-valuemin="0" aria-valuemax="445" aria-valuenow="0">
-      <div class="tbbands">${bands}</div>
-      <div class="tbfill" style="width:0"><span class="tbknob"></span></div>
+    <div class="tbhint">Drag back through <b>445 million years</b> — each lineage appears at its origin</div>
+    <div class="tbrow">
+      <button class="tbplay" aria-label="Play through time">&#9654;</button>
+      <div class="tbtrack" role="slider" aria-valuemin="0" aria-valuemax="445" aria-valuenow="0">
+        <div class="tbbands">${bands}</div>
+        <div class="tbfill" style="width:0"><span class="tbknob"></span></div>
+      </div>
+      <div class="tblabel">now <span class="per">· Quaternary</span></div>
     </div>
-    <div class="tblabel">now <span class="per">· Quaternary</span></div>
   </div>`);
