@@ -211,6 +211,10 @@ async function main() {
     check("superlative badge + rank shown on record holder",
       (await ev(`/Largest plant family/.test(document.getElementById('pbadge').textContent) && /largest of 479 families/.test(document.getElementById('pctx').textContent)`)) === true);
 
+    // Sprint I: a Records chip jumps straight to the holder
+    await ev(`(()=>{const b=[...document.querySelectorAll('#recordsbar .schip')].find(x=>/Most widespread/.test(x.textContent)); if(b) b.click();})()`); await wait(150);
+    check("Records jump selects the holder", (await ev(`selected && selected.name==='Lycopodiaceae'`)) === true);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);
