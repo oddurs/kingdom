@@ -182,6 +182,47 @@ toursbar.innerHTML = '<span class="slabel">Tours</span>'
   + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
 
+// ---------- filter: query the tree by facets (Sprint K) ----------
+const filter={rich:null, lineage:null, region:null, age:null};
+const F_RICH=[['Any',null],['>100',100],['>1,000',1000],['>5,000',5000]];
+const F_AGE=[['Any',null],['Ancient · >100 Ma','ancient'],['Recent · <66 Ma','recent']];
+const _fchips=(items,facet,cur)=>items.map(([label,val])=>
+  `<button class="schip${val===cur?' on':''}" data-facet="${facet}" data-val="${val===null?'':val}">${label}</button>`).join('');
+function buildFilterUI(){
+  document.getElementById('f-rich').innerHTML=_fchips(F_RICH,'rich',filter.rich);
+  document.getElementById('f-lin').innerHTML=_fchips([['Any',null]].concat(order.map(id=>[LINEAGES[id].label,id])),'lineage',filter.lineage);
+  document.getElementById('f-reg').innerHTML=_fchips([['Any',null]].concat(Object.keys(CONTINENT_COL).map(c=>[CONTINENTS[c],c])),'region',filter.region);
+  document.getElementById('f-age').innerHTML=_fchips(F_AGE,'age',filter.age);
+}
+buildFilterUI();
+function filterMatches(){
+  const out=[];
+  eachNode(n=>{ if(n.rank!=='family') return;
+    if(filter.rich && n.agg<filter.rich) return;
+    if(filter.lineage && n.lineage!==filter.lineage) return;
+    if(filter.region && !(n.distAgg && n.distAgg[filter.region]>0)) return;
+    if(filter.age){ const a=n.ageMy!=null?n.ageMy:n.effAge;
+      if(filter.age==='ancient' && !(a!=null && a>=100)) return;
+      if(filter.age==='recent' && !(a!=null && a<66)) return; }
+    out.push(n); });
+  return out;
+}
+function applyFilter(){
+  const active=filter.rich||filter.lineage||filter.region||filter.age;
+  const fc=document.getElementById('fcount');
+  if(!active){ if(activeStory==='_filter') clearStory(); fc.textContent='Set a facet to light up the matches'; return; }
+  const ns=filterMatches();
+  fc.textContent = ns.length ? (ns.length+' famil'+(ns.length===1?'y':'ies')+' match') : 'No families match';
+  if(ns.length) highlightSet(ns, 'Filtered families', '_filter', false); else clearStory(false);
+}
+function clearFilter(){ filter.rich=filter.lineage=filter.region=filter.age=null; buildFilterUI();
+  if(activeStory==='_filter') clearStory(); document.getElementById('fcount').textContent='Set a facet to light up the matches'; }
+['f-rich','f-lin','f-reg','f-age'].forEach(gid=>document.getElementById(gid).addEventListener('click', e=>{
+  const b=e.target.closest('[data-facet]'); if(!b) return; const facet=b.dataset.facet, raw=b.dataset.val;
+  filter[facet] = raw==='' ? null : (facet==='rich' ? +raw : raw);
+  buildFilterUI(); applyFilter(); }));
+document.getElementById('fclear').onclick=clearFilter;
+
 let totFam=0, totGen=0, totSpp=ROOT.agg;
 (function w(n){ if(n.rank==='family') totFam++; else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
 document.getElementById('footer').innerHTML =
@@ -212,7 +253,7 @@ document.addEventListener('click', e=>{
   if(trig){ e.stopPropagation(); toggleMenu(trig.dataset.menu); return; }
   if(!openMenu) return;
   if(e.target.closest('.menu')){                       // a click inside the open menu
-    if(e.target.closest('button') && !e.target.closest('[data-cmode]')) closeMenu();   // an action closes it; colour settings stay
+    if(e.target.closest('button') && !e.target.closest('[data-cmode],[data-facet]')) closeMenu();   // an action closes it; colour & filter settings stay
     return;
   }
   closeMenu();                                          // click outside closes

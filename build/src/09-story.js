@@ -16,30 +16,32 @@ function storyNodes(id){
 }
 function setStory(id){
   if(activeStory===id){ clearStory(); return; }
+  highlightSet(storyNodes(id), STORIES[id].label, id);
+  document.querySelectorAll('.schip').forEach(c=>c.classList.toggle('on', c.dataset.story===id));
+}
+// highlight an arbitrary set of taxa as a constellation (shared by stories & the filter)
+function highlightSet(ns, label, key, doFit){
   if(tour) endTour();
   clearStory(false);
-  resetFocus();                       // a storyline highlights across the whole tree
-  activeStory=id;
-  const ns=storyNodes(id);
+  resetFocus();                       // a highlight spans the whole tree
+  activeStory=key;
   storySet=new Set(ns.map(x=>x._id));
   for(const n of ns){ let p=n.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
   render(); relabelAll();
   stage.classList.add('storying');
   for(const n of ns){ const el=nodeEls.get(n._id); if(el) el.classList.add('hl'); }
-  document.querySelectorAll('.schip').forEach(c=>c.classList.toggle('on', c.dataset.story===id));
-  showStoryList(id, ns);
-  fit(650);            // show the whole tree so the highlighted families read as a constellation
+  showStoryList(label, ns);
+  if(doFit!==false) fit(650);         // show the whole tree so the matches read as a constellation
   updateHash();
 }
-function showStoryList(id, ns){
-  const st=STORIES[id];
+function showStoryList(label, ns){
   const rows=ns.slice().sort((a,b)=>b.agg-a.agg);
   if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); selected=null; }
   document.getElementById('pdetail').hidden=true;
   const pl=document.getElementById('plist'); pl.hidden=false;
   const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
-  pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
+  pl.innerHTML = `<div class="lhead">${escp(label)}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
     rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
@@ -60,7 +62,7 @@ function clearStory(doHash){
 function shareHash(){                          // '#sel=…&hl=…' for the current state (shared by updateHash + Copy link)
   const p=[];
   if(selected) p.push('sel='+encodeURIComponent(selected.name));
-  if(activeStory) p.push('hl='+activeStory);
+  if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // filter highlights aren't deep-linked (yet)
   return p.length ? '#'+p.join('&') : '';
 }
 function updateHash(){
