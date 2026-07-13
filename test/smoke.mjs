@@ -215,6 +215,13 @@ async function main() {
     await ev(`(()=>{const b=[...document.querySelectorAll('#recordsbar .schip')].find(x=>/Most widespread/.test(x.textContent)); if(b) b.click();})()`); await wait(150);
     check("Records jump selects the holder", (await ev(`selected && selected.name==='Lycopodiaceae'`)) === true);
 
+    // Sprint J: pin one clade, open another → compare tray fills with a verdict
+    await ev(`select(nodeByName('Fabaceae'))`); await wait(120);
+    await ev(`[...document.querySelectorAll('#pactions .ctl')].find(b=>/^Compare/.test(b.textContent)).click()`); await wait(100);
+    await ev(`select(nodeByName('Asteraceae'))`); await wait(150);
+    check("compare tray shows a two-clade verdict", (await ev(`!document.getElementById('comparebar').hidden && /(×|younger|matched)/.test(document.querySelector('.cmpverdict') ? document.querySelector('.cmpverdict').textContent : '')`)) === true);
+    await ev(`clearCompare()`); await wait(80);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

@@ -117,6 +117,11 @@ function select(n, opts){
     if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(()=>done(true),()=>done(false));
     else done(false); };
   act.appendChild(cp);
+  const cmpBtn=document.createElement('button'); cmpBtn.className='ctl'+(compareA===n?' on':'');
+  cmpBtn.textContent = compareA===n ? 'Comparing ✓' : 'Compare';
+  cmpBtn.title = compareA===n ? 'Stop comparing' : 'Pin this, then open another taxon';
+  cmpBtn.onclick=()=>{ if(compareA===n){ clearCompare(); } else { compareA=n; select(n,{center:false}); } };
+  act.appendChild(cmpBtn);
   // external references — links resolve from the name; POWO/GBIF deep-link when we hold a verified id
   const q=encodeURIComponent(n.name), gid=n.ids&&n.ids.gbif, pid=n.ids&&n.ids.powo;
   const refs=[
@@ -134,6 +139,9 @@ function select(n, opts){
     if(mode==='treemap'||mode==='sunburst') render(); else focusNode(n);
   }
   announce('Selected '+a11yLabel(n));
+  // compare tray: A pinned & viewing another → show A vs this; viewing A itself → pending
+  if(compareA===n) showComparePending(n);
+  else if(compareA) renderCompare(compareA, n);
   updateHash();
 }
 document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.target.closest('a');
@@ -144,3 +152,35 @@ function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) 
   selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); panel.inert=true; updateHash(); }
 document.getElementById('pclose').onclick=closePanel;
 
+
+// ---------- compare two clades (Sprint J) ----------
+const comparebar=document.getElementById('comparebar');
+let compareA=null;
+function clearCompare(){ compareA=null; comparebar.hidden=true; comparebar.inert=true; comparebar.innerHTML=''; if(selected) select(selected,{center:false}); }
+function _cmpDot(n){ const c=color(n); return `<span class="cmpdot" style="background:${c};box-shadow:0 0 7px ${c}"></span>`; }
+function _cmpAge(n){ return n.ageMy!=null?n.ageMy:n.effAge; }
+function _cmpRegions(n){ const d=n.distAgg||{}; let k=0; for(const c in d) if(d[c]>0) k++; return k; }
+function _cmpRows(n){
+  const age=_cmpAge(n);
+  const rows=[['species','~'+n.agg.toLocaleString()],
+    [n.rank==='family'?'genera':'families', (n.rank==='family'?n.genCount:n.famCount).toLocaleString()],
+    ['origin', age!=null?('~'+Math.round(age)+' Ma'):'—'],
+    ['range', _cmpRegions(n)?_cmpRegions(n)+' regions':'—']];
+  return rows.map(([l,v])=>`<div class="cmprow"><span class="cmpl">${l}</span><span class="cmpv">${v}</span></div>`).join('');
+}
+function _cmpCol(n){ return `<div class="cmpcol"><div class="cmpname">${_cmpDot(n)}${escp(n.name)}</div>${_cmpRows(n)}</div>`; }
+function compareVerdict(a,b){
+  const parts=[];
+  if(a.agg&&b.agg){ const hi=Math.max(a.agg,b.agg), lo=Math.max(Math.min(a.agg,b.agg),1), x=hi/lo, big=a.agg>=b.agg?a:b;
+    if(x>=1.15) parts.push(`<b>${escp(big.name)}</b> holds ${x.toFixed(1)}× the species`); }
+  const aa=_cmpAge(a), ab=_cmpAge(b);
+  if(aa!=null&&ab!=null){ const d=Math.round(Math.abs(aa-ab)); if(d>=5){ const y=aa<ab?a:b; parts.push(`<b>${escp(y.name)}</b> is ~${d} Ma younger`); } }
+  return parts.length ? parts.join(', ')+'.' : 'Two clades, evenly matched.';
+}
+function _cmpShell(inner){
+  comparebar.innerHTML=`<div class="cmphead"><span class="cmptitle">Compare</span><button class="ctl cmpx" aria-label="Close compare">Clear</button></div>${inner}`;
+  comparebar.querySelector('.cmpx').onclick=clearCompare;
+  comparebar.hidden=false; comparebar.inert=false;
+}
+function renderCompare(a,b){ _cmpShell(`<div class="cmpcols">${_cmpCol(a)}${_cmpCol(b)}</div><div class="cmpverdict">${compareVerdict(a,b)}</div>`); }
+function showComparePending(a){ _cmpShell(`<div class="cmppending">${_cmpDot(a)}<b>${escp(a.name)}</b> pinned — open another taxon to compare</div>`); }
