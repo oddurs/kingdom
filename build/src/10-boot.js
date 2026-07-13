@@ -94,6 +94,34 @@ function entranceGrow(){
   animateStructural(()=>{ for(const [id,v] of saved) idMap.get(id).open=v; }, {fit:false, dur:820});  // ...then unfurl
 }
 
+// ---------- superlatives, rank & neighbours (Sprint I) ----------
+const _fams=[], _ords=[];
+eachNode(n=>{ if(n.rank==='family') _fams.push(n); else if(n.rank==='order') _ords.push(n); });
+const _regionCount=n=>{ const d=n.distAgg||{}; let k=0; for(const c in d) if(d[c]>0) k++; return k; };
+const _mx=(a,f)=>a.reduce((x,y)=>f(y)>f(x)?y:x);
+const badgeMap=new Map();
+function _award(node,label){ if(!badgeMap.has(node._id)) badgeMap.set(node._id,[]); badgeMap.get(node._id).push(label); }
+_award(_mx(_fams,n=>n.agg),'Largest plant family');
+_award(_mx(_fams,n=>n.genCount),'Most genera of any family');
+_award(_mx(_fams,_regionCount),'Most widespread family');
+_award(_mx(_fams,n=>n.effAge||0),'Oldest surviving family');
+_award(_mx(_ords,n=>n.agg),'Largest order');
+_award(_mx(_ords,n=>n.famCount),'Most families of any order');
+// records that jump you to the holder (Explore → Records)
+const RECORDS_LIST=[
+  ['Largest family', _mx(_fams,n=>n.agg)], ['Most widespread', _mx(_fams,_regionCount)],
+  ['Oldest family', _mx(_fams,n=>n.effAge||0)], ['Most genera', _mx(_fams,n=>n.genCount)],
+  ['Largest order', _mx(_ords,n=>n.agg)], ['Most families', _mx(_ords,n=>n.famCount)],
+];
+const _rankMap=new Map();
+_fams.slice().sort((a,b)=>b.agg-a.agg).forEach((n,i)=>_rankMap.set(n._id,i+1));
+_ords.slice().sort((a,b)=>b.agg-a.agg).forEach((n,i)=>_rankMap.set(n._id,i+1));
+function ordinal(k){ const s=['th','st','nd','rd'], v=k%100; return k+(s[(v-20)%10]||s[v]||s[0]); }
+function rankContext(n){ const r=_rankMap.get(n._id); if(!r) return '';
+  if(n.rank==='family') return `${ordinal(r)}-largest of ${_fams.length} families`;
+  if(n.rank==='order') return `${ordinal(r)}-largest of ${_ords.length} orders`; return ''; }
+function siblingsOf(n){ return n.parent ? n.parent.children.filter(c=>c!==n && c.rank===n.rank).sort((a,b)=>b.agg-a.agg) : []; }
+
 // ---------- colour legend + highlight/tour menus + footer ----------
 // The controls live in header popover menus (see #menu-colour / #menu-explore); this
 // just populates the pre-placed #cmode / #lgswatches / #stories / #toursbar elements.
