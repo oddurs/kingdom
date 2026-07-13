@@ -15,7 +15,7 @@ const card = (lc, inner) => {
   return n;
 };
 
-const body = ({ crumb, rank, name, common, blurb, examples, stats }) => `
+const body = ({ crumb, rank, name, common, blurb, examples, stats, badges = [], ctx = [] }) => `
   <button class="pclose" aria-label="Close">&times;</button>
   <nav class="pcrumb">${crumb.map((c, i) => i === crumb.length - 1
     ? `<span style="color:var(--dim)">${c}</span>`
@@ -23,10 +23,12 @@ const body = ({ crumb, rank, name, common, blurb, examples, stats }) => `
   <span class="prank">${rank}</span>
   <h2 class="pname">${name}</h2>
   <div class="pcommon">${common}</div>
+  ${badges.length ? `<div id="pbadge">${badges.map((b) => `<span class="pbadge">${b}</span>`).join('')}</div>` : ''}
   <p class="pblurb">${blurb}</p>
   <div class="pexlabel">Examples</div>
   <div class="pex">${examples.map((x) => `<span class="exchip">${x}</span>`).join('')}</div>
   <div class="pstats">${stats.map((s) => `<div class="pstat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+  ${ctx.length ? `<div class="pctx">${ctx.map((c) => `<div>${c}</div>`).join('')}</div>` : ''}
   <div class="pactions"><button class="ctl">Expand</button><button class="ctl">Focus subtree</button><button class="ctl">Copy link</button></div>
   <div class="preflabel">References</div>
   <div class="prefs"><a class="pref verified">POWO</a><a class="pref">GBIF</a><a class="pref">Wikipedia</a></div>`;
@@ -47,4 +49,6 @@ export const Asteraceae = () =>
     blurb: 'Florets packed into composite heads that mimic single blooms; the largest eudicot family, ~32,000 species.',
     examples: ['Helianthus (sunflower)', 'Taraxacum (dandelion)', 'Aster'],
     stats: [['~35,479', 'species'], ['1,730', 'genera'], ['10', 'rank depth']],
+    badges: ['Largest plant family', 'Most genera of any family'],
+    ctx: ['1st-largest of 479 families', 'Alongside Campanulaceae · Goodeniaceae · Stylidiaceae'],
   }));
