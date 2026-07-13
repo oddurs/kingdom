@@ -222,6 +222,17 @@ async function main() {
     check("compare tray shows a two-clade verdict", (await ev(`!document.getElementById('comparebar').hidden && /(×|younger|matched)/.test(document.querySelector('.cmpverdict') ? document.querySelector('.cmpverdict').textContent : '')`)) === true);
     await ev(`clearCompare()`); await wait(80);
 
+    // curated story highlight still works after the highlightSet refactor
+    await ev(`setStory('crops')`); await wait(400);
+    check("story highlight lights a constellation", (await ev(`activeStory==='crops' && document.querySelectorAll('.node.hl').length>0`)) === true);
+    await ev(`clearStory()`); await wait(120);
+
+    // Sprint K: facet filter highlights matching families with a live count
+    await ev(`filter.rich=5000; filter.lineage=null; filter.region=null; filter.age=null; buildFilterUI(); applyFilter();`); await wait(400);
+    check("filter highlights matching families",
+      (await ev(`activeStory==='_filter' && /famil(y|ies) match/.test(document.getElementById('fcount').textContent) && document.querySelectorAll('.node.hl').length>0`)) === true);
+    await ev(`clearFilter()`); await wait(120);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

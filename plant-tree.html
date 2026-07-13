@@ -153,12 +153,14 @@
   .iconbtn{font-size:15px; line-height:1; padding:6px 10px}
   .menu{
     position:fixed; z-index:40; min-width:190px; max-width:min(320px,92vw); padding:11px 12px;
-    display:flex; flex-direction:column; gap:11px;
+    display:flex; flex-direction:column; gap:11px; max-height:min(82vh,660px); overflow-y:auto;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
     border-radius:var(--r-2); box-shadow:0 16px 40px #000a;
     animation:popin var(--dur-1) var(--ease-out);
   }
   .menu[hidden]{display:none}
+  .ffoot{gap:9px}
+  .fcount{font-size:11.5px; color:var(--l-fern); font-weight:500}
   .menu-sec{display:flex; flex-direction:column; gap:8px}
   .menu-sec + .menu-sec{padding-top:11px; border-top:1px solid var(--line)}
   .menu-label{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint)}
@@ -616,6 +618,7 @@
     </span>
     <span class="barsep"></span>
     <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
+    <button class="ctl menu-btn" data-menu="filter" aria-haspopup="true" aria-expanded="false">Filter<span class="caret">&#9662;</span></button>
     <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<span class="caret">&#9662;</span></button>
     <span class="barsep"></span>
     <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
@@ -627,6 +630,13 @@
 <!-- header popover menus: secondary controls tuck out of the way (G2) -->
 <div class="menu" id="menu-colour" role="menu" hidden>
   <span class="stories" id="cmode"></span>
+</div>
+<div class="menu" id="menu-filter" role="menu" hidden>
+  <div class="menu-sec"><span class="menu-label">Richness</span><span class="stories" id="f-rich"></span></div>
+  <div class="menu-sec"><span class="menu-label">Lineage</span><span class="stories" id="f-lin"></span></div>
+  <div class="menu-sec"><span class="menu-label">Native region</span><span class="stories" id="f-reg"></span></div>
+  <div class="menu-sec"><span class="menu-label">Age of lineage</span><span class="stories" id="f-age"></span></div>
+  <div class="menu-sec ffoot"><span class="fcount" id="fcount">Set a facet to light up the matches</span><button class="ctl wide" id="fclear">Clear filter</button></div>
 </div>
 <div class="menu" id="menu-explore" role="menu" hidden>
   <span class="stories" id="stories"></span>
@@ -1825,30 +1835,32 @@ function storyNodes(id){
 }
 function setStory(id){
   if(activeStory===id){ clearStory(); return; }
+  highlightSet(storyNodes(id), STORIES[id].label, id);
+  document.querySelectorAll('.schip').forEach(c=>c.classList.toggle('on', c.dataset.story===id));
+}
+// highlight an arbitrary set of taxa as a constellation (shared by stories & the filter)
+function highlightSet(ns, label, key, doFit){
   if(tour) endTour();
   clearStory(false);
-  resetFocus();                       // a storyline highlights across the whole tree
-  activeStory=id;
-  const ns=storyNodes(id);
+  resetFocus();                       // a highlight spans the whole tree
+  activeStory=key;
   storySet=new Set(ns.map(x=>x._id));
   for(const n of ns){ let p=n.parent; while(p){ if((p.children||[]).length) p.open=true; p=p.parent; } }
   render(); relabelAll();
   stage.classList.add('storying');
   for(const n of ns){ const el=nodeEls.get(n._id); if(el) el.classList.add('hl'); }
-  document.querySelectorAll('.schip').forEach(c=>c.classList.toggle('on', c.dataset.story===id));
-  showStoryList(id, ns);
-  fit(650);            // show the whole tree so the highlighted families read as a constellation
+  showStoryList(label, ns);
+  if(doFit!==false) fit(650);         // show the whole tree so the matches read as a constellation
   updateHash();
 }
-function showStoryList(id, ns){
-  const st=STORIES[id];
+function showStoryList(label, ns){
   const rows=ns.slice().sort((a,b)=>b.agg-a.agg);
   if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); selected=null; }
   document.getElementById('pdetail').hidden=true;
   const pl=document.getElementById('plist'); pl.hidden=false;
   const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
-  pl.innerHTML = `<div class="lhead">${st.label}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
+  pl.innerHTML = `<div class="lhead">${escp(label)}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
     rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
@@ -1869,7 +1881,7 @@ function clearStory(doHash){
 function shareHash(){                          // '#sel=…&hl=…' for the current state (shared by updateHash + Copy link)
   const p=[];
   if(selected) p.push('sel='+encodeURIComponent(selected.name));
-  if(activeStory) p.push('hl='+activeStory);
+  if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // filter highlights aren't deep-linked (yet)
   return p.length ? '#'+p.join('&') : '';
 }
 function updateHash(){
@@ -2126,6 +2138,47 @@ toursbar.innerHTML = '<span class="slabel">Tours</span>'
   + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
 
+// ---------- filter: query the tree by facets (Sprint K) ----------
+const filter={rich:null, lineage:null, region:null, age:null};
+const F_RICH=[['Any',null],['>100',100],['>1,000',1000],['>5,000',5000]];
+const F_AGE=[['Any',null],['Ancient · >100 Ma','ancient'],['Recent · <66 Ma','recent']];
+const _fchips=(items,facet,cur)=>items.map(([label,val])=>
+  `<button class="schip${val===cur?' on':''}" data-facet="${facet}" data-val="${val===null?'':val}">${label}</button>`).join('');
+function buildFilterUI(){
+  document.getElementById('f-rich').innerHTML=_fchips(F_RICH,'rich',filter.rich);
+  document.getElementById('f-lin').innerHTML=_fchips([['Any',null]].concat(order.map(id=>[LINEAGES[id].label,id])),'lineage',filter.lineage);
+  document.getElementById('f-reg').innerHTML=_fchips([['Any',null]].concat(Object.keys(CONTINENT_COL).map(c=>[CONTINENTS[c],c])),'region',filter.region);
+  document.getElementById('f-age').innerHTML=_fchips(F_AGE,'age',filter.age);
+}
+buildFilterUI();
+function filterMatches(){
+  const out=[];
+  eachNode(n=>{ if(n.rank!=='family') return;
+    if(filter.rich && n.agg<filter.rich) return;
+    if(filter.lineage && n.lineage!==filter.lineage) return;
+    if(filter.region && !(n.distAgg && n.distAgg[filter.region]>0)) return;
+    if(filter.age){ const a=n.ageMy!=null?n.ageMy:n.effAge;
+      if(filter.age==='ancient' && !(a!=null && a>=100)) return;
+      if(filter.age==='recent' && !(a!=null && a<66)) return; }
+    out.push(n); });
+  return out;
+}
+function applyFilter(){
+  const active=filter.rich||filter.lineage||filter.region||filter.age;
+  const fc=document.getElementById('fcount');
+  if(!active){ if(activeStory==='_filter') clearStory(); fc.textContent='Set a facet to light up the matches'; return; }
+  const ns=filterMatches();
+  fc.textContent = ns.length ? (ns.length+' famil'+(ns.length===1?'y':'ies')+' match') : 'No families match';
+  if(ns.length) highlightSet(ns, 'Filtered families', '_filter', false); else clearStory(false);
+}
+function clearFilter(){ filter.rich=filter.lineage=filter.region=filter.age=null; buildFilterUI();
+  if(activeStory==='_filter') clearStory(); document.getElementById('fcount').textContent='Set a facet to light up the matches'; }
+['f-rich','f-lin','f-reg','f-age'].forEach(gid=>document.getElementById(gid).addEventListener('click', e=>{
+  const b=e.target.closest('[data-facet]'); if(!b) return; const facet=b.dataset.facet, raw=b.dataset.val;
+  filter[facet] = raw==='' ? null : (facet==='rich' ? +raw : raw);
+  buildFilterUI(); applyFilter(); }));
+document.getElementById('fclear').onclick=clearFilter;
+
 let totFam=0, totGen=0, totSpp=ROOT.agg;
 (function w(n){ if(n.rank==='family') totFam++; else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
 document.getElementById('footer').innerHTML =
@@ -2156,7 +2209,7 @@ document.addEventListener('click', e=>{
   if(trig){ e.stopPropagation(); toggleMenu(trig.dataset.menu); return; }
   if(!openMenu) return;
   if(e.target.closest('.menu')){                       // a click inside the open menu
-    if(e.target.closest('button') && !e.target.closest('[data-cmode]')) closeMenu();   // an action closes it; colour settings stay
+    if(e.target.closest('button') && !e.target.closest('[data-cmode],[data-facet]')) closeMenu();   // an action closes it; colour & filter settings stay
     return;
   }
   closeMenu();                                          // click outside closes

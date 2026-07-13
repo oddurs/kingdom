@@ -60,6 +60,7 @@
     </span>
     <span class="barsep"></span>
     <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
+    <button class="ctl menu-btn" data-menu="filter" aria-haspopup="true" aria-expanded="false">Filter<span class="caret">&#9662;</span></button>
     <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<span class="caret">&#9662;</span></button>
     <span class="barsep"></span>
     <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
@@ -71,6 +72,13 @@
 <!-- header popover menus: secondary controls tuck out of the way (G2) -->
 <div class="menu" id="menu-colour" role="menu" hidden>
   <span class="stories" id="cmode"></span>
+</div>
+<div class="menu" id="menu-filter" role="menu" hidden>
+  <div class="menu-sec"><span class="menu-label">Richness</span><span class="stories" id="f-rich"></span></div>
+  <div class="menu-sec"><span class="menu-label">Lineage</span><span class="stories" id="f-lin"></span></div>
+  <div class="menu-sec"><span class="menu-label">Native region</span><span class="stories" id="f-reg"></span></div>
+  <div class="menu-sec"><span class="menu-label">Age of lineage</span><span class="stories" id="f-age"></span></div>
+  <div class="menu-sec ffoot"><span class="fcount" id="fcount">Set a facet to light up the matches</span><button class="ctl wide" id="fclear">Clear filter</button></div>
 </div>
 <div class="menu" id="menu-explore" role="menu" hidden>
   <span class="stories" id="stories"></span>
