@@ -306,7 +306,17 @@
     background:var(--lc,var(--l-root)); box-shadow:0 0 8px var(--lc,var(--l-root))}
   .pname{font-family:var(--serif); font-size:23px; font-weight:600; margin:9px 0 2px; line-height:1.12}
   .pcommon{font-size:13px; color:var(--dim); margin-bottom:2px}
+  /* superlative badges (Sprint I) */
+  #pbadge{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+  #pbadge:empty{display:none}
+  .pbadge{display:inline-flex; align-items:center; gap:5px; font-family:var(--sans); font-size:10.5px; font-weight:600;
+    color:var(--l-mono); background:color-mix(in srgb, var(--l-mono) 13%, transparent);
+    border:1px solid color-mix(in srgb, var(--l-mono) 38%, transparent); border-radius:var(--r-pill); padding:3px 10px 3px 8px}
+  .pbadge::before{content:'\2605'; font-size:9.5px; opacity:.9}
   .pblurb{font-size:13.5px; line-height:1.5; color:var(--ink); margin:11px 0 0; opacity:.94}
+  /* rank + neighbour context */
+  .pctx{margin-top:11px; font-size:11.5px; color:var(--dim); line-height:1.6}
+  .pctx:empty{display:none}
   .pexlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:14px 0 6px}
   .preflabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px}
   .prefs{display:flex; flex-wrap:wrap; gap:6px}

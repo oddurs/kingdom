@@ -360,7 +360,17 @@
     background:var(--lc,var(--l-root)); box-shadow:0 0 8px var(--lc,var(--l-root))}
   .pname{font-family:var(--serif); font-size:23px; font-weight:600; margin:9px 0 2px; line-height:1.12}
   .pcommon{font-size:13px; color:var(--dim); margin-bottom:2px}
+  /* superlative badges (Sprint I) */
+  #pbadge{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+  #pbadge:empty{display:none}
+  .pbadge{display:inline-flex; align-items:center; gap:5px; font-family:var(--sans); font-size:10.5px; font-weight:600;
+    color:var(--l-mono); background:color-mix(in srgb, var(--l-mono) 13%, transparent);
+    border:1px solid color-mix(in srgb, var(--l-mono) 38%, transparent); border-radius:var(--r-pill); padding:3px 10px 3px 8px}
+  .pbadge::before{content:'\2605'; font-size:9.5px; opacity:.9}
   .pblurb{font-size:13.5px; line-height:1.5; color:var(--ink); margin:11px 0 0; opacity:.94}
+  /* rank + neighbour context */
+  .pctx{margin-top:11px; font-size:11.5px; color:var(--dim); line-height:1.6}
+  .pctx:empty{display:none}
   .pexlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:14px 0 6px}
   .preflabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px}
   .prefs{display:flex; flex-wrap:wrap; gap:6px}
@@ -623,11 +633,13 @@
       <span class="prank" id="prank"></span>
       <h2 class="pname" id="pname"></h2>
       <div class="pcommon" id="pcommon"></div>
+      <div id="pbadge"></div>
       <p class="pblurb" id="pblurb"></p>
       <div id="pexwrap"></div>
       <div id="porigin"></div>
       <div id="pdist"></div>
       <div class="pstats" id="pstats"></div>
+      <div class="pctx" id="pctx"></div>
       <div class="pactions" id="pactions"></div>
       <div id="prefs"></div>
     </div>
@@ -1680,6 +1692,12 @@ function select(n, opts){
     `<div class="pstat"><b>~${n.agg.toLocaleString()}</b><span>species</span></div>`+
     midStat+
     `<div class="pstat"><b>${n.depth}</b><span>rank depth</span></div>`;
+  // Sprint I — superlative badges + rank/neighbour context
+  const badges=(typeof badgeMap!=='undefined' && badgeMap.get(n._id))||[];
+  document.getElementById('pbadge').innerHTML=badges.map(b=>`<span class="pbadge">${escp(b)}</span>`).join('');
+  const rc=(typeof rankContext==='function')?rankContext(n):'', sibs=(typeof siblingsOf==='function')?siblingsOf(n).slice(0,3):[];
+  const ctx=[]; if(rc) ctx.push(rc); if(sibs.length) ctx.push('Alongside '+sibs.map(s=>escp(s.name)).join(' · '));
+  document.getElementById('pctx').innerHTML=ctx.map(c=>`<div class="pctxline">${c}</div>`).join('');
   const act=document.getElementById('pactions'); act.innerHTML='';
   if(hasKids){ const b=document.createElement('button'); b.className='ctl';
     b.textContent=n.open?'Collapse':'Expand';
@@ -1951,6 +1969,34 @@ function entranceGrow(){
   render();
   animateStructural(()=>{ for(const [id,v] of saved) idMap.get(id).open=v; }, {fit:false, dur:820});  // ...then unfurl
 }
+
+// ---------- superlatives, rank & neighbours (Sprint I) ----------
+const _fams=[], _ords=[];
+eachNode(n=>{ if(n.rank==='family') _fams.push(n); else if(n.rank==='order') _ords.push(n); });
+const _regionCount=n=>{ const d=n.distAgg||{}; let k=0; for(const c in d) if(d[c]>0) k++; return k; };
+const _mx=(a,f)=>a.reduce((x,y)=>f(y)>f(x)?y:x);
+const badgeMap=new Map();
+function _award(node,label){ if(!badgeMap.has(node._id)) badgeMap.set(node._id,[]); badgeMap.get(node._id).push(label); }
+_award(_mx(_fams,n=>n.agg),'Largest plant family');
+_award(_mx(_fams,n=>n.genCount),'Most genera of any family');
+_award(_mx(_fams,_regionCount),'Most widespread family');
+_award(_mx(_fams,n=>n.effAge||0),'Oldest surviving family');
+_award(_mx(_ords,n=>n.agg),'Largest order');
+_award(_mx(_ords,n=>n.famCount),'Most families of any order');
+// records that jump you to the holder (Explore → Records)
+const RECORDS_LIST=[
+  ['Largest family', _mx(_fams,n=>n.agg)], ['Most widespread', _mx(_fams,_regionCount)],
+  ['Oldest family', _mx(_fams,n=>n.effAge||0)], ['Most genera', _mx(_fams,n=>n.genCount)],
+  ['Largest order', _mx(_ords,n=>n.agg)], ['Most families', _mx(_ords,n=>n.famCount)],
+];
+const _rankMap=new Map();
+_fams.slice().sort((a,b)=>b.agg-a.agg).forEach((n,i)=>_rankMap.set(n._id,i+1));
+_ords.slice().sort((a,b)=>b.agg-a.agg).forEach((n,i)=>_rankMap.set(n._id,i+1));
+function ordinal(k){ const s=['th','st','nd','rd'], v=k%100; return k+(s[(v-20)%10]||s[v]||s[0]); }
+function rankContext(n){ const r=_rankMap.get(n._id); if(!r) return '';
+  if(n.rank==='family') return `${ordinal(r)}-largest of ${_fams.length} families`;
+  if(n.rank==='order') return `${ordinal(r)}-largest of ${_ords.length} orders`; return ''; }
+function siblingsOf(n){ return n.parent ? n.parent.children.filter(c=>c!==n && c.rank===n.rank).sort((a,b)=>b.agg-a.agg) : []; }
 
 // ---------- colour legend + highlight/tour menus + footer ----------
 // The controls live in header popover menus (see #menu-colour / #menu-explore); this

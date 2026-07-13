@@ -206,6 +206,11 @@ async function main() {
     check("legend spotlight dims to a lineage", (await ev(`document.getElementById('stage').classList.contains('focusing') && document.querySelectorAll('#nodes .node.lit').length>0`)) === true);
     await ev(`document.getElementById('lgitems').dispatchEvent(new MouseEvent('mouseleave',{bubbles:true}))`); await wait(80);
 
+    // Sprint I: the record holder shows its superlative badge + rank context
+    await ev(`select(nodeByName('Asteraceae'))`); await wait(120);
+    check("superlative badge + rank shown on record holder",
+      (await ev(`/Largest plant family/.test(document.getElementById('pbadge').textContent) && /largest of 479 families/.test(document.getElementById('pctx').textContent)`)) === true);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

@@ -97,6 +97,12 @@ function select(n, opts){
     `<div class="pstat"><b>~${n.agg.toLocaleString()}</b><span>species</span></div>`+
     midStat+
     `<div class="pstat"><b>${n.depth}</b><span>rank depth</span></div>`;
+  // Sprint I — superlative badges + rank/neighbour context
+  const badges=(typeof badgeMap!=='undefined' && badgeMap.get(n._id))||[];
+  document.getElementById('pbadge').innerHTML=badges.map(b=>`<span class="pbadge">${escp(b)}</span>`).join('');
+  const rc=(typeof rankContext==='function')?rankContext(n):'', sibs=(typeof siblingsOf==='function')?siblingsOf(n).slice(0,3):[];
+  const ctx=[]; if(rc) ctx.push(rc); if(sibs.length) ctx.push('Alongside '+sibs.map(s=>escp(s.name)).join(' · '));
+  document.getElementById('pctx').innerHTML=ctx.map(c=>`<div class="pctxline">${c}</div>`).join('');
   const act=document.getElementById('pactions'); act.innerHTML='';
   if(hasKids){ const b=document.createElement('button'); b.className='ctl';
     b.textContent=n.open?'Collapse':'Expand';
