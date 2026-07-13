@@ -496,6 +496,10 @@
   @media (max-width:680px){
     .minimap{display:none}
     .legendbar{display:none}
+    /* the detail panel is a bottom sheet on mobile — move the compare tray up top so they don't collide */
+    .comparebar{bottom:auto; top:64px; width:calc(100vw - 24px)}
+    .cmpcols{gap:12px}
+    .cmpcol + .cmpcol{padding-left:12px}
     header.bar{padding:10px 14px; gap:9px}
     .brand{flex-basis:100%; min-width:0}
     .wm-name{font-size:18px}
