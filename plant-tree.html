@@ -151,7 +151,9 @@
   /* ---------- header popover menus (G2) ---------- */
   .barsep{width:1px; height:20px; background:var(--edge); align-self:center; margin:0 2px}
   .menu-btn{display:inline-flex; align-items:center; gap:4px}
-  .menu-btn .caret{font-size:8px; opacity:.55; transition:transform var(--dur-1) var(--ease-out)}
+  /* one coherent inline-icon language (see the #ic-* symbols) */
+  .ic{width:14px; height:14px; flex:none; pointer-events:none; vertical-align:middle}
+  .menu-btn .caret{width:11px; height:11px; opacity:.55; transform-origin:center; transition:transform var(--dur-1) var(--ease-out)}
   .menu-btn[aria-expanded="true"]{color:var(--ink); border-color:var(--faint)}
   .menu-btn[aria-expanded="true"] .caret{transform:rotate(180deg); opacity:.9}
   .iconbtn{font-size:15px; line-height:1; padding:6px 10px}
@@ -299,7 +301,7 @@
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
     border-radius:var(--r-2); overflow:hidden; box-shadow:var(--elev-1)}
-  .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0;
+  .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0; display:grid; place-items:center;
     color:var(--dim); background:transparent; border:0; cursor:pointer; transition:color var(--dur-1),background var(--dur-1)}
   .zoomctl button:first-child{border-bottom:1px solid var(--edge)}
   .zoomctl button:hover{color:var(--ink); background:var(--hover)}
@@ -351,8 +353,8 @@
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
   }
   .panel.open{opacity:1; transform:none; pointer-events:auto}
-  .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1);
-    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:15px; line-height:1}
+  .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1); display:grid; place-items:center;
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .pclose:hover{color:var(--ink); border-color:var(--faint)}
   .pcrumb{font-family:var(--sans); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
   .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
@@ -486,8 +488,8 @@
     padding:30px 34px 32px; box-shadow:var(--elev-3);
     transform:translateY(12px); transition:transform var(--dur-2) var(--ease-settle)}
   .modal.show .sheet{transform:none}
-  .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1);
-    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:17px; line-height:1}
+  .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1); display:grid; place-items:center;
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .mclose:hover{color:var(--ink); border-color:var(--faint)}
   .mclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   .mbody h2{font-family:var(--serif); font-size:26px; font-weight:600; margin:0 0 5px; padding-right:34px; line-height:1.1}
@@ -600,6 +602,16 @@
   <circle cx="20" cy="20" r="3.9" fill="currentColor"/>
 </symbol></svg>
 
+<!-- icon set: thin round-cap strokes echoing the brand mark, one coherent language -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ic-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5 8 10.5 12 6.5"/></symbol>
+  <symbol id="ic-chevron-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5 8 5.5 12 9.5"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3.6V12.4M3.6 8H12.4"/></symbol>
+  <symbol id="ic-minus" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3.6 8H12.4"/></symbol>
+  <symbol id="ic-play" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 3.8 12.4 8 5.5 12.2Z"/></symbol>
+</svg>
+
 <header class="bar">
   <div class="brand">
     <svg class="mark" aria-hidden="true"><use href="#ygg-mark"/></svg>
@@ -621,9 +633,9 @@
       <button class="ctl" id="btnTreemap" aria-pressed="false">Treemap</button>
     </span>
     <span class="barsep"></span>
-    <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<span class="caret">&#9662;</span></button>
-    <button class="ctl menu-btn" data-menu="filter" aria-haspopup="true" aria-expanded="false">Filter<span class="caret">&#9662;</span></button>
-    <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<span class="caret">&#9662;</span></button>
+    <button class="ctl menu-btn" data-menu="colour" aria-haspopup="true" aria-expanded="false">Colour<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
+    <button class="ctl menu-btn" data-menu="filter" aria-haspopup="true" aria-expanded="false">Filter<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
+    <button class="ctl menu-btn" data-menu="explore" aria-haspopup="true" aria-expanded="false">Explore<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
     <span class="barsep"></span>
     <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
     <button class="ctl" id="btnFit">Fit</button>
@@ -668,7 +680,7 @@
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
   <aside class="panel" id="panel" aria-label="Taxon detail" aria-hidden="true" inert>
-    <button class="pclose" id="pclose" aria-label="Close">&times;</button>
+    <button class="pclose" id="pclose" aria-label="Close"><svg class="ic"><use href="#ic-close"/></svg></button>
     <div id="pdetail">
       <nav class="pcrumb" id="pcrumb"></nav>
       <span class="prank" id="prank"></span>
@@ -687,14 +699,14 @@
     <div id="plist" hidden></div>
   </aside>
   <div class="zoomctl">
-    <button class="ctl" id="zin" aria-label="Zoom in">+</button>
-    <button class="ctl" id="zout" aria-label="Zoom out">&minus;</button>
+    <button class="ctl" id="zin" aria-label="Zoom in"><svg class="ic"><use href="#ic-plus"/></svg></button>
+    <button class="ctl" id="zout" aria-label="Zoom out"><svg class="ic"><use href="#ic-minus"/></svg></button>
   </div>
   <div class="perfhud" id="perfhud" hidden aria-hidden="true"></div>
   <div class="timebar" id="timebar" hidden>
     <div class="tbhint">Drag back through <b>445 million years</b> — each lineage appears at its origin</div>
     <div class="tbrow">
-      <button class="tbplay" id="tbplay" aria-label="Play through geological time">&#9654;</button>
+      <button class="tbplay" id="tbplay" aria-label="Play through geological time"><svg class="ic"><use href="#ic-play"/></svg></button>
       <div class="tbtrack" id="tbtrack" role="slider" aria-label="Geological time, millions of years ago" aria-valuemin="0" aria-valuemax="445" tabindex="0">
         <div class="tbbands" id="tbbands"></div>
         <div class="tbfill" id="tbfill"><span class="tbknob"></span></div>
@@ -706,7 +718,7 @@
   <div class="focusbar" id="focusbar" inert>
     <span class="flabel">Focused</span>
     <span class="fname" id="fbname"></span>
-    <button class="ctl" id="fbup" title="Up one level">&#9650;</button>
+    <button class="ctl" id="fbup" title="Up one level" aria-label="Up one level"><svg class="ic"><use href="#ic-chevron-up"/></svg></button>
     <button class="ctl" id="fbexit">Show all</button>
   </div>
   <div class="tourcard" id="tourcard" role="dialog" aria-label="Guided tour" inert>
@@ -740,7 +752,7 @@
   <!-- secondary pages (About, Controls) share one modal shell; body is filled by openModal() -->
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Information" inert>
     <div class="sheet" id="msheet">
-      <button class="mclose" id="mclose" aria-label="Close">&times;</button>
+      <button class="mclose" id="mclose" aria-label="Close"><svg class="ic"><use href="#ic-close"/></svg></button>
       <div class="mbody" id="mbody"></div>
     </div>
   </div>
