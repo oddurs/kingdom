@@ -118,3 +118,38 @@ export const Motion = () => {
   });
   return wrap;
 };
+
+// ---- Surfaces & Elevation (L: cohesion tokens) --------------------------
+export const Surfaces = () => {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'padding:32px;color:var(--ink);display:flex;flex-direction:column;gap:26px';
+  const sec = (title) => { const h = document.createElement('h3');
+    h.textContent = title; h.style.cssText = 'font-family:var(--serif);color:var(--ink);margin:0;font-weight:600'; return h; };
+
+  // fills + interaction swatches
+  const fills = document.createElement('div');
+  fills.style.cssText = 'display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))';
+  [['--fill-1', 'control fill'], ['--fill-2', 'inset fill'], ['--fill-hover', 'hover-lift'],
+   ['--hover', 'hover overlay'], ['--active', 'active overlay']].forEach(([tok, use]) => {
+    const c = document.createElement('div');
+    c.innerHTML = `<div style="height:60px;border-radius:var(--r-2);border:1px solid var(--edge);background:var(${tok})"></div>
+      <div style="font-family:var(--sans);font-size:11px;color:var(--ink);margin-top:9px">${tok}</div>
+      <div style="font-family:var(--sans);font-size:10px;color:var(--faint)">${use} · ${cssvar(tok)}</div>`;
+    fills.append(c);
+  });
+
+  // elevation cards
+  const elev = document.createElement('div');
+  elev.style.cssText = 'display:flex;gap:24px;flex-wrap:wrap;padding:8px 0 16px';
+  ['--elev-1', '--elev-2', '--elev-3'].forEach((tok, i) => {
+    const card = document.createElement('div');
+    card.style.cssText = `width:150px;height:92px;border-radius:var(--r-2);border:1px solid var(--edge);
+      background:var(--panel);box-shadow:var(${tok});display:flex;align-items:flex-end;padding:10px;
+      font-family:var(--sans);font-size:11px;color:var(--dim)`;
+    card.textContent = `${tok} · ${['low', 'mid', 'high'][i]}`;
+    elev.append(card);
+  });
+
+  wrap.append(sec('Fills & interaction states'), fills, sec('Elevation'), elev);
+  return wrap;
+};

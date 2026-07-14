@@ -1,4 +1,4 @@
-import{j as e,M as t}from"./index-Dq2YqmHJ.js";import{useMDXComponents as i}from"./index-DytTOlkS.js";import"./iframe-C87Du8s6.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-Ca4lBP7z.js";import"./index-Bhqu_tAV.js";function o(s){const n={code:"code",em:"em",h1:"h1",h2:"h2",li:"li",p:"p",strong:"strong",ul:"ul",...i(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(t,{title:"Design/Introduction"}),`
+import{j as e,M as t}from"./index-C9jbGsFF.js";import{useMDXComponents as i}from"./index-bgSmKwyL.js";import"./iframe-Cab6WoAH.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./index-Ca4lBP7z.js";import"./index-Bhqu_tAV.js";function o(s){const n={code:"code",em:"em",h1:"h1",h2:"h2",li:"li",p:"p",strong:"strong",ul:"ul",...i(),...s.components};return e.jsxs(e.Fragment,{children:[e.jsx(t,{title:"Design/Introduction"}),`
 `,e.jsx(n.h1,{id:"yggdrasil-design-system",children:"Yggdrasil Design System"}),`
 `,e.jsxs(n.p,{children:[`A dark, luminous, botanical identity for an interactive tree of the plant kingdom.
 This workshop documents the `,e.jsx(n.strong,{children:"chrome around the canvas"}),` — the controls, menus, chips,
