@@ -282,6 +282,14 @@ async function main() {
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
 
+    // SEO: JSON-LD structured data + a crawlable text index of the tree are in the DOM
+    const seoOk = await ev(`(()=>{ try{
+      const ld=JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+      const crawl=document.querySelector('section[aria-label="The plant kingdom in text"]');
+      return ld.length>=2 && !!crawl && /Orchidaceae/.test(crawl.textContent);
+    }catch(e){ return 'threw: '+e.message; } })()`);
+    check("SEO structured data + crawlable index present", seoOk === true, seoOk === true ? "" : String(seoOk));
+
     // PNG export builds its SVG/style without throwing (regression guard for the export path)
     const exportOk = await ev(`(()=>{ try{ buildExportSVG(); return true; }catch(e){ return 'threw: '+e.message; } })()`);
     check("PNG export builds without error", exportOk === true, exportOk === true ? "" : String(exportOk));

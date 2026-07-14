@@ -12,9 +12,89 @@ Pipeline:  data/taxa.json  (flat, source of truth)
 
 Usage:  python3 build/build.py
 """
+import html
 import json
 import pathlib
 import sys
+
+SITE = "https://yggdrasil.oddurs.com/"
+
+
+def seo_blocks(taxa, meta, ngenera):
+    """Build two SEO payloads: JSON-LD structured data (head) and a crawlable,
+    screen-reader text index of the tree (body). The visualization is drawn in
+    JS/SVG, so without these a crawler — and a screen reader — sees almost no
+    content. Both are generated from the same rigorous data the app renders."""
+    fams = [t for t in taxa if t.get("rank") == "family"]
+    nfam = len(fams)
+    total_spp = sum(t.get("speciesCount", 0) for t in fams)
+    by_rich = sorted(fams, key=lambda t: t.get("speciesCount", 0), reverse=True)
+    aged = [t for t in fams if t.get("ageMy") is not None]
+    oldest = max(aged, key=lambda t: t["ageMy"]) if aged else None
+    widest = max(fams, key=lambda t: len(t.get("dist") or {}))
+
+    sources = meta.get("sources", {})
+    src_names = []
+    for s in sources.values():
+        src_names.append(s.get("name") or s.get("title") or "")
+    cites = [n for n in src_names if n]
+
+    ld = [
+        {"@context": "https://schema.org", "@type": "WebSite", "name": "Yggdrasil",
+         "url": SITE, "description": meta.get("description", ""),
+         "inLanguage": "en"},
+        {"@context": "https://schema.org", "@type": "Dataset",
+         "name": "Yggdrasil — the plant tree of life",
+         "description": (f"An interactive classification of the plant kingdom: {nfam} "
+                         f"families of land plants and ~{ngenera:,} genera, sized by "
+                         "accepted-species richness, coloured by lineage, and dated to "
+                         "geological time. Built on APG IV, PPG I, Kew WCVP and GBIF."),
+         "url": SITE, "license": "https://creativecommons.org/licenses/by/4.0/",
+         "creator": {"@type": "Person", "name": "Oddur", "url": "https://github.com/oddurs"},
+         "keywords": ["plant taxonomy", "tree of life", "phylogeny", "APG IV", "PPG I",
+                      "botany", "plant families", "species richness", "WCVP"],
+         "variableMeasured": ["accepted species richness", "divergence age (Ma)",
+                              "native distribution (WGSRPD)"],
+         "citation": cites},
+    ]
+    jsonld = ('<script type="application/ld+json">'
+              + json.dumps(ld, ensure_ascii=False, separators=(",", ":"))
+              + "</script>")
+
+    def esc(s):
+        return html.escape(str(s), quote=False)
+
+    def li(t):
+        com = f" ({esc(t['common'])})" if t.get("common") else ""
+        return (f"<li><b>{esc(t['name'])}</b>{com} — "
+                f"~{t.get('speciesCount', 0):,} accepted species.</li>")
+
+    rows = "".join(li(t) for t in by_rich)
+    records = []
+    records.append(f"the largest family is <b>{esc(by_rich[0]['name'])}</b> "
+                   f"(~{by_rich[0].get('speciesCount', 0):,} species)")
+    if oldest:
+        records.append(f"the oldest surviving lineage here is <b>{esc(oldest['name'])}</b> "
+                       f"(crown ≈{round(oldest['ageMy'])} million years)")
+    records.append(f"the most widely distributed is <b>{esc(widest['name'])}</b>")
+    src_list = "".join(f"<li>{esc(n)}</li>" for n in cites)
+
+    crawl = (
+        '<section class="visually-hidden" aria-label="The plant kingdom in text">'
+        "<h2>Yggdrasil — the plant kingdom in text</h2>"
+        f"<p>An accessible, text-only index of the interactive tree above. It covers "
+        f"roughly {total_spp:,} accepted species across the {nfam} families of land "
+        f"plants (Embryophyta) — from mosses and ferns through gymnosperms to the "
+        f"flowering plants — with ~{ngenera:,} genera. Species counts are accepted "
+        f"names from Kew's World Checklist of Vascular Plants; the classification "
+        f"follows APG IV and PPG I; divergence ages are crown estimates from the "
+        f"Jin &amp; Qian (2022) dated megatree.</p>"
+        f"<p>Notably, {'; '.join(records)}.</p>"
+        f"<h3>All {nfam} plant families, by species richness</h3><ul>{rows}</ul>"
+        f"<h3>Sources</h3><ul>{src_list}</ul>"
+        "</section>"
+    )
+    return jsonld, crawl
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "taxa.json"
@@ -151,7 +231,9 @@ def main() -> None:
     shell = SHELL.read_text()
     css = "".join(p.read_text() for p in CSS_PARTS)
     js = "".join((SRC / m).read_text() for m in MODULES)
-    for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell")):
+    jsonld, crawl = seo_blocks(taxa, meta, ngenera)
+    for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
+                      ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell")):
         if ph not in shell:
             raise SystemExit(f"placeholder {ph!r} not found in {where}")
     # Embed as JSON.parse('…') rather than a raw JS object literal: V8 parses a JSON string
@@ -162,6 +244,8 @@ def main() -> None:
     out = (shell
            .replace("/*__CSS__*/", css)
            .replace("/*__JS__*/", js)
+           .replace("<!--__JSONLD__-->", jsonld)
+           .replace("<!--__CRAWL__-->", crawl)
            .replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
     OUT.write_text(out)
 
