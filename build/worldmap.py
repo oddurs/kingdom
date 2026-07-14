@@ -55,10 +55,18 @@ def region(p):
 
 
 def ring_path(ring):
-    # lon/lat -> equirectangular x/y (x: 0..360, y: 0..180 with 90°N at top), 1 dp
+    # lon/lat -> equirectangular x/y (x: 0..360, y: 0..180, 90°N at top). Integer
+    # precision: the distribution mini-map renders ~330px wide, so 1 map unit ≈ 0.9px —
+    # sub-pixel detail is wasted. Drops consecutive duplicate points too (~36% smaller).
     pts = []
+    last = None
     for lon, lat in ring:
-        pts.append(f"{lon + 180:.1f},{90 - lat:.1f}")
+        p = f"{round(lon + 180)},{round(90 - lat)}"
+        if p != last:
+            pts.append(p)
+            last = p
+    if len(pts) < 3:
+        return ""
     return "M" + "L".join(pts) + "Z"
 
 
