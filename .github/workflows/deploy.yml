@@ -53,7 +53,9 @@ jobs:
       - name: Assemble the Pages site
         run: |
           mkdir -p _site/storybook
-          cp index.html plant-tree.html og.jpg _site/
+          cp plant-tree.html og.jpg _site/
+          cp plant-tree.html _site/index.html          # the app IS the root (no redirect stub)
+          cp CNAME robots.txt sitemap.xml _site/        # custom domain + crawler plumbing
           cp -r storybook-static/. _site/storybook/
           touch _site/.nojekyll
 

@@ -1,0 +1,5 @@
+# Yggdrasil — a living tree of the plant kingdom
+User-agent: *
+Allow: /
+
+Sitemap: https://yggdrasil.oddurs.com/sitemap.xml
