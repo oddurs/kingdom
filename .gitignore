@@ -1,6 +1,11 @@
 .DS_Store
 .claude/
 
+# build outputs — CI (.github/workflows/deploy.yml) regenerates & deploys these on every push
+plant-tree.html
+og.jpg
+storybook/
+
 # design-system tooling (dev-only; the shipped app has no npm deps)
 node_modules/
 storybook-static/
