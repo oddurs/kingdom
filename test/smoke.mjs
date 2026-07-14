@@ -245,6 +245,12 @@ async function main() {
       (await ev(`colorMode==='region' && selected && selected.name==='Orchidaceae'`)) === true);
     await ev(`colorMode='lineage'; buildColorUI(); closePanel(); history.replaceState(null,'',location.pathname); render();`); await wait(150);
 
+    // Sprint P: "Surprise me" flies to a notable taxon and names why in a toast
+    await ev(`clearStory(); surprise()`); await wait(600);
+    const surprised = await ev(`!!selected && wonderPool.some(([n])=>n===selected) && !document.getElementById('toast').hidden && document.getElementById('toast').textContent.trim().length>0`);
+    check("surprise me lands on a notable taxon with a reason", surprised === true);
+    await ev(`closePanel()`); await wait(80);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);

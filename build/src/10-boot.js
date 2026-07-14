@@ -4,6 +4,7 @@ function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; cons
 function hideWelcome(){ welcome.classList.remove('show'); welcome.inert=true; try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
+document.getElementById('wsurprise').onclick=()=>{ hideWelcome(); surprise(); };
 function initWelcome(){ let seen; try{ seen=localStorage.getItem('biomi_seen'); }catch(e){ seen='1'; }
   if(!seen && !location.hash){ showWelcome(); return true; } return false; }
 
@@ -69,6 +70,7 @@ function controlsHTML(){
       ${row('Focus a clade','&ldquo;Focus subtree&rdquo; dives into one lineage; the focus bar takes you back up.')}
       ${row('Quick look','Hover a branch for a tooltip.')}
       ${row('Find','Type a family or plant into search; '+kbd('&uarr;')+kbd('&darr;')+' to pick, '+kbd('&crarr;')+' to jump.')}
+      ${row('Surprise me','Fly to a remarkable corner of the tree &mdash; '+kbd('R')+', or Explore &rsaquo; Surprise me.')}
     </div>
     <div class="msec"><h3>Keyboard</h3>
       ${row(kbd('&uarr;')+kbd('&darr;'),'Previous / next branch')}
@@ -121,6 +123,55 @@ function rankContext(n){ const r=_rankMap.get(n._id); if(!r) return '';
   if(n.rank==='family') return `${ordinal(r)}-largest of ${_fams.length} families`;
   if(n.rank==='order') return `${ordinal(r)}-largest of ${_ords.length} orders`; return ''; }
 function siblingsOf(n){ return n.parent ? n.parent.children.filter(c=>c!==n && c.rank===n.rank).sort((a,b)=>b.agg-a.agg) : []; }
+
+// ---------- Wonder: take me somewhere remarkable (Sprint P) ----------
+// A newcomer faces 479 families and no idea where to look. "Surprise me" flies to a genuinely
+// notable taxon — weighted toward record holders, story stars and big, storied families, never a
+// random empty genus — and names why it's worth seeing. A transient toast carries that reason.
+let _toastT=null;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<span class="spark" aria-hidden="true">&#10022;</span> ${escp(msg)}`;
+  t.hidden=false; requestAnimationFrame(()=>t.classList.add('show'));
+  clearTimeout(_toastT); _toastT=setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>{ t.hidden=true; }, 320); }, 2800);
+}
+const _storyOf=new Map();                        // taxon name → the story it stars in
+for(const s of Object.values(STORIES)) for(const nm of (s.names||[])) _storyOf.set(nm, s.label);
+const wonderPool=[];
+eachNode(n=>{
+  let w=0;
+  if(badgeMap.has(n._id)) w+=6;                  // a record holder — the headline sights
+  if(_storyOf.has(n.name)) w+=4;                 // a star of a curated story (carnivores, crops…)
+  if(n.blurb) w+=3;                              // has a written story to read
+  if(n.examples && n.examples.length) w+=2;
+  if(n.common) w+=1;
+  if(n.rank==='family' && n.agg>=2000) w+=2;     // the big, familiar families
+  if(w>0) wonderPool.push([n,w]);
+});
+const _wonderTotal=wonderPool.reduce((s,x)=>s+x[1],0);
+let _lastWonder=null;
+function wonderReason(n){
+  const b=badgeMap.get(n._id); if(b && b.length) return b[0];
+  if(_storyOf.has(n.name)) return _storyOf.get(n.name);
+  const rc=rankContext(n); if(rc) return rc[0].toUpperCase()+rc.slice(1);
+  if(n.rank==='family') return `A family of ~${n.agg.toLocaleString()} species`;
+  return n.common || n.name;
+}
+function surprise(){
+  if(!wonderPool.length) return;
+  let pick=null;
+  for(let tries=0; tries<8; tries++){
+    let r=Math.random()*_wonderTotal, cand=null;
+    for(const [n,w] of wonderPool){ r-=w; if(r<=0){ cand=n; break; } }
+    pick=cand; if(pick && pick!==_lastWonder) break;   // don't land on the same taxon twice running
+  }
+  if(!pick) return;
+  _lastWonder=pick;
+  if(activeStory) clearStory(false);
+  const go=()=>{ select(pick); toast(wonderReason(pick)); };
+  if(renderRoot!==ROOT){ exitFocus(); setTimeout(go, 420); }   // come back up so any taxon is reachable
+  else go();
+}
 
 // ---------- colour legend + highlight/tour menus + footer ----------
 // The controls live in header popover menus (see #menu-colour / #menu-explore); this
@@ -182,6 +233,7 @@ const toursbar=document.getElementById('toursbar');
 toursbar.innerHTML = '<span class="slabel">Tours</span>'
   + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
+document.getElementById('btnSurprise').onclick=surprise;
 
 // ---------- filter: query the tree by facets (Sprint K) ----------
 const filter={rich:null, lineage:null, region:null, age:null};
@@ -430,6 +482,14 @@ function perfLoop(now){
 function togglePerf(on){ perfOn = on!==undefined?on:!perfOn; perfhud.hidden=!perfOn; perfhud.setAttribute('aria-hidden', String(!perfOn));
   if(perfOn){ _pT0=0; _pFrames=0; _pSample=0; requestAnimationFrame(perfLoop); } }
 document.addEventListener('keydown', e=>{ if(e.key==='`' && document.activeElement!==q){ e.preventDefault(); togglePerf(); } });
+document.addEventListener('keydown', e=>{                 // R → surprise me (not while typing or on a modal)
+  if((e.key==='r'||e.key==='R') && !e.metaKey && !e.ctrlKey && !e.altKey){
+    const el=document.activeElement, tag=el&&el.tagName;
+    if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable)) return;
+    if(modal.classList.contains('show')||welcome.classList.contains('show')) return;
+    e.preventDefault(); surprise();
+  }
+});
 if(perfOn) togglePerf(true);
 
 refreshStageSize();
