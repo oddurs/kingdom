@@ -1,1 +1,0 @@
-const e={parameters:{layout:"centered",backgrounds:{default:"ground",values:[{name:"ground",value:"#0d1512"},{name:"ground-2",value:"#101c17"},{name:"ink",value:"#e9ede6"}]},options:{storySort:{order:["Design",["Introduction","Foundations"],"Components"]}}}};export{e as default};
