@@ -371,8 +371,10 @@
   .schip.clear{border-style:dashed}
 
   /* ---------- storyline highlight overlay ---------- */
-  .stage.storying .node:not(.hl){opacity:.2}
-  .stage.storying .link{stroke-opacity:.06}
+  .stage.storying .node:not(.hl){opacity:.18}
+  .stage.storying .node:not(.hl) .halo{opacity:0}      /* mute the crowd's glow so matches read as a constellation */
+  .stage.storying .node:not(.hl) .toggle{opacity:0}    /* and drop their + affordances */
+  .stage.storying .link{stroke-opacity:.05}
   .node.hl circle.dot{stroke:#fff; stroke-width:2.4px; transform:scale(1.5)}
   .node.hl .halo{opacity:.5; animation:pulse 1.8s ease-in-out infinite}
   .node.hl text{fill:#fff; font-size:14px}
