@@ -1015,8 +1015,10 @@ function labelLOD(){
 function updateToggle(el, n, hasKids){
   if(hasKids && !n.open){                                  // collapsed branch → "+" affordance
     // drawn as a cross (not a text glyph) so it stays perfectly centred regardless of font metrics
-    if(!el.__tog){ el.__tog=document.createElementNS(NS,'path'); el.__tog.setAttribute('class','toggle');
-      el.__tog.setAttribute('d','M-3 0H3M0 -3V3'); el.appendChild(el.__tog); }
+    if(!el.__tog){ el.__tog=document.createElementNS(NS,'path'); el.__tog.setAttribute('class','toggle'); el.appendChild(el.__tog); }
+    // scale the arms to the dot so the "+" never crowds the edge on small nodes (leaves ~45% clear)
+    const s=Math.max(1.8, Math.min(3, radius(n)*0.44)).toFixed(1);
+    el.__tog.setAttribute('d',`M-${s} 0H${s}M0 -${s}V${s}`);
   } else if(el.__tog){ el.__tog.remove(); el.__tog=null; }
 }
 function setLabel(el, n, show){
