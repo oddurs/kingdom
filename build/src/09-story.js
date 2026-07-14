@@ -58,24 +58,74 @@ function clearStory(doHash){
     if(!selected){ panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); } }
   if(doHash!==false) updateHash();
 }
-// ---------- deep-linking ----------
-function shareHash(){                          // '#sel=…&hl=…' for the current state (shared by updateHash + Copy link)
+// ---------- deep-linking: the whole view lives in the URL (Sprint O) ----------
+// Every shareable dimension — selection, curated highlight, filter facets, colour, view mode and
+// time — round-trips through the hash, so any link reopens exactly what you were looking at.
+// Discrete navigations push a history entry (Back/Forward retrace your path); continuous tweaks
+// (the time scrubber) replace in place so they don't flood history.
+let _applyingHash=false, _lastHash=location.hash.replace(/^#/,'');
+function shareHash(){
   const p=[];
+  if(mode!=='radial') p.push('m='+mode);
+  if(colorMode!=='lineage') p.push('c='+colorMode);
+  if(filter.rich)    p.push('fr='+filter.rich);
+  if(filter.lineage) p.push('fl='+filter.lineage);
+  if(filter.region)  p.push('fg='+filter.region);
+  if(filter.age)     p.push('fa='+filter.age);
+  if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // curated highlight (filter facets carry their own)
+  if(timeMode) p.push('t='+Math.round(timeNow));
   if(selected) p.push('sel='+encodeURIComponent(selected.name));
-  if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // filter highlights aren't deep-linked (yet)
   return p.length ? '#'+p.join('&') : '';
 }
-function updateHash(){
-  const h=shareHash();
-  history.replaceState(null,'', h || location.pathname+location.search);
+function writeHash(push){
+  if(_applyingHash) return;                    // never write history while restoring one
+  const h=shareHash().replace(/^#/,'');
+  if(push && h===_lastHash) return;            // nothing new to record
+  const url=h ? '#'+h : location.pathname+location.search;
+  if(push) history.pushState(null,'',url); else history.replaceState(null,'',url);
+  _lastHash=h;
 }
+function updateHash(){ writeHash(true); }      // a settled navigation → new Back/Forward entry
+function replaceHash(){ writeHash(false); }    // a continuous tweak → keep the URL live, no entry
 function nodeByName(nm){ let f=null; (function w(n){ if(n.name===nm) f=n; (n.children||[]).forEach(w); })(ROOT); return f; }
 function applyHash(){
-  const h=location.hash.replace(/^#/,''); if(!h) return;
-  const params=new URLSearchParams(h);
-  const hl=params.get('hl'); if(hl && STORIES[hl]) setStory(hl);
-  const sel=params.get('sel'); if(sel){ const n=nodeByName(sel); if(n) select(n); }
+  const raw=location.hash.replace(/^#/,'');
+  const params=new URLSearchParams(raw);
+  _applyingHash=true;
+  try{
+    if(!raw) return;                           // fresh load — nothing to restore; the entrance owns the first paint
+    const c=params.get('c');
+    if(c && c!==colorMode && CMODES.some(m=>m[0]===c)){ colorMode=c; buildColorUI(); }
+    const m=params.get('m');
+    if(m && m!==mode && ['tree','radial','sunburst','treemap'].includes(m)){ mode=m; setModeButtons(m); }
+    render(); if(mode!=='treemap' && mode!=='sunburst') relabelAll();
+    let fset=false;
+    const fr=params.get('fr'), fl=params.get('fl'), fg=params.get('fg'), fa=params.get('fa');
+    if(fr){ filter.rich=+fr||null; fset=true; }
+    if(fl){ filter.lineage=fl; fset=true; }
+    if(fg){ filter.region=fg; fset=true; }
+    if(fa){ filter.age=fa; fset=true; }
+    if(fset){ buildFilterUI(); applyFilter(); }
+    const hl=params.get('hl'); if(hl && STORIES[hl]) setStory(hl);
+    const t=params.get('t'); if(t!=null && t!==''){ if(!timeMode) enterTime(); setTime(+t); }
+    const sel=params.get('sel'); let selN=null; if(sel){ selN=nodeByName(sel); if(selN) select(selN); }
+    if(!selN) fit(0);                          // no chosen node → frame whatever the link asked for
+  } finally { _applyingHash=false; _lastHash=shareHash().replace(/^#/,''); }
 }
+function resetView(){                          // back to the landing baseline, for Back/Forward re-apply
+  _applyingHash=true;
+  try{
+    if(tour) endTour();
+    if(activeStory) clearStory(false);
+    if(filter.rich||filter.lineage||filter.region||filter.age) clearFilter();
+    if(timeMode) exitTime();
+    if(selected) closePanel();
+    if(colorMode!=='lineage'){ colorMode='lineage'; buildColorUI(); }
+    if(mode!=='radial'){ mode='radial'; setModeButtons('radial'); }
+    render(); relabelAll();
+  } finally { _applyingHash=false; }
+}
+window.addEventListener('popstate', ()=>{ resetView(); applyHash(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && document.activeElement!==q){
   if(modal.classList.contains('show')) return;   // the modal owns Escape while open
   if(welcome.classList.contains('show')) hideWelcome();

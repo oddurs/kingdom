@@ -234,6 +234,17 @@ async function main() {
       (await ev(`activeStory==='_filter' && /famil(y|ies) match/.test(document.getElementById('fcount').textContent) && document.querySelectorAll('.node.hl').length>0`)) === true);
     await ev(`clearFilter()`); await wait(120);
 
+    // Sprint O: the whole view round-trips through the URL hash (deep-linking)
+    await ev(`switchMode('tree')`); await wait(VIEW);
+    await ev(`select(nodeByName('Rosaceae'))`); await wait(150);
+    const encoded = await ev(`shareHash()`);
+    check("view state encodes into the hash", /m=tree/.test(encoded) && /sel=Rosaceae/.test(encoded), encoded);
+    await ev(`closePanel(); switchMode('radial')`); await wait(VIEW);
+    await ev(`history.pushState(null,'','#c=region&sel=Orchidaceae'); applyHash();`); await wait(400);
+    check("hash restores colour + selection",
+      (await ev(`colorMode==='region' && selected && selected.name==='Orchidaceae'`)) === true);
+    await ev(`colorMode='lineage'; buildColorUI(); closePanel(); history.replaceState(null,'',location.pathname); render();`); await wait(150);
+
     // viewport virtualization bounds the DOM when zoomed in
     await ev(`exitFocus(); switchMode('tree')`); await wait(VIEW);
     await ev(`(()=>{const n=nodeByName('Asteraceae'); reroot(n);})()`);
