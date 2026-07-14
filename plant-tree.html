@@ -51,6 +51,10 @@
     --dur-1:.15s; --dur-2:.3s; --ease-out:cubic-bezier(.22,.61,.36,1); --ease-settle:cubic-bezier(.16,.9,.3,1);
     /* radius scale (G3): controls / containers / large surfaces / pills */
     --r-1:7px; --r-2:11px; --r-3:16px; --r-pill:999px;
+    /* surfaces, interaction states & elevation (L: one cohesive vocabulary) */
+    --fill-1:#0d1712; --fill-2:#0b1410; --fill-hover:#0e1a14;   /* control bg / inset bg / hover-lift on solid fills */
+    --hover:#ffffff0a; --active:#ffffff14;                      /* translucent hover / active overlays */
+    --elev-1:0 8px 24px #0007; --elev-2:0 16px 40px #000a; --elev-3:0 34px 90px #000d;   /* low / mid / high overlays */
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
@@ -87,7 +91,7 @@
   .search{position:relative}
   .search input{
     font-family:var(--sans); font-size:13px; color:var(--ink);
-    background:#0c1712; border:1px solid var(--edge); border-radius:var(--r-1);
+    background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-1);
     padding:7px 30px 7px 11px; width:210px; outline:none; transition:border-color var(--dur-1),box-shadow var(--dur-1);
   }
   .search input::placeholder{color:var(--faint)}
@@ -102,7 +106,7 @@
     position:absolute; top:calc(100% + 6px); left:0; width:min(360px,86vw);
     max-height:min(58vh,430px); overflow-y:auto; padding:5px;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:0 14px 38px #000a; z-index:30;
+    border-radius:var(--r-2); box-shadow:var(--elev-2); z-index:30;
   }
   .qresults[hidden]{display:none}
   @keyframes popin{from{opacity:0; transform:translateY(-6px) scale(.985)} to{opacity:1; transform:none}}
@@ -115,7 +119,7 @@
     padding:7px 9px; border:0; border-radius:var(--r-1); background:none; cursor:pointer;
     color:var(--ink); font-family:var(--sans);
   }
-  .qrow:hover, .qrow.active{background:#ffffff10}
+  .qrow:hover, .qrow.active{background:var(--hover)}
   .qrow .qrk{flex:none; width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 6px currentColor}
   .qrow .qnm{flex:1; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .qrow .qnm em{font-style:normal; color:var(--l-fern); font-weight:600}
@@ -126,10 +130,10 @@
     font-family:var(--sans); font-size:10px; color:var(--faint)}
   .qfoot button{font-family:var(--sans); font-size:11.5px; color:var(--l-fern); background:none;
     border:0; cursor:pointer; padding:2px 4px; border-radius:5px}
-  .qfoot button:hover{background:#ffffff10}
+  .qfoot button:hover{background:var(--hover)}
   button.ctl{
     font-family:var(--sans); font-size:12px; color:var(--dim);
-    background:#0d1712; border:1px solid var(--edge); border-radius:var(--r-1);
+    background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-1);
     padding:7px 11px; cursor:pointer; transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1),transform .1s var(--ease-out);
     white-space:nowrap;
   }
@@ -140,9 +144,9 @@
   /* every interactive chip/link gets the same visible keyboard focus ring */
   .schip:focus-visible, .pref:focus-visible, .qrow:focus-visible, .pclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
   /* segmented control: a cohesive group of mutually-exclusive options */
-  .seg{display:inline-flex; gap:2px; padding:2px; background:#0b1611; border:1px solid var(--edge); border-radius:var(--r-2)}
+  .seg{display:inline-flex; gap:2px; padding:2px; background:var(--fill-2); border:1px solid var(--edge); border-radius:var(--r-2)}
   .seg button.ctl{border:1px solid transparent; background:transparent; border-radius:var(--r-1); padding:6px 11px}
-  .seg button.ctl:hover{border-color:transparent; background:#ffffff0a}
+  .seg button.ctl:hover{border-color:transparent; background:var(--hover)}
   .seg button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:transparent}
   /* ---------- header popover menus (G2) ---------- */
   .barsep{width:1px; height:20px; background:var(--edge); align-self:center; margin:0 2px}
@@ -155,7 +159,7 @@
     position:fixed; z-index:40; min-width:190px; max-width:min(320px,92vw); padding:11px 12px;
     display:flex; flex-direction:column; gap:11px; max-height:min(82vh,660px); overflow-y:auto;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:0 16px 40px #000a;
+    border-radius:var(--r-2); box-shadow:var(--elev-2);
     animation:popin var(--dur-1) var(--ease-out);
   }
   .menu[hidden]{display:none}
@@ -171,14 +175,14 @@
   /* persistent colour legend (bottom-left, above the minimap) */
   .legendbar{position:absolute; left:16px; bottom:158px; z-index:6; max-width:196px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:9px 10px 9px; box-shadow:0 8px 24px #0007}
+    padding:9px 10px 9px; box-shadow:var(--elev-1)}
   .lgtitle{font-family:var(--sans); font-size:9px; font-weight:600; letter-spacing:var(--track-label);
     text-transform:uppercase; color:var(--faint); margin:0 0 7px 4px}
   .lgitems{display:flex; flex-direction:column; gap:1px}
   .lg{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--dim);
     padding:2px 5px; margin:0 -1px; border-radius:var(--r-1); cursor:pointer;
     transition:background var(--dur-1), color var(--dur-1)}
-  .lg:hover, .lg.on{background:#ffffff0a; color:var(--ink)}
+  .lg:hover, .lg.on{background:var(--hover); color:var(--ink)}
   .lg .dot{width:9px; height:9px; border-radius:50%; box-shadow:0 0 7px currentColor; flex:none;
     transition:transform var(--dur-1)}
   .lg:hover .dot, .lg.on .dot{transform:scale(1.2)}
@@ -266,7 +270,7 @@
     transition:opacity .12s, transform .12s; max-width:300px;
     background:var(--panel); backdrop-filter:blur(8px);
     border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:10px 13px; box-shadow:0 12px 34px #0009;
+    padding:10px 13px; box-shadow:var(--elev-2);
   }
   .tip.show{opacity:1; transform:translateY(0)}
   /* rank led by the lineage dot, matching the panel */
@@ -294,18 +298,18 @@
   /* zoom: a single cohesive vertical pill, seamless buttons + hairline divider */
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); overflow:hidden; box-shadow:0 10px 28px #0007}
+    border-radius:var(--r-2); overflow:hidden; box-shadow:var(--elev-1)}
   .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0;
     color:var(--dim); background:transparent; border:0; cursor:pointer; transition:color var(--dur-1),background var(--dur-1)}
   .zoomctl button:first-child{border-bottom:1px solid var(--edge)}
-  .zoomctl button:hover{color:var(--ink); background:#ffffff0a}
-  .zoomctl button:active{background:#ffffff14}
+  .zoomctl button:hover{color:var(--ink); background:var(--hover)}
+  .zoomctl button:active{background:var(--active)}
   .zoomctl button:focus-visible{outline:2px solid var(--l-fern); outline-offset:-2px}
   /* dev perf HUD — off by default; ?perf in the URL or the ` key toggles it */
   .perfhud{position:absolute; right:14px; bottom:92px; z-index:9; pointer-events:none;
     font-family:var(--sans); font-size:10.5px; line-height:1.5; color:var(--dim); font-variant-numeric:tabular-nums;
     background:#06100bd9; border:1px solid var(--edge); border-radius:var(--r-2); padding:8px 11px;
-    white-space:pre; min-width:126px; box-shadow:0 8px 22px #0008}
+    white-space:pre; min-width:126px; box-shadow:var(--elev-1)}
   .perfhud[hidden]{display:none}
   .perfhud b{color:var(--l-fern); font-weight:600}
   .perfhud .warn{color:var(--l-mono)}
@@ -315,13 +319,13 @@
   .timebar{position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:8;
     display:flex; flex-direction:column; gap:8px; width:min(680px,90vw); padding:10px 15px 11px;
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:0 10px 30px #0008}
+    border-radius:var(--r-2); box-shadow:var(--elev-1)}
   .timebar[hidden]{display:none}
   .tbhint{font-size:11px; color:var(--dim); text-align:center; line-height:1.3}
   .tbhint b{color:var(--l-fern); font-weight:600}
   .tbrow{display:flex; align-items:center; gap:13px}
   .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
-    background:#0d1712; color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
+    background:var(--fill-1); color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
   .tbplay:hover{border-color:var(--l-fern)}
   .tbplay:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
   .tbtrack{position:relative; flex:1; height:26px; cursor:pointer; border-radius:var(--r-1); overflow:hidden}
@@ -341,7 +345,7 @@
     max-height:calc(100% - 24px); overflow-y:auto; z-index:8;
     background:var(--panel); backdrop-filter:blur(10px);
     border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:18px 18px 18px; box-shadow:0 18px 48px #000a;
+    padding:18px 18px 18px; box-shadow:var(--elev-2);
     opacity:0; transform:translateX(20px) scale(.985); pointer-events:none;
     white-space:normal; overflow-wrap:break-word;
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
@@ -377,25 +381,25 @@
   .preflabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px}
   .prefs{display:flex; flex-wrap:wrap; gap:6px}
   .pref{font-family:var(--sans); font-size:11px; color:var(--l-fern); text-decoration:none;
-    border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 11px 3px 9px; background:#0d1712; white-space:nowrap}
-  .pref:hover{border-color:var(--l-fern); background:#0e1a14}
+    border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 11px 3px 9px; background:var(--fill-1); white-space:nowrap}
+  .pref:hover{border-color:var(--l-fern); background:var(--fill-hover)}
   .pref::before{content:'↗'; font-size:9px; opacity:.7; margin-right:4px}
   .pref.verified{border-color:#46b06a66}
   .pex{display:flex; flex-wrap:wrap; gap:6px}
   .pex .exchip{font-family:var(--sans); font-size:11.5px; color:var(--dim);
-    background:#0d1712; border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 10px}
+    background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 10px}
   /* origin time-bar (geological periods) */
-  .potl{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:#0b1410}
+  .potl{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:var(--fill-2)}
   .potl .band{stroke:#0b1410; stroke-width:.4}
   /* distribution mini-map (WGSRPD level-1) */
   .pdistlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
-  .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:#0b1410}
+  .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:var(--fill-2)}
   .pdistmap .wmland{fill:#25332c; stroke:none}
   .pdistmap .reg{stroke:none; transition:fill-opacity var(--dur-1)}
   /* stats read as one inset data strip, tinted by lineage, split by hairlines */
   .pstats{display:flex; margin-top:16px; padding:12px 6px;
-    background:#0b1410; border:1px solid var(--edge); border-radius:var(--r-2)}
+    background:var(--fill-2); border:1px solid var(--edge); border-radius:var(--r-2)}
   .pstat{flex:1; display:flex; flex-direction:column; gap:3px; padding:0 12px}
   .pstat + .pstat{border-left:1px solid var(--line)}
   .pstat b{font-family:var(--sans); font-size:16px; color:#fff; font-weight:600; font-variant-numeric:tabular-nums; line-height:1}
@@ -404,7 +408,7 @@
   #plist .lhead{font-family:var(--serif); font-size:19px; font-weight:600; margin:0 0 2px; padding-right:26px}
   #plist .lsub{font-family:var(--sans); font-size:9.5px; color:var(--faint); text-transform:uppercase; font-weight:600; letter-spacing:var(--track-label); margin-bottom:11px}
   .lrow{display:flex; align-items:center; gap:9px; padding:7px 7px; border-radius:var(--r-1); cursor:pointer; border:1px solid transparent}
-  .lrow:hover{background:#0e1a14; border-color:var(--edge)}
+  .lrow:hover{background:var(--fill-hover); border-color:var(--edge)}
   .lrow:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   .lrow .ldot{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 6px currentColor}
   .lrow .ltx{min-width:0}
@@ -415,7 +419,7 @@
   /* ---------- storylines ---------- */
   .stories{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
   .stories .slabel{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin-right:2px}
-  .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:#0d1712;
+  .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:var(--fill-1);
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:4px 11px; cursor:pointer;
     transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1); white-space:nowrap}
   .schip:hover{color:var(--ink); border-color:var(--faint)}
@@ -435,7 +439,7 @@
   .tourcard{position:absolute; left:50%; bottom:22px; transform:translateX(-50%) translateY(10px);
     width:min(580px, calc(100% - 32px)); z-index:9; opacity:0; pointer-events:none;
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
-    border-top:3px solid var(--l-fern); border-radius:var(--r-2); padding:15px 18px 16px; box-shadow:0 20px 52px #000b;
+    border-top:3px solid var(--l-fern); border-radius:var(--r-2); padding:15px 18px 16px; box-shadow:var(--elev-2);
     transition:opacity .2s, transform .2s}
   .tourcard.show{opacity:1; transform:translateX(-50%); pointer-events:auto}
   .tourcard .thead{display:flex; align-items:center; gap:10px; margin-bottom:7px}
@@ -458,7 +462,7 @@
     padding:20px; background:#06100bcc; backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .28s}
   .welcome.show{opacity:1; pointer-events:auto}
   .welcome .card{width:min(540px, 100%); background:var(--panel); border:1px solid var(--edge);
-    border-top:3px solid var(--l-fern); border-radius:var(--r-3); padding:26px 30px 24px; box-shadow:0 34px 90px #000d;
+    border-top:3px solid var(--l-fern); border-radius:var(--r-3); padding:26px 30px 24px; box-shadow:var(--elev-3);
     transform:translateY(10px); transition:transform .28s}
   .welcome.show .card{transform:none}
   .welcome h2{font-family:var(--serif); font-size:25px; font-weight:600; margin:0 0 6px}
@@ -479,7 +483,7 @@
   .modal.show{opacity:1; pointer-events:auto}
   .sheet{position:relative; width:min(620px,100%); margin:auto;
     background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-3);
-    padding:30px 34px 32px; box-shadow:0 34px 90px #000d;
+    padding:30px 34px 32px; box-shadow:var(--elev-3);
     transform:translateY(12px); transition:transform var(--dur-2) var(--ease-settle)}
   .modal.show .sheet{transform:none}
   .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1);
@@ -501,13 +505,13 @@
   .kdesc{flex:1; color:var(--dim); font-size:13px; line-height:1.5}
   .kdesc .ln{color:var(--l-fern); text-decoration:none} .kdesc .ln:hover{text-decoration:underline}
   .kbd{display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px;
-    font-size:12px; font-weight:600; color:var(--dim); background:#0d1712; border:1px solid var(--edge);
+    font-size:12px; font-weight:600; color:var(--dim); background:var(--fill-1); border:1px solid var(--edge);
     border-bottom-width:2px; border-radius:var(--r-1); font-variant-numeric:tabular-nums}
 
   /* ---------- minimap ---------- */
   .minimap{position:absolute; left:16px; bottom:16px; width:190px; height:132px; z-index:6;
     background:#0b1310cc; border:1px solid var(--edge); border-radius:var(--r-2); overflow:hidden;
-    backdrop-filter:blur(6px); box-shadow:0 8px 24px #0007; cursor:crosshair; touch-action:none}
+    backdrop-filter:blur(6px); box-shadow:var(--elev-1); cursor:crosshair; touch-action:none}
   .minimap svg{width:100%; height:100%; display:block}
   .minimap .mvp{fill:#46b06a26; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
   .minimap line{stroke:var(--faint); stroke-width:.6px; stroke-opacity:.55; vector-effect:non-scaling-stroke}
@@ -518,7 +522,7 @@
   /* ---------- compare tray (Sprint J) ---------- */
   .comparebar{position:absolute; left:50%; transform:translateX(-50%); bottom:16px; z-index:9; width:min(520px,92vw);
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:12px 16px 14px; box-shadow:0 14px 40px #000a; animation:popin var(--dur-1) var(--ease-out)}
+    padding:12px 16px 14px; box-shadow:var(--elev-2); animation:popin var(--dur-1) var(--ease-out)}
   .comparebar[hidden]{display:none}
   .cmphead{display:flex; align-items:center; gap:10px; margin-bottom:10px}
   .cmptitle{font-family:var(--sans); font-size:9px; font-weight:600; letter-spacing:var(--track-label); text-transform:uppercase; color:var(--faint)}
@@ -540,7 +544,7 @@
   /* ---------- focus (re-root) bar ---------- */
   .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:flex; align-items:center; gap:9px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge);
-    border-radius:var(--r-2); padding:7px 11px; box-shadow:0 10px 28px #0009;
+    border-radius:var(--r-2); padding:7px 11px; box-shadow:var(--elev-1);
     opacity:0; transform:translateY(-8px); pointer-events:none;
     transition:opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-settle)}
   .focusbar.show{opacity:1; transform:none; pointer-events:auto}
