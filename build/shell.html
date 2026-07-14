@@ -91,6 +91,7 @@
   <div class="menu-sec ffoot"><span class="fcount" id="fcount">Set a facet to light up the matches</span><button class="ctl wide" id="fclear">Clear filter</button></div>
 </div>
 <div class="menu" id="menu-explore" role="menu" hidden>
+  <button class="ctl wide surprise" id="btnSurprise" title="Fly to a remarkable corner of the tree"><span class="spark" aria-hidden="true">&#10022;</span> Surprise me</button>
   <span class="stories" id="stories"></span>
   <span class="stories" id="recordsbar"></span>
   <span class="stories" id="toursbar"></span>
@@ -113,6 +114,7 @@
 </div>
 
 <div id="a11y-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <main class="stage" id="stage">
   <svg id="svg"><g id="viewport"><g id="links"></g><g id="nodes"></g><g id="ripples"></g><g id="treemap"></g></g></svg>
   <div class="tip" id="tip"></div>
@@ -182,6 +184,7 @@
       </ul>
       <div class="wact">
         <button class="ctl primary" id="wtour">Take the tour &rsaquo;</button>
+        <button class="ctl" id="wsurprise"><span class="spark" aria-hidden="true">&#10022;</span> Surprise me</button>
         <button class="ctl" id="wexplore">Explore on my own</button>
       </div>
     </div>
