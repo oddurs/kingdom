@@ -161,6 +161,7 @@ document.getElementById('cmode').addEventListener('click', e=>{
   colorMode=b.dataset.cmode; buildColorUI();
   render(); relabelAll();
   if(selected) select(selected,{center:false});
+  updateHash();
 });
 const lgitemsEl=document.getElementById('lgitems');
 lgitemsEl.addEventListener('mouseover', e=>{ const lg=e.target.closest('.lg'); if(lg&&lg.dataset.sp){
@@ -216,11 +217,11 @@ function applyFilter(){
   if(ns.length) highlightSet(ns, 'Filtered families', '_filter', false); else clearStory(false);
 }
 function clearFilter(){ filter.rich=filter.lineage=filter.region=filter.age=null; buildFilterUI();
-  if(activeStory==='_filter') clearStory(); document.getElementById('fcount').textContent='Set a facet to light up the matches'; }
+  if(activeStory==='_filter') clearStory(); document.getElementById('fcount').textContent='Set a facet to light up the matches'; updateHash(); }
 ['f-rich','f-lin','f-reg','f-age'].forEach(gid=>document.getElementById(gid).addEventListener('click', e=>{
   const b=e.target.closest('[data-facet]'); if(!b) return; const facet=b.dataset.facet, raw=b.dataset.val;
   filter[facet] = raw==='' ? null : (facet==='rich' ? +raw : raw);
-  buildFilterUI(); applyFilter(); }));
+  buildFilterUI(); applyFilter(); updateHash(); }));
 document.getElementById('fclear').onclick=clearFilter;
 
 let totFam=0, totGen=0, totSpp=ROOT.agg;
@@ -253,7 +254,7 @@ document.addEventListener('click', e=>{
   if(trig){ e.stopPropagation(); toggleMenu(trig.dataset.menu); return; }
   if(!openMenu) return;
   if(e.target.closest('.menu')){                       // a click inside the open menu
-    if(e.target.closest('button') && !e.target.closest('[data-cmode],[data-facet]')) closeMenu();   // an action closes it; colour & filter settings stay
+    if(e.target.closest('button') && !e.target.closest('[data-cmode],[data-facet],#btnShare')) closeMenu();   // an action closes it; colour, filter & the share confirmation stay
     return;
   }
   closeMenu();                                          // click outside closes
@@ -359,10 +360,10 @@ let tbDrag=false;
 tbtrack.addEventListener('pointerdown', e=>{ e.stopPropagation(); pausePlay(); tbDrag=true;
   tbtrack.setPointerCapture(e.pointerId); setTime(trackTime(e.clientX)); });
 tbtrack.addEventListener('pointermove', e=>{ if(tbDrag){ e.stopPropagation(); setTime(trackTime(e.clientX)); } });
-tbtrack.addEventListener('pointerup', ()=>{ tbDrag=false; });
+tbtrack.addEventListener('pointerup', ()=>{ tbDrag=false; replaceHash(); });   // reflect the settled time in the URL
 tbtrack.addEventListener('keydown', e=>{ const step=e.shiftKey?50:10;
-  if(e.key==='ArrowLeft'){ e.preventDefault(); setTime(timeNow+step); }
-  else if(e.key==='ArrowRight'){ e.preventDefault(); setTime(timeNow-step); } });
+  if(e.key==='ArrowLeft'){ e.preventDefault(); setTime(timeNow+step); replaceHash(); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); setTime(timeNow-step); replaceHash(); } });
 let playing=false, playRAF=0;
 function play(){
   if(playing){ pausePlay(); return; }
@@ -372,13 +373,14 @@ function play(){
   (function step(now){ if(!playing) return; const e=Math.min(1,(now-t0)/dur);
     setTime(from*(1-e)); if(e<1) playRAF=requestAnimationFrame(step); else pausePlay(); })(t0);
 }
-function pausePlay(){ playing=false; cancelAnimationFrame(playRAF); tbplay.innerHTML='&#9654;'; }
+function pausePlay(){ playing=false; cancelAnimationFrame(playRAF); tbplay.innerHTML='&#9654;'; replaceHash(); }
 tbplay.onclick=play;
 function enterTime(){
   timeMode=true; btnTime.classList.add('on'); btnTime.setAttribute('aria-pressed','true');
   timebar.hidden=false; buildBands();
   if(mode==='treemap'||mode==='sunburst') switchMode('radial');
   setTime(0);   // begin at the present — the full tree — then scrub/play back into deep time
+  updateHash();
 }
 function exitTime(){
   timeMode=false; btnTime.classList.remove('on'); btnTime.setAttribute('aria-pressed','false');
@@ -393,6 +395,11 @@ document.getElementById('btnOrders').onclick=toOrders;
 document.getElementById('btnExpand').onclick=expandAll;
 document.getElementById('btnCollapse').onclick=collapseTop;
 document.getElementById('btnFit').onclick=()=>fit(500);
+{ const btnShare=document.getElementById('btnShare');   // copy a link to the current view (works from file:// too)
+  btnShare.onclick=()=>{ const url=location.href.split('#')[0]+shareHash();
+    const done=ok=>{ btnShare.textContent=ok?'Link copied ✓':'Press ⌘C to copy'; setTimeout(()=>btnShare.textContent='Share this view',1500); };
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(()=>done(true),()=>done(false));
+    else done(false); }; }
 document.getElementById('btnTree').onclick=()=>switchMode('tree');
 document.getElementById('btnRadial').onclick=()=>switchMode('radial');
 document.getElementById('btnSun').onclick=()=>switchMode('sunburst');

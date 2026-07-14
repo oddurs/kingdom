@@ -15,6 +15,7 @@ function setModeButtons(m){
   [['btnTree','tree'],['btnRadial','radial'],['btnSun','sunburst'],['btnTreemap','treemap']].forEach(([b,v])=>{
     const on=m===v, el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
   });
+  updateHash();   // mode is a shareable, history-worthy dimension
 }
 let morphing=false;
 function switchMode(m){
