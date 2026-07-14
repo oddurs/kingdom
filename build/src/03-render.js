@@ -124,11 +124,14 @@ function labelLOD(){
   if(mode!=='tree' && mode!=='radial') return;
   const k=T.k;
   const span=Math.PI*2*0.94;
+  const storying=!!activeStory;                   // a filter/highlight is active → only the matches get labels
   for(const n of visibleNodes){
     const el=nodeEls.get(n._id); if(!el) continue;
     const isLeaf=!(n.open && (n.children||[]).length);
     let show=true;
-    if(isLeaf){                                   // the numerous frontier labels are what crowd
+    if(storying){                                 // constellation mode: label the matches, mute the crowd
+      show=false;
+    } else if(isLeaf){                            // the numerous frontier labels are what crowd
       const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*RADIAL_OUTER*k : DY*k;
       show = gap>=12 || n.agg>4000;               // always keep the big families legible
     }
