@@ -93,7 +93,9 @@
   /* ---------- header popover menus (G2) ---------- */
   .barsep{width:1px; height:20px; background:var(--edge); align-self:center; margin:0 2px}
   .menu-btn{display:inline-flex; align-items:center; gap:4px}
-  .menu-btn .caret{font-size:8px; opacity:.55; transition:transform var(--dur-1) var(--ease-out)}
+  /* one coherent inline-icon language (see the #ic-* symbols) */
+  .ic{width:14px; height:14px; flex:none; pointer-events:none; vertical-align:middle}
+  .menu-btn .caret{width:11px; height:11px; opacity:.55; transform-origin:center; transition:transform var(--dur-1) var(--ease-out)}
   .menu-btn[aria-expanded="true"]{color:var(--ink); border-color:var(--faint)}
   .menu-btn[aria-expanded="true"] .caret{transform:rotate(180deg); opacity:.9}
   .iconbtn{font-size:15px; line-height:1; padding:6px 10px}
@@ -241,7 +243,7 @@
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
     border-radius:var(--r-2); overflow:hidden; box-shadow:var(--elev-1)}
-  .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0;
+  .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0; display:grid; place-items:center;
     color:var(--dim); background:transparent; border:0; cursor:pointer; transition:color var(--dur-1),background var(--dur-1)}
   .zoomctl button:first-child{border-bottom:1px solid var(--edge)}
   .zoomctl button:hover{color:var(--ink); background:var(--hover)}
@@ -293,8 +295,8 @@
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
   }
   .panel.open{opacity:1; transform:none; pointer-events:auto}
-  .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1);
-    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:15px; line-height:1}
+  .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1); display:grid; place-items:center;
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .pclose:hover{color:var(--ink); border-color:var(--faint)}
   .pcrumb{font-family:var(--sans); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
   .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
@@ -428,8 +430,8 @@
     padding:30px 34px 32px; box-shadow:var(--elev-3);
     transform:translateY(12px); transition:transform var(--dur-2) var(--ease-settle)}
   .modal.show .sheet{transform:none}
-  .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1);
-    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; font-size:17px; line-height:1}
+  .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1); display:grid; place-items:center;
+    background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .mclose:hover{color:var(--ink); border-color:var(--faint)}
   .mclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
   .mbody h2{font-family:var(--serif); font-size:26px; font-weight:600; margin:0 0 5px; padding-right:34px; line-height:1.1}
