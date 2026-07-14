@@ -15,6 +15,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const proc = spawn(CHROME, [
   '--headless=new', '--disable-gpu', `--remote-debugging-port=${PORT}`,
+  ...(process.env.CI ? ['--no-sandbox', '--disable-dev-shm-usage'] : []),   // CI runners
   '--window-size=1200,630', '--hide-scrollbars', '--force-device-scale-factor=1',
   '--user-data-dir=/tmp/cdp-og-gen', 'about:blank',
 ], { stdio: 'ignore' });
