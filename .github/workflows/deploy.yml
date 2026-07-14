@@ -25,7 +25,7 @@ jobs:
           python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'   # global WebSocket (used by smoke.mjs/og.mjs CDP) needs Node >=21
           cache: npm
       - uses: browser-actions/setup-chrome@v1
         id: chrome
