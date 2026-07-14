@@ -48,6 +48,7 @@ async function session(flags, run) {
     "--disable-gpu",
     `--remote-debugging-port=${PORT}`,
     "--window-size=1400,880",
+    ...(process.env.CI ? ["--no-sandbox", "--disable-dev-shm-usage"] : []),   // CI runners
     ...flags,
     `file://${TARGET}`,
   ]);

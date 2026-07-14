@@ -1,0 +1,77 @@
+name: build, test & deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deploy at a time; never cancel an in-flight publish
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'   # global WebSocket (used by smoke.mjs/og.mjs CDP) needs Node >=21
+          cache: npm
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - run: npm ci
+
+      - name: Build the app
+        run: python3 build/build.py
+
+      - name: Smoke test
+        run: node test/smoke.mjs
+        env:
+          CHROME: ${{ steps.chrome.outputs.chrome-path }}
+
+      - name: Regenerate the social image
+        run: node build/og.mjs
+        env:
+          CHROME: ${{ steps.chrome.outputs.chrome-path }}
+
+      - name: Build the Storybook workshop
+        run: npm run build-storybook
+
+      - name: Assemble the Pages site
+        run: |
+          mkdir -p _site/storybook
+          cp index.html plant-tree.html og.jpg _site/
+          cp -r storybook-static/. _site/storybook/
+          touch _site/.nojekyll
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    # only main publishes; PRs stop at the build+test gate above
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
