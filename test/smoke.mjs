@@ -92,8 +92,9 @@ async function session(flags, run) {
           const d = JSON.parse(e.data);
           if (d.id === i) done(res, d.result);
         };
-        const onGone = () => done(rej, new Error(`browser went away during ${method}`));
-        const timer = setTimeout(() => done(rej, new Error(`${method} timed out after 30s`)), 30000);
+        const what = `${method}${params?.expression ? `: ${params.expression.replace(/\s+/g, " ").slice(0, 90)}` : ""}`;
+        const onGone = () => done(rej, new Error(`browser went away during ${what}`));
+        const timer = setTimeout(() => done(rej, new Error(`timed out after 45s — ${what}`)), 45000);
         ws.addEventListener("message", on);
         ws.addEventListener("close", onGone);
         ws.addEventListener("error", onGone);
