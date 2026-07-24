@@ -191,7 +191,7 @@ const near = (a, b, tol) => typeof a === "number" && Math.abs(a - b) <= tol;
 async function main() {
   console.log(`smoke: ${TARGET}\n`);
 
-  await session([], async ({ ev, errors, clickAt, tabTo }) => {
+  await session([], async ({ ev, errors, send, clickAt, tabTo }) => {
     // wait for an expected condition rather than a fixed sleep — view morphs and the
     // treemap/sunburst crossfade land on their own timers, so we poll for the outcome.
     const until = async (expr) => {
@@ -299,6 +299,20 @@ async function main() {
     // curated story highlight still works after the highlightSet refactor
     await ev(`setStory('crops')`); await wait(400);
     check("story highlight lights a constellation", (await ev(`activeStory==='crops' && document.querySelectorAll('.node.hl').length>0`)) === true);
+
+    // …and its result rows are reachable. The list used to open the panel without
+    // clearing `inert`, so every row was sealed behind the canvas.
+    const rowFocus = await tabTo(".lrow");            // focus first: clicking a row swaps the list out for the detail card
+    const rowClick = await clickAt(".lrow");
+    const rowWorked = await until(`selected && document.getElementById('plist').hidden`);
+    check("highlight list rows are clickable and focusable", rowClick === true && rowFocus === true && rowWorked === true,
+      [rowClick, rowFocus].filter((r) => r !== true).map(String).join(" | "));
+
+    // closing the list must re-arm inert, or an invisible panel keeps its tab stop
+    await ev(`closePanel(); setStory('crops')`); await wait(400);
+    await ev(`clearStory()`); await wait(160);
+    check("cleared highlight list leaves nothing focusable",
+      (await ev(`(()=>{const p=document.getElementById('panel'); return !p.classList.contains('open') && p.inert===true;})()`)) === true);
     await ev(`clearStory()`); await wait(120);
 
     // Sprint K: facet filter highlights matching families with a live count
@@ -357,6 +371,40 @@ async function main() {
     await ev(`pausePlay(); document.getElementById('btnTime').click()`); await wait(400);
     check("timeline toggles on, plays, and toggles off", timeOn && (await ev(`timeMode===false`)));
 
+    // An overlay owns its own input. Both of these used to reach the stage: the
+    // slider's arrows drove the tree cursor, and the wheel zoomed the canvas
+    // instead of scrolling whatever was under the pointer.
+    await ev(`exitFocus(); switchMode('radial'); closePanel()`); await wait(VIEW);
+    await ev(`document.getElementById('stage').dispatchEvent(new Event('focus'))`); await wait(80);
+    await ev(`document.getElementById('btnTime').click()`); await wait(600);
+    const t0 = await ev(`JSON.stringify([Math.round(timeNow), visibleNodes.length])`);
+    await ev(`(()=>{const s=document.getElementById('tbtrack'); s.focus();
+      s.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}));})()`); await wait(400);
+    const t1 = await ev(`JSON.stringify([Math.round(timeNow), visibleNodes.length])`);
+    const [ma0, vis0] = JSON.parse(t0), [ma1, vis1] = JSON.parse(t1);
+    check("slider arrows step time without collapsing the tree", ma1 > ma0 && vis1 === vis0,
+      `${ma0}Ma/${vis0} nodes → ${ma1}Ma/${vis1} nodes`);
+    await ev(`document.getElementById('btnTime').click()`); await wait(400);
+
+    await ev(`select(nodeByName('Asteraceae'))`); await wait(200);
+    const wheel = await ev(`(()=>{const p=document.getElementById('panel');
+      if(p.scrollHeight<=p.clientHeight) return 'panel is not scrollable — test is vacuous';
+      const k0=T.k, r=p.getBoundingClientRect();
+      const e=new WheelEvent('wheel',{deltaY:200,bubbles:true,cancelable:true,clientX:r.left+r.width/2,clientY:r.top+r.height/2});
+      p.dispatchEvent(e);
+      return JSON.stringify({prevented:e.defaultPrevented, zoomed:Math.abs(T.k-k0)>1e-6});})()`);
+    check("wheel over the panel neither zooms nor is swallowed",
+      wheel === '{"prevented":false,"zoomed":false}', String(wheel));
+    await ev(`closePanel()`); await wait(80);
+
+    // closing a menu hands focus back to its trigger instead of dropping it to <body>
+    const menuFocus = await ev(`(()=>{ toggleMenu('filter');
+      const f=document.getElementById('fclear'); if(!f) return 'no filter control to focus';
+      f.focus(); closeMenu();
+      const a=document.activeElement;
+      return a && a.dataset && a.dataset.menu==='filter' ? true : 'focus landed on '+(a?a.tagName.toLowerCase():'nothing');})()`);
+    check("closing a menu returns focus to its trigger", menuFocus === true, menuFocus === true ? "" : String(menuFocus));
+
     // perf HUD (E1)
     await ev(`togglePerf(true)`); await wait(300);
     check("perf HUD toggles on", (await ev(`!document.getElementById('perfhud').hidden`)) === true);
@@ -379,6 +427,22 @@ async function main() {
     // PNG export builds its SVG/style without throwing (regression guard for the export path)
     const exportOk = await ev(`(()=>{ try{ buildExportSVG(); return true; }catch(e){ return 'threw: '+e.message; } })()`);
     check("PNG export builds without error", exportOk === true, exportOk === true ? "" : String(exportOk));
+
+    // The discovery toast is the whole payload of "Surprise me". On a phone the
+    // header wraps to ~177px tall, and the toast used to position against the
+    // viewport rather than the stage — landing squarely behind it.
+    await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await wait(400);
+    await ev(`toast('Reachable on a phone?')`); await wait(200);
+    const toastBox = await ev(`(()=>{
+      const t=document.getElementById('toast').getBoundingClientRect();
+      const h=document.querySelector('header.bar').getBoundingClientRect();
+      return JSON.stringify({toastTop:Math.round(t.top), headerBottom:Math.round(h.bottom)});})()`);
+    const { toastTop, headerBottom } = JSON.parse(toastBox);
+    check("discovery toast clears the header on a phone", toastTop >= headerBottom,
+      `toast top ${toastTop}, header bottom ${headerBottom} @390×844`);
+    await send("Emulation.clearDeviceMetricsOverride", {});
+    await wait(300);
 
     check("no console errors or exceptions", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
