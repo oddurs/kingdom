@@ -23,7 +23,7 @@ build/genera.py         extracts the ~14k accepted genera from WCVP (the genus t
 build/shell.html        HTML shell with /*__CSS__*/, /*__JS__*/, /*__DATA__*/ placeholders
 build/src/app.css       the stylesheet
 build/src/*.js          the app, split into ordered modules (concatenated by build.py)
-plant-tree.html         generated, self-contained visualization (commit artifact)
+plant-tree.html         generated, self-contained visualization (git-ignored; CI builds it)
 test/smoke.mjs          headless-Chrome regression suite (node test/smoke.mjs)
 ```
 
@@ -90,6 +90,9 @@ stylesheet and the JS modules), then rebuild.
 
 ## Develop & test
 
+Needs **Python 3** and **Node 22+** (the smoke runner uses the global `WebSocket`,
+which lands in Node 21), plus Chrome or Chromium for `make test`.
+
 ```sh
 make            # list targets
 make build      # rebuild plant-tree.html from build/src + data
@@ -110,18 +113,17 @@ components (`.ctl`, `.seg`, `.menu`, chips, `.search`, `.tip`, `.panel`) in
 files the app build uses, so it can never drift from the shipped page. It's
 dev-only; the app itself keeps zero runtime dependencies.
 
-**Live workshop: <https://oddurs.github.io/kingdom/storybook/>**
+**Live workshop: <https://yggdrasil.oddurs.com/storybook/>**
 
 ```sh
 npm install             # one-time (dev-only Storybook toolchain)
 make storybook          # workshop at http://localhost:6006
 make storybook-build    # static site → storybook-static/
-make storybook-deploy   # refresh the committed storybook/ folder → publishes on Pages
 ```
 
-The published site lives in the committed `storybook/` folder (a build artifact,
-like `plant-tree.html`); GitHub Pages serves it at the URL above. Run
-`make storybook-deploy` and commit to update it.
+Nothing to commit and nothing to publish by hand: CI builds the workshop on
+every push to `main` and deploys it alongside the app. It is excluded from
+`robots.txt` — dev tooling, not site content.
 
 ## Controls
 

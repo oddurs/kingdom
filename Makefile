@@ -2,10 +2,10 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test check serve clean fonts og storybook storybook-build storybook-deploy
+.PHONY: help build test check serve clean fonts og storybook storybook-build
 
 help: ## show this help
-	@grep -hE '^[a-z]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
+	@grep -hE '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
 
 build: ## rebuild plant-tree.html from build/src + data
 	python3 build/build.py
@@ -31,9 +31,6 @@ storybook: ## run the design-system workshop at http://localhost:6006 (needs `np
 storybook-build: ## build the static design-system site to storybook-static/
 	npm run build-storybook
 
-storybook-deploy: storybook-build ## rebuild + refresh the committed storybook/ folder (served on Pages at /kingdom/storybook/)
-	rm -rf storybook && mkdir storybook && cp -r storybook-static/. storybook/
-	@echo "refreshed storybook/ — commit it to publish to https://oddurs.github.io/kingdom/storybook/"
 
 clean: ## remove build caches
-	rm -rf build/__pycache__ storybook-static
+	rm -rf build/__pycache__ storybook-static og.jpg

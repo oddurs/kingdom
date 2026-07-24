@@ -484,6 +484,20 @@ async function main() {
     }catch(e){ return 'threw: '+e.message; } })()`);
     check("SEO structured data + crawlable index present", seoOk === true, seoOk === true ? "" : String(seoOk));
 
+    // the page must quote one species total, not two: the footer counts the way the
+    // app aggregates, and the crawlable index used to sum family counts instead
+    const totals = await ev(`(()=>{
+      const f=document.getElementById('footer').textContent.match(/species catalogued\\s*~?([\\d,]+)/);
+      const c=document.querySelector('section[aria-label="The plant kingdom in text"]').textContent.match(/roughly ([\\d,]+) accepted species/);
+      return JSON.stringify({foot:f&&f[1], crawl:c&&c[1]});})()`);
+    const T2 = JSON.parse(totals);
+    check("the page quotes one species total", !!T2.foot && T2.foot === T2.crawl, `footer ${T2.foot}, crawlable index ${T2.crawl}`);
+
+    // the document's first heading is its <h1>; the crawlable section used to be
+    // injected ahead of the header, opening the page on an <h2>
+    const firstHeading = await ev(`(document.querySelector('h1,h2,h3,h4,h5,h6')||{}).tagName`);
+    check("the document opens on its h1", firstHeading === "H1", String(firstHeading));
+
     // PNG export builds its SVG/style without throwing (regression guard for the export path)
     const exportOk = await ev(`(()=>{ try{ buildExportSVG(); return true; }catch(e){ return 'threw: '+e.message; } })()`);
     check("PNG export builds without error", exportOk === true, exportOk === true ? "" : String(exportOk));

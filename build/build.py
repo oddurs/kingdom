@@ -23,14 +23,13 @@ from util import read_json
 SITE = "https://yggdrasil.oddurs.com/"
 
 
-def seo_blocks(taxa, meta, ngenera):
+def seo_blocks(taxa, meta, ngenera, total_spp):
     """Build two SEO payloads: JSON-LD structured data (head) and a crawlable,
     screen-reader text index of the tree (body). The visualization is drawn in
     JS/SVG, so without these a crawler — and a screen reader — sees almost no
     content. Both are generated from the same rigorous data the app renders."""
     fams = [t for t in taxa if t.get("rank") == "family"]
     nfam = len(fams)
-    total_spp = sum(t.get("speciesCount", 0) for t in fams)
     by_rich = sorted(fams, key=lambda t: t.get("speciesCount", 0), reverse=True)
     aged = [t for t in fams if t.get("ageMy") is not None]
     oldest = max(aged, key=lambda t: t["ageMy"]) if aged else None
@@ -149,6 +148,21 @@ def check_collisions():
         raise SystemExit(f"duplicate top-level declarations (one scope, last one wins):\n{lines}")
 
 
+def agg_species(node):
+    """Total species the way the app counts them (01-prep.js `agg`).
+
+    Leaves contribute speciesCount or 1; parents sum their children. Summing
+    family speciesCount instead drops every family whose count is still an
+    estimate, which is why the footer read ~389,873 while the crawlable index
+    said 370,535 — two totals for the same tree on the same page.
+    """
+    kids = node.get("children") or []
+    if not kids:
+        # genera are stored compactly (n/s/p) and rehydrated by prep(); "s" is their count
+        return node.get("speciesCount") or node.get("s") or 1
+    return sum(agg_species(k) for k in kids)
+
+
 def validate(meta, taxa):
     """Lightweight structural validation — no external dependency."""
     ranks = set(meta.get("rankOrder", []))
@@ -261,9 +275,11 @@ def main() -> None:
     css = "".join(p.read_text(encoding="utf-8") for p in CSS_PARTS)
     js = "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
     check_collisions()
-    jsonld, crawl = seo_blocks(taxa, meta, ngenera)
+    total_spp = agg_species(tree)
+    jsonld, crawl = seo_blocks(taxa, meta, ngenera, total_spp)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
-                      ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell")):
+                      ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell"),
+                      ("__SPECIES__", "shell")):
         if ph not in shell:
             raise SystemExit(f"placeholder {ph!r} not found in {where}")
     # Embed as JSON.parse('…') rather than a raw JS object literal: V8 parses a JSON string
@@ -271,11 +287,14 @@ def main() -> None:
     # blob into a single-quoted JS string (backslash first, then quote, then </ for tag safety).
     blob = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
     esc = blob.replace("\\", "\\\\").replace("'", "\\'").replace("</", "<\\/")
+    # the copy quotes a round number; derive it so it can never drift from the data
+    rounded = f"{round(total_spp / 10000) * 10000:,}"
     out = (shell
            .replace("/*__CSS__*/", css)
            .replace("/*__JS__*/", js)
            .replace("<!--__JSONLD__-->", jsonld)
            .replace("<!--__CRAWL__-->", crawl)
+           .replace("__SPECIES__", rounded)
            .replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
     OUT.write_text(out, encoding="utf-8")
 
