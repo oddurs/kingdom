@@ -2,6 +2,11 @@
 
 Make the joints between sprints hold.
 
+> **Shipped 2026-07-24.** All five phases merged: T1 #86, T2 #87, T3 #88, T4 #89, T5 #90
+> (plus #91, a follow-up that stabilised one of T3's new checks on CI). The suite went
+> 34 → 48 checks. One item is still open and needs you: **DNS for yggdrasil.oddurs.com**
+> — see "The one thing I can't fix" below.
+
 ## The thesis
 
 The July code review turned up ~30 findings, six of them user-visible breakages
@@ -305,13 +310,27 @@ change (the render hot path) and wants a clean tree to land on. T4 and T5 touch
 nothing the browser runs, so they can land in either order, or in parallel with
 T3 if you want two tracks.
 
-| Phase | Scope | Findings closed | Risk |
-|-------|-------|-----------------|------|
-| **T1 Harness** | hit-tested clicks, real history, CDP timeouts | root cause 6 | none |
-| **T2 Overlays** | `setOverlay`, `OVERLAY_SEL` everywhere, toast, ARIA | root causes 2, 3, 4 | low |
-| **T3 Repaint** | `paint()`/`repaintAll()`, label LOD re-run | root cause 1 | low-med |
-| **T4 Pipeline** | atomic writes, loud failures, build guards | root cause 5 | low |
-| **T5 Delivery** | CI scoping, SEO, docs | root cause 7 | low |
+| Phase | Scope | Findings closed | Shipped |
+|-------|-------|-----------------|---------|
+| **T1 Harness** | hit-tested clicks, real history, CDP timeouts | root cause 6 | ✅ #86 |
+| **T2 Overlays** | `setOverlay`, `OVERLAY_SEL` everywhere, toast, ARIA | root causes 2, 3, 4 | ✅ #87 |
+| **T3 Repaint** | `paint()`/`repaintAll()`, label LOD re-run | root cause 1 | ✅ #88 |
+| **T4 Pipeline** | atomic writes, loud failures, build guards | root cause 5 | ✅ #89 |
+| **T5 Delivery** | CI scoping, SEO, docs | root cause 7 | ✅ #90 |
+
+### What the sprint actually turned up
+
+Three things the plan didn't predict, all found by the new harness:
+
+- **Both search tests were passing on luck.** `closeResults()` only hides the
+  dropdown, so waiting for `.qrow` to exist matched the *previous* search's rows —
+  and its stale `hitList`. They only passed because both searches happened to query
+  the same term.
+- **The duplicate-declaration guard found its bug on its first run**, exactly as
+  hoped: `surprise()` in both `07-navigation.js` and `10-boot.js`.
+- **The page was quoting two different species totals** (389,873 in the footer,
+  370,535 in the crawlable index) because they were computed by different rules.
+  The marketing copy was right; the crawlable index was wrong.
 
 ## Manual tasks for you
 
