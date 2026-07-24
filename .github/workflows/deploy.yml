@@ -5,19 +5,22 @@ on:
     branches: [main]
   pull_request:
 
+# The build job runs PR-authored code — npm lifecycle scripts and build/*.py — so
+# it gets read access and nothing else. The publish scopes live on the deploy job,
+# which only ever runs from main.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# one deploy at a time; never cancel an in-flight publish
+# One publish at a time and never cancel one in flight, but keep the queue per-ref
+# so a slow PR build can't hold the production deploy behind it.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20        # a wedged browser fails in minutes, not at the 6-hour default
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,17 +50,27 @@ jobs:
         env:
           CHROME: ${{ steps.chrome.outputs.chrome-path }}
 
+      # Dev-only tooling must not be able to block an app fix. If Storybook or one of
+      # its transitive deps breaks, the app still ships and the workshop is simply
+      # absent from that deploy.
       - name: Build the Storybook workshop
+        id: storybook
+        continue-on-error: true
         run: npm run build-storybook
 
       - name: Assemble the Pages site
         run: |
-          mkdir -p _site/storybook
+          mkdir -p _site
           cp plant-tree.html og.jpg _site/
           cp plant-tree.html _site/index.html          # the app IS the root (no redirect stub)
           cp CNAME robots.txt sitemap.xml _site/        # custom domain + crawler plumbing
-          cp -r storybook-static/. _site/storybook/
           touch _site/.nojekyll
+
+      - name: Add the Storybook workshop
+        if: steps.storybook.outcome == 'success'
+        run: |
+          mkdir -p _site/storybook
+          cp -r storybook-static/. _site/storybook/
 
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main'
@@ -70,6 +83,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
