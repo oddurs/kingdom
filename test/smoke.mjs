@@ -321,6 +321,61 @@ async function main() {
       (await ev(`activeStory==='_filter' && /famil(y|ies) match/.test(document.getElementById('fcount').textContent) && document.querySelectorAll('.node.hl').length>0`)) === true);
     await ev(`clearFilter()`); await wait(120);
 
+    // Colour modes must repaint what is already mounted. Pooled shells are painted
+    // once at mount, so most nodes kept the previous mode's colour — the switcher
+    // recoloured the legend and almost nothing else.
+    await ev(`clearStory(); closePanel(); exitFocus(); switchMode('radial')`); await wait(VIEW);
+    const repaint = await ev(`(()=>{
+      const stale=m=>{ let bad=0, seen=0;
+        for(const [id,el] of nodeEls){ const n=idMap.get(id); if(!n) continue;
+          seen++; if(el.style.getPropertyValue('--lc').trim()!==color(n)) bad++; }
+        return {mode:m, seen, bad}; };
+      const out=[];
+      for(const m of ['age','region','lineage']){ setColorMode(m); out.push(stale(m)); }
+      return JSON.stringify(out);})()`);
+    const repaintRows = JSON.parse(repaint);
+    check("colour modes repaint every mounted node", repaintRows.every((r) => r.seen > 0 && r.bad === 0),
+      repaintRows.map((r) => `${r.mode}: ${r.bad}/${r.seen} stale`).join(", "));
+
+    // a #c= deep link paints the tree it lands on, not just the legend
+    await ev(`history.pushState(null,'','#c=region'); applyHash();`); await wait(600);
+    const deepPaint = await ev(`(()=>{ let bad=0, seen=0;
+      for(const [id,el] of nodeEls){ const n=idMap.get(id); if(!n) continue;
+        seen++; if(el.style.getPropertyValue('--lc').trim()!==color(n)) bad++; }
+      return JSON.stringify({colorMode, seen, bad});})()`);
+    const dp = JSON.parse(deepPaint);
+    check("#c= deep link paints the tree it lands on", dp.colorMode === "region" && dp.seen > 0 && dp.bad === 0,
+      `${dp.bad}/${dp.seen} stale in ${dp.colorMode}`);
+    await ev(`setColorMode('lineage'); history.replaceState(null,'',location.pathname);`); await wait(150);
+
+    // Labels are chosen inside render(), before the highlight classes exist, and a
+    // culled label is removed from the DOM — so switching filters used to strip the
+    // labels off matches that were already mounted, and clearing never restored them.
+    // in tree mode every match is label-eligible, so the check doesn't depend on
+    // whatever frontier an earlier test left behind (radial skips open interiors)
+    await ev(`clearFilter(); clearStory(); closePanel(); switchMode('tree')`); await wait(VIEW);
+    const labels = await ev(`(()=>{
+      // radial deliberately leaves *open* interior clades unlabelled, so measure
+      // against the set the app is willing to label, not every match
+      const tally=()=>{ let due=0, got=0;
+        for(const el of document.querySelectorAll('#nodes .node.hl')){ const n=el.__node; if(!n) continue;
+          if(mode!=='tree' && n.open && (n.children||[]).length) continue;
+          due++; if(el.__lab) got++; }
+        return {due, got}; };
+      filter.rich=null; filter.lineage='mono'; filter.region=null; filter.age=null; buildFilterUI(); applyFilter();
+      const a=tally();
+      filter.lineage=null; filter.rich=1000; buildFilterUI(); applyFilter();
+      const b=tally();
+      clearFilter();
+      const cleared=[...document.querySelectorAll('#nodes .node')].filter(e=>e.__lab).length;
+      return JSON.stringify({a,b,cleared,lit:b.got});})()`);
+    const L = JSON.parse(labels);
+    check("every label-eligible match keeps its label across filter changes",
+      L.a.due > 0 && L.a.got === L.a.due && L.b.due > 0 && L.b.got === L.b.due,
+      `first ${L.a.got}/${L.a.due}, second ${L.b.got}/${L.b.due}`);
+    check("clearing a highlight restores the ordinary labels", L.cleared > L.lit, `${L.lit} lit → ${L.cleared} after clear`);
+    await wait(150);
+
     // Sprint O: the whole view round-trips through the URL hash (deep-linking)
     await ev(`switchMode('tree')`); await wait(VIEW);
     await ev(`select(nodeByName('Rosaceae'))`); await wait(150);

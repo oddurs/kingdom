@@ -186,6 +186,9 @@ function legendSwatches(){
     return Object.keys(CONTINENT_COL).map(c=>`<span class="lg" data-sp="reg:${c}"><span class="dot" style="color:${CONTINENT_COL[c]}"></span>${CONTINENTS[c]}</span>`).join('')+NODATA_SW;
   return order.map(id=>`<span class="lg" data-sp="lin:${id}"><span class="dot" style="color:${cssVar(LINEAGES[id].c)}"></span>${LINEAGES[id].label}</span>`).join('');
 }
+// colorMode's single owner: the legend and every mounted node and link have to
+// move together. Three sites used to assign it and only rebuild the legend.
+function setColorMode(c){ colorMode=c; buildColorUI(); repaintAll(); }
 function buildColorUI(){
   document.getElementById('cmode').innerHTML='<span class="slabel">Colour</span>'
     + CMODES.map(([id,l])=>`<button class="schip${id===colorMode?' on':''}" data-cmode="${id}">${l}</button>`).join('');
@@ -209,7 +212,7 @@ buildColorUI();
 document.getElementById('cmode').addEventListener('click', e=>{
   const b=e.target.closest('[data-cmode]'); if(!b) return;
   if(b.dataset.cmode===colorMode) return;
-  colorMode=b.dataset.cmode; buildColorUI();
+  setColorMode(b.dataset.cmode);
   render(); relabelAll();
   if(selected) select(selected,{center:false});
   updateHash();

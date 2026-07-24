@@ -53,9 +53,20 @@ function acquireShell(n){
   el.setAttribute('class','node');                 // reset any classes left by a prior occupant
   el.__node=n; el.__age=n.effAge; el.__born=false;
   el.style.opacity=''; el.style.pointerEvents='';
+  paint(el, n);
+  return el;
+}
+// Everything a node's look derives from its data. Pooled shells are painted once,
+// at mount — so whatever changes `color()` has to repaint what is already on screen
+// or the tree keeps the previous mode's colours. Pairs with relabelAll().
+function paint(el, n){
   el.style.setProperty('--lc', color(n)); el.style.setProperty('--glow', glowOf(n));
   el.__halo.setAttribute('r', haloR(n)); el.__dot.setAttribute('r', radius(n));
-  return el;
+}
+function paintLink(el, t){ el.style.setProperty('--lc', color(t)); el.style.setProperty('--lw', linkW(t)); }
+function repaintAll(){
+  for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) paint(el, n); }
+  if(lastLayout) for(const l of lastLayout.links){ const el=linkEls.get(l.s._id+'-'+l.t._id); if(el) paintLink(el, l.t); }
 }
 function releaseShell(el){
   if(el.__lab){ el.__lab.remove(); el.__lab=null; }
@@ -81,7 +92,7 @@ function ensureLink(l, repos){
   const id=l.s._id+'-'+l.t._id;
   let el=linkEls.get(id), fresh=false;
   if(!el){ el=document.createElementNS(NS,'path'); el.setAttribute('class','link');
-    el.style.setProperty('--lc', color(l.t)); el.style.setProperty('--lw', linkW(l.t));
+    paintLink(el, l.t);
     el.__age=l.t.effAge; gLinks.appendChild(el); linkEls.set(id,el); fresh=true; }
   if(fresh || repos) el.setAttribute('d', mode==='radial' ? linkPathRadial(l.s,l.t) : linkPath(l.s,l.t));
 }

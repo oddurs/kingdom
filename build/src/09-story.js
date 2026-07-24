@@ -30,6 +30,7 @@ function highlightSet(ns, label, key, doFit){
   render(); relabelAll();
   stage.classList.add('storying');
   for(const n of ns){ const el=nodeEls.get(n._id); if(el) el.classList.add('hl'); }
+  labelLOD();                         // labelLOD ran inside render(), before these classes existed
   showStoryList(label, ns);
   if(doFit!==false) fit(650);         // show the whole tree so the matches read as a constellation
   updateHash();
@@ -52,6 +53,7 @@ function clearStory(doHash){
   activeStory=null; storySet=null; stage.classList.remove('storying');
   document.querySelectorAll('.node.hl').forEach(e=>e.classList.remove('hl'));
   document.querySelectorAll('.schip.on').forEach(c=>c.classList.remove('on'));
+  labelLOD();                         // culled labels were removed from the DOM; CSS can't bring them back
   const pl=document.getElementById('plist');
   if(pl && !pl.hidden){ panelFace(false);
     if(!selected){ setOverlay(panel, false); } }
@@ -94,7 +96,7 @@ function applyHash(){
   try{
     if(!raw) return;                           // fresh load — nothing to restore; the entrance owns the first paint
     const c=params.get('c');
-    if(c && c!==colorMode && CMODES.some(m=>m[0]===c)){ colorMode=c; buildColorUI(); }
+    if(c && c!==colorMode && CMODES.some(m=>m[0]===c)){ setColorMode(c); }
     const m=params.get('m');
     if(m && m!==mode && ['tree','radial','sunburst','treemap'].includes(m)){ mode=m; setModeButtons(m); }
     render(); if(mode!=='treemap' && mode!=='sunburst') relabelAll();
@@ -119,7 +121,7 @@ function resetView(){                          // back to the landing baseline, 
     if(filter.rich||filter.lineage||filter.region||filter.age) clearFilter();
     if(timeMode) exitTime();
     if(selected) closePanel();
-    if(colorMode!=='lineage'){ colorMode='lineage'; buildColorUI(); }
+    if(colorMode!=='lineage'){ setColorMode('lineage'); }
     if(mode!=='radial'){ mode='radial'; setModeButtons('radial'); }
     render(); relabelAll();
   } finally { _applyingHash=false; }
