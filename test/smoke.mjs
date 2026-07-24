@@ -77,6 +77,10 @@ async function session(flags, run) {
     // Every request must be able to fail. A reply that never arrives — a browser
     // that crashed or was OOM-killed — would otherwise hang the suite until the
     // CI job's own timeout, holding the deploy queue behind it.
+    //
+    // This is a liveness guard, not a speed limit: a 2-core CI runner can spend
+    // tens of seconds inside one evaluate (a relayout of the full frontier), and
+    // failing that run would be a lie about what broke. Generous, but finite.
     let id = 0;
     const send = (method, params) =>
       new Promise((res, rej) => {
@@ -94,7 +98,7 @@ async function session(flags, run) {
         };
         const what = `${method}${params?.expression ? `: ${params.expression.replace(/\s+/g, " ").slice(0, 90)}` : ""}`;
         const onGone = () => done(rej, new Error(`browser went away during ${what}`));
-        const timer = setTimeout(() => done(rej, new Error(`timed out after 45s — ${what}`)), 45000);
+        const timer = setTimeout(() => done(rej, new Error(`timed out after 120s — ${what}`)), 120000);
         ws.addEventListener("message", on);
         ws.addEventListener("close", onGone);
         ws.addEventListener("error", onGone);
