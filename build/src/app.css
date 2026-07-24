@@ -295,6 +295,7 @@
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
   }
   .panel.open{opacity:1; transform:none; pointer-events:auto}
+  .panel.listing{border-left-color:var(--l-fern); border-top-color:var(--l-fern)}
   .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1); display:grid; place-items:center;
     background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .pclose:hover{color:var(--ink); border-color:var(--faint)}

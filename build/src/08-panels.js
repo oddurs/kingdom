@@ -5,6 +5,22 @@ const panel=document.getElementById('panel');
 function a11yLabel(n){ return n.name+', '+n.rank+', about '+n.agg.toLocaleString()+' species'; }
 function announce(msg){ const s=document.getElementById('a11y-status'); if(s) s.textContent=msg; }
 const escp=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+// One owner for "is this overlay really open": the visibility class, the ARIA
+// state and `inert` have to move together. Six call sites used to set them by
+// hand and two forgot `inert` — which is the difference between an overlay that
+// looks open in a screenshot and one you can actually click.
+function setOverlay(el, open, cls){
+  el.classList.toggle(cls||'open', open);
+  el.setAttribute('aria-hidden', String(!open));
+  el.inert=!open;
+}
+// The panel has two faces: a detail card and a highlight list. One owner, so
+// the list's lineage tint can't survive into the next detail card.
+function panelFace(list){
+  document.getElementById('plist').hidden=!list;
+  document.getElementById('pdetail').hidden=list;
+  panel.classList.toggle('listing', list);
+}
 let selected=null;
 function ancestors(n){ const a=[]; let c=n; while(c){ a.unshift(c); c=c.parent; } return a; }
 function revealNode(n){ let p=n.parent, need=false;
@@ -60,7 +76,7 @@ function select(n, opts){
   if(opts.center!==false) revealNode(n);
   const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
   if(opts.panel!==false){                     // tours on mobile highlight + centre without opening the panel
-  document.getElementById('pdetail').hidden=false; document.getElementById('plist').hidden=true;
+  panelFace(false);
   const lc=color(n);
   panel.style.setProperty('--lc', lc);   // drives the lineage dot in the nameplate
   const chain=ancestors(n);
@@ -131,7 +147,7 @@ function select(n, opts){
   ];
   document.getElementById('prefs').innerHTML='<div class="preflabel">References</div><div class="prefs">'+
     refs.map(([t,u,v,ti])=>`<a class="pref${v?' verified':''}" href="${u}" target="_blank" rel="noopener"${ti?' title="'+ti+'"':''}>${t}</a>`).join('')+'</div>';
-  panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); panel.inert=false;
+  setOverlay(panel, true);
   }
   if(opts.center!==false){
     // treemap/sunburst draw the selection outline only at render time and have no
@@ -149,7 +165,7 @@ document.getElementById('pcrumb').addEventListener('click', e=>{ const a=e.targe
 document.getElementById('pcrumb').addEventListener('keydown', e=>{ if(e.key!=='Enter'&&e.key!==' ') return;
   const a=e.target.closest('a'); if(a){ e.preventDefault(); const n=idMap.get(+a.dataset.id); if(n) select(n); } });
 function closePanel(){ if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
-  selected=null; panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); panel.inert=true; updateHash(); }
+  selected=null; setOverlay(panel, false); updateHash(); }
 document.getElementById('pclose').onclick=closePanel;
 
 

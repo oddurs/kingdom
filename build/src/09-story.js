@@ -37,9 +37,8 @@ function highlightSet(ns, label, key, doFit){
 function showStoryList(label, ns){
   const rows=ns.slice().sort((a,b)=>b.agg-a.agg);
   if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); selected=null; }
-  document.getElementById('pdetail').hidden=true;
-  const pl=document.getElementById('plist'); pl.hidden=false;
-  const fern=cssVar('--l-fern'); panel.style.borderLeftColor=fern; panel.style.borderTopColor=fern;
+  panelFace(true);
+  const pl=document.getElementById('plist');
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
   pl.innerHTML = `<div class="lhead">${escp(label)}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
     rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
@@ -47,15 +46,15 @@ function showStoryList(label, ns){
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
   pl.querySelectorAll('.lrow').forEach(r=>{ const go=()=>{ const n=idMap.get(+r.dataset.id); if(n) select(n); };
     r.onclick=go; r.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }; });
-  panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+  setOverlay(panel, true);
 }
 function clearStory(doHash){
   activeStory=null; storySet=null; stage.classList.remove('storying');
   document.querySelectorAll('.node.hl').forEach(e=>e.classList.remove('hl'));
   document.querySelectorAll('.schip.on').forEach(c=>c.classList.remove('on'));
   const pl=document.getElementById('plist');
-  if(pl && !pl.hidden){ pl.hidden=true; document.getElementById('pdetail').hidden=false;
-    if(!selected){ panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); } }
+  if(pl && !pl.hidden){ panelFace(false);
+    if(!selected){ setOverlay(panel, false); } }
   if(doHash!==false) updateHash();
 }
 // ---------- deep-linking: the whole view lives in the URL (Sprint O) ----------
@@ -173,14 +172,14 @@ function showTourStep(){
   document.getElementById('tourdots').innerHTML=tour.steps.map((_,i)=>`<i class="${i===tourStep?'on':''}"></i>`).join('');
   document.getElementById('tprev').disabled=tourStep===0;
   document.getElementById('tnext').textContent = tourStep===tour.steps.length-1 ? 'Finish' : 'Next ›';
-  tourcard.classList.add('show'); tourcard.inert=false;
+  setOverlay(tourcard, true, 'show');
   // on phones the panel becomes a bottom sheet that would stack under the tour card and
   // hide the highlighted node — keep the tour card as the single narrative surface there
   if(n) select(n, matchMedia('(max-width:680px)').matches ? {panel:false} : {});
 }
 function tourNext(){ if(!tour) return; if(tourStep<tour.steps.length-1){ tourStep++; showTourStep(); } else endTour(); }
 function tourPrev(){ if(tour && tourStep>0){ tourStep--; showTourStep(); } }
-function endTour(){ tour=null; tourcard.classList.remove('show'); tourcard.inert=true; }
+function endTour(){ tour=null; setOverlay(tourcard, false, 'show'); }
 document.getElementById('tnext').onclick=tourNext;
 document.getElementById('tprev').onclick=tourPrev;
 document.getElementById('texit').onclick=endTour;

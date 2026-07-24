@@ -102,6 +102,7 @@ function setKb(n, doPan){
 }
 stage.addEventListener('focus', ()=>{ if(!kb) setKb(ROOT,false); });
 stage.addEventListener('keydown', e=>{
+  if(e.target.closest(OVERLAY_SEL)) return;   // an overlay's own keys are its own (the time slider's arrows are not the tree's)
   if(document.activeElement===q || !kb) return;
   const vis=visibleNodes, i=vis.indexOf(kb), hasKids=(kb.children||[]).length>0;
   if(i<0 && vis.length && (e.key==='ArrowDown'||e.key==='ArrowUp')){ setKb(vis[0]); e.preventDefault(); return; }  // focus fell out of view → re-seed
@@ -114,7 +115,9 @@ stage.addEventListener('keydown', e=>{
   }
 });
 // wheel zoom around cursor
-stage.addEventListener('wheel', e=>{ e.preventDefault();
+stage.addEventListener('wheel', e=>{
+  if(e.target.closest(OVERLAY_SEL)) return;   // let the panel and the modal scroll themselves
+  e.preventDefault();
   const r=stage.getBoundingClientRect(); const mx=e.clientX-r.left, my=e.clientY-r.top;
   const f=Math.exp(-e.deltaY*0.0016); const k=Math.max(0.12,Math.min(3.2,T.k*f));
   T.x=mx-(mx-T.x)*(k/T.k); T.y=my-(my-T.y)*(k/T.k); T.k=k; applyT();
@@ -155,7 +158,7 @@ function runSearch(){
   if(!hitList.length){
     rows=`<div class="qfoot"><span>No match for &ldquo;${esch(q.value.trim())}&rdquo;</span><button data-act="surprise">Surprise me</button></div>`;
   }else{
-    hitList.forEach((n,i)=>{ rows+=`<button class="qrow" role="option" data-i="${i}">`+
+    hitList.forEach((n,i)=>{ rows+=`<button class="qrow" role="option" id="qrow-${i}" aria-selected="false" data-i="${i}">`+
       `<span class="qrk" style="color:${color(n)}"></span>`+
       `<span class="qnm">${mark(n.name,s)}</span>`+
       (n.common?`<span class="qcm">${esch(n.common)}</span>`:'')+
@@ -163,14 +166,15 @@ function runSearch(){
     const more = total>RESULT_CAP ? `${total-RESULT_CAP} more · keep typing` : `${total} match${total===1?'':'es'}`;
     rows+=`<div class="qfoot"><span>${more}</span><button data-act="surprise">Surprise me</button></div>`;
   }
-  qres.innerHTML=rows; activeIdx=-1; openResults();
+  qres.innerHTML=rows; activeIdx=-1; q.removeAttribute('aria-activedescendant'); openResults();
 }
 function openResults(){ qres.hidden=false; q.setAttribute('aria-expanded','true'); }
-function closeResults(){ qres.hidden=true; q.setAttribute('aria-expanded','false'); activeIdx=-1; }
+function closeResults(){ qres.hidden=true; q.setAttribute('aria-expanded','false'); q.removeAttribute('aria-activedescendant'); activeIdx=-1; }
 function setActive(i){
   const rows=qres.querySelectorAll('.qrow'); if(!rows.length) return;
   activeIdx=(i+rows.length)%rows.length;
-  rows.forEach((r,j)=>r.classList.toggle('active', j===activeIdx));
+  rows.forEach((r,j)=>{ const on=j===activeIdx; r.classList.toggle('active', on); r.setAttribute('aria-selected', String(on)); });
+  q.setAttribute('aria-activedescendant', rows[activeIdx].id);   // arrow keys move a real cursor, not just a tint
   rows[activeIdx].scrollIntoView({block:'nearest'});
 }
 function navTo(n){ closeResults(); resetFocus(); select(n); q.blur(); }  // resetFocus re-renders if focused; select() centres

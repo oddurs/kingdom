@@ -1,7 +1,7 @@
 // ---------- welcome / onboarding ----------
 const welcome=document.getElementById('welcome');
-function showWelcome(){ welcome.classList.add('show'); welcome.inert=false; const b=document.getElementById('wtour'); if(b) b.focus(); }
-function hideWelcome(){ welcome.classList.remove('show'); welcome.inert=true; try{localStorage.setItem('biomi_seen','1');}catch(e){} }
+function showWelcome(){ setOverlay(welcome, true, 'show'); const b=document.getElementById('wtour'); if(b) b.focus(); }
+function hideWelcome(){ setOverlay(welcome, false, 'show'); try{localStorage.setItem('biomi_seen','1');}catch(e){} }
 document.getElementById('wexplore').onclick=()=>{ hideWelcome(); maybeEntrance(); };
 document.getElementById('wtour').onclick=()=>{ hideWelcome(); startTour('ascent'); };
 document.getElementById('wsurprise').onclick=()=>{ hideWelcome(); surprise(); };
@@ -14,12 +14,12 @@ let lastFocus=null;
 function openModal(html){
   lastFocus=document.activeElement;
   mbody.innerHTML=html;
-  modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); modal.inert=false;
+  setOverlay(modal, true, 'show');
   if(typeof closeMenu==='function') closeMenu();
   modal.scrollTop=0; document.getElementById('mclose').focus();
 }
 function closeModal(){ if(!modal.classList.contains('show')) return;
-  modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); modal.inert=true;
+  setOverlay(modal, false, 'show');
   if(lastFocus && lastFocus.focus) lastFocus.focus(); lastFocus=null;
 }
 document.getElementById('mclose').onclick=closeModal;
@@ -289,7 +289,11 @@ document.getElementById('footer').innerHTML =
 let openMenu=null;
 function closeMenu(){ if(!openMenu) return;
   const btn=document.querySelector(`[data-menu="${openMenu.dataset.for}"]`); if(btn) btn.setAttribute('aria-expanded','false');
-  openMenu.hidden=true; openMenu.classList.remove('open'); openMenu=null; }
+  // hand focus back to the trigger — dropping it to <body> sends a keyboard
+  // user to the top of the document, but only steal it if it was ours to begin with
+  const back=btn && openMenu.contains(document.activeElement);
+  openMenu.hidden=true; openMenu.classList.remove('open'); openMenu=null;
+  if(back) btn.focus(); }
 function toggleMenu(name){
   const m=document.getElementById('menu-'+name), btn=document.querySelector(`[data-menu="${name}"]`);
   if(!m||!btn) return;
