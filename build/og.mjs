@@ -7,6 +7,7 @@
 // real conditions instead of fixed sleeps, check every evaluate for an exception,
 // and refuse to write an image that is a flat colour.
 import { spawn } from 'node:child_process';
+import { once } from 'node:events';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -93,6 +94,10 @@ try {
   writeFileSync(OUT, buf);
   console.log(`wrote og.jpg (${(buf.length / 1024).toFixed(0)} KB)`);
 } finally {
+  // kill() returns before Chrome has finished flushing its profile, so wait for
+  // the exit — and never let tidying a temp directory fail a build that already
+  // wrote its image.
   proc.kill();
-  rmSync(PROFILE, { recursive: true, force: true });
+  await Promise.race([once(proc, 'exit'), sleep(4000)]);
+  try { rmSync(PROFILE, { recursive: true, force: true }); } catch {}
 }
