@@ -191,11 +191,9 @@ q.addEventListener('keydown', e=>{
   else if(e.key==='Enter'){ e.preventDefault(); if(hitList.length) navTo(hitList[activeIdx<0?0:activeIdx]); }
 });
 q.addEventListener('blur', ()=>{ setTimeout(closeResults, 120); });
-// surprise me — a notable family at random, so it always lands somewhere worth seeing
-function surprise(){
-  const fams=nodesOfRank('family').filter(n=>n.agg>250);
-  q.value=''; qhint.textContent=''; navTo(fams[Math.floor(Math.random()*fams.length)]);
-}
+// clear the query and its dropdown — "Surprise me" is reachable from the results
+// footer, and leaving a stale result list over the taxon it flew to reads as a bug
+function clearSearch(){ q.value=''; qhint.textContent=''; closeResults(); }
 function focusNode(n){
   const r=stage.getBoundingClientRect(); const k=Math.max(T.k,0.75);
   animateT({k, x:r.width*0.42 - n.x*k, y:r.height/2 - n.y*k}, 550);

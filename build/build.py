@@ -14,8 +14,11 @@ Usage:  python3 build/build.py
 """
 import html
 import json
+import re
 import pathlib
 import sys
+
+from util import read_json
 
 SITE = "https://yggdrasil.oddurs.com/"
 
@@ -33,11 +36,11 @@ def seo_blocks(taxa, meta, ngenera):
     oldest = max(aged, key=lambda t: t["ageMy"]) if aged else None
     widest = max(fams, key=lambda t: len(t.get("dist") or {}))
 
+    # `estimate` is a stand-in for "no source yet", not a citation — a Dataset that
+    # cites "Approximate estimate" is noise in Google Dataset Search
     sources = meta.get("sources", {})
-    src_names = []
-    for s in sources.values():
-        src_names.append(s.get("name") or s.get("title") or "")
-    cites = [n for n in src_names if n]
+    cites = [n for k, v in sources.items() if k != "estimate"
+             for n in [v.get("name") or v.get("title") or ""] if n]
 
     ld = [
         {"@context": "https://schema.org", "@type": "WebSite", "name": "Yggdrasil",
@@ -57,8 +60,10 @@ def seo_blocks(taxa, meta, ngenera):
                               "native distribution (WGSRPD)"],
          "citation": cites},
     ]
+    # same tag-safety the data blob gets below: `name`/`title` come from hand-edited
+    # data, and one "</script>" in there would close this block early
     jsonld = ('<script type="application/ld+json">'
-              + json.dumps(ld, ensure_ascii=False, separators=(",", ":"))
+              + json.dumps(ld, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
               + "</script>")
 
     def esc(s):
@@ -124,6 +129,26 @@ MODULES = [
 NODE_FIELDS = ["name", "rank", "common", "speciesCount", "examples", "blurb", "ids", "dist", "ageMy"]
 
 
+def check_collisions():
+    """Fail the build on a duplicate top-level declaration across the JS modules.
+
+    The modules are concatenated into one script and share one scope, so two
+    modules declaring the same name silently keep the last one — `surprise()`
+    existed twice, and the dead copy's `q.value=''` reset was quietly lost. The
+    smoke suite already regression-guards one instance of this (`setActive`),
+    which is the tell that it wants a structural check rather than another test.
+    """
+    decl = re.compile(r"^(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)", re.M)
+    seen = {}
+    for m in MODULES:
+        for name in decl.findall((SRC / m).read_text(encoding="utf-8")):
+            seen.setdefault(name, []).append(m)
+    dupes = {n: ms for n, ms in seen.items() if len(ms) > 1}
+    if dupes:
+        lines = "\n".join(f"  {n}: {', '.join(ms)}" for n, ms in sorted(dupes.items()))
+        raise SystemExit(f"duplicate top-level declarations (one scope, last one wins):\n{lines}")
+
+
 def validate(meta, taxa):
     """Lightweight structural validation — no external dependency."""
     ranks = set(meta.get("rankOrder", []))
@@ -151,6 +176,10 @@ def validate(meta, taxa):
             errors.append(f"{where}: ids must be an object")
     if roots != 1:
         errors.append(f"expected exactly 1 root (parent=null), found {roots}")
+    # the SEO helpers take max()/[0] over the family list; an empty one should fail
+    # here, by name, rather than as a traceback 100 lines later
+    if not any(t.get("rank") == "family" for t in taxa):
+        errors.append("no taxa with rank 'family' — the crawlable index needs them")
     return errors
 
 
@@ -195,7 +224,7 @@ def build_tree(taxa, genera_by_family=None):
 
 
 def main() -> None:
-    doc = json.loads(DATA.read_text())
+    doc = read_json(DATA)
     meta, taxa = doc["meta"], doc["taxa"]
 
     errors = validate(meta, taxa)
@@ -208,7 +237,7 @@ def main() -> None:
     genera_by_family = {}
     ngenera = 0
     if GENERA.exists():
-        for g in json.loads(GENERA.read_text()):
+        for g in read_json(GENERA):
             genera_by_family.setdefault(g["family"], []).append(g)
             ngenera += 1
 
@@ -224,13 +253,14 @@ def main() -> None:
     tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
     if WORLDMAP.exists():
-        data["worldmap"] = json.loads(WORLDMAP.read_text())
+        data["worldmap"] = read_json(WORLDMAP)
 
     # Assemble the single self-contained page: the HTML shell with the CSS and the
     # concatenated JS modules inlined, then the data injected.
-    shell = SHELL.read_text()
-    css = "".join(p.read_text() for p in CSS_PARTS)
-    js = "".join((SRC / m).read_text() for m in MODULES)
+    shell = SHELL.read_text(encoding="utf-8")
+    css = "".join(p.read_text(encoding="utf-8") for p in CSS_PARTS)
+    js = "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
+    check_collisions()
     jsonld, crawl = seo_blocks(taxa, meta, ngenera)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
                       ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell")):
@@ -247,7 +277,7 @@ def main() -> None:
            .replace("<!--__JSONLD__-->", jsonld)
            .replace("<!--__CRAWL__-->", crawl)
            .replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
-    OUT.write_text(out)
+    OUT.write_text(out, encoding="utf-8")
 
     fams = sum(1 for t in taxa if t["rank"] == "family")
     withids = sum(1 for t in taxa if t.get("ids", {}).get("gbif"))

@@ -31,6 +31,8 @@ import math
 import pathlib
 import sys
 
+from util import read_json, write_json
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TRE = ROOT / "data" / "megatree" / "plant_megatree.tre"
 GEN = ROOT / "data" / "megatree" / "plant_genus_list.csv"
@@ -72,7 +74,7 @@ def main():
         sys.exit(f"missing {TRE} — download the megatree (see this file's docstring)")
 
     print("parsing megatree …", file=sys.stderr)
-    parent, bl, name = parse_newick(TRE.read_text())
+    parent, bl, name = parse_newick(TRE.read_text(encoding="utf-8"))
     n = len(parent)
     depth = [0.0] * n
     level = [0] * n
@@ -118,7 +120,7 @@ def main():
                 best = v
         return round(H - depth[best], 1), "megatree"
 
-    doc = json.loads(DATA.read_text())
+    doc = read_json(DATA)
     taxa = doc["taxa"]
     kids = {}
     for t in taxa:
@@ -155,7 +157,7 @@ def main():
         "url": "https://github.com/megatrees/plant_20221117",
         "license": "CC-BY (see repository)",
     }
-    DATA.write_text(json.dumps(doc, ensure_ascii=False, indent=1))
+    write_json(DATA, doc, indent=1)
     print(f"done: {dated}/{len(taxa)} taxa dated", file=sys.stderr)
 
     # ---- validation: backbone clades should match consensus geology ----

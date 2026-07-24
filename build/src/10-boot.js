@@ -167,6 +167,7 @@ function surprise(){
   }
   if(!pick) return;
   _lastWonder=pick;
+  clearSearch();
   if(activeStory) clearStory(false);
   const go=()=>{ select(pick); toast(wonderReason(pick)); };
   if(renderRoot!==ROOT){ exitFocus(); setTimeout(go, 420); }   // come back up so any taxon is reachable

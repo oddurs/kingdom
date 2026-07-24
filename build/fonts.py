@@ -30,7 +30,7 @@ def main() -> None:
         f"    src:url(data:font/woff2;base64,{b64}) format('woff2');\n"
         "  }\n"
     )
-    OUT.write_text(css)
+    OUT.write_text(css, encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)} — {len(css) / 1024:.0f} KB "
           f"(base64 of {WOFF2.stat().st_size / 1024:.0f} KB woff2)")
 

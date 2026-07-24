@@ -16,6 +16,8 @@ import json
 import pathlib
 import sys
 
+from util import read_json, write_json
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "data" / "geo" / "ne110.geojson"
 OUT = ROOT / "data" / "worldmap.json"
@@ -74,11 +76,14 @@ def main():
     if not SRC.exists():
         sys.exit(f"missing {SRC} — download Natural Earth 110m countries geojson")
 
-    geo = json.loads(SRC.read_text())
-    paths = {str(i): [] for i in range(1, 10)}
+    geo = read_json(SRC)
+    # region 9 (Antarctic) lies entirely below the crop line: 661 points, all at
+    # y >= 153. Emitting it shipped 5 KB of path that can never render, and lit a
+    # highlight nowhere for the 63 families with an Antarctic distribution.
+    paths = {str(i): [] for i in range(1, 9)}
     for f in geo["features"]:
         reg = region(f["properties"])
-        if not reg:
+        if reg not in paths:
             continue
         g = f["geometry"]
         polys = g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]
@@ -88,7 +93,7 @@ def main():
 
     regions = {k: "".join(v) for k, v in paths.items() if v}
     doc = {"viewBox": "0 0 360 150", "regions": regions}  # crop Antarctica band (y>150)
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")))
+    write_json(OUT, doc, separators=(",", ":"))
     print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size/1024:.0f} KB), "
           f"regions: {sorted(regions)}", file=sys.stderr)
 
