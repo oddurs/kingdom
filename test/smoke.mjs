@@ -12,9 +12,11 @@
 // Exit:    0 = all checks passed, 1 = a check failed or the app errored.
 
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, mkdtempSync, rmSync } from "node:fs";
+import { once } from "node:events";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TARGET = resolve(process.argv[2] || `${HERE}/../plant-tree.html`);
@@ -43,10 +45,14 @@ if (!CHROME) {
 // Opens a headless page, exposes ev() to evaluate expressions in it, and
 // collects any console errors / uncaught exceptions the app throws.
 async function session(flags, run) {
+  // a private profile per session: sessions run back-to-back on one port, and a
+  // shared profile lets a still-dying browser answer the discovery poll
+  const profile = mkdtempSync(join(tmpdir(), "smoke-chrome-"));
   const proc = spawn(CHROME, [
     "--headless",
     "--disable-gpu",
     `--remote-debugging-port=${PORT}`,
+    `--user-data-dir=${profile}`,
     "--window-size=1400,880",
     ...(process.env.CI ? ["--no-sandbox", "--disable-dev-shm-usage"] : []),   // CI runners
     ...flags,
@@ -68,18 +74,29 @@ async function session(flags, run) {
       ws.addEventListener("error", j, { once: true });
     });
 
+    // Every request must be able to fail. A reply that never arrives — a browser
+    // that crashed or was OOM-killed — would otherwise hang the suite until the
+    // CI job's own timeout, holding the deploy queue behind it.
     let id = 0;
     const send = (method, params) =>
-      new Promise((res) => {
+      new Promise((res, rej) => {
         const i = ++id;
+        const done = (fn, arg) => {
+          clearTimeout(timer);
+          ws.removeEventListener("message", on);
+          ws.removeEventListener("close", onGone);
+          ws.removeEventListener("error", onGone);
+          fn(arg);
+        };
         const on = (e) => {
           const d = JSON.parse(e.data);
-          if (d.id === i) {
-            ws.removeEventListener("message", on);
-            res(d.result);
-          }
+          if (d.id === i) done(res, d.result);
         };
+        const onGone = () => done(rej, new Error(`browser went away during ${method}`));
+        const timer = setTimeout(() => done(rej, new Error(`${method} timed out after 30s`)), 30000);
         ws.addEventListener("message", on);
+        ws.addEventListener("close", onGone);
+        ws.addEventListener("error", onGone);
         ws.send(JSON.stringify({ id: i, method, params }));
       });
 
@@ -97,14 +114,52 @@ async function session(flags, run) {
       (await send("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true }))
         .result.value;
 
+    // A dispatched event lands wherever you aim it — on an element covered by an
+    // overlay, or inside an `inert` subtree that no real user could ever reach.
+    // These two assert reachability first, so "the test clicked it" means what a
+    // reader assumes it means. Both resolve to `true` or to a diagnostic string.
+    const reach = (sel, text) => `(()=>{
+      const sel=${JSON.stringify(sel)};
+      const el=${text === undefined
+        ? `document.querySelector(sel)`
+        : `[...document.querySelectorAll(sel)].find(e=>e.textContent.includes(${JSON.stringify(text)}))`};
+      const d=e=>e ? e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+(e.getAttribute('class')?'.'+e.getAttribute('class').trim().split(/\\s+/).join('.'):'') : 'nothing';
+      if(!el) return 'no element matches '+sel${text === undefined ? "" : ` + ' containing ' + ${JSON.stringify(text)}`};
+      const r=el.getBoundingClientRect();
+      if(!r.width || !r.height) return d(el)+' has zero size';
+      const x=r.left+r.width/2, y=r.top+r.height/2;
+      if(x<0 || y<0 || x>innerWidth || y>innerHeight) return d(el)+' centre is off-screen';
+      const hit=document.elementFromPoint(x,y);
+      if(!hit) return 'nothing is at the centre of '+d(el);
+      if(hit!==el && !el.contains(hit)) return d(el)+' is covered by '+d(hit);
+      return {hit,x,y};
+    })()`;
+    // mouse-level events only: enough for every handler the app binds (click,
+    // mousedown), and it avoids faking a pointerId that setPointerCapture would reject.
+    const clickAt = (sel, text) => ev(`(()=>{ const t=${reach(sel, text)};
+      if(typeof t==='string') return t;
+      for(const type of ['mousedown','mouseup','click'])
+        t.hit.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,clientX:t.x,clientY:t.y,view:window}));
+      return true; })()`);
+    const tabTo = (sel) => ev(`(()=>{
+      const sel=${JSON.stringify(sel)}, el=document.querySelector(sel);
+      if(!el) return 'no element matches '+sel;
+      el.focus();
+      const a=document.activeElement;
+      if(a===el || el.contains(a)) return true;
+      return 'focus refused — landed on '+(a ? a.tagName.toLowerCase() : 'nothing');
+    })()`);
+
     // wait for the app to boot (ROOT prepped), then dismiss the welcome overlay
     await poll(() => ev(`typeof ROOT!=='undefined' && !!ROOT`), 8000, "app boot");
     await ev(`(()=>{const w=document.getElementById('wexplore'); if(w) w.click();})()`);
     await wait(600);
 
-    return await run({ ev, errors, send });
+    return await run({ ev, errors, send, clickAt, tabTo });
   } finally {
     proc.kill();
+    await Promise.race([once(proc, "exit"), wait(4000)]);   // don't race the next session onto this port
+    try { rmSync(profile, { recursive: true, force: true }); } catch {}
   }
 }
 
@@ -131,11 +186,19 @@ const near = (a, b, tol) => typeof a === "number" && Math.abs(a - b) <= tol;
 async function main() {
   console.log(`smoke: ${TARGET}\n`);
 
-  await session([], async ({ ev, errors }) => {
+  await session([], async ({ ev, errors, clickAt, tabTo }) => {
     // wait for an expected condition rather than a fixed sleep — view morphs and the
     // treemap/sunburst crossfade land on their own timers, so we poll for the outcome.
     const until = async (expr) => {
       try { await poll(() => ev(expr), 4000, expr); return true; } catch { return false; }
+    };
+    // Typing is debounced and closeResults() only hides the dropdown — the previous
+    // search's rows (and its hitList) stay in the DOM. So waiting for `.qrow` to
+    // exist matches the *last* search; wait for a freshly opened list instead.
+    const search = async (term) => {
+      await ev(`closeResults()`);
+      await ev(`(()=>{const q=document.getElementById('q'); q.value=${JSON.stringify(term)}; q.dispatchEvent(new Event('input'));})()`);
+      return until(`!document.getElementById('qresults').hidden && document.querySelectorAll('.qrow').length>0`);
     };
 
     // data integrity
@@ -177,18 +240,18 @@ async function main() {
     await ev(`document.getElementById('btnOrders').click()`); await wait(120);
 
     // search navigates
-    await ev(`(()=>{const q=document.getElementById('q'); q.value='Poaceae'; q.dispatchEvent(new Event('input'));})()`);
-    await until(`document.querySelectorAll('.qrow').length>0`);
-    await ev(`(()=>{const r=document.querySelector('.qrow'); if(r) r.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));})()`);
-    check("search navigates to a taxon", await until(`selected && selected.name==='Poaceae'`));
+    await search("Poaceae");
+    const qreach = await clickAt(".qrow", "Poaceae");
+    check("search result row is reachable and navigates", qreach === true && (await until(`selected && selected.name==='Poaceae'`)),
+      qreach === true ? "" : String(qreach));
 
     // search-nav out of a focused subtree resets the root AND mounts the target (regression: resetFocus didn't re-render)
-    await ev(`(()=>{const a=nodeByName('Asteraceae'); reroot(a);})()`); await until(`renderRoot && renderRoot.name==='Asteraceae'`, 4000);
-    await ev(`(()=>{const q=document.getElementById('q'); q.value='Poaceae'; q.dispatchEvent(new Event('input'));})()`);
-    await until(`document.querySelectorAll('.qrow').length>0`);
-    await ev(`(()=>{const r=[...document.querySelectorAll('.qrow')].find(x=>/Poaceae/.test(x.textContent)); if(r) r.dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));})()`);
+    await ev(`(()=>{const a=nodeByName('Asteraceae'); reroot(a);})()`); await until(`renderRoot && renderRoot.name==='Asteraceae'`);
+    await search("Poaceae");
+    const nav2 = await clickAt(".qrow", "Poaceae");
     const navReset = await until(`renderRoot===ROOT && selected && selected.name==='Poaceae' && !!nodeEls.get(selected._id)`, 4000);
-    check("search-nav from a focused subtree resets root and mounts target", navReset === true);
+    check("search-nav from a focused subtree resets root and mounts target", navReset === true,
+      nav2 === true ? "" : String(nav2));
 
     // alt-view selection: nav in treemap must repaint the selection outline (regression: select() didn't render).
     // Use the orders frontier so the target is a leaf cell (an open internal node has no cell to outline).
@@ -201,6 +264,11 @@ async function main() {
     // accessibility: selecting a taxon announces it to the polite live region
     await ev(`select(nodeByName('Poaceae'))`); await wait(150);
     check("selection is announced to the live region", (await ev(`/Poaceae/.test(document.getElementById('a11y-status').textContent)`)) === true);
+
+    // an open panel must be genuinely reachable, not just visible — `inert` left
+    // armed makes it look right in a screenshot and refuse every real interaction
+    const pfocus = await tabTo("#pclose");
+    check("open detail panel is keyboard-reachable", pfocus === true, pfocus === true ? "" : String(pfocus));
 
     // legend spotlight: hovering a lineage dims the rest (Sprint H)
     await ev(`(()=>{const lg=[...document.querySelectorAll('#lgitems .lg')].find(x=>/Rosids/.test(x.textContent)); if(lg) lg.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));})()`); await wait(120);
@@ -244,6 +312,19 @@ async function main() {
     check("hash restores colour + selection",
       (await ev(`colorMode==='region' && selected && selected.name==='Orchidaceae'`)) === true);
     await ev(`colorMode='lineage'; buildColorUI(); closePanel(); history.replaceState(null,'',location.pathname); render();`); await wait(150);
+
+    // Back/Forward is what a user actually presses, and it runs a different path:
+    // the popstate listener plus resetView()'s seven teardown calls. Calling
+    // applyHash() directly (above) covers decoding only.
+    await ev(`select(nodeByName('Rosaceae'))`); await wait(220);
+    await ev(`select(nodeByName('Poaceae'))`); await wait(220);
+    await ev(`history.back()`);
+    const wentBack = await until(`selected && selected.name==='Rosaceae'`);
+    await ev(`history.forward()`);
+    const wentFwd = await until(`selected && selected.name==='Poaceae'`);
+    check("Back and Forward restore the previous view", wentBack === true && wentFwd === true,
+      `back=${wentBack} forward=${wentFwd}`);
+    await ev(`closePanel(); history.replaceState(null,'',location.pathname);`); await wait(120);
 
     // Sprint P: "Surprise me" flies to a notable taxon and names why in a toast
     await ev(`clearStory(); surprise()`); await wait(600);
