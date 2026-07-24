@@ -351,9 +351,14 @@ async function main() {
     // Labels are chosen inside render(), before the highlight classes exist, and a
     // culled label is removed from the DOM — so switching filters used to strip the
     // labels off matches that were already mounted, and clearing never restored them.
-    // in tree mode every match is label-eligible, so the check doesn't depend on
-    // whatever frontier an earlier test left behind (radial skips open interiors)
+    // In tree mode every match is label-eligible, so the check doesn't depend on
+    // whatever frontier an earlier test left behind (radial skips open interiors).
+    // fit(0) then frames the whole tree, so the matches are mounted *before* the
+    // filters change — which is the only state where losing a label is possible.
+    // Without it the viewport sits wherever the last test left it and the tally
+    // can come up empty on a slower runner.
     await ev(`clearFilter(); clearStory(); closePanel(); switchMode('tree')`); await wait(VIEW);
+    await ev(`fit(0)`); await wait(400);
     const labels = await ev(`(()=>{
       // radial deliberately leaves *open* interior clades unlabelled, so measure
       // against the set the app is willing to label, not every match
