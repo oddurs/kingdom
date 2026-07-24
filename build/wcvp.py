@@ -29,6 +29,8 @@ import json
 import pathlib
 import sys
 
+from util import read_json, write_json
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "taxa.json"
 NAMES = ROOT / "data" / "wcvp" / "wcvp_names.csv"
@@ -91,7 +93,7 @@ def main():
         dist = distribution_by_family(pid2fam)
         print(f"  {len(dist)} families with distribution", file=sys.stderr)
 
-    doc = json.loads(DATA.read_text())
+    doc = read_json(DATA)
     matched, unmatched, with_dist = 0, [], 0
     for t in doc["taxa"]:
         if t["rank"] != "family":
@@ -109,6 +111,11 @@ def main():
             t["dist"] = {k: d[k] for k in sorted(d, key=lambda k: -d[k])}
             t["provenance"]["dist"] = "wcvp"
             with_dist += 1
+        elif dist:
+            # a distribution run that found nothing for this family must drop the
+            # previous run's answer, or it survives still tagged provenance "wcvp"
+            t.pop("dist", None)
+            t.get("provenance", {}).pop("dist", None)
 
     doc["meta"].setdefault("sources", {})["wcvp"] = {
         "name": "World Checklist of Vascular Plants (WCVP), Royal Botanic Gardens, Kew",
@@ -116,7 +123,7 @@ def main():
         "license": "CC-BY",
     }
 
-    DATA.write_text(json.dumps(doc, ensure_ascii=False, indent=1))
+    write_json(DATA, doc, indent=1)
     print(f"done: {matched} families given WCVP accepted counts, "
           f"{with_dist} with distribution; "
           f"{len(unmatched)} unmatched (kept estimate)", file=sys.stderr)

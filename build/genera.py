@@ -20,6 +20,8 @@ import json
 import pathlib
 import sys
 
+from util import read_json, write_json
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 NAMES = ROOT / "data" / "wcvp" / "wcvp_names.csv"
 OUT = ROOT / "data" / "genera.json"
@@ -54,7 +56,7 @@ def main():
         out.append(rec)
     out.sort(key=lambda r: (r["family"], -r["speciesCount"], r["name"]))
 
-    OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")))
+    write_json(OUT, out, separators=(",", ":"))
     fams = {r["family"] for r in out}
     print(f"wrote {len(out)} genera across {len(fams)} families "
           f"({OUT.stat().st_size/1e6:.2f} MB)", file=sys.stderr)
