@@ -6,6 +6,9 @@ plant-tree.html
 og.jpg
 storybook/
 
+# assembled deployable site (build/site.py) — app + generated taxon pages
+_site/
+
 # design-system tooling (dev-only; the shipped app has no npm deps)
 node_modules/
 storybook-static/

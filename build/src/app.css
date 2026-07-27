@@ -237,6 +237,11 @@
     font-family:var(--sans); font-size:11px; color:var(--faint); z-index:4; font-variant-numeric:tabular-nums;
   }
   footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}
+  /* the counts that link out to the static taxon pages read as text until you reach them */
+  footer a.fx{text-decoration:none; border-bottom:1px solid transparent; padding-bottom:1px}
+  footer a.fx:hover{border-bottom-color:var(--l-fern)}
+  footer a.fx:hover .k{color:var(--ink)}
+  footer a.fx:focus-visible{outline:2px solid var(--l-fern); outline-offset:3px; border-radius:2px}
   footer .src{margin-left:auto; color:var(--faint)}   /* provenance sits right, apart from the live counts */
 
   /* zoom: a single cohesive vertical pill, seamless buttons + hairline divider */

@@ -1,0 +1,171 @@
+/* Taxon pages — the static documents at /family/<slug>/ and /order/<slug>/.
+ *
+ * Served as one shared /p.css alongside design/tokens.css, NOT inlined. The
+ * single-file rule exists to keep plant-tree.html portable under CSP; these are
+ * ordinary pages on our own host, so they get a cacheable stylesheet and skip
+ * the base64 webfont entirely — ~10 KB a page instead of ~200 KB, which is also
+ * the right answer for Core Web Vitals on the surface most likely to be a
+ * visitor's first impression.
+ *
+ * Each page sets --lc to its lineage hue; everything accented reads from that. */
+
+*, *::before, *::after { box-sizing: border-box }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* the luminous root-system feel of the app, at rest: one soft lineage-tinted
+   bloom behind the masthead, so the page belongs to the tree it came from */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20vh 0 auto 0;
+  height: 60vh;
+  background: radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--lc) 12%, transparent), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto; padding: 0 1.25rem 5rem }
+
+/* ---------- masthead ---------- */
+.top {
+  display: flex; align-items: center; gap: .75rem;
+  padding: 1.1rem 0; margin-bottom: 2.25rem;
+  border-bottom: 1px solid var(--line);
+}
+.top a.home { display: flex; align-items: center; gap: .5rem; color: var(--ink); text-decoration: none }
+.top .mark { width: 22px; height: 22px; color: var(--l-fern); flex: none }
+.top .name { font-family: var(--serif); font-size: 1.05rem; letter-spacing: var(--track-display) }
+.top .sp { flex: 1 }
+
+/* ---------- breadcrumb ---------- */
+.crumb { font-size: .78rem; color: var(--faint); margin-bottom: 1.5rem; line-height: 2;
+         overflow-wrap: anywhere }   /* a long lineage must never widen the document */
+.crumb a { color: var(--dim); text-decoration: none; border-bottom: 1px solid transparent }
+.crumb a:hover { color: var(--ink); border-bottom-color: var(--lc) }
+.crumb .sep { opacity: .45 }
+.crumb .here { color: var(--ink) }
+
+/* ---------- title block ---------- */
+h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1;
+  letter-spacing: var(--track-display);
+  margin: 0 0 .35rem;
+}
+.rank {
+  display: inline-block; margin-bottom: .9rem;
+  font-size: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--lc);
+}
+.common { font-size: 1.05rem; color: var(--dim); margin: 0 0 1.5rem }
+.lead { font-size: 1.05rem; color: var(--ink); margin: 0 0 2rem; max-width: 38rem }
+
+/* ---------- the numbers ---------- */
+/* flex, not grid: a page carries three or four stats depending on what the data
+   supports, and a grid leaves a dead lit cell wherever the last row is short.
+   Flex lets the final row stretch to fill, so no page shows a hole. */
+.stats {
+  display: flex; flex-wrap: wrap; margin: 0 0 2.5rem;
+  border: 1px solid var(--line); border-radius: var(--r-2); overflow: hidden;
+}
+.stat {
+  flex: 1 1 9.5rem; background: var(--fill-1); padding: 1rem 1.1rem;
+  border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+  margin: -1px 0 0 -1px;   /* collapse against the container's own border */
+}
+.stat dt {
+  font-size: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--faint); margin-bottom: .35rem;
+}
+.stat dd { margin: 0; font-family: var(--serif); font-size: 1.5rem; line-height: 1.15; color: var(--ink) }
+.stat .src { display: block; margin-top: .4rem; font-family: var(--sans); font-size: .72rem; color: var(--faint); line-height: 1.45 }
+.stat .approx { color: var(--dim) }
+
+/* ---------- sections ---------- */
+section { margin: 0 0 2.5rem }
+h2 {
+  font-family: var(--sans); font-weight: 600;
+  font-size: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--faint);
+  padding-bottom: .5rem; margin: 0 0 1rem;
+  border-bottom: 1px solid var(--line);
+}
+p { margin: 0 0 1rem }
+.note { color: var(--faint); font-size: .85rem }
+
+/* ---------- lists of taxa ---------- */
+.taxa { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px;
+        background: var(--line); border: 1px solid var(--line); border-radius: var(--r-2); overflow: hidden }
+/* min-width:0 on both: a grid item and a flex item both default to a
+   content-based minimum, so a long binomial refuses to shrink and the row is
+   clipped by the container's own overflow — invisible on desktop, and it eats
+   the species count on a phone. */
+.taxa li { background: var(--fill-1); min-width: 0 }
+.taxa a, .taxa .row {
+  display: flex; align-items: baseline; gap: .75rem; min-width: 0;
+  padding: .6rem .9rem; text-decoration: none; color: var(--ink);
+}
+.taxa .n { min-width: 0; overflow-wrap: anywhere }
+.taxa a:hover { background: var(--fill-hover) }
+.taxa .n { font-family: var(--serif); font-size: 1rem }
+.taxa .c { color: var(--faint); font-size: .85rem; flex: 1 1 0; min-width: 0;
+           overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.taxa .v { color: var(--dim); font-size: .82rem; font-variant-numeric: tabular-nums; flex: none }
+.taxa a:hover .n { color: var(--lc) }
+
+/* two columns once there's room — genus lists get long */
+@media (min-width: 40rem) { .taxa.split { grid-template-columns: 1fr 1fr } }
+
+/* ---------- example plants ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none }
+.chips li {
+  padding: .3rem .7rem; border: 1px solid var(--edge); border-radius: var(--r-pill);
+  font-size: .85rem; color: var(--dim); background: var(--fill-2);
+}
+
+/* ---------- distribution ---------- */
+.dist { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem }
+.dist li { display: grid; grid-template-columns: 9.5rem 1fr auto; align-items: center; gap: .75rem; font-size: .88rem }
+.dist .bar { height: 6px; border-radius: var(--r-pill); background: var(--fill-2); overflow: hidden }
+.dist .bar i { display: block; height: 100%; background: var(--lc); opacity: .75 }
+.dist .v { color: var(--faint); font-size: .8rem; font-variant-numeric: tabular-nums }
+
+/* ---------- the call back into the tree ---------- */
+.cta {
+  display: flex; align-items: center; gap: .9rem;
+  padding: 1.1rem 1.25rem; margin: 0 0 2.5rem;
+  border: 1px solid var(--edge); border-radius: var(--r-2);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--lc) 7%, var(--fill-1)), var(--fill-1));
+  color: var(--ink); text-decoration: none;
+  transition: border-color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.cta:hover { border-color: var(--lc); transform: translateY(-1px) }
+.cta .lbl { flex: 1 }
+.cta .lbl b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.15rem }
+.cta .lbl span { color: var(--faint); font-size: .85rem }
+.cta .arw { color: var(--lc); font-size: 1.3rem }
+
+/* ---------- footer ---------- */
+footer { border-top: 1px solid var(--line); padding-top: 1.5rem; color: var(--faint); font-size: .82rem }
+footer ul { list-style: none; margin: 0 0 1rem; padding: 0 }
+footer li { margin-bottom: .3rem }
+footer a { color: var(--dim) }
+
+a { color: var(--lc) }
+a:focus-visible, .taxa a:focus-visible, .cta:focus-visible {
+  outline: 2px solid var(--lc); outline-offset: 2px; border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta { transition: none }
+  .cta:hover { transform: none }
+}

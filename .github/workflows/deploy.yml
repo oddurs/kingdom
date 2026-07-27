@@ -58,13 +58,13 @@ jobs:
         continue-on-error: true
         run: npm run build-storybook
 
+      # assembly lives in build/site.py so `make serve` and CI produce the same
+      # layout — the shell block this replaced was knowledge that existed only here
       - name: Assemble the Pages site
-        run: |
-          mkdir -p _site
-          cp plant-tree.html og.jpg _site/
-          cp plant-tree.html _site/index.html          # the app IS the root (no redirect stub)
-          cp CNAME robots.txt sitemap.xml _site/        # custom domain + crawler plumbing
-          touch _site/.nojekyll
+        run: python3 build/site.py
+
+      - name: Check the generated taxon pages
+        run: node test/pages.mjs
 
       - name: Add the Storybook workshop
         if: steps.storybook.outcome == 'success'

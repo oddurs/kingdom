@@ -18,6 +18,7 @@ import re
 import pathlib
 import sys
 
+from pages import slug          # one slug rule for the app's links and the pages themselves
 from util import read_json
 
 # The canonical origin, with its trailing slash — the one place the host is written.
@@ -91,7 +92,12 @@ def seo_blocks(taxa, meta, ngenera, total_spp):
 
     def li(t):
         com = f" ({esc(t['common'])})" if t.get("common") else ""
-        return (f"<li><b>{esc(t['name'])}</b>{com} — "
+        # each family now links to its own page (build/pages.py). The section stays
+        # visually hidden — it is a screen-reader index, which was always the better
+        # justification for it — but the links are real, so this doubles as the
+        # in-app crawl path to all 479 documents.
+        href = f"/family/{slug(t['name'])}/"
+        return (f'<li><a href="{href}"><b>{esc(t["name"])}</b></a>{com} — '
                 f"~{t.get('speciesCount', 0):,} accepted species.</li>")
 
     rows = "".join(li(t) for t in by_rich)
