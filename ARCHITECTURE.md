@@ -1,10 +1,16 @@
 # Architecture
 
-Yggdrasil ships as **one self-contained HTML file** with no runtime dependencies
+The **app** ships as one self-contained HTML file with no runtime dependencies
 and no network calls — it runs from a `file://` URL and inside sandboxes with a
 strict content-security policy. That constraint shapes everything below: the
 source is authored in pieces and **bundled at build time** into a single inline
 page; nothing is loaded at runtime.
+
+The **published site** is that file plus 567 generated taxon pages (see "The
+published site"). Those are ordinary documents on our own host, so they
+deliberately do *not* inherit the single-file rule — they share a cached
+stylesheet instead. The constraint protects the portable artifact, not the
+website.
 
 ## Author-time source → one-file output
 
@@ -99,13 +105,56 @@ Raw source dumps (WCVP, the megatree, geodata) are regenerated, not committed �
 only the derived `*.json` and `worldmap.json` are. See the README for sources
 and the run order.
 
+## The published site
+
+The app is one URL, and its deep links are `#`-fragments that search engines
+collapse to `/`. So the families and orders also exist as static documents,
+generated from the same `data/taxa.json` the app renders:
+
+```
+        │  python3 build/site.py       (after build.py)
+        ▼
+_site/
+  index.html          the app — it IS the root
+  plant-tree.html     same bytes, back-compat for old links
+  family/<slug>/      479 family pages    ┐
+  order/<slug>/        86 order pages     │ build/pages.py
+  families/ orders/    two hub indexes    │
+  p.css favicon.svg   shared assets       │
+  sitemap.xml robots.txt 404.html         ┘ generated from SITE + the page list
+  og.jpg CNAME .nojekyll                    copied
+```
+
+Assembly lives in `build/site.py` so `make serve` and CI produce the **same**
+layout — it used to be a shell block in the workflow, which meant the shape of
+the published site existed only in CI and could not be reproduced locally.
+
+`build/pages.py` owns the pages. Each carries the family's blurb, examples,
+sourced species count, crown age, native distribution, largest genera, the
+lineage as a breadcrumb, and a deep link back into the tree. There is
+deliberately **no page per genus**: 14,135 documents each holding a name and a
+count is thin content at a ratio that risks a site-wide quality assessment.
+
+`SITE` in `build.py` is the only place the canonical origin is written; the
+shell, robots and sitemap all derive from it, and `assert_no_literal_host()`
+fails the build if the host is hand-written back into `shell.html`.
+
 ## Testing
 
 `test/smoke.mjs` boots headless Chrome against the built page over the DevTools
 protocol and asserts the invariants — data integrity, all four views, the core
 interactions, that virtualization bounds the DOM, and that reduced-motion falls
-to instant — with no npm dependencies. `make check` builds and runs it; it is
-the pre-commit gate.
+to instant — with no npm dependencies.
+
+`test/pages.mjs` checks the 567 generated documents: one `h1` each,
+self-referencing canonicals, unique titles, no page under 120 words, a resolving
+link graph with no orphans, a sitemap that matches the pages that exist, and —
+because Google indexes the mobile rendering — no page overflowing a 390px
+viewport.
+
+`make check` builds and runs both; it is the pre-commit gate. `make live`
+verifies the *published* site, which is the only place a canonical can be
+checked at all.
 
 ## Design system
 

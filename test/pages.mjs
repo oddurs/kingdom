@@ -145,9 +145,36 @@ async function main() {
     noCta.slice(0, 3).map(([p]) => p).join(", "));
 
   // ---- the shared assets the pages depend on ----
-  for (const asset of ["p.css", "favicon.svg"]) {
+  for (const asset of ["p.css", "favicon.svg", "robots.txt", "sitemap.xml", "404.html"]) {
     check(`${asset} was emitted`, existsSync(join(SITE, asset)));
   }
+
+  // ---- the sitemap must describe the site that actually exists ----
+  // A sitemap is a set of promises about URLs. The predecessor listed one URL on
+  // a host with no DNS record; the failure mode is quiet, so it gets asserted.
+  const xml = readFileSync(join(SITE, "sitemap.xml"), "utf8");
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+  check("the sitemap lists every generated page and the root",
+    locs.length === pages.size + 1, `${locs.length} urls, ${pages.size} pages`);
+
+  const notEmitted = locs.filter((p) => p !== "/" && !pages.has(p));
+  check("every sitemap URL corresponds to a generated file", notEmitted.length === 0,
+    notEmitted.slice(0, 3).join(", "));
+
+  const notListed = [...pages.keys()].filter((p) => !locs.includes(p));
+  check("every generated page appears in the sitemap", notListed.length === 0,
+    notListed.slice(0, 3).join(", "));
+
+  check("the sitemap carries a lastmod on every URL",
+    (xml.match(/<lastmod>/g) || []).length === locs.length);
+
+  // ---- robots points at a sitemap on the origin the pages claim ----
+  const robots = readFileSync(join(SITE, "robots.txt"), "utf8");
+  const smUrl = (robots.match(/^\s*Sitemap:\s*(\S+)/im) || [])[1];
+  const origin = new URL(tag(pages.get("/families/"), /<link rel="canonical" href="([^"]+)"/)).origin;
+  check("robots advertises the sitemap on the pages' own origin",
+    !!smUrl && smUrl === `${origin}/sitemap.xml`, smUrl || "no Sitemap line");
+  check("robots still keeps the dev-only workshop out", /Disallow:\s*\/storybook\//.test(robots));
 
   await layoutChecks();
 

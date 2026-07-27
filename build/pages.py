@@ -297,16 +297,20 @@ def sources_footer(meta, extra=()):
             + "".join(extra) + "</footer>")
 
 
-def document(*, site, path, title, description, hue, body, jsonld):
+def document(*, site, path, title, description, hue, body, jsonld, noindex=False):
     """One page. Deliberately plain: a stylesheet link, no script, no webfont."""
     url = site.rstrip("/") + path
+    # Pages serves 404.html with a 404 status for unmatched paths, but fetching
+    # the file directly returns 200 — so it says so itself rather than relying on
+    # the status code it happens to be served with.
+    robots = '\n<meta name="robots" content="noindex, follow">' if noindex else ""
     return f"""<!doctype html>
 <html lang="en" style="--lc:{hue}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
-<meta name="description" content="{e(description)}">
+<meta name="description" content="{e(description)}">{robots}
 <link rel="canonical" href="{e(url)}">
 <link rel="stylesheet" href="/p.css">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -547,6 +551,60 @@ def hub_page(site, tree, meta, *, kind):
                                                    "url": site.rstrip("/") + "/"}}]))
 
 
+def sitemap(site, paths, lastmod):
+    """Every URL we want crawled, with the date the underlying data was compiled.
+
+    The hand-written predecessor listed one URL and no lastmod; it would have been
+    wrong the moment 567 pages existed. `lastmod` is `meta.compiled` rather than
+    build time — these pages are a pure function of the data, so a rebuild that
+    changes nothing shouldn't claim the content is new. Google discounts a
+    lastmod it catches lying."""
+    base = site.rstrip("/")
+    urls = ["/"] + sorted(paths)
+    body = "".join(
+        f"<url><loc>{base}{p}</loc><lastmod>{lastmod}</lastmod>"
+        # the app is the thing being ranked for the general query; the taxon pages
+        # are the long tail. Hubs sit between.
+        f"<priority>{'1.0' if p == '/' else '0.8' if p in ('/families/', '/orders/') else '0.6'}</priority>"
+        "</url>"
+        for p in urls)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + body + "\n</urlset>\n")
+
+
+def robots(site):
+    return (f"# Yggdrasil — a living tree of the plant kingdom\n"
+            f"User-agent: *\n"
+            f"Allow: /\n\n"
+            f"# the design-system workshop is dev-only tooling, not site content\n"
+            f"Disallow: /storybook/\n\n"
+            f"Sitemap: {site.rstrip('/')}/sitemap.xml\n")
+
+
+def not_found(site):
+    """GitHub Pages serves /404.html for any unmatched path. Without one it shows
+    GitHub's generic page, which offers a visitor nothing and tells a crawler
+    less."""
+    body = (crumb_nav(['<a href="/">Yggdrasil</a>', '<span class="here">Not found</span>'])
+            + '<span class="rank">404</span>'
+            + "<h1>This branch isn&rsquo;t here</h1>"
+            + '<p class="lead">The page you asked for doesn&rsquo;t exist — but the tree does. '
+              "Every family and order has its own page, and the interactive view holds "
+              "all 14,135 genera.</p>"
+            + '<ul class="taxa">'
+            + taxon_row("Every plant family", "/families/", "479 families, by richness")
+            + taxon_row("Every plant order", "/orders/", "86 orders, by richness")
+            + taxon_row("The interactive tree", "/", "search, four views, guided tours")
+            + "</ul>")
+    return document(site=site, path="/404.html", title="Not found — Yggdrasil",
+                    description="That page doesn't exist. Browse every plant family and "
+                                "order, or open the interactive tree of the plant kingdom.",
+                    hue=LINEAGES["root"][1], body=body, noindex=True,
+                    jsonld=ld([{"@context": "https://schema.org", "@type": "WebPage",
+                                "name": "Not found"}]))
+
+
 def assert_unique_slugs(tree):
     """Two taxa collapsing to one slug would silently overwrite a page."""
     seen = {}
@@ -587,6 +645,12 @@ def build(site, outdir):
     # the app carries its icon as a data: URI (it must stay self-contained); these
     # pages link a real file, so it is cached once instead of repeated 567 times
     (outdir / "favicon.svg").write_text(FAVICON, encoding="utf-8")
+
+    # crawler plumbing, generated from the same page list rather than hand-kept
+    (outdir / "sitemap.xml").write_text(
+        sitemap(site, written, meta.get("compiled", "")), encoding="utf-8")
+    (outdir / "robots.txt").write_text(robots(site), encoding="utf-8")
+    (outdir / "404.html").write_text(not_found(site), encoding="utf-8")
 
     return written
 
