@@ -94,3 +94,31 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Three things can only be checked against the network: whether the canonical
+  # host resolves, whether it serves what we just published, and whether the URLs
+  # we hand crawlers are reachable. Sprint S shipped a canonical pointing at a
+  # domain with no DNS record and the suite stayed green for thirteen days. This
+  # job can't prevent that deploy — nothing can, it's the deploy that reveals it —
+  # but it turns a silent failure into a red build.
+  verify:
+    if: github.ref == 'refs/heads/main'
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'   # global fetch()
+
+      # rebuilt rather than downloaded: the check must read the canonical this
+      # commit claims, so a bad SITE fails here even if the artifact was cached
+      - name: Build the app
+        run: python3 build/build.py
+
+      - name: Verify the published site
+        run: node test/live.mjs

@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test check serve clean fonts og storybook storybook-build
+.PHONY: help build test check live serve clean fonts og storybook storybook-build
 
 help: ## show this help
 	@grep -hE '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -14,6 +14,9 @@ test: build ## rebuild, then run the headless-Chrome regression suite
 	node test/smoke.mjs
 
 check: test ## build + test — the pre-commit gate
+
+live: build ## verify the PUBLISHED site — canonical resolves, robots/sitemap reachable
+	node test/live.mjs
 
 serve: build ## build, then serve the repo at http://localhost:8000
 	@echo "serving http://localhost:8000  (Ctrl-C to stop)"
