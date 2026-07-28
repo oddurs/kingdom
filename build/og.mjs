@@ -80,11 +80,59 @@ try {
 
   await ev(`(()=>{const w=document.getElementById('wexplore'); if(w) w.click();})()`);
   await sleep(400);
+
+  // Compose a card rather than screenshotting the app. A raw UI capture is
+  // legible at full size and mush at the thumbnail size these are actually seen
+  // at — the toolbar dominates, and 479 rotated labels turn to noise. So: strip
+  // the chrome, drop the labels, let the radial burst fill the frame, and burn
+  // in the one line of substance that has to survive being 400px wide.
+  await ev(`(()=>{
+    const s=document.createElement('style');
+    s.id='ogstyle';
+    s.textContent=\`
+      header.bar, footer.meta, .legendbar, .minimap, .zoomctl, .panel,
+      .focusbar, .timebar, .perfhud, .tourcard, .welcome, .modal, .toast {display:none !important}
+      body{overflow:hidden}
+      #nodes text, #treemap text {display:none !important}
+      .ogscrim{position:fixed; inset:auto 0 0 0; height:52%; pointer-events:none;
+        background:linear-gradient(to top, #0d1512 30%, #0d1512f2 48%, #0d1512b0 72%, transparent 100%)}
+      .ogtext{position:fixed; left:64px; right:64px; bottom:52px; pointer-events:none;
+        font-family:var(--sans); color:var(--ink)}
+      .ogbrand{display:flex; align-items:center; gap:14px; margin-bottom:18px}
+      .ogbrand svg{width:44px; height:44px; color:var(--l-fern)}
+      .ogbrand b{font-size:44px; font-weight:700; letter-spacing:-.02em}
+      .ogsub{font-family:var(--serif); font-size:34px; line-height:1.2; color:var(--ink); margin-bottom:16px}
+      .ogstats{font-size:21px; color:var(--dim); letter-spacing:.01em}
+      .ogstats b{color:var(--l-fern); font-weight:600}
+    \`;
+    document.head.appendChild(s);
+    const d=document.createElement('div');
+    d.innerHTML='<div class="ogscrim"></div><div class="ogtext">'+
+      '<div class="ogbrand"><svg><use href="#ygg-mark"/></svg><b>Yggdrasil</b></div>'+
+      '<div class="ogsub">Every family of land plant, from mosses to orchids &mdash; one tree.</div>'+
+      '<div class="ogstats"><b>'+totFam+'</b> families &middot; <b>'+totGen.toLocaleString()+
+      '</b> genera &middot; <b>~'+totSppApprox+'</b> species</div></div>';
+    document.body.appendChild(d);
+  })()`);
+
   await ev(`expandAll()`);                       // a fuller tree reads better as a hero
   await poll(() => ev(`visibleNodes.length>400`), 15000, 'the tree to expand');
+  await ev(`switchMode('radial')`);
+  await sleep(500);
   await ev(`fit(0)`);
   await poll(() => ev(`document.querySelectorAll('#nodes .node').length>0`), 10000, 'nodes to mount');
-  await sleep(900);                              // let the fit settle and labels land
+  await sleep(900);                              // let the fit settle
+  // fit() fills the frame edge to edge, which puts the crown behind the text band
+  // and crops it. Scale about the stage centre (so the tree stays centred) to
+  // clear room, then lift it into the open upper two-thirds.
+  await ev(`(()=>{
+    const st=document.getElementById('stage');
+    const cx=st.clientWidth/2, cy=st.clientHeight/2, s=0.74;
+    T.x = cx + (T.x-cx)*s; T.y = cy + (T.y-cy)*s; T.k *= s;
+    T.y -= 74;
+    applyT();
+  })()`);
+  await sleep(500);
 
   const shot = await send('Page.captureScreenshot', { format: 'jpeg', quality: 88 });
   const buf = Buffer.from(shot.data, 'base64');
