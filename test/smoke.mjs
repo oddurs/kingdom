@@ -315,6 +315,36 @@ async function main() {
       (await ev(`(()=>{const p=document.getElementById('panel'); return !p.classList.contains('open') && p.inert===true;})()`)) === true);
     await ev(`clearStory()`); await wait(120);
 
+    // Every figure in the panel names its source, and a family quotes its own WCVP
+    // row rather than the sum of its genera — the two differ by 1-4 species in 7
+    // families, and the static family page shows the family row, so quoting the
+    // aggregate made the app disagree with its own page.
+    const provPanel = await ev(`(()=>{
+      const n=nodeByName('Asteraceae'); select(n);
+      const stats=document.getElementById('pstats').textContent;
+      const src=document.getElementById('pstatsrc').textContent;
+      const origin=document.getElementById('porigin').textContent;
+      const dist=document.getElementById('pdist').textContent;
+      return JSON.stringify({
+        quotesFamilyRow: stats.includes(n.speciesCount.toLocaleString()),
+        speciesSourced: /Kew WCVP/.test(src),
+        ageSourced: /megatree/.test(origin),
+        distSourced: /WGSRPD/.test(dist),
+      });})()`); await wait(150);
+    const PP = JSON.parse(provPanel);
+    check("the panel sources every figure and quotes the family's own count",
+      PP.quotesFamilyRow && PP.speciesSourced && PP.ageSourced && PP.distSourced, provPanel);
+
+    // an undated lineage says why rather than showing nothing
+    const undated = await ev(`(()=>{
+      const n=nodeByName('Bryopsida'); if(!n) return 'missing';
+      select(n);
+      return document.getElementById('porigin').textContent;
+    })()`); await wait(150);
+    check("an undated lineage explains its absence",
+      /not dated/i.test(undated) && /non-vascular/i.test(undated), String(undated).slice(0, 70));
+    await ev(`closePanel()`); await wait(120);
+
     // Sprint K: facet filter highlights matching families with a live count
     await ev(`filter.rich=5000; filter.lineage=null; filter.region=null; filter.age=null; buildFilterUI(); applyFilter();`); await wait(400);
     check("filter highlights matching families",
@@ -528,6 +558,35 @@ async function main() {
       return JSON.stringify({foot:f&&f[1], crawl:c&&c[1]});})()`);
     const T2 = JSON.parse(totals);
     check("the page quotes one species total", !!T2.foot && T2.foot === T2.crawl, `footer ${T2.foot}, crawlable index ${T2.crawl}`);
+
+    // 6.2% of the aggregate is round estimates (27 unmatched families + every
+    // bryophyte class; Bryopsida alone is a flat 11,000). Quoting the exact leaf
+    // sum claims a precision the data hasn't got, so no visible total may.
+    const precision = await ev(`(()=>{
+      const exact=ROOT.agg.toLocaleString();
+      const foot=document.getElementById('footer').textContent;
+      const crawl=document.querySelector('section[aria-label="The plant kingdom in text"]').textContent;
+      return JSON.stringify({exact, inFooter:foot.includes(exact), inCrawl:crawl.includes(exact)});
+    })()`);
+    const P = JSON.parse(precision);
+    check("no headline total is quoted to six significant figures",
+      !P.inFooter && !P.inCrawl, `${P.exact}${P.inFooter ? " in footer" : ""}${P.inCrawl ? " in crawl index" : ""}`);
+
+    // and the estimate is owned in the open, with a figure that reconciles
+    const prov = await ev(`(()=>{
+      openModal(aboutHTML());
+      const t=document.getElementById('mbody').textContent;
+      const ok = t.includes(TOTALS.sourced.toLocaleString()) && /estimat/i.test(t)
+                 && /bryophyte/i.test(t) && t.includes(totVasc.toLocaleString())
+                 // the method and its limits are stated, not implied
+                 && /most recent common ancestor/i.test(t) && /0\.5%/.test(t)
+                 && /stem/i.test(t) && /Known gaps/i.test(t) && /synonym/i.test(t);
+      closeModal && closeModal();
+      return JSON.stringify({ok, reconciles: TOTALS.sourced+TOTALS.estimated===ROOT.agg});
+    })()`);
+    const PR = JSON.parse(prov);
+    check("About states the sourced/estimated split and it reconciles",
+      PR.ok === true && PR.reconciles === true, JSON.stringify(PR));
 
     // the document's first heading is its <h1>; the crawlable section used to be
     // injected ahead of the header, opening the page on an <h2>

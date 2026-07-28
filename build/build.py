@@ -45,13 +45,16 @@ def assert_no_literal_host(shell):
             "the canonical can never drift from SITE in build.py")
 
 
-def seo_blocks(taxa, meta, ngenera, total_spp):
+def seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated):
     """Build two SEO payloads: JSON-LD structured data (head) and a crawlable,
     screen-reader text index of the tree (body). The visualization is drawn in
     JS/SVG, so without these a crawler — and a screen reader — sees almost no
     content. Both are generated from the same rigorous data the app renders."""
     fams = [t for t in taxa if t.get("rank") == "family"]
     nfam = len(fams)
+    # two significant figures: 6% of the total is round estimates, so the exact
+    # figure would claim a precision the data does not have
+    approx_spp = f"{round(total_spp / 10000) * 10000:,}"
     by_rich = sorted(fams, key=lambda t: t.get("speciesCount", 0), reverse=True)
     aged = [t for t in fams if t.get("ageMy") is not None]
     oldest = max(aged, key=lambda t: t["ageMy"]) if aged else None
@@ -114,12 +117,14 @@ def seo_blocks(taxa, meta, ngenera, total_spp):
         '<section class="visually-hidden" aria-label="The plant kingdom in text">'
         "<h2>Yggdrasil — the plant kingdom in text</h2>"
         f"<p>An accessible, text-only index of the interactive tree above. It covers "
-        f"roughly {total_spp:,} accepted species across the {nfam} families of land "
+        f"roughly {approx_spp} accepted species across the {nfam} families of land "
         f"plants (Embryophyta) — from mosses and ferns through gymnosperms to the "
-        f"flowering plants — with ~{ngenera:,} genera. Species counts are accepted "
-        f"names from Kew's World Checklist of Vascular Plants; the classification "
-        f"follows APG IV and PPG I; divergence ages are crown estimates from the "
-        f"Jin &amp; Qian (2022) dated megatree.</p>"
+        f"flowering plants — with ~{ngenera:,} genera. Of those, {sourced:,} are "
+        f"accepted names counted from Kew's World Checklist of Vascular Plants and "
+        f"~{round(estimated / 1000) * 1000:,} are estimates: 27 families WCVP "
+        f"circumscribes differently, plus the bryophyte classes, which WCVP does not "
+        f"cover. The classification follows APG IV and PPG I; divergence ages are "
+        f"crown estimates from the Jin &amp; Qian (2022) dated megatree.</p>"
         f"<p>Notably, {'; '.join(records)}.</p>"
         f"<h3>All {nfam} plant families, by species richness</h3><ul>{rows}</ul>"
         f"<h3>Sources</h3><ul>{src_list}</ul>"
@@ -190,6 +195,36 @@ def agg_species(node):
     return sum(agg_species(k) for k in kids)
 
 
+def provenance_split(taxa, genera_by_family):
+    """Split the leaf aggregate into sourced and estimated species.
+
+    The app sizes every branch from a leaf aggregate: genus counts where a family
+    has them, the family's own count where it doesn't, and the bryophyte classes,
+    which are not families at all. Those three kinds of leaf do not carry equal
+    authority. The genus counts come from Kew's WCVP; the 27 families WCVP
+    circumscribes differently and all thirteen bryophyte classes carry round
+    estimates — `Bryopsida: 11,000` is 2.8% of the headline on its own.
+
+    About 6% of the total is therefore guesswork, which is why the page must not
+    print it to six significant figures. Returns (sourced, estimated).
+    """
+    children = {}
+    for t in taxa:
+        children.setdefault(t["parent"], []).append(t)
+    sourced = estimated = 0
+    for t in taxa:
+        gs = genera_by_family.get(t["name"]) if t.get("rank") == "family" else None
+        if gs:                                    # genus tier: WCVP-derived
+            sourced += sum(g["speciesCount"] for g in gs)
+        elif not children.get(t["id"]):           # a leaf in the app's sense
+            n = t.get("speciesCount") or 1
+            if (t.get("provenance") or {}).get("speciesCount") == "wcvp":
+                sourced += n
+            else:
+                estimated += n
+    return sourced, estimated
+
+
 def validate(meta, taxa):
     """Lightweight structural validation — no external dependency."""
     ranks = set(meta.get("rankOrder", []))
@@ -221,6 +256,15 @@ def validate(meta, taxa):
     # here, by name, rather than as a traceback 100 lines later
     if not any(t.get("rank") == "family" for t in taxa):
         errors.append("no taxa with rank 'family' — the crawlable index needs them")
+    # A blurb must not quote its own species count. The panel and the family page
+    # both print the sourced figure immediately beside the blurb, so a number in
+    # the prose is redundant at best — and 16 of them were more than 15% adrift
+    # (Theaceae read "~200 species" next to a sourced 388).
+    quoted = re.compile(r"[\d,]{3,}\+?\s*species", re.I)
+    for t in taxa:
+        if t.get("blurb") and quoted.search(t["blurb"]):
+            errors.append(f"{t['id']!r}: blurb quotes a species count — the sourced "
+                          f"figure is displayed beside it: {t['blurb']!r}")
     return errors
 
 
@@ -254,6 +298,15 @@ def build_tree(taxa, genera_by_family=None):
                     out["ids"] = rec["ids"]
             elif f in rec:
                 out[f] = rec[f]
+        # Two flags rather than the whole provenance dict — the panel needs to say
+        # whether a figure was counted or guessed, and 14k nodes make the full
+        # object too expensive to ship. `est` = the count is an estimate, not a
+        # WCVP tally; `stem` = the age is a stem age (monotypic lineage), not crown.
+        prov = rec.get("provenance") or {}
+        if rec.get("speciesCount") is not None and prov.get("speciesCount") != "wcvp":
+            out["est"] = 1
+        if str(prov.get("ageMy") or "").endswith("stem"):
+            out["stem"] = 1
         kids = [node(k) for k in children.get(rec["id"], [])]
         if rec["rank"] == "family":
             kids += [genus_node(g) for g in genera_by_family.get(rec["name"], [])]
@@ -293,6 +346,10 @@ def main() -> None:
 
     tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
+    # the sourced/estimated split travels with the data so the app's copy and the
+    # crawlable index quote one derivation rather than each doing their own
+    sourced, estimated = provenance_split(taxa, genera_by_family)
+    data["totals"] = {"sourced": sourced, "estimated": estimated}
     if WORLDMAP.exists():
         data["worldmap"] = read_json(WORLDMAP)
 
@@ -303,7 +360,12 @@ def main() -> None:
     js = "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
     check_collisions()
     total_spp = agg_species(tree)
-    jsonld, crawl = seo_blocks(taxa, meta, ngenera, total_spp)
+    # the split must account for exactly the aggregate the app sizes branches from,
+    # or the page would describe a total it isn't showing
+    if sourced + estimated != total_spp:
+        raise SystemExit(f"provenance split {sourced:,}+{estimated:,}={sourced + estimated:,} "
+                         f"does not reconcile with the leaf aggregate {total_spp:,}")
+    jsonld, crawl = seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
                       ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell"),
                       ("__SPECIES__", "shell"), ("__SITE__", "shell")):

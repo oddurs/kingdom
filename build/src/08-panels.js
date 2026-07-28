@@ -35,9 +35,30 @@ const GEOP=[['Silurian',444,419,'#4f8f79'],['Devonian',419,359,'#3f7f88'],
   ['Neogene',23,2.6,'#dcc06a'],['Quaternary',2.6,0,'#c9c9c9']];
 const TMAX=445;
 function periodOf(a){ for(const p of GEOP) if(a<=p[1]&&a>p[2]) return p; return a>GEOP[0][1] ? GEOP[0] : GEOP[GEOP.length-1]; }
+// ---------- provenance: every figure says where it came from ----------
+// The static taxon pages (build/pages.py) name a source beside each number; the
+// app used to assert them bare, which is the wrong way round — this is the
+// surface people actually read. `est`/`stem` are set in build.py from the
+// canonical provenance.
+function speciesSource(n){
+  if(n.rank==='genus') return 'accepted names · Kew WCVP';
+  if(n.rank==='family') return n.est
+    ? 'approximate — WCVP circumscribes this family differently'
+    : 'accepted names · Kew WCVP';
+  if(n.est) return 'estimated — WCVP covers vascular plants only';
+  return 'summed from the families below';
+}
+function ageSource(n){
+  const kind = n.stem ? 'stem age' : 'crown age';
+  return (n.ageMy!=null ? kind : 'oldest dated descendant')+' · Jin &amp; Qian 2022 megatree';
+}
 function originBar(node){
   // dated crown age when we have it; otherwise effAge — when this lineage first appears
-  const a=node.ageMy!=null?node.ageMy:node.effAge; if(a==null) return '';
+  const a=node.ageMy!=null?node.ageMy:node.effAge;
+  // An absence with a reason beats a blank. Bryophytes are non-vascular and simply
+  // aren't in the megatree; saying so is more honest than showing nothing.
+  if(a==null) return `<div class="pdistlabel"><span>Origin</span><span class="cod">not dated</span></div>`+
+    `<div class="psrc">absent from the dated megatree${node.lineage==='bryo'?' — non-vascular':''}</div>`;
   const W=220,BH=13,Y=6, x=v=>(TMAX-v)/TMAX*W;
   const bands=GEOP.map(p=>{const x0=x(p[1]),x1=x(p[2]);
     return `<rect class="band" x="${x0.toFixed(1)}" y="${Y}" width="${(x1-x0).toFixed(1)}" height="${BH}" fill="${p[3]}" fill-opacity="0.5"><title>${p[0]} ${p[1]}–${p[2]} Ma</title></rect>`;}).join('');
@@ -47,7 +68,8 @@ function originBar(node){
   return `<div class="pdistlabel"><span>Origin</span><span class="cod">~${shown} Ma · ${per[0]}</span></div>`+
     `<svg class="potl" viewBox="0 0 220 30" preserveAspectRatio="none" role="img" aria-label="Origin about ${Math.round(a)} million years ago, ${per[0]} period">${bands}${marker}`+
     `<text x="1" y="29" style="font-size:7px;fill:var(--faint)">445 Ma</text>`+
-    `<text x="219" y="29" text-anchor="end" style="font-size:7px;fill:var(--faint)">now</text></svg>`;
+    `<text x="219" y="29" text-anchor="end" style="font-size:7px;fill:var(--faint)">now</text></svg>`+
+    `<div class="psrc">${ageSource(node)}</div>`;
 }
 // ---------- distribution map (real world, land grouped into WGSRPD continents) ----------
 const CONTINENTS={"1":"Europe","2":"Africa","3":"Asia-Temperate","4":"Asia-Tropical",
@@ -67,7 +89,8 @@ function distMap(node, lc){
     }
   }
   return `<div class="pdistlabel"><span>Native range</span><span class="cod">Centre of diversity · ${CONTINENTS[top]}</span></div>`+
-    `<svg class="pdistmap" viewBox="${wm.viewBox}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Native distribution across botanical continents; centre of diversity ${CONTINENTS[top]}">${base}${lit}</svg>`;
+    `<svg class="pdistmap" viewBox="${wm.viewBox}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Native distribution across botanical continents; centre of diversity ${CONTINENTS[top]}">${base}${lit}</svg>`+
+    `<div class="psrc">native species richness by botanical continent · WGSRPD, Kew WCVP</div>`;
 }
 function select(n, opts){
   opts=opts||{};
@@ -114,10 +137,16 @@ function select(n, opts){
   const midStat = n.rank==='family'
     ? `<div class="pstat"><b>${n.genCount.toLocaleString()}</b><span>gen${n.genCount===1?'us':'era'}</span></div>`
     : (hasKids?`<div class="pstat"><b>${n.famCount}</b><span>famil${n.famCount===1?'y':'ies'}</span></div>`:'');
+  // A family quotes its OWN WCVP row, not the sum of its genera. The two differ
+  // by 1-4 species in 7 of 452 families (Asteraceae: 35,483 vs 35,479), and the
+  // family row is the citable figure — it is what the static family page shows,
+  // so quoting the aggregate here made the app and its own page disagree.
+  const shownSpp = (n.rank==='family' && n.speciesCount) ? n.speciesCount : n.agg;
   document.getElementById('pstats').innerHTML =
-    `<div class="pstat"><b>~${n.agg.toLocaleString()}</b><span>species</span></div>`+
+    `<div class="pstat"><b>${n.est?'~':''}${shownSpp.toLocaleString()}</b><span>species</span></div>`+
     midStat+
     `<div class="pstat"><b>${n.depth}</b><span>rank depth</span></div>`;
+  document.getElementById('pstatsrc').innerHTML = `<div class="psrc">${speciesSource(n)}</div>`;
   // Sprint I — superlative badges + rank/neighbour context
   const badges=(typeof badgeMap!=='undefined' && badgeMap.get(n._id))||[];
   document.getElementById('pbadge').innerHTML=badges.map(b=>`<span class="pbadge">${escp(b)}</span>`).join('');
