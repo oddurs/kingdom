@@ -284,13 +284,19 @@ async function layoutChecks() {
       `getComputedStyle(document.body).backgroundColor === 'rgb(13, 21, 18)'`);
     check("p.css loads and applies at its linked path", styled === true, String(styled));
   } finally {
-    // wait for the process to actually exit before removing its profile — Chrome
-    // is still flushing to that directory when kill() returns (smoke.mjs learned
-    // the same thing in T1)
+    // Wait for the process to exit before removing its profile — Chrome is still
+    // flushing to that directory when kill() returns (smoke.mjs learned the same
+    // thing in T1). Even then, kill() only reaps the parent: on Linux the zygote
+    // and renderer children can outlive it and keep the directory busy, which
+    // failed this job on CI with every check already green. Removing a temp dir
+    // is housekeeping, not an assertion — the OS reclaims /tmp regardless, so it
+    // must never be the thing that decides whether the suite passed.
     chrome.kill();
     await once(chrome, "exit").catch(() => {});
     server.close();
-    rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+    try {
+      rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+    } catch { /* left for the OS to reclaim */ }
   }
 }
 
