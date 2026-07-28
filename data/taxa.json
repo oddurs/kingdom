@@ -3783,7 +3783,7 @@
     "Anthurium",
     "Duckweed (Lemna)"
    ],
-   "blurb": "~3,700 species with a fleshy spadix wrapped by a spathe, including duckweeds, the world's smallest flowering plants.",
+   "blurb": "A fleshy spadix wrapped by a spathe; includes duckweeds, the world's smallest flowering plants.",
    "ids": {
     "gbif": 6979
    },
@@ -4918,7 +4918,7 @@
     "Vanilla",
     "Ophrys"
    ],
-   "blurb": "The largest plant family, ~28,000 species of orchids, many epiphytic with intricate pollinator-specific flowers.",
+   "blurb": "The largest plant family: orchids, many epiphytic, with intricate pollinator-specific flowers.",
    "ids": {
     "gbif": 7689
    },
@@ -5424,7 +5424,7 @@
     "Oil palm",
     "Rattan"
    ],
-   "blurb": "Palms: mostly tropical woody plants with unbranched trunks and large fan or feather leaves; ~2,600 species.",
+   "blurb": "Palms: mostly tropical woody plants with unbranched trunks and large fan or feather leaves.",
    "ids": {
     "gbif": 7681
    },
@@ -5507,7 +5507,7 @@
     "Wandering jew",
     "Dichorisandra"
    ],
-   "blurb": "Spiderworts: herbs with sheathing leaves and ephemeral three-petalled flowers lasting a day; ~730 species.",
+   "blurb": "Spiderworts: herbs with sheathing leaves and ephemeral three-petalled flowers lasting a day.",
    "ids": {
     "gbif": 2763195
    },
@@ -5611,7 +5611,7 @@
     "Haemodorum",
     "Lachnanthes"
    ],
-   "blurb": "Perennial herbs often with red root pigment; includes Australia's kangaroo paws; ~100 species.",
+   "blurb": "Perennial herbs often with red root pigment; includes Australia's kangaroo paws.",
    "ids": {
     "gbif": 7691
    },
@@ -5816,7 +5816,7 @@
     "Calathea",
     "Arrowroot"
    ],
-   "blurb": "Tropical herbs with leaves that fold at night via a swollen pulvinus; includes arrowroot; ~550 species.",
+   "blurb": "Tropical herbs with leaves that fold at night via a swollen pulvinus; includes arrowroot.",
    "ids": {
     "gbif": 8784
    },
@@ -5850,7 +5850,7 @@
     "Spiral ginger",
     "Cheilocostus"
    ],
-   "blurb": "Spiral gingers: tropical herbs with spirally arranged leaves on cane-like stems; ~140 species.",
+   "blurb": "Spiral gingers: tropical herbs with spirally arranged leaves on cane-like stems.",
    "ids": {
     "gbif": 4492
    },
@@ -5885,7 +5885,7 @@
     "Cardamom",
     "Curcuma"
    ],
-   "blurb": "Gingers: aromatic rhizomatous herbs yielding ginger, turmeric and cardamom spices; ~1,600 species.",
+   "blurb": "Gingers: aromatic rhizomatous herbs yielding ginger, turmeric and cardamom spices.",
    "ids": {
     "gbif": 4687
    },
@@ -5974,7 +5974,7 @@
     "Tillandsia",
     "Aechmea"
    ],
-   "blurb": "Bromeliads: mostly tropical American herbs, many epiphytes forming water-holding rosettes; ~3,600 species.",
+   "blurb": "Bromeliads: mostly tropical American herbs, many epiphytes forming water-holding rosettes.",
    "ids": {
     "gbif": 3740
    },
@@ -6034,7 +6034,7 @@
     "Yellow-eyed grass",
     "Abolboda"
    ],
-   "blurb": "Grass-like herbs of wet, sunny habitats with heads of short-lived yellow flowers; ~400 species.",
+   "blurb": "Grass-like herbs of wet, sunny habitats with heads of short-lived yellow flowers.",
    "ids": {
     "gbif": 8496
    },
@@ -6068,7 +6068,7 @@
     "Paepalanthus",
     "Syngonanthus"
    ],
-   "blurb": "Herbs of wet habitats bearing button-like heads of tiny flowers on leafless stalks; ~1,200 species.",
+   "blurb": "Herbs of wet habitats bearing button-like heads of tiny flowers on leafless stalks.",
    "ids": {
     "gbif": 3741
    },
@@ -6163,7 +6163,7 @@
     "Common rush",
     "Wood-rush"
    ],
-   "blurb": "Rushes: grass-like herbs of wet, cool habitats with cylindrical stems and small dry flowers; ~460 species.",
+   "blurb": "Rushes: grass-like herbs of wet, cool habitats with cylindrical stems and small dry flowers.",
    "ids": {
     "gbif": 5353
    },
@@ -6201,7 +6201,7 @@
     "Cotton grass",
     "Carex"
    ],
-   "blurb": "Sedges: grass-like herbs typically with solid, triangular stems and leaves in three ranks; ~5,500 species.",
+   "blurb": "Sedges: grass-like herbs typically with solid, triangular stems and leaves in three ranks.",
    "ids": {
     "gbif": 7708
    },
@@ -6361,7 +6361,7 @@
     "Maize",
     "Bamboo"
    ],
-   "blurb": "Grasses: wind-pollinated herbs with jointed hollow stems; includes all cereal grains and bamboo; ~12,000 species.",
+   "blurb": "Grasses: wind-pollinated herbs with jointed hollow stems; includes all cereal grains and bamboo.",
    "ids": {
     "gbif": 3073
    },
@@ -12344,7 +12344,7 @@
     "Viscum (mistletoe)",
     "Comandra"
    ],
-   "blurb": "Mostly hemiparasitic trees, shrubs and mistletoes, including fragrant sandalwood; ~1,000 species worldwide.",
+   "blurb": "Mostly hemiparasitic trees, shrubs and mistletoes, including fragrant sandalwood.",
    "ids": {
     "gbif": 6661
    },
@@ -12439,7 +12439,7 @@
     "Psittacanthus",
     "Nuytsia (WA Christmas tree)"
    ],
-   "blurb": "Largest mistletoe family: aerial stem hemiparasites with brightly colored bird-pollinated flowers; ~1,000 species.",
+   "blurb": "Largest mistletoe family: aerial stem hemiparasites with brightly colored bird-pollinated flowers.",
    "ids": {
     "gbif": 6663
    },
@@ -12556,7 +12556,7 @@
     "Limonium (sea lavender)",
     "Armeria (thrift)"
    ],
-   "blurb": "Herbs and shrubs of saline and arid habitats with papery calyces and salt-excreting glands; ~1,000 species.",
+   "blurb": "Herbs and shrubs of saline and arid habitats with papery calyces and salt-excreting glands.",
    "ids": {
     "gbif": 2419
    },
@@ -12593,7 +12593,7 @@
     "Rheum (rhubarb)",
     "Fagopyrum (buckwheat)"
    ],
-   "blurb": "Herbs to trees with swollen nodes sheathed by an ochrea; includes buckwheat, rhubarb and sorrels; ~1,200 species.",
+   "blurb": "Herbs to trees with swollen nodes sheathed by an ochrea; includes buckwheat, rhubarb and sorrels.",
    "ids": {
     "gbif": 2416
    },
@@ -12630,7 +12630,7 @@
     "Dionaea (Venus flytrap)",
     "Aldrovanda"
    ],
-   "blurb": "Carnivorous plants trapping insects with sticky tentacles or snap-traps; includes the Venus flytrap; ~250 species.",
+   "blurb": "Carnivorous plants trapping insects with sticky tentacles or snap-traps; includes the Venus flytrap.",
    "ids": {
     "gbif": 5399
    },
@@ -12665,7 +12665,7 @@
    "examples": [
     "Nepenthes"
    ],
-   "blurb": "Old World carnivorous vines whose leaf tips form fluid-filled pitcher traps; single genus Nepenthes, ~170 species.",
+   "blurb": "Old World carnivorous vines whose leaf tips form fluid-filled pitcher traps; single genus Nepenthes.",
    "ids": {
     "gbif": 6682
    },
@@ -12935,7 +12935,7 @@
     "Silene (campion)",
     "Stellaria (chickweed)"
    ],
-   "blurb": "Herbs with swollen nodes and often notched petals; includes carnations, campions and chickweeds; ~2,600 species.",
+   "blurb": "Herbs with swollen nodes and often notched petals; includes carnations, campions and chickweeds.",
    "ids": {
     "gbif": 2518
    },
@@ -13001,7 +13001,7 @@
     "Spinacia (spinach)",
     "Salicornia"
    ],
-   "blurb": "Herbs and shrubs, many salt- and drought-tolerant, including beet, spinach, quinoa and amaranth; ~2,000+ species.",
+   "blurb": "Herbs and shrubs, many salt- and drought-tolerant, including beet, spinach, quinoa and amaranth.",
    "ids": {
     "gbif": 3064
    },
@@ -13203,7 +13203,7 @@
     "Carpobrotus",
     "Delosperma"
    ],
-   "blurb": "Leaf-succulents centered in southern Africa with daisy-like flowers; includes living stones; ~2,000+ species.",
+   "blurb": "Leaf-succulents centered in southern Africa with daisy-like flowers; includes living stones.",
    "ids": {
     "gbif": 6752
    },
@@ -13328,7 +13328,7 @@
     "Bougainvillea",
     "Pisonia"
    ],
-   "blurb": "Herbs, shrubs and trees, often with colorful petal-like bracts; includes bougainvillea; ~400 species.",
+   "blurb": "Herbs, shrubs and trees, often with colorful petal-like bracts; includes bougainvillea.",
    "ids": {
     "gbif": 6718
    },
@@ -13400,7 +13400,7 @@
     "Calandrinia",
     "Montia"
    ],
-   "blurb": "Often succulent herbs of the Americas with showy flowers; includes bitterroot and miner's lettuce; ~225 species.",
+   "blurb": "Often succulent herbs of the Americas with showy flowers; includes bitterroot and miner's lettuce.",
    "ids": {
     "gbif": 4898338
    },
@@ -13552,7 +13552,7 @@
    "examples": [
     "Portulaca (purslane, moss rose)"
    ],
-   "blurb": "Now restricted to the succulent genus Portulaca; fleshy herbs with showy flowers, including purslane; ~120 species.",
+   "blurb": "Now restricted to the succulent genus Portulaca; fleshy herbs with showy flowers, including purslane.",
    "ids": {
     "gbif": 6717
    },
@@ -13620,7 +13620,7 @@
     "Mammillaria",
     "Echinocactus"
    ],
-   "blurb": "Stem-succulents of the Americas with spines (modified leaves) borne on areoles and water-storing tissue; ~1,750 species.",
+   "blurb": "Stem-succulents of the Americas with spines (modified leaves) borne on areoles and water-storing tissue.",
    "ids": {
     "gbif": 2519
    },
@@ -13768,7 +13768,7 @@
     "Loasa",
     "Caiophora"
    ],
-   "blurb": "Herbs and shrubs, mainly American, often clothed in stinging or barbed hairs; type genus Loasa; ~330 species.",
+   "blurb": "Herbs and shrubs, mainly American, often clothed in stinging or barbed hairs; type genus Loasa.",
    "ids": {
     "gbif": 2379
    },
@@ -13903,7 +13903,7 @@
     "Impatiens (busy Lizzie)",
     "Hydrocera"
    ],
-   "blurb": "Succulent-stemmed herbs with spurred flowers and explosive seed capsules; ~1,000 species, mostly Impatiens.",
+   "blurb": "Succulent-stemmed herbs with spurred flowers and explosive seed capsules; mostly Impatiens.",
    "ids": {
     "gbif": 6699
    },
@@ -13937,7 +13937,7 @@
     "Norantea",
     "Souroubea"
    ],
-   "blurb": "Neotropical epiphytic shrubs and lianas with pitcher-like nectary bracts pollinated by birds and bats; ~130 species.",
+   "blurb": "Neotropical epiphytic shrubs and lianas with pitcher-like nectary bracts pollinated by birds and bats.",
    "ids": {
     "gbif": 6643
    },
@@ -14025,7 +14025,7 @@
     "Gilia",
     "Ipomopsis"
    ],
-   "blurb": "Herbs and some shrubs, centered in western North America, with showy tubular five-lobed flowers; ~400 species.",
+   "blurb": "Herbs and some shrubs, centered in western North America, with showy tubular five-lobed flowers.",
    "ids": {
     "gbif": 6648
    },
@@ -14056,7 +14056,7 @@
     "Couroupita (cannonball tree)",
     "Barringtonia"
    ],
-   "blurb": "Mostly tropical trees with large woody fruits and showy flowers; includes the Brazil nut; ~350 species.",
+   "blurb": "Mostly tropical trees with large woody fruits and showy flowers; includes the Brazil nut.",
    "ids": {
     "gbif": 3990
    },
@@ -14120,7 +14120,7 @@
     "Cleyera",
     "Pentaphylax"
    ],
-   "blurb": "Evergreen trees and shrubs, mostly of tropical and subtropical Asia and the Americas; ~12 genera, ~340 species.",
+   "blurb": "Evergreen trees and shrubs, mostly of tropical and subtropical Asia and the Americas; ~12 genera.",
    "ids": {
     "gbif": 4259202
    },
@@ -14155,7 +14155,7 @@
     "Vitellaria (shea)",
     "Argania (argan)"
    ],
-   "blurb": "Tropical trees with milky latex, edible fruits and useful oils; sources of chicle, shea and argan; ~1,100 species.",
+   "blurb": "Tropical trees with milky latex, edible fruits and useful oils; sources of chicle, shea and argan.",
    "ids": {
     "gbif": 8802
    },
@@ -14189,7 +14189,7 @@
     "Diospyros (ebony, persimmon)",
     "Euclea"
    ],
-   "blurb": "Tropical and subtropical trees and shrubs; genus Diospyros yields ebony timber and persimmon fruit; ~750 species.",
+   "blurb": "Tropical and subtropical trees and shrubs; genus Diospyros yields ebony timber and persimmon fruit.",
    "ids": {
     "gbif": 6709
    },
@@ -14225,7 +14225,7 @@
     "Lysimachia (loosestrife)",
     "Anagallis"
    ],
-   "blurb": "Herbs, shrubs and some trees with five-parted flowers; includes primroses and cyclamens; ~2,600 species.",
+   "blurb": "Herbs, shrubs and some trees with five-parted flowers; includes primroses and cyclamens.",
    "ids": {
     "gbif": 6674
    },
@@ -14263,7 +14263,7 @@
     "Gordonia",
     "Franklinia"
    ],
-   "blurb": "Evergreen and deciduous trees and shrubs with showy flowers; includes tea and camellias; ~200 species.",
+   "blurb": "Evergreen and deciduous trees and shrubs with showy flowers; includes tea and camellias.",
    "ids": {
     "gbif": 3189597
    },
@@ -14293,7 +14293,7 @@
    "examples": [
     "Symplocos (sweetleaf)"
    ],
-   "blurb": "Tropical to warm-temperate trees and shrubs often accumulating aluminium; single genus Symplocos; ~300 species.",
+   "blurb": "Tropical to warm-temperate trees and shrubs often accumulating aluminium; single genus Symplocos.",
    "ids": {
     "gbif": 6708
    },
@@ -14359,7 +14359,7 @@
     "Halesia (silverbell)",
     "Pterostyrax"
    ],
-   "blurb": "Trees and shrubs of warm temperate and tropical regions with pendulous white flowers; source of benzoin resin; ~160 species.",
+   "blurb": "Trees and shrubs of warm temperate and tropical regions with pendulous white flowers; source of benzoin resin.",
    "ids": {
     "gbif": 2507
    },
@@ -14449,7 +14449,7 @@
     "Saurauia",
     "Clematoclethra"
    ],
-   "blurb": "Trees, shrubs and woody vines of Asia and the Americas; genus Actinidia yields kiwifruit; ~350 species.",
+   "blurb": "Trees, shrubs and woody vines of Asia and the Americas; genus Actinidia yields kiwifruit.",
    "ids": {
     "gbif": 2385
    },
@@ -14545,7 +14545,7 @@
     "Erica (heath)",
     "Calluna (heather)"
    ],
-   "blurb": "Shrubs and small trees, often of acidic soils, with mycorrhizal roots; heaths, rhododendrons and blueberries; ~4,000 species.",
+   "blurb": "Shrubs and small trees, often of acidic soils, with mycorrhizal roots; heaths, rhododendrons and blueberries.",
    "ids": {
     "gbif": 2505
    },
@@ -16317,7 +16317,7 @@
     "Lobelia",
     "Platycodon (balloon flower)"
    ],
-   "blurb": "Bellflower family: mostly herbs with milky latex and bell- or star-shaped flowers; about 2,400 species worldwide.",
+   "blurb": "Bellflower family: mostly herbs with milky latex and bell- or star-shaped flowers.",
    "ids": {
     "gbif": 8801
    },
@@ -16598,7 +16598,7 @@
     "Aster",
     "Chrysanthemum"
    ],
-   "blurb": "Daisy family: florets packed into composite heads that mimic single blooms; largest eudicot family, ~32,000 species.",
+   "blurb": "Daisy family: florets packed into composite heads that mimic single blooms; largest eudicot family.",
    "ids": {
     "gbif": 3065
    },

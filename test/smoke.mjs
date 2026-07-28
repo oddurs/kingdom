@@ -315,6 +315,36 @@ async function main() {
       (await ev(`(()=>{const p=document.getElementById('panel'); return !p.classList.contains('open') && p.inert===true;})()`)) === true);
     await ev(`clearStory()`); await wait(120);
 
+    // Every figure in the panel names its source, and a family quotes its own WCVP
+    // row rather than the sum of its genera — the two differ by 1-4 species in 7
+    // families, and the static family page shows the family row, so quoting the
+    // aggregate made the app disagree with its own page.
+    const provPanel = await ev(`(()=>{
+      const n=nodeByName('Asteraceae'); select(n);
+      const stats=document.getElementById('pstats').textContent;
+      const src=document.getElementById('pstatsrc').textContent;
+      const origin=document.getElementById('porigin').textContent;
+      const dist=document.getElementById('pdist').textContent;
+      return JSON.stringify({
+        quotesFamilyRow: stats.includes(n.speciesCount.toLocaleString()),
+        speciesSourced: /Kew WCVP/.test(src),
+        ageSourced: /megatree/.test(origin),
+        distSourced: /WGSRPD/.test(dist),
+      });})()`); await wait(150);
+    const PP = JSON.parse(provPanel);
+    check("the panel sources every figure and quotes the family's own count",
+      PP.quotesFamilyRow && PP.speciesSourced && PP.ageSourced && PP.distSourced, provPanel);
+
+    // an undated lineage says why rather than showing nothing
+    const undated = await ev(`(()=>{
+      const n=nodeByName('Bryopsida'); if(!n) return 'missing';
+      select(n);
+      return document.getElementById('porigin').textContent;
+    })()`); await wait(150);
+    check("an undated lineage explains its absence",
+      /not dated/i.test(undated) && /non-vascular/i.test(undated), String(undated).slice(0, 70));
+    await ev(`closePanel()`); await wait(120);
+
     // Sprint K: facet filter highlights matching families with a live count
     await ev(`filter.rich=5000; filter.lineage=null; filter.region=null; filter.age=null; buildFilterUI(); applyFilter();`); await wait(400);
     check("filter highlights matching families",

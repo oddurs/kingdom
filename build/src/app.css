@@ -344,6 +344,9 @@
   /* distribution mini-map (WGSRPD level-1) */
   .pdistlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
+  /* provenance caption: every figure in the panel says where it came from. Sized
+     to read as an attribution rather than compete with the number above it. */
+  .psrc{font-family:var(--sans); font-size:10.5px; line-height:1.45; color:var(--faint); margin:5px 0 0}
   .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:var(--fill-2)}
   .pdistmap .wmland{fill:#25332c; stroke:none}
   .pdistmap .reg{stroke:none; transition:fill-opacity var(--dur-1)}

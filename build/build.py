@@ -256,6 +256,15 @@ def validate(meta, taxa):
     # here, by name, rather than as a traceback 100 lines later
     if not any(t.get("rank") == "family" for t in taxa):
         errors.append("no taxa with rank 'family' — the crawlable index needs them")
+    # A blurb must not quote its own species count. The panel and the family page
+    # both print the sourced figure immediately beside the blurb, so a number in
+    # the prose is redundant at best — and 16 of them were more than 15% adrift
+    # (Theaceae read "~200 species" next to a sourced 388).
+    quoted = re.compile(r"[\d,]{3,}\+?\s*species", re.I)
+    for t in taxa:
+        if t.get("blurb") and quoted.search(t["blurb"]):
+            errors.append(f"{t['id']!r}: blurb quotes a species count — the sourced "
+                          f"figure is displayed beside it: {t['blurb']!r}")
     return errors
 
 
@@ -289,6 +298,15 @@ def build_tree(taxa, genera_by_family=None):
                     out["ids"] = rec["ids"]
             elif f in rec:
                 out[f] = rec[f]
+        # Two flags rather than the whole provenance dict — the panel needs to say
+        # whether a figure was counted or guessed, and 14k nodes make the full
+        # object too expensive to ship. `est` = the count is an estimate, not a
+        # WCVP tally; `stem` = the age is a stem age (monotypic lineage), not crown.
+        prov = rec.get("provenance") or {}
+        if rec.get("speciesCount") is not None and prov.get("speciesCount") != "wcvp":
+            out["est"] = 1
+        if str(prov.get("ageMy") or "").endswith("stem"):
+            out["stem"] = 1
         kids = [node(k) for k in children.get(rec["id"], [])]
         if rec["rank"] == "family":
             kids += [genus_node(g) for g in genera_by_family.get(rec["name"], [])]
