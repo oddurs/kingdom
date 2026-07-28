@@ -205,8 +205,12 @@ function legendSwatches(){
 // move together. Three sites used to assign it and only rebuild the legend.
 function setColorMode(c){ colorMode=c; buildColorUI(); repaintAll(); }
 function buildColorUI(){
-  document.getElementById('cmode').innerHTML='<span class="slabel">Colour</span>'
-    + CMODES.map(([id,l])=>`<button class="schip${id===colorMode?' on':''}" data-cmode="${id}">${l}</button>`).join('');
+  // The switcher renders into every host that exists rather than one fixed id:
+  // it lives in the legend (beside the key that explains what the colours mean)
+  // and, because the legend is hidden on phones, in the overflow menu there too.
+  const chips=CMODES.map(([id,l])=>
+    `<button class="schip${id===colorMode?' on':''}" data-cmode="${id}" aria-pressed="${id===colorMode}">${l}</button>`).join('');
+  document.querySelectorAll('[data-cmode-host]').forEach(h=>{ h.innerHTML=chips; });
   document.getElementById('lgtitle').textContent=LGTITLE[colorMode]||'Colour';
   document.getElementById('lgitems').innerHTML=legendSwatches();
 }
@@ -224,7 +228,9 @@ function legendSpotlight(sp){
   for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) el.classList.toggle('lit', nodeMatchesSp(sp,n)); }
 }
 buildColorUI();
-document.getElementById('cmode').addEventListener('click', e=>{
+// delegated at the document, since the switcher now has more than one host and
+// buildColorUI() replaces their contents on every change
+document.addEventListener('click', e=>{
   const b=e.target.closest('[data-cmode]'); if(!b) return;
   if(b.dataset.cmode===colorMode) return;
   setColorMode(b.dataset.cmode);
@@ -318,7 +324,11 @@ document.getElementById('footer').innerHTML =
   `<span><span class="k">genera</span> <b>${totGen.toLocaleString()}</b></span>`+
   `<span><a class="fx" href="/orders/"><span class="k">orders</span> <b>86</b></a></span>`+
   `<span title="${provenanceNote}"><span class="k">species catalogued</span> <b>~${totSppApprox}</b></span>`+
-  `<span class="k src">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
+  // About was the least discoverable surface in the app — behind an unlabelled
+// ellipsis — while being the one that has to carry the project's credibility.
+// The footer already names the sources; now it lets you ask about them.
+`<button class="k src fx" id="btnSourcesAbout" title="About Yggdrasil, the data &amp; sources">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</button>`;
+document.getElementById('btnSourcesAbout').onclick=()=>openModal(aboutHTML());
 
 // ---------- header popover menus (G2) ----------
 let openMenu=null;

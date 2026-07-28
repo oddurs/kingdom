@@ -566,6 +566,43 @@ async function main() {
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
 
+    // Mutually exclusive options must expose radio semantics, not aria-pressed —
+    // four independent toggles is what a screen reader heard before.
+    const seg = await ev(`(()=>{
+      const v=document.getElementById('viewseg'), d=document.getElementById('depthseg');
+      const ok=g=>g && g.getAttribute('role')==='radiogroup'
+        && [...g.querySelectorAll('button')].every(b=>b.getAttribute('role')==='radio' && b.hasAttribute('aria-checked'))
+        && g.querySelectorAll('[aria-checked="true"]').length===1;
+      return JSON.stringify({view:ok(v), depth:ok(d)});
+    })()`);
+    const SEG = JSON.parse(seg);
+    check("view and depth segments expose radio semantics", SEG.view && SEG.depth, seg);
+
+    // Colour left the toolbar for the legend that explains it; Depth took its
+    // place in the bar. Assert the move, not just that the controls exist.
+    const ia = await ev(`(()=>({
+      colourInBar: !!document.querySelector('[data-menu="colour"]'),
+      colourHosts: document.querySelectorAll('[data-cmode-host]').length,
+      colourInLegend: !!document.querySelector('#legendbar [data-cmode-host]'),
+      depthInBar: !!document.querySelector('[data-menu="depth"]'),
+    }))()`);
+    check("Colour lives with its legend and Depth is in the bar",
+      !ia.colourInBar && ia.colourInLegend && ia.depthInBar && ia.colourHosts >= 1,
+      JSON.stringify(ia));
+
+    // the footer names the sources; it must let you ask about them (this binding
+    // broke once by being attached before the footer was rendered)
+    const srcAbout = await ev(`(()=>{
+      const b=document.getElementById('btnSourcesAbout'); if(!b) return 'missing';
+      b.click();
+      const open=document.getElementById('modal').classList.contains('show');
+      const txt=document.getElementById('mbody').textContent;
+      closeModal();
+      return JSON.stringify({open, isAbout:/About Yggdrasil/.test(txt)});
+    })()`); await wait(200);
+    const SA = typeof srcAbout === "string" && srcAbout[0] === "{" ? JSON.parse(srcAbout) : {};
+    check("the footer's sources line opens About", SA.open === true && SA.isAbout === true, String(srcAbout));
+
     // The interface accent must stay distinct from every lineage hue. The UI used
     // to borrow --l-fern, which meant the primary control and the fern branches
     // were literally the same colour — a chip could be mistaken for a lineage, and

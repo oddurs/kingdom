@@ -59,40 +59,45 @@
 </svg>
 
 <header class="bar">
-  <div class="brand">
+  <a class="brand" href="/" title="Yggdrasil — home">
     <svg class="mark" aria-hidden="true"><use href="#ygg-mark"/></svg>
     <span class="wordmark">
       <h1 class="wm-name">Yggdrasil</h1>
     </span>
-  </div>
-  <div class="spacer"></div>
+  </a>
   <div class="controls">
     <div class="search">
       <input id="q" type="search" placeholder="Find a family or plant&hellip;" autocomplete="off" spellcheck="false" aria-label="Search families and genera" role="combobox" aria-expanded="false" aria-controls="qresults" aria-autocomplete="list">
       <span class="hint" id="qhint"></span>
       <div class="qresults" id="qresults" role="listbox" hidden></div>
     </div>
-    <span class="seg" id="viewseg" role="group" aria-label="View">
-      <button class="ctl" id="btnTree" aria-pressed="false">Tree</button>
-      <button class="ctl on" id="btnRadial" aria-pressed="true">Radial</button>
-      <button class="ctl" id="btnSun" aria-pressed="false">Sunburst</button>
-      <button class="ctl" id="btnTreemap" aria-pressed="false">Treemap</button>
+    <span class="seg" id="viewseg" role="radiogroup" aria-label="View">
+      <button class="ctl" id="btnTree" role="radio" aria-checked="false">Tree</button>
+      <button class="ctl on" id="btnRadial" role="radio" aria-checked="true">Radial</button>
+      <button class="ctl" id="btnSun" role="radio" aria-checked="false">Sunburst</button>
+      <button class="ctl" id="btnTreemap" role="radio" aria-checked="false">Treemap</button>
     </span>
+    <button class="ctl menu-btn" data-menu="depth" aria-controls="menu-depth" aria-expanded="false">Depth<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
     <span class="barsep"></span>
-    <button class="ctl menu-btn" data-menu="colour" aria-controls="menu-colour" aria-expanded="false">Colour<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
     <button class="ctl menu-btn" data-menu="filter" aria-controls="menu-filter" aria-expanded="false">Filter<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
-    <button class="ctl menu-btn" data-menu="explore" aria-controls="menu-explore" aria-expanded="false">Explore<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
+    <button class="ctl menu-btn" data-menu="explore" aria-controls="menu-explore" aria-expanded="false">Discover<svg class="ic caret"><use href="#ic-chevron"/></svg></button>
     <span class="barsep"></span>
-    <button class="ctl" id="btnTime" title="Grow the tree through geological time" aria-pressed="false">Timeline</button>
-    <button class="ctl" id="btnFit">Fit</button>
+    <button class="ctl mode" id="btnTime" title="Grow the tree through geological time" aria-pressed="false"><span class="modedot" aria-hidden="true"></span>Timeline</button>
+    <button class="ctl" id="btnFit" title="Reframe the whole tree in view">Fit</button>
     <button class="ctl menu-btn iconbtn" data-menu="more" aria-controls="menu-more" aria-expanded="false" aria-label="More options">&hellip;</button>
   </div>
 </header>
 <!--__CRAWL__-->
 
 <!-- header popover menus: secondary controls tuck out of the way (G2) -->
-<div class="menu" id="menu-colour" role="group" aria-label="Colour options" hidden>
-  <span class="stories" id="cmode"></span>
+<div class="menu" id="menu-depth" role="group" aria-label="Depth options" hidden>
+  <div class="menu-sec"><span class="menu-label">Show down to</span>
+    <span class="seg" id="depthseg" role="radiogroup" aria-label="Depth">
+      <button class="ctl on" id="btnOrders" role="radio" aria-checked="true">Orders</button>
+      <button class="ctl" id="btnExpand" role="radio" aria-checked="false">Families</button>
+      <button class="ctl" id="btnCollapse" role="radio" aria-checked="false">Top only</button>
+    </span>
+  </div>
 </div>
 <div class="menu" id="menu-filter" role="group" aria-label="Filter options" hidden>
   <div class="menu-sec"><span class="menu-label">Richness</span><span class="stories" id="f-rich"></span></div>
@@ -101,20 +106,16 @@
   <div class="menu-sec"><span class="menu-label">Age of lineage</span><span class="stories" id="f-age"></span></div>
   <div class="menu-sec ffoot"><span class="fcount" id="fcount">Set a facet to light up the matches</span><button class="ctl wide quiet" id="fclear">Clear filter</button></div>
 </div>
-<div class="menu" id="menu-explore" role="group" aria-label="Explore options" hidden>
+<div class="menu" id="menu-explore" role="group" aria-label="Discover options" hidden>
   <button class="ctl wide primary surprise" id="btnSurprise" title="Fly to a remarkable corner of the tree"><span class="spark" aria-hidden="true">&#10022;</span> Surprise me</button>
   <span class="stories" id="stories"></span>
   <span class="stories" id="recordsbar"></span>
   <span class="stories" id="toursbar"></span>
 </div>
 <div class="menu" id="menu-more" role="group" aria-label="More options" hidden>
-  <div class="menu-sec">
-    <span class="menu-label">Depth</span>
-    <span class="seg" id="depthseg" role="group" aria-label="Depth">
-      <button class="ctl on" id="btnOrders" aria-pressed="true">Orders</button>
-      <button class="ctl" id="btnExpand" aria-pressed="false">Expand all</button>
-      <button class="ctl" id="btnCollapse" aria-pressed="false">Collapse</button>
-    </span>
+  <div class="menu-sec mob-colour">
+    <span class="menu-label">Colour by</span>
+    <span class="stories" data-cmode-host role="group" aria-label="Colour by"></span>
   </div>
   <div class="menu-sec">
     <button class="ctl wide" id="btnShare" title="Copy a link that reopens exactly this view">Share this view</button>
@@ -210,6 +211,8 @@
   </div>
   <!-- persistent colour key; hovering an entry spotlights it in the tree -->
   <div class="legendbar" id="legendbar">
+    <div class="lgmode"><span class="menu-label">Colour by</span>
+      <span class="stories" data-cmode-host role="group" aria-label="Colour by"></span></div>
     <div class="lgtitle" id="lgtitle"></div>
     <div class="lgitems" id="lgitems"></div>
   </div>

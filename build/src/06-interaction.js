@@ -10,10 +10,10 @@ function toOrders(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.op
 // stop at families — opening all 14k genera at once would hang the browser; a family reveals its genera on click
 function expandAll(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.rank!=='family'; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnExpand'); }
 function collapseTop(){ animateStructural(()=>{ renderRoot=ROOT; eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<2; }); }, {fit:true}); updateFocusBar(); setDepthActive('btnCollapse'); }
-function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>{ const on=b===id; const el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute('aria-pressed', on); }); }
+function setDepthActive(id){ ['btnOrders','btnExpand','btnCollapse'].forEach(b=>{ const on=b===id; const el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute("aria-checked", on); }); }
 function setModeButtons(m){
   [['btnTree','tree'],['btnRadial','radial'],['btnSun','sunburst'],['btnTreemap','treemap']].forEach(([b,v])=>{
-    const on=m===v, el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
+    const on=m===v, el=document.getElementById(b); el.classList.toggle('on', on); el.setAttribute("aria-checked", on);
   });
   updateHash();   // mode is a shareable, history-worthy dimension
 }

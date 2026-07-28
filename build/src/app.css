@@ -31,13 +31,17 @@
   /* sans wordmark */
   .wm-name{font-family:var(--sans); font-weight:700; font-size:19px; letter-spacing:-.02em; margin:0; color:var(--ink)}
   .mark-lg{width:54px; height:54px; display:block; margin:0 auto 12px}
-  .spacer{flex:1}
-  .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  /* The bar used to hand a third of its width to a wordmark via a flex spacer.
+     The controls take that room instead, and search — the highest-value control
+     in a tree of 14k genera — grows into it rather than staying a fixed 210px. */
+  .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1; justify-content:flex-end}
+  .controls .search{flex:1 1 220px; max-width:400px; margin-right:auto}
   .search{position:relative}
   .search input{
+    width:100%;
     font-family:var(--sans); font-size:13px; color:var(--ink);
     background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-1);
-    padding:7px 30px 7px 11px; width:210px; outline:none; transition:border-color var(--dur-1),box-shadow var(--dur-1);
+    padding:7px 30px 7px 11px; outline:none; transition:border-color var(--dur-1),box-shadow var(--dur-1);
   }
   .search input::placeholder{color:var(--faint)}
   .search input::-webkit-search-cancel-button{-webkit-appearance:none; appearance:none}  /* our own count/hint sits here */
@@ -118,6 +122,13 @@
   /* tertiary: text only until you reach for it */
   button.ctl.quiet{background:transparent; border-color:transparent; box-shadow:none; color:var(--faint)}
   button.ctl.quiet:hover{background:var(--hover); border-color:transparent; color:var(--ink)}
+  /* A mode carries a state dot; a momentary action does not. Timeline transforms
+     the whole canvas through 445 Ma and read exactly like Fit, a camera nudge. */
+  button.ctl.mode{display:inline-flex; align-items:center; gap:7px}
+  .modedot{width:6px; height:6px; border-radius:50%; flex:none;
+    background:var(--edge); box-shadow:none; transition:background var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out)}
+  button.ctl.mode.on .modedot{background:var(--accent-hi); box-shadow:0 0 7px var(--accent)}
+
   /* every interactive chip/link gets the same visible keyboard focus ring */
   .schip:focus-visible, .pref:focus-visible, .qrow:focus-visible, .pclose:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   /* segmented control: a cohesive group of mutually-exclusive options */
@@ -228,6 +239,16 @@
   .node .toggle{fill:none; stroke:var(--ground); stroke-width:1.6px; stroke-linecap:round; pointer-events:none}
 
   /* ---------- treemap ---------- */
+  /* the colour switcher sits at the head of the legend, above the key it drives */
+  .lgmode{display:flex; flex-direction:column; gap:7px; padding-bottom:9px; margin-bottom:9px;
+    border-bottom:1px solid var(--line)}
+  .lgmode .stories{gap:5px}
+  /* the legend is visible on desktop, so the overflow menu's copy would be a
+     duplicate control there; it exists only for phones, where the legend is hidden */
+  /* exactly complements the max-width:680px block below, where .legendbar is
+     hidden — any other breakpoint would show both copies at some widths */
+  @media (min-width:681px){ .mob-colour{display:none} }
+
   .tmcell{cursor:pointer}
   .tmcell rect{transition:fill-opacity .12s}
   /* the cell lifts; the outline is drawn separately, on top (see #tmring) */
@@ -304,7 +325,8 @@
   footer a.fx:hover{border-bottom-color:var(--accent)}
   footer a.fx:hover .k{color:var(--ink)}
   footer a.fx:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
-  footer .src{margin-left:auto; color:var(--faint)}   /* provenance sits right, apart from the live counts */
+  footer .src{margin-left:auto; color:var(--faint); font-family:var(--sans); font-size:11px;
+    background:none; border:0; padding:0; cursor:pointer}   /* provenance sits right, apart from the live counts */
 
   /* zoom: a single cohesive vertical pill, seamless buttons + hairline divider */
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
@@ -598,7 +620,6 @@
     .brand{flex-basis:100%; min-width:0}
     .wm-name{font-size:18px}
     .mark{width:30px; height:30px}
-    .spacer{display:none}
     .controls{width:100%; gap:6px}
     .search{flex:1 1 100%} .search input{width:100%}
     .barsep{display:none}
