@@ -328,7 +328,7 @@ document.getElementById('footer').innerHTML =
 // ellipsis — while being the one that has to carry the project's credibility.
 // The footer already names the sources; now it lets you ask about them.
 `<button class="k src fx" id="btnSourcesAbout" title="About Yggdrasil, the data &amp; sources">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</button>`;
-document.getElementById('btnSourcesAbout').onclick=()=>openModal(aboutHTML());
+document.getElementById('footer').addEventListener('click', e=>{ if(e.target.closest('#btnSourcesAbout')) openModal(aboutHTML()); });
 
 // ---------- header popover menus (G2) ----------
 let openMenu=null;
@@ -430,30 +430,169 @@ document.getElementById('btnExport').onclick=exportPNG;
 const timebar=document.getElementById('timebar'), tbtrack=document.getElementById('tbtrack'),
       tbfill=document.getElementById('tbfill'), tbbands=document.getElementById('tbbands'),
       tblabel=document.getElementById('tblabel'), tbplay=document.getElementById('tbplay'),
+      tbhint=document.querySelector('.tbhint'),
       btnTime=document.getElementById('btnTime');
 const TFADE=14;   // Ma over which a lineage blooms in after its origin
 function ageOpacity(a, T){ if(a==null) return 1; if(T>a) return 0; return Math.min(1,(a-T)/TFADE); }
+// ---------- the frame follows the living tree ----------
+// Time was implemented as opacity alone: nodes faded but kept their present-day
+// positions, so running the clock backwards dissolved a photograph and left the
+// negative space behind. At 340 Ma that was 19 of 132 nodes in one corner of an
+// otherwise empty canvas. The viewport now eases toward a fit on the lineages
+// that have actually originated, so the tree grows into the frame.
+const TIME_EASE=0.075;        // per-frame approach; low enough to drift, not snap
+let timeFitRAF=0, timeHandOff=false, timeLastPeriod=null;
+// What the frame follows: lineages we can actually place in time. Undated nodes
+// stay on screen (they are marked as undated, not hidden) but must NOT drive the
+// fit — every one of the 14k genera is undated, so counting them would make the
+// "living tree" the whole tree and the frame would never close in.
+function livingNodes(){
+  const out=[];
+  for(const n of visibleNodes){
+    const a = n.ageMy!=null ? n.ageMy : n.effAge;
+    if(a!=null && timeNow<=a) out.push(n);
+  }
+  return out;
+}
+function timeFrameStep(){
+  timeFitRAF=0;
+  if(!timeMode || timeHandOff) return;
+  // Before ~391 Ma nothing DATED has originated — the oldest crown age in the
+  // tree is the vascular plants — so the only things on screen are the undated
+  // bryophytes. Frame those rather than freezing on the last fit; it is still
+  // honest, since we are framing what is actually visible.
+  let alive=livingNodes();
+  if(alive.length<2) alive=visibleNodes.filter(n=>(n.ageMy!=null?n.ageMy:n.effAge)==null);
+  if(alive.length<2) return;
+  const tgt=computeFitT(alive, mode);
+  // settle rather than jitter: stop once the remaining move is sub-pixel
+  if(Math.abs(tgt.x-T.x)+Math.abs(tgt.y-T.y)+Math.abs(tgt.k-T.k)*1200 < 0.7) return;
+  T.x+=(tgt.x-T.x)*TIME_EASE; T.y+=(tgt.y-T.y)*TIME_EASE; T.k+=(tgt.k-T.k)*TIME_EASE;
+  applyT();
+  timeFitRAF=requestAnimationFrame(timeFrameStep);
+}
+function nudgeTimeFrame(){
+  if(!timeMode || timeHandOff) return;
+  // under reduced motion the frame must not drift continuously — reframe once,
+  // instantly, when the clock crosses into a new geological period
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){
+    const per=periodOf(timeNow)[0];
+    if(per!==timeLastPeriod){ timeLastPeriod=per;
+      const alive=livingNodes(); if(alive.length>=2){ T=computeFitT(alive, mode); applyT(); } }
+    return;
+  }
+  if(!timeFitRAF) timeFitRAF=requestAnimationFrame(timeFrameStep);
+}
+// Never fight the hand on the canvas: a pan or a zoom hands the frame to the
+// user, and the clock takes it back only once it reaches a new period.
+function releaseTimeFrame(){ if(timeMode) timeHandOff=true; }
+stage.addEventListener('pointerdown', releaseTimeFrame, true);
+stage.addEventListener('wheel', releaseTimeFrame, {capture:true, passive:true});
+
 function applyTime(){
-  const pulse = playing || tbDrag;   // only mark births while advancing time, not on the initial paint
+  const pulse = playing || tbDrag;
+  const deepTime = timeNow>0.5;   // same 'at now' threshold play() uses   // only mark births while advancing time, not on the initial paint
   for(const [nid,el] of nodeEls){ const o=ageOpacity(el.__age,timeNow), born=o>0.5;
-    if(pulse && born && !el.__born && el.__age!=null){ const n=idMap.get(nid); if(n && radius(n)>6) ripple(n); }
+    // A null age is not an age. These lineages are visible at every instant only
+    // because ageOpacity returns 1 for null — the clock cannot say when they
+    // began, so they are drawn as undated rather than silently dated.
+    // Only while the clock is actually in deep time. The dashes answer "we cannot
+    // say when this began" — a question the timeline stops asking at the present,
+    // where every lineage exists and nothing is uncertain. Marking them at 0 Ma
+    // made 17 nodes read as broken in the view that is simply today.
+    el.classList.toggle('undated', deepTime && el.__age==null && el.__node && el.__node.rank!=='genus');
+    if(pulse && born && !el.__born && el.__age!=null){ const n=idMap.get(nid); if(n) ripple(n); }
     el.__born=born; el.style.opacity=o; el.style.pointerEvents=o<0.5?'none':''; }
   for(const el of linkEls.values()){ el.style.opacity=ageOpacity(el.__age,timeNow); }
+  updateTimeReadout();
 }
+
+// ---------- what is true at this instant ----------
+// Counts LINEAGES ORIGINATED, never species. A family's species count is its
+// count today; we have no idea what it was in the Carboniferous, and quoting one
+// would fabricate exactly what Sprint V spent its time removing. Nothing in this
+// data goes extinct either, so the copy says "originated", not "alive".
+function timeReadout(){
+  let originated=0, undated=0, newest=null, newestGap=1e9;
+  for(const n of visibleNodes){
+    const rankCounts = n.rank!=='genus';   // genera would swamp the count
+    const a = n.ageMy!=null ? n.ageMy : n.effAge;
+    if(a==null){ if(rankCounts) undated++; continue; }
+    if(timeNow<=a){
+      if(rankCounts) originated++;
+      const gap=a-timeNow;                       // most recently originated lineage
+      if(gap>=0 && gap<newestGap && n.rank!=='genus'){ newestGap=gap; newest=n; }
+    }
+  }
+  return {originated, undated, newest, newestGap};
+}
+// The footer went on describing the present day over a canvas in the Carboniferous.
+// It follows the clock now — in lineages, never species: a family's species count
+// is its count TODAY, and quoting one for 340 Ma would be invention.
+const footerEl=document.getElementById('footer');
+let footerPresent=null;
+function updateTimeFooter(){
+  if(!timeMode){ if(footerPresent!=null){ footerEl.innerHTML=footerPresent; footerPresent=null; } return; }
+  if(footerPresent==null) footerPresent=footerEl.innerHTML;
+  const r=timeReadout(), per=periodOf(timeNow);
+  footerEl.innerHTML =
+    `<span><span class="k">at</span> <b>${Math.round(timeNow)} Ma</b></span>`+
+    `<span><span class="k">period</span> <b>${escp(per[0])}</b></span>`+
+    `<span><span class="k">lineages originated</span> <b>${r.originated}</b></span>`+
+    (r.undated?`<span><span class="k">undated</span> <b>${r.undated}</b></span>`:'')+
+    `<span class="k src">counts are lineages, not species — species totals are present-day</span>`;
+}
+
+function updateTimeReadout(){
+  const r=timeReadout(), per=periodOf(timeNow);
+  const era = timeNow>252 ? 'Palaeozoic' : timeNow>66 ? 'Mesozoic' : 'Cenozoic';
+  const bits=[`<b>${per[0]}</b> <span class="tbera">${era}</span>`,
+              `${r.originated} lineage${r.originated===1?'':'s'} originated`];
+  if(r.newest && r.newestGap<25) bits.push(`newest: <b>${escp(r.newest.name)}</b>`);
+  if(r.undated) bits.push(`<span class="tbund">${r.undated} undated</span>`);
+  tbhint.innerHTML=bits.join(' <span class="tbsep">·</span> ');
+  updateTimeFooter();
+}
+// The periods ARE the story and they were anonymous colour smears. Name them in
+// place where the band is wide enough, abbreviate where it isn't (the Quaternary
+// is 0.6% of the axis), and rule the three eras across the top so the shape of
+// deep time reads without knowing a single period name.
+const ERAS=[['Palaeozoic',TMAX,252],['Mesozoic',252,66],['Cenozoic',66,0]];
 function buildBands(){
   tbbands.innerHTML = GEOP.map(p=>{
     const left=(TMAX-p[1])/TMAX*100, w=(p[1]-p[2])/TMAX*100;
-    return `<div class="bd" style="left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;background:${p[3]}" title="${p[0]} ${p[1]}–${p[2]} Ma"></div>`;
+    const label = w>7 ? p[0] : (w>3.2 ? p[0].slice(0,4) : '');
+    return `<div class="bd" data-per="${escp(p[0])}" style="left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;background:${p[3]}" title="${escp(p[0])} ${p[1]}–${p[2]} Ma">`
+      + (label?`<span>${escp(label)}</span>`:'') + `</div>`;
   }).join('');
+  const eras=ERAS.map(([n,a,b])=>{
+    const left=(TMAX-a)/TMAX*100;
+    return `<i style="left:${left.toFixed(2)}%">${n}</i>`;
+  }).join('');
+  let rule=tbtrack.querySelector('.tberas');
+  if(!rule){ rule=document.createElement('div'); rule.className='tberas'; tbtrack.appendChild(rule); }
+  rule.innerHTML=eras;
+  markCurrentBand();
+}
+function markCurrentBand(){
+  const now=periodOf(timeNow)[0];
+  tbbands.querySelectorAll('.bd').forEach(b=>b.classList.toggle('now', b.dataset.per===now));
 }
 function setTime(t){
   timeNow=Math.max(0,Math.min(TMAX,t));
   tbfill.style.width=(timeNow/TMAX*100).toFixed(2)+'%';   // curtain covers the not-yet-reached future
   const per=periodOf(timeNow);
+  if(tbbands.children.length) markCurrentBand();
   tblabel.innerHTML=`${Math.round(timeNow)} Ma <span class="per">· ${per[0]}</span>`;
   tbtrack.setAttribute('aria-valuenow', Math.round(timeNow));
   tbtrack.setAttribute('aria-valuetext', timeNow<1 ? 'Present day' : Math.round(timeNow)+' million years ago, '+per[0]);
-  if(timeMode) applyTime();
+  if(timeMode){
+    // crossing into a new period is where the clock reclaims a frame the user took
+    if(timeHandOff && per[0]!==timeLastPeriod) timeHandOff=false;
+    timeLastPeriod=per[0];
+    applyTime();
+    nudgeTimeFrame();
+  }
 }
 function trackTime(clientX){ const r=tbtrack.getBoundingClientRect();
   return TMAX*(1-Math.max(0,Math.min(1,(clientX-r.left)/r.width))); }
@@ -480,13 +619,17 @@ function enterTime(){
   timeMode=true; btnTime.classList.add('on'); btnTime.setAttribute('aria-pressed','true');
   timebar.hidden=false; buildBands();
   if(mode==='treemap'||mode==='sunburst') switchMode('radial');
+  timeHandOff=false; timeLastPeriod=null;
   setTime(0);   // begin at the present — the full tree — then scrub/play back into deep time
   updateHash();
 }
 function exitTime(){
   timeMode=false; btnTime.classList.remove('on'); btnTime.setAttribute('aria-pressed','false');
   timebar.hidden=true; pausePlay();
-  for(const el of nodeEls.values()){ el.style.opacity=''; el.style.pointerEvents=''; }
+  updateTimeFooter();   // restore the present-day footer
+  if(timeFitRAF){ cancelAnimationFrame(timeFitRAF); timeFitRAF=0; }
+  timeHandOff=false;
+  for(const el of nodeEls.values()){ el.style.opacity=''; el.style.pointerEvents=''; el.classList.remove('undated'); }
   for(const el of linkEls.values()) el.style.opacity='';
 }
 btnTime.onclick=()=> timeMode?exitTime():enterTime();

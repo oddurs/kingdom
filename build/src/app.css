@@ -354,21 +354,48 @@
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
     border-radius:var(--r-2); box-shadow:var(--elev-1),var(--lift)}
   .timebar[hidden]{display:none}
-  .tbhint{font-size:11px; color:var(--dim); text-align:center; line-height:1.3}
-  .tbhint b{color:var(--accent); font-weight:600}
+  /* the readout replaces a static hint that never changed while you scrubbed */
+  .tbhint{font-size:11.5px; color:var(--dim); text-align:center; line-height:1.4;
+    font-variant-numeric:tabular-nums}
+  .tbhint b{color:var(--ink); font-weight:600}
+  .tbhint .tbera{color:var(--faint); font-size:9.5px; letter-spacing:var(--track-label);
+    text-transform:uppercase; margin-left:3px}
+  .tbhint .tbsep{opacity:.4; margin:0 2px}
+  .tbhint .tbund{color:var(--faint)}
+
+  /* An undated lineage is drawn hollow and dashed: it is on screen because we
+     cannot place it in time, not because we placed it here. */
+  .node.undated circle.dot{fill:none !important; stroke-dasharray:2.5 2.5; opacity:.6}
+  .node.undated text{opacity:.55; font-style:italic}
   .tbrow{display:flex; align-items:center; gap:13px}
   .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
     background:var(--fill-1); color:var(--accent); font-size:13px; cursor:pointer; display:grid; place-items:center}
   .tbplay:hover{border-color:var(--accent)}
   .tbplay:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-  .tbtrack{position:relative; flex:1; height:26px; cursor:pointer; border-radius:var(--r-1); overflow:hidden}
+  .tbtrack{position:relative; flex:1; height:42px; cursor:pointer; border-radius:var(--r-1);
+    overflow:hidden; border:1px solid var(--edge)}
   .tbbands{position:absolute; inset:0}
-  .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.42}
+  /* named, and lit only where the clock currently stands — the rest recedes so
+     the current period reads at a glance */
+  .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.30;
+    display:flex; align-items:flex-end; justify-content:center; overflow:hidden;
+    transition:opacity var(--dur-1) var(--ease-out)}
+  .tbbands .bd.now{opacity:.62}
+  .tbbands .bd span{font-family:var(--sans); font-size:8.5px; letter-spacing:.04em;
+    color:#fff; font-weight:600; padding-bottom:3px; white-space:nowrap; opacity:.72;
+    text-shadow:0 1px 2px #000c}
+  /* era rule across the top: the three-act structure, readable without knowing
+     a single period name */
+  .tberas{position:absolute; top:0; left:0; right:0; height:13px; display:flex; pointer-events:none; z-index:2}
+  .tberas i{position:absolute; top:0; height:13px; border-left:1px solid #ffffff26;
+    font-style:normal; font-family:var(--sans); font-size:8px; letter-spacing:var(--track-label);
+    text-transform:uppercase; color:#ffffffb0; padding:2px 0 0 4px; white-space:nowrap}
   /* dark "curtain" over time not yet reached (right of the handle); retracts as time advances */
-  .tbfill{position:absolute; top:0; bottom:0; right:0; background:#0d0f12cc;
+  .tbfill{position:absolute; top:0; bottom:0; right:0; background:#0b0d1099;
     border-left:2px solid #fff; pointer-events:none}
-  .tbknob{position:absolute; top:50%; left:0; width:13px; height:13px; margin:-6.5px 0 0 -6.5px;
-    border-radius:50%; background:#fff; box-shadow:0 0 10px #fff9; pointer-events:none}
+  .tbknob{position:absolute; top:50%; left:0; width:15px; height:15px; margin:-7.5px 0 0 -7.5px;
+    border-radius:50%; background:#fff; pointer-events:none;
+    box-shadow:0 0 0 3px #0c0e1199, 0 0 12px #ffffffb0}
   .tblabel{flex:none; min-width:118px; text-align:right; font-family:var(--sans); font-size:11px; color:var(--ink); font-variant-numeric:tabular-nums}
   .tblabel .per{color:var(--dim)}
 
