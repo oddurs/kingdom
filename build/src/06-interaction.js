@@ -1,5 +1,6 @@
 // ---------- interaction ----------
-function toggle(n){ if((n.children||[]).length) animateStructural(()=>{ n.open=!n.open; }); }
+// the node you clicked is the anchor: whatever it reveals, it should stay put
+function toggle(n){ if((n.children||[]).length) animateStructural(()=>{ n.open=!n.open; }, {anchor:n}); }
 
 function relabelAll(){ for(const [id,el] of nodeEls){ const n=idMap.get(id); if(n) labelNode(el,n); } }
 const idMap=new Map(); (function idx(n){ idMap.set(n._id,n); (n.children||[]).forEach(idx); })(ROOT);
@@ -76,15 +77,37 @@ function animateStructural(mutate, opts={}){
   mutate();
   const {nodes,links}=layout();
   const endPos=new Map(); for(const n of nodes) endPos.set(n._id,{x:n.x,y:n.y});
-  if(reduce){ render(); relabelAll(); if(opts.fit) fit(0); return; }
+
+  // Hold one node still across the change. Expanding a branch moves its own row
+  // (a parent sits at the midpoint of its children), so without this the thing
+  // you clicked slides out from under the cursor — and on a big expansion the
+  // old behaviour refit the whole tree, which for Asteraceae's 1,730 genera
+  // meant zooming to 1.25% and losing the node entirely.
+  const aFrom = opts.anchor && startPos.get(opts.anchor._id);
+  const aTo   = opts.anchor && endPos.get(opts.anchor._id);
+  const anchored = (t)=> (aFrom && aTo)
+    ? {...t, x: t.x + (aFrom.x-aTo.x)*t.k, y: t.y + (aFrom.y-aTo.y)*t.k}
+    : t;
+  const holdAnchor = ()=>{ const t=anchored(T); T.x=t.x; T.y=t.y; };
+
+  if(reduce){ if(!opts.fit) holdAnchor(); render(); relabelAll(); if(opts.fit) fit(0); else applyT(); return; }
 
   // very large deltas (e.g. Expand all → ~470 families) read as chaos if every node sprouts
   // individually; ease the viewport instead and let the structure resolve in place.
   let delta=0; for(const id of endPos.keys()) if(!startPos.has(id)) delta++;
   for(const id of startPos.keys()) if(!endPos.has(id)) delta++;
-  if(delta>200){ render(); relabelAll(); fit(opts.fit?640:0); return; }
+  // fit(dur) always fits — the argument is a duration — so this branch used to
+  // refit on ANY change over 200 nodes regardless of opts.fit, which is how
+  // expanding one large family collapsed the viewport. Honour the flag: refit
+  // when asked (Expand all, Focus), otherwise hold the anchor and stay put.
+  if(delta>200){
+    if(!opts.fit) holdAnchor();
+    render(); relabelAll();
+    if(opts.fit) fit(640); else applyT();
+    return;
+  }
 
-  const startT={...T}, endT = opts.fit ? computeFitT(nodes,mode) : {...T};
+  const startT={...T}, endT = opts.fit ? computeFitT(nodes,mode) : anchored(T);
   const lerp=(a,b,e)=>a+(b-a)*e;
   const anchor=(n,map)=>{ let p=n.parent; while(p){ if(map.has(p._id)) return map.get(p._id); p=p.parent; } return map.get(n._id)||{x:n.x,y:n.y}; };
   const linkD=(sx,sy,tx,ty)=>{ if(mode==='radial'){ const r1=Math.hypot(sx,sy),r2=Math.hypot(tx,ty),a1=Math.atan2(sy,sx),a2=Math.atan2(ty,tx),mr=(r1+r2)/2;

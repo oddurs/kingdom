@@ -255,6 +255,33 @@ async function main() {
     const collapsed = await ev(`visibleNodes.length`);
     check("expand-all then collapse changes the frontier", expanded > collapsed, `${expanded} → ${collapsed}`);
 
+    // Expanding a branch must not refit the viewport. fit(dur) always fits, so a
+    // >200-node delta used to refit regardless of opts.fit: opening Asteraceae's
+    // 1,730 genera zoomed to 1.25% and the node you clicked left the screen.
+    const anchorHeld = await ev(`(()=>{
+      switchMode('tree'); expandAll();
+      return new Promise(res=>setTimeout(()=>{
+        fit(0);
+        setTimeout(()=>{
+          const n=nodeByName('Asteraceae');
+          const before={k:T.k, sx:T.x+n.x*T.k, sy:T.y+n.y*T.k};
+          if(!n.open) toggle(n);
+          setTimeout(()=>{
+            const after={k:T.k, sx:T.x+n.x*T.k, sy:T.y+n.y*T.k};
+            res(JSON.stringify({
+              zoomKept: Math.abs(after.k-before.k) < 1e-6,
+              driftX: +Math.abs(after.sx-before.sx).toFixed(1),
+              driftY: +Math.abs(after.sy-before.sy).toFixed(1),
+            }));
+          }, 1400);
+        }, 700);
+      }, 1400));
+    })()`);
+    const AH = JSON.parse(anchorHeld);
+    check("expanding a large branch holds zoom and keeps the node put",
+      AH.zoomKept && AH.driftX < 2 && AH.driftY < 2, anchorHeld);
+    await ev(`collapseTop()`); await wait(900);
+
     // depth segment reflects the active choice (regression: setActive name collision left it stuck)
     await ev(`document.getElementById('btnExpand').click()`); await wait(120);
     const depthState = await ev(`document.getElementById('btnExpand').classList.contains('on') && !document.getElementById('btnOrders').classList.contains('on')`);
