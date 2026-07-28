@@ -570,6 +570,20 @@ async function main() {
     check("undated lineages are marked, not silently dated",
       DT.undatedMarked > 0 && DT.undatedCounted > 0, deep);
 
+    // ...but only while the clock is in deep time. At the present the tree is
+    // simply today: nothing is uncertain, and 17 dashed nodes read as broken.
+    const atNow = await ev(`(()=>{
+      setTime(0);
+      const present=document.querySelectorAll('.node.undated').length;
+      setTime(120);
+      const deep=document.querySelectorAll('.node.undated').length;
+      setTime(0);
+      return JSON.stringify({present, deep});
+    })()`); await wait(300);
+    const AN = JSON.parse(atNow);
+    check("the undated marking is absent at the present day",
+      AN.present === 0 && AN.deep > 0, atNow);
+
     // the frame must follow the living tree, not stay fitted to the present day
     const framing = await ev(`(()=>{
       setTime(0);

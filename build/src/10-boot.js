@@ -490,12 +490,17 @@ stage.addEventListener('pointerdown', releaseTimeFrame, true);
 stage.addEventListener('wheel', releaseTimeFrame, {capture:true, passive:true});
 
 function applyTime(){
-  const pulse = playing || tbDrag;   // only mark births while advancing time, not on the initial paint
+  const pulse = playing || tbDrag;
+  const deepTime = timeNow>0.5;   // same 'at now' threshold play() uses   // only mark births while advancing time, not on the initial paint
   for(const [nid,el] of nodeEls){ const o=ageOpacity(el.__age,timeNow), born=o>0.5;
     // A null age is not an age. These lineages are visible at every instant only
     // because ageOpacity returns 1 for null — the clock cannot say when they
     // began, so they are drawn as undated rather than silently dated.
-    el.classList.toggle('undated', el.__age==null && el.__node && el.__node.rank!=='genus');
+    // Only while the clock is actually in deep time. The dashes answer "we cannot
+    // say when this began" — a question the timeline stops asking at the present,
+    // where every lineage exists and nothing is uncertain. Marking them at 0 Ma
+    // made 17 nodes read as broken in the view that is simply today.
+    el.classList.toggle('undated', deepTime && el.__age==null && el.__node && el.__node.rank!=='genus');
     if(pulse && born && !el.__born && el.__age!=null){ const n=idMap.get(nid); if(n) ripple(n); }
     el.__born=born; el.style.opacity=o; el.style.pointerEvents=o<0.5?'none':''; }
   for(const el of linkEls.values()){ el.style.opacity=ageOpacity(el.__age,timeNow); }
