@@ -472,13 +472,17 @@ function timeFrameStep(){
   timeFitRAF=requestAnimationFrame(timeFrameStep);
 }
 function nudgeTimeFrame(){
+  // This owns timeLastPeriod. setTime() used to assign it before calling here,
+  // which made the "has the period changed?" test below always false — so the
+  // reduced-motion reframe never fired at all.
+  const per=periodOf(timeNow)[0];
+  const crossed = per!==timeLastPeriod;
+  timeLastPeriod=per;
   if(!timeMode || timeHandOff) return;
   // under reduced motion the frame must not drift continuously — reframe once,
   // instantly, when the clock crosses into a new geological period
   if(matchMedia('(prefers-reduced-motion:reduce)').matches){
-    const per=periodOf(timeNow)[0];
-    if(per!==timeLastPeriod){ timeLastPeriod=per;
-      const alive=livingNodes(); if(alive.length>=2){ T=computeFitT(alive, mode); applyT(); } }
+    if(crossed){ const alive=livingNodes(); if(alive.length>=2){ T=computeFitT(alive, mode); applyT(); } }
     return;
   }
   if(!timeFitRAF) timeFitRAF=requestAnimationFrame(timeFrameStep);
@@ -589,9 +593,8 @@ function setTime(t){
   if(timeMode){
     // crossing into a new period is where the clock reclaims a frame the user took
     if(timeHandOff && per[0]!==timeLastPeriod) timeHandOff=false;
-    timeLastPeriod=per[0];
     applyTime();
-    nudgeTimeFrame();
+    nudgeTimeFrame();          // owns timeLastPeriod — see the note there
   }
 }
 function trackTime(clientX){ const r=tbtrack.getBoundingClientRect();
