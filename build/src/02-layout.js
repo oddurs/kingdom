@@ -1,5 +1,6 @@
 // ---------- layout (horizontal tidy tree / radial) ----------
 const DX=212, DY=28, RING=140;
+const ROW_PAD=7;   // breathing room between two adjacent node circles in tree view
 const RADIAL_OUTER=560;   // radial layout radius — shared with the label-LOD gap estimate in 03-render
 let mode='radial';   // radial fills the frame and reads as a living organism — the landing view
 let timeMode=false, timeNow=0;   // geological-time scrubber (C4)
@@ -27,11 +28,23 @@ function layout(){
       for(const k of kids) links.push({s:n, t:k});
     })(renderRoot);
   } else {
+    // Radius-aware row spacing. A fixed DY step assumes every row is the same
+    // size, but radius() scales with richness up to 26px — so a collapsed node
+    // carrying a huge clade (Spermatophytes holds every seed plant) needs ~34px
+    // of clearance between centres and was getting 28, overlapping the row above.
+    // Advance by whatever the two adjacent circles actually need, never less than
+    // DY, so ordinary rows keep their existing rhythm and only the big ones push.
     leafCursor=0;
+    let rowY=0, prevR=null;
     (function walk(n){
       n.x = RD(n)*DX;
       const kids = n.open ? (n.children||[]) : [];
-      if(kids.length===0){ n.y = leafCursor*DY; leafCursor++; }
+      if(kids.length===0){
+        const r=radius(n);
+        if(prevR!==null) rowY += Math.max(DY, prevR + r + ROW_PAD);
+        n.y = rowY; prevR = r;
+        leafCursor++;
+      }
       else{ kids.forEach(walk); n.y = (kids[0].y + kids[kids.length-1].y)/2; }
       nodes.push(n);
       for(const k of kids) links.push({s:n, t:k});

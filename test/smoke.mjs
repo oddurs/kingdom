@@ -222,6 +222,23 @@ async function main() {
     const VIEW = 800;
     await ev(`switchMode('tree')`); await wait(VIEW);
     check("tree view renders nodes", (await ev(`mode==='tree' && document.querySelectorAll('.node').length>0`)) === true);
+
+    // Row spacing must clear the circles it separates. A fixed DY step assumed
+    // every row was the same size, but radius() scales with richness to 26px, so
+    // a collapsed node carrying a huge clade overlapped the row above it
+    // (Spermatophytes needed 33.9px of clearance and got 28).
+    const spacing = await ev(`(()=>{
+      collapseTop();
+      const leaves=visibleNodes.filter(n=>!(n.open&&(n.children||[]).length)).sort((a,b)=>a.y-b.y);
+      let worst=null;
+      for(let i=1;i<leaves.length;i++){
+        const a=leaves[i-1], b=leaves[i], slack=(b.y-a.y)-(radius(a)+radius(b));
+        if(!worst||slack<worst.slack) worst={pair:a.name+'/'+b.name, slack:+slack.toFixed(1)};
+      }
+      return JSON.stringify(worst||{slack:99});
+    })()`); await wait(600);
+    const SP = JSON.parse(spacing);
+    check("no two tree rows overlap", SP.slack >= 0, `tightest ${SP.pair}: ${SP.slack}px slack`);
     await ev(`switchMode('treemap')`); await wait(VIEW);
     check("treemap view renders cells", (await ev(`mode==='treemap' && document.querySelectorAll('.tmcell').length>0`)) === true);
     await ev(`switchMode('sunburst')`); await wait(VIEW);
