@@ -1,0 +1,15 @@
+# The shipped app has zero runtime dependencies — everything here is dev-only
+# tooling (Storybook, Vite) plus the CI actions themselves. Monthly is plenty;
+# a Storybook bump can't affect what users receive.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 5
+    groups:
+      storybook:
+        patterns: ["@storybook/*", "storybook"]
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule: { interval: monthly }

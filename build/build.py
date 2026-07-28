@@ -77,6 +77,10 @@ def seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated):
                          "accepted-species richness, coloured by lineage, and dated to "
                          "geological time. Built on APG IV, PPG I, Kew WCVP and GBIF."),
          "url": SITE, "license": "https://creativecommons.org/licenses/by/4.0/",
+         # the claim is now backed by DATA-LICENSE in the repo; it was
+         # asserted to crawlers for weeks while the repo carried no licence at all
+         "isAccessibleForFree": True,
+         "creativeWorkStatus": "Published",
          "creator": {"@type": "Person", "name": "Oddur", "url": "https://github.com/oddurs"},
          "keywords": ["plant taxonomy", "tree of life", "phylogeny", "APG IV", "PPG I",
                       "botany", "plant families", "species richness", "WCVP"],

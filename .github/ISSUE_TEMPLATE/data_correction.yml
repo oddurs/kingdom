@@ -1,0 +1,31 @@
+name: Data correction
+description: A count, placement, age or name looks wrong
+labels: [data]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        These are especially welcome. Note that about 6% of the species total is
+        explicitly estimated rather than counted, and ages are one defensible
+        estimate — the About page documents which is which. A value being
+        approximate isn't necessarily a bug, but a value being *wrong* is.
+  - type: input
+    id: taxon
+    attributes:
+      label: Which taxon
+      placeholder: Asteraceae
+    validations: { required: true }
+  - type: dropdown
+    id: field
+    attributes:
+      label: What's wrong
+      options: [Species count, Placement in the tree, Divergence age, Name or common name, Native distribution, Something else]
+    validations: { required: true }
+  - type: textarea
+    id: correction
+    attributes:
+      label: What it should be, and your source
+      description: >-
+        A citation matters more than the number here — every value in this data
+        set carries a provenance field, and a correction needs one too.
+    validations: { required: true }

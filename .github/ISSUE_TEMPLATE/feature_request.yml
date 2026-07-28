@@ -1,0 +1,24 @@
+name: Idea
+description: Suggest something the tree should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+    validations: { required: true }
+  - type: textarea
+    id: why
+    attributes:
+      label: What it would let someone do
+      description: >-
+        What question would it answer, or what would it make easier? That's more
+        useful than the mechanism.
+    validations: { required: true }
+  - type: markdown
+    attributes:
+      value: >-
+        Worth knowing: the app ships as one self-contained file with no runtime
+        dependencies, and the tree stops at genus (species-level data is ~340k
+        names, too much for the current architecture). Ideas that fit inside
+        those constraints are much likelier to happen.

@@ -1,0 +1,63 @@
+cff-version: 1.2.0
+title: "Yggdrasil — an interactive tree of the plant kingdom"
+message: >-
+  If you use this software or its data, please cite it. If you redistribute the
+  data, please also credit the upstream sources listed in DATA-LICENSE — Kew's
+  WCVP and the Jin & Qian (2022) megatree in particular, whose CC BY terms this
+  data inherits.
+type: software
+authors:
+  - given-names: Oddur
+    family-names: Sigurdsson
+    email: oddurs@gmail.com
+repository-code: "https://github.com/oddurs/kingdom"
+url: "https://yggdrasil.oddurs.com"
+abstract: >-
+  An interactive visualisation of the classification of land plants: 479
+  families and 14,135 accepted genera, sized by accepted-species richness,
+  coloured by lineage, and dated to geological time. The backbone follows APG IV
+  and PPG I; species counts and native distributions come from Kew's World
+  Checklist of Vascular Plants; divergence ages are crown estimates computed as
+  the MRCA of each clade's tips in the GBOTB.extended dated megatree, with
+  outlier tips rejected. Ships as a single self-contained HTML file with no
+  runtime dependencies, alongside a static page for every family and order.
+keywords:
+  - plant taxonomy
+  - tree of life
+  - phylogeny
+  - data visualisation
+  - APG IV
+  - PPG I
+  - WCVP
+  - botany
+license: MIT
+license-url: "https://github.com/oddurs/kingdom/blob/main/LICENSE"
+references:
+  - type: article
+    title: >-
+      An update of the Angiosperm Phylogeny Group classification for the orders
+      and families of flowering plants: APG IV
+    authors:
+      - name: The Angiosperm Phylogeny Group
+    year: 2016
+    doi: 10.1111/boj.12385
+  - type: article
+    title: >-
+      A community-derived classification for extant lycophytes and ferns (PPG I)
+    authors:
+      - name: The Pteridophyte Phylogeny Group
+    year: 2016
+    doi: 10.1111/jse.12229
+  - type: article
+    title: "V.PhyloMaker2: an updated and enlarged R package for generating large phylogenies for vascular plants"
+    authors:
+      - family-names: Jin
+        given-names: Yi
+      - family-names: Qian
+        given-names: Hong
+    year: 2022
+  - type: database
+    title: "World Checklist of Vascular Plants (WCVP)"
+    authors:
+      - name: "Royal Botanic Gardens, Kew"
+    url: "https://powo.science.kew.org/about-wcvp"

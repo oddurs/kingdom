@@ -1,0 +1,24 @@
+# The build concatenates build/src/*.js into one script and build/src/*.css into
+# one stylesheet, so consistent indentation there is not cosmetic — it is what
+# the shipped file looks like.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false   # two trailing spaces is a line break
+
+[Makefile]
+indent_style = tab
+
+[*.{json,cff,yml,yaml}]
+indent_size = 2

@@ -1,0 +1,59 @@
+# Data licence — CC BY 4.0
+
+The **data** in this repository is licensed under the Creative Commons
+Attribution 4.0 International licence (CC BY 4.0):
+
+    https://creativecommons.org/licenses/by/4.0/
+
+## What this covers
+
+    data/taxa.json          the taxonomy: 611 taxa, counts, ages, distributions
+    data/genera.json        14,135 accepted genera
+    data/worldmap.json      derived continental outlines (WGSRPD level 1)
+    data/taxon.schema.json  the record schema
+
+…and the copy of that data embedded in the built page (`plant-tree.html`) and in
+the generated taxon pages.
+
+The software is licensed separately, under MIT. See LICENSE.
+
+## Why CC BY, and not something more permissive
+
+This is not a free choice. The data is **derived** from sources that are
+themselves CC BY and require attribution, so the derived work carries the same
+obligation. Attribution is not a courtesy here — it is the licence term.
+
+## Attribution
+
+If you use this data, credit it roughly as:
+
+> Plant taxonomy data from Yggdrasil (https://yggdrasil.oddurs.com), CC BY 4.0,
+> derived from Kew's World Checklist of Vascular Plants and the Jin & Qian (2022)
+> dated megatree.
+
+…and, because those upstream sources have their own terms, credit them directly
+if you are redistributing the data itself.
+
+## Upstream sources
+
+| What | Source | Terms |
+|------|--------|-------|
+| Accepted species counts, native distributions, accepted genera | **World Checklist of Vascular Plants (WCVP)**, Royal Botanic Gardens, Kew — <https://powo.science.kew.org/about-wcvp> | CC BY |
+| Divergence ages | **GBOTB.extended dated megatree** — Jin & Qian (2022), building on Smith & Brown (2018) and Zanne et al. (2014) — <https://github.com/megatrees/plant_20221117> | CC BY (see repository) |
+| Angiosperm classification | **APG IV** — Angiosperm Phylogeny Group (2016), <https://doi.org/10.1111/boj.12385> | published classification |
+| Fern & lycophyte classification | **PPG I** — Pteridophyte Phylogeny Group (2016), <https://doi.org/10.1111/jse.12229> | published classification |
+| Gymnosperm classification | Christenhusz et al. (2011) | published classification |
+| Taxon identifiers, backbone metrics | **GBIF Backbone Taxonomy** — <https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c> | CC BY |
+| Identifiers, media links | **Wikidata** — <https://www.wikidata.org> | CC0 |
+
+## What the data is not
+
+Roughly **6% of the species total is estimated rather than counted** — 27
+families that WCVP circumscribes differently, plus every bryophyte class (WCVP
+covers vascular plants only). Divergence ages are one defensible estimate, not a
+settled figure; published dates for the same clade routinely differ by tens of
+millions of years. Each record carries a `provenance` field saying which of its
+values are sourced and which are estimates — please keep that distinction if you
+redistribute.
+
+The app's About page documents the method and the known gaps in full.
