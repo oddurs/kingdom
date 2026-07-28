@@ -548,6 +548,44 @@ async function main() {
     await ev(`pausePlay(); document.getElementById('btnTime').click()`); await wait(400);
     check("timeline toggles on, plays, and toggles off", timeOn && (await ev(`timeMode===false`)));
 
+    // The timeline knows ORIGINS, not abundance. A family's species count is its
+    // count today, so quoting one for 340 Ma would fabricate exactly what Sprint V
+    // removed — and nothing in this data goes extinct, so nothing may say "alive".
+    const deep = await ev(`(()=>{
+      enterTime(); setTime(340);
+      const bar=document.getElementById('timebar').textContent;
+      const foot=document.getElementById('footer').textContent;
+      const r=timeReadout();
+      const undatedMarked=document.querySelectorAll('.node.undated').length;
+      const framed=livingNodes().length;
+      return JSON.stringify({
+        readoutChanged: /Carboniferous/.test(bar),
+        noSpeciesClaim: !/species/i.test(bar) && !/~[\\d,]{4,}/.test(foot),
+        footerFollows: /Carboniferous/.test(foot),
+        undatedMarked, undatedCounted: r.undated, framed,
+      });})()`); await wait(900);
+    const DT = JSON.parse(deep);
+    check("the timeline readout follows the clock", DT.readoutChanged && DT.footerFollows, deep);
+    check("the timeline never quotes species through time", DT.noSpeciesClaim === true, deep);
+    check("undated lineages are marked, not silently dated",
+      DT.undatedMarked > 0 && DT.undatedCounted > 0, deep);
+
+    // the frame must follow the living tree, not stay fitted to the present day
+    const framing = await ev(`(()=>{
+      setTime(0);
+      return new Promise(res=>setTimeout(()=>{
+        const kNow=T.k;
+        setTime(340);
+        setTimeout(()=>{
+          res(JSON.stringify({kPresent:+kNow.toFixed(3), kDeep:+T.k.toFixed(3),
+            zoomedIn:T.k>kNow*1.2, alive:livingNodes().length}));
+        }, 2600);
+      }, 2200));
+    })()`);
+    const FR = JSON.parse(framing);
+    check("the frame closes in as the tree shrinks into deep time", FR.zoomedIn === true, framing);
+    await ev(`exitTime()`); await wait(400);
+
     // An overlay owns its own input. Both of these used to reach the stage: the
     // slider's arrows drove the tree cursor, and the wheel zoomed the canvas
     // instead of scrolling whatever was under the pointer.
