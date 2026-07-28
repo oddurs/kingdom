@@ -484,6 +484,18 @@ async function main() {
     }catch(e){ return 'threw: '+e.message; } })()`);
     check("SEO structured data + crawlable index present", seoOk === true, seoOk === true ? "" : String(seoOk));
 
+    // The title and description are the strongest signals the app has, and both are
+    // truncated by search engines rather than wrapped. Sprint S shipped a 186-char
+    // description; two-thirds of it was never shown to anyone.
+    const meta = JSON.parse(await ev(`JSON.stringify({
+      t: document.title,
+      d: (document.querySelector('meta[name=description]')||{}).content || ''
+    })`));
+    check("the title names the subject, within 60 chars",
+      meta.t.length <= 60 && /plant/i.test(meta.t), `${meta.t.length}: ${meta.t}`);
+    check("the description fits a search snippet (<=155)",
+      meta.d.length > 0 && meta.d.length <= 155, String(meta.d.length));
+
     // the page must quote one species total, not two: the footer counts the way the
     // app aggregates, and the crawlable index used to sum family counts instead
     const totals = await ev(`(()=>{

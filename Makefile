@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test check serve clean fonts og storybook storybook-build
+.PHONY: help build test test-pages check live site serve clean fonts og storybook storybook-build
 
 help: ## show this help
 	@grep -hE '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -13,11 +13,20 @@ build: ## rebuild plant-tree.html from build/src + data
 test: build ## rebuild, then run the headless-Chrome regression suite
 	node test/smoke.mjs
 
-check: test ## build + test — the pre-commit gate
+test-pages: site ## assemble, then check the 567 generated taxon pages (no browser)
+	node test/pages.mjs
 
-serve: build ## build, then serve the repo at http://localhost:8000
+check: test test-pages ## build + both suites — the pre-commit gate
+
+live: build ## verify the PUBLISHED site — canonical resolves, robots/sitemap reachable
+	node test/live.mjs
+
+site: build ## assemble the deployable site into _site/ (app + 567 taxon pages)
+	python3 build/site.py
+
+serve: site ## assemble, then serve _site at http://localhost:8000 — same layout CI deploys
 	@echo "serving http://localhost:8000  (Ctrl-C to stop)"
-	@python3 -m http.server 8000
+	@cd _site && python3 -m http.server 8000
 
 fonts: ## regenerate design/fonts.css (inlined webfont) from node_modules (needs `npm install`)
 	python3 build/fonts.py
@@ -33,4 +42,4 @@ storybook-build: ## build the static design-system site to storybook-static/
 
 
 clean: ## remove build caches
-	rm -rf build/__pycache__ storybook-static og.jpg
+	rm -rf build/__pycache__ storybook-static og.jpg _site

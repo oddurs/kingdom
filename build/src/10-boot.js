@@ -282,10 +282,14 @@ document.getElementById('fclear').onclick=clearFilter;
 
 let totFam=0, totGen=0, totSpp=ROOT.agg;
 (function w(n){ if(n.rank==='family') totFam++; else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
+// The family and order counts double as the crawl path to the static taxon pages
+// (build/pages.py). Without a visible link from here those 567 documents are
+// orphans reachable only via the sitemap, which is the weakest signal there is —
+// and a reader who wants a plain page to read or link deserves the door too.
 document.getElementById('footer').innerHTML =
-  `<span><span class="k">families</span> <b>${totFam}</b></span>`+
+  `<span><a class="fx" href="/families/"><span class="k">families</span> <b>${totFam}</b></a></span>`+
   `<span><span class="k">genera</span> <b>${totGen.toLocaleString()}</b></span>`+
-  `<span><span class="k">orders</span> <b>86</b></span>`+
+  `<span><a class="fx" href="/orders/"><span class="k">orders</span> <b>86</b></a></span>`+
   `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
   `<span class="k src">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
 

@@ -18,9 +18,31 @@ import re
 import pathlib
 import sys
 
+from pages import slug          # one slug rule for the app's links and the pages themselves
 from util import read_json
 
+# The canonical origin, with its trailing slash — the one place the host is written.
+# Everything that names a URL (canonical, og:url, both social images, robots, sitemap)
+# derives from this; `assert_no_literal_host` below keeps it that way. A canonical is
+# the one piece of metadata that is worse than useless when wrong — it argues the page
+# shouldn't be indexed at all — and it can only be checked against the live network,
+# which is what test/live.mjs does after each deploy.
 SITE = "https://yggdrasil.oddurs.com/"
+
+
+def assert_no_literal_host(shell):
+    """Fail the build if the shell writes the canonical host itself.
+
+    Sprint S left the host hand-copied into five places here; they drifted from
+    `SITE` and the live site spent thirteen days declaring itself a duplicate of a
+    domain with no DNS record. A grep is the cheapest structural fix: there is no
+    legitimate reason for the shell to name the origin when `__SITE__` exists.
+    """
+    host = SITE.split("//", 1)[-1].rstrip("/")
+    if host in shell:
+        raise SystemExit(
+            f"build/shell.html hard-codes {host!r} — use the __SITE__ placeholder so "
+            "the canonical can never drift from SITE in build.py")
 
 
 def seo_blocks(taxa, meta, ngenera, total_spp):
@@ -70,7 +92,12 @@ def seo_blocks(taxa, meta, ngenera, total_spp):
 
     def li(t):
         com = f" ({esc(t['common'])})" if t.get("common") else ""
-        return (f"<li><b>{esc(t['name'])}</b>{com} — "
+        # each family now links to its own page (build/pages.py). The section stays
+        # visually hidden — it is a screen-reader index, which was always the better
+        # justification for it — but the links are real, so this doubles as the
+        # in-app crawl path to all 479 documents.
+        href = f"/family/{slug(t['name'])}/"
+        return (f'<li><a href="{href}"><b>{esc(t["name"])}</b></a>{com} — '
                 f"~{t.get('speciesCount', 0):,} accepted species.</li>")
 
     rows = "".join(li(t) for t in by_rich)
@@ -279,9 +306,10 @@ def main() -> None:
     jsonld, crawl = seo_blocks(taxa, meta, ngenera, total_spp)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
                       ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell"),
-                      ("__SPECIES__", "shell")):
+                      ("__SPECIES__", "shell"), ("__SITE__", "shell")):
         if ph not in shell:
             raise SystemExit(f"placeholder {ph!r} not found in {where}")
+    assert_no_literal_host(shell)
     # Embed as JSON.parse('…') rather than a raw JS object literal: V8 parses a JSON string
     # ~4x faster than the equivalent object literal for a payload this size (E5). Escape the
     # blob into a single-quoted JS string (backslash first, then quote, then </ for tag safety).
@@ -295,6 +323,7 @@ def main() -> None:
            .replace("<!--__JSONLD__-->", jsonld)
            .replace("<!--__CRAWL__-->", crawl)
            .replace("__SPECIES__", rounded)
+           .replace("__SITE__", SITE)
            .replace(PLACEHOLDER, "JSON.parse('" + esc + "')"))
     OUT.write_text(out, encoding="utf-8")
 

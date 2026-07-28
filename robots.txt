@@ -1,8 +1,0 @@
-# Yggdrasil — a living tree of the plant kingdom
-User-agent: *
-Allow: /
-
-# the design-system workshop is dev-only tooling, not site content
-Disallow: /storybook/
-
-Sitemap: https://yggdrasil.oddurs.com/sitemap.xml
