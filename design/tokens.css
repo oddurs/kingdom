@@ -7,6 +7,11 @@
        Luminance is held within a point of the old values, so every contrast
        ratio the palette was tuned for still holds. */
     --ground:#101215; --ground-2:#15181c; --ink:#e8eaed; --dim:#99a0a8; --faint:#7b838c;
+    /* chrome sits a shade BELOW the canvas it frames, so the header and footer
+       read as edges rather than as more surface */
+    --chrome:#0b0d10;
+    /* the dotted ground — a notebook grid behind the tree, one dot per cell */
+    --dot:#ffffff16; --dot-gap:24px;
     --line:#2b3138; --panel:#13161acc; --edge:#252b31;
     /* --faint clears WCAG AA (4.5:1) for small text on --ground — measured 4.88:1 */
     --serif:'Iowan Old Style','Palatino Linotype','Palatino','Book Antiqua',Georgia,serif;

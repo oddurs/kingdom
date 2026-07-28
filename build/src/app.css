@@ -18,7 +18,7 @@
   header.bar{
     display:flex; align-items:center; gap:24px; flex-wrap:wrap;
     padding:12px 22px; border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,#16191e80,transparent);
+    background:var(--chrome);
     z-index:5;
   }
   /* brand lockup: the radial-burst mark + wordmark */
@@ -173,8 +173,17 @@
   /* A single quiet vignette behind the canvas. This was a saturated green bloom
      (#16271f → #0f1c16) with a second pulsing green layer on top of it; together
      they washed the whole stage and left the tree's own colours fighting it. */
+  /* A dotted ground, like a notebook: one dot per cell, laid OVER the vignette so
+     it reads evenly across the stage rather than being swallowed by the bright
+     centre. It is painted on the stage, not the body, because the stage's own
+     background sits above the body's — dots on the body would vanish behind it.
+     Static: it does not pan or scale with the tree, so it stays a surface the
+     tree sits on rather than becoming part of the drawing. */
   main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none;
-    background:radial-gradient(closest-side at 50% 48%, #171a20 0%, #131519 44%, transparent 78%);}
+    background:
+      radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0),
+      radial-gradient(closest-side at 50% 48%, #171a20 0%, #131519 44%, transparent 78%);
+    background-size:var(--dot-gap) var(--dot-gap), auto;}
   main.stage.grabbing{cursor:grabbing}
   svg{width:100%; height:100%; display:block; position:relative; z-index:1}
   #viewport{will-change:transform}
@@ -221,7 +230,19 @@
   /* ---------- treemap ---------- */
   .tmcell{cursor:pointer}
   .tmcell rect{transition:fill-opacity .12s}
-  .tmcell:hover rect{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
+  /* the cell lifts; the outline is drawn separately, on top (see #tmring) */
+  .tmcell:hover rect{fill-opacity:1 !important}
+  /* Hover ring: always the last element in #treemap, so it is never overpainted
+     by a neighbouring cell. Two strokes — a bright inner line for the edge and a
+     soft dark outer one so it stays legible on a pale cell as well as a dark one. */
+  .tmring{
+    fill:none; pointer-events:none;
+    stroke:#fff; stroke-width:2px;
+    paint-order:stroke;
+    filter:drop-shadow(0 0 3px #0009) drop-shadow(0 1px 2px #0006);
+    transition:x .1s var(--ease-out), y .1s var(--ease-out),
+               width .1s var(--ease-out), height .1s var(--ease-out);
+  }
   text.tml{font-family:var(--sans); font-size:10px; fill:#0e1013; pointer-events:none; font-weight:600}
   text.tmh{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; pointer-events:none}
   .tmgroup rect{pointer-events:none}
@@ -274,7 +295,7 @@
   /* ---------- footer ---------- */
   footer.meta{
     display:flex; gap:20px; flex-wrap:wrap; align-items:center;
-    padding:8px 22px; border-top:1px solid var(--line); background:#0f1114aa;
+    padding:8px 22px; border-top:1px solid var(--line); background:var(--chrome);
     font-family:var(--sans); font-size:11px; color:var(--faint); z-index:4; font-variant-numeric:tabular-nums;
   }
   footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}

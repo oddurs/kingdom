@@ -71,9 +71,34 @@ function renderTreemap(){
         `<text class="tmh" x="${(c.x+5).toFixed(1)}" y="${(c.y+11).toFixed(1)}" fill="${lc}">${esc4(n.name)}</text></g>`;
     }
   }
+  // SVG has no z-index — paint order is document order — so an outline drawn on
+  // the cell itself is overpainted by every cell that comes after it, which left
+  // the hover ring visibly clipped on its right and bottom edges. The outline
+  // lives in its own element appended last instead, so it is always on top.
+  html+=`<rect class="tmring" id="tmring" x="0" y="0" width="0" height="0" rx="2.5" visibility="hidden"></rect>`;
   gTree.innerHTML=html;
+  tmRing=document.getElementById('tmring');
   if(selected){ const rc=gTree.querySelector('[data-id="'+selected._id+'"] rect'); if(rc){ rc.setAttribute('stroke','#fff'); rc.setAttribute('stroke-width','2'); } }
 }
+// ---------- treemap hover ring ----------
+let tmRing=null;
+function tmRingTo(rect){
+  if(!tmRing) return;
+  // inset by half the stroke so the ring sits fully inside the cell instead of
+  // straddling the seam with its neighbour
+  const i=1;
+  tmRing.setAttribute('x', (+rect.getAttribute('x')+i).toFixed(1));
+  tmRing.setAttribute('y', (+rect.getAttribute('y')+i).toFixed(1));
+  tmRing.setAttribute('width',  Math.max(0,+rect.getAttribute('width') -i*2).toFixed(1));
+  tmRing.setAttribute('height', Math.max(0,+rect.getAttribute('height')-i*2).toFixed(1));
+  tmRing.setAttribute('visibility','visible');
+}
+function tmRingOff(){ if(tmRing) tmRing.setAttribute('visibility','hidden'); }
+gTree.addEventListener('pointerover', e=>{
+  const g=e.target.closest('.tmcell'); if(!g){ tmRingOff(); return; }
+  const rc=g.querySelector('rect'); if(rc) tmRingTo(rc);
+});
+gTree.addEventListener('pointerleave', tmRingOff);
 gTree.addEventListener('click', e=>{ const g=e.target.closest('[data-id]'); if(!g) return;
   const n=idMap.get(+g.dataset.id); if(!n) return;
   select(n,{center:false});

@@ -264,6 +264,25 @@ async function main() {
     await ev(`navTo(nodeByName('Asterales'))`); await wait(400);
     const tmSel = await until(`mode==='treemap' && selected && selected.name==='Asterales' && !!document.querySelector('#treemap [data-id="'+selected._id+'"] rect[stroke="#fff"]')`, 6000);
     check("treemap selection outline follows nav", tmSel === true);
+
+    // SVG paints in document order, so an outline drawn on the cell itself is
+    // overpainted by every cell after it — the hover ring came out clipped on its
+    // right and bottom edges. It must be the LAST element in the group.
+    const ring = await ev(`(()=>{
+      const cells=[...document.querySelectorAll('.tmcell')];
+      if(cells.length<3) return 'no cells';
+      const g=cells[Math.floor(cells.length*0.35)];
+      g.dispatchEvent(new PointerEvent('pointerover',{bubbles:true}));
+      const r=document.getElementById('tmring');
+      if(!r) return 'no ring';
+      return JSON.stringify({
+        visible: r.getAttribute('visibility')==='visible',
+        paintsLast: r.parentNode.lastElementChild===r,
+        sized: +r.getAttribute('width')>0 && +r.getAttribute('height')>0,
+      });})()`); await wait(150);
+    const RG = typeof ring === "string" && ring[0] === "{" ? JSON.parse(ring) : {};
+    check("the treemap hover ring paints above every cell",
+      RG.visible && RG.paintsLast && RG.sized, ring);
     await ev(`switchMode('radial')`); await wait(VIEW);
 
     // accessibility: selecting a taxon announces it to the polite live region
