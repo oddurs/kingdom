@@ -75,6 +75,11 @@ function select(n, opts){
   selected=n;
   if(opts.center!==false) revealNode(n);
   const el=nodeEls.get(n._id); if(el) el.classList.add('selected');
+  // labelLOD() decides what to label partly from `selected` — the selected node
+  // and, when the expansion is small, its children. Selection can change without
+  // any structural change to re-render, so selecting a family whose genera are
+  // already open left them unlabelled until something else happened to relabel.
+  labelLOD();
   if(opts.panel!==false){                     // tours on mobile highlight + centre without opening the panel
   panelFace(false);
   const lc=color(n);

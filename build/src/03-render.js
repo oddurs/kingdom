@@ -130,6 +130,10 @@ function render(){
 }
 
 // ---------- semantic zoom: hide crowded leaf labels, reveal on zoom ----------
+// An expansion of at most this many children is small enough to label in full;
+// beyond it, the ordinary crowding rule applies. The median family holds 3 genera
+// and only 61 of 479 hold more than 48.
+const DRILL_LABEL_MAX=40;
 let lastLODk=-1;
 function labelLOD(){
   if(mode!=='tree' && mode!=='radial') return;
@@ -139,14 +143,26 @@ function labelLOD(){
   for(const n of visibleNodes){
     const el=nodeEls.get(n._id); if(!el) continue;
     const isLeaf=!(n.open && (n.children||[]).length);
-    let show=true;
+    const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*RADIAL_OUTER*k : DY*k;
+    // the numerous frontier labels are what crowd; big families stay legible regardless
+    const lod = !isLeaf || gap>=12 || n.agg>4000;
+    let show=lod;
     if(storying){                                 // constellation mode: label the matches, mute the crowd
-      show=false;
-    } else if(isLeaf){                            // the numerous frontier labels are what crowd
-      const gap = mode==='radial' ? (span/Math.max(leafTotal,1))*RADIAL_OUTER*k : DY*k;
-      show = gap>=12 || n.agg>4000;               // always keep the big families legible
+      // ...but the children of a match you expanded yourself are not the crowd.
+      // filterMatches() only ever collects families (10-boot.js), so a family's
+      // genera are never in storySet and used to be permanently unlabelable —
+      // expanding one under a filter gave a ring of anonymous dots.
+      show = (storySet && n.parent && storySet.has(n.parent._id)) ? lod : false;
     }
-    if(n===selected || n===kb || el.classList.contains('hl')) show=true;   // never cull a focused / highlighted label
+    // The children of the node you just opened are precisely what you asked to
+    // see, so they are labelled outright when there are few enough to read. `gap`
+    // can't decide this: it is a crowding average over the whole ring, so a
+    // two-genus expansion inherits the crowding of 480 unrelated leaves and goes
+    // unlabelled at any zoom you happen to be at. Large expansions still defer to
+    // it — opening Asteraceae must not paint 1,730 names.
+    const drilled = n.parent && n.parent===selected &&
+                    (n.parent.children||[]).length<=DRILL_LABEL_MAX;
+    if(n===selected || n===kb || el.classList.contains('hl') || drilled) show=true;
     setLabel(el, n, show);
   }
   lastLODk=k;
