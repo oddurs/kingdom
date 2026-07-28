@@ -584,20 +584,38 @@ async function main() {
     check("the undated marking is absent at the present day",
       AN.present === 0 && AN.deep > 0, atNow);
 
-    // the frame must follow the living tree, not stay fitted to the present day
+    // The frame must follow the living tree, not stay fitted to the present day.
+    //
+    // Waiting a fixed interval and asserting "zoomed in by 20%" made this a race:
+    // the approach is damped and frame-paced, so a slow CI runner had not eased
+    // far enough by the deadline and the check went red on a feature that works.
+    // Poll until the transform settles, then assert what actually matters — that
+    // it converged on the fit for the living set.
     const framing = await ev(`(()=>{
-      setTime(0);
-      return new Promise(res=>setTimeout(()=>{
-        const kNow=T.k;
-        setTime(340);
-        setTimeout(()=>{
-          res(JSON.stringify({kPresent:+kNow.toFixed(3), kDeep:+T.k.toFixed(3),
-            zoomedIn:T.k>kNow*1.2, alive:livingNodes().length}));
-        }, 2600);
-      }, 2200));
+      const settle=(cap)=>new Promise(res=>{
+        let last=T.k, still=0, t0=Date.now();
+        (function tick(){
+          if(Math.abs(T.k-last)<1e-4) still++; else still=0;
+          last=T.k;
+          if(still>=6 || Date.now()-t0>cap) return res();
+          setTimeout(tick,100);            // not rAF: this must run even if frames are throttled
+        })();
+      });
+      return (async()=>{
+        setTime(0);   await settle(9000);
+        const kPresent=T.k;
+        setTime(340); await settle(15000);
+        const target=computeFitT(livingNodes(), mode).k;
+        return JSON.stringify({
+          kPresent:+kPresent.toFixed(3), kDeep:+T.k.toFixed(3), target:+target.toFixed(3),
+          converged: Math.abs(T.k-target) <= Math.max(0.03, target*0.1),
+          closerIn: T.k > kPresent,
+        });
+      })();
     })()`);
     const FR = JSON.parse(framing);
-    check("the frame closes in as the tree shrinks into deep time", FR.zoomedIn === true, framing);
+    check("the frame settles on a fit for the living tree, not the present one",
+      FR.converged && FR.closerIn, framing);
     await ev(`exitTime()`); await wait(400);
 
     // An overlay owns its own input. Both of these used to reach the stage: the
