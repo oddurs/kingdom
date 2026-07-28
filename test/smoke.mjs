@@ -577,7 +577,10 @@ async function main() {
       openModal(aboutHTML());
       const t=document.getElementById('mbody').textContent;
       const ok = t.includes(TOTALS.sourced.toLocaleString()) && /estimat/i.test(t)
-                 && /bryophyte/i.test(t) && t.includes(totVasc.toLocaleString());
+                 && /bryophyte/i.test(t) && t.includes(totVasc.toLocaleString())
+                 // the method and its limits are stated, not implied
+                 && /most recent common ancestor/i.test(t) && /0\.5%/.test(t)
+                 && /stem/i.test(t) && /Known gaps/i.test(t) && /synonym/i.test(t);
       closeModal && closeModal();
       return JSON.stringify({ok, reconciles: TOTALS.sourced+TOTALS.estimated===ROOT.agg});
     })()`);
