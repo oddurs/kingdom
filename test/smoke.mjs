@@ -222,6 +222,23 @@ async function main() {
     const VIEW = 800;
     await ev(`switchMode('tree')`); await wait(VIEW);
     check("tree view renders nodes", (await ev(`mode==='tree' && document.querySelectorAll('.node').length>0`)) === true);
+
+    // Row spacing must clear the circles it separates. A fixed DY step assumed
+    // every row was the same size, but radius() scales with richness to 26px, so
+    // a collapsed node carrying a huge clade overlapped the row above it
+    // (Spermatophytes needed 33.9px of clearance and got 28).
+    const spacing = await ev(`(()=>{
+      collapseTop();
+      const leaves=visibleNodes.filter(n=>!(n.open&&(n.children||[]).length)).sort((a,b)=>a.y-b.y);
+      let worst=null;
+      for(let i=1;i<leaves.length;i++){
+        const a=leaves[i-1], b=leaves[i], slack=(b.y-a.y)-(radius(a)+radius(b));
+        if(!worst||slack<worst.slack) worst={pair:a.name+'/'+b.name, slack:+slack.toFixed(1)};
+      }
+      return JSON.stringify(worst||{slack:99});
+    })()`); await wait(600);
+    const SP = JSON.parse(spacing);
+    check("no two tree rows overlap", SP.slack >= 0, `tightest ${SP.pair}: ${SP.slack}px slack`);
     await ev(`switchMode('treemap')`); await wait(VIEW);
     check("treemap view renders cells", (await ev(`mode==='treemap' && document.querySelectorAll('.tmcell').length>0`)) === true);
     await ev(`switchMode('sunburst')`); await wait(VIEW);
@@ -237,6 +254,33 @@ async function main() {
     await until(`visibleNodes.length<50`);
     const collapsed = await ev(`visibleNodes.length`);
     check("expand-all then collapse changes the frontier", expanded > collapsed, `${expanded} → ${collapsed}`);
+
+    // Expanding a branch must not refit the viewport. fit(dur) always fits, so a
+    // >200-node delta used to refit regardless of opts.fit: opening Asteraceae's
+    // 1,730 genera zoomed to 1.25% and the node you clicked left the screen.
+    const anchorHeld = await ev(`(()=>{
+      switchMode('tree'); expandAll();
+      return new Promise(res=>setTimeout(()=>{
+        fit(0);
+        setTimeout(()=>{
+          const n=nodeByName('Asteraceae');
+          const before={k:T.k, sx:T.x+n.x*T.k, sy:T.y+n.y*T.k};
+          if(!n.open) toggle(n);
+          setTimeout(()=>{
+            const after={k:T.k, sx:T.x+n.x*T.k, sy:T.y+n.y*T.k};
+            res(JSON.stringify({
+              zoomKept: Math.abs(after.k-before.k) < 1e-6,
+              driftX: +Math.abs(after.sx-before.sx).toFixed(1),
+              driftY: +Math.abs(after.sy-before.sy).toFixed(1),
+            }));
+          }, 1400);
+        }, 700);
+      }, 1400));
+    })()`);
+    const AH = JSON.parse(anchorHeld);
+    check("expanding a large branch holds zoom and keeps the node put",
+      AH.zoomKept && AH.driftX < 2 && AH.driftY < 2, anchorHeld);
+    await ev(`collapseTop()`); await wait(900);
 
     // depth segment reflects the active choice (regression: setActive name collision left it stuck)
     await ev(`document.getElementById('btnExpand').click()`); await wait(120);
@@ -548,6 +592,43 @@ async function main() {
     await ev(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}))`); await wait(200);
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
+
+    // Mutually exclusive options must expose radio semantics, not aria-pressed —
+    // four independent toggles is what a screen reader heard before.
+    const seg = await ev(`(()=>{
+      const v=document.getElementById('viewseg'), d=document.getElementById('depthseg');
+      const ok=g=>g && g.getAttribute('role')==='radiogroup'
+        && [...g.querySelectorAll('button')].every(b=>b.getAttribute('role')==='radio' && b.hasAttribute('aria-checked'))
+        && g.querySelectorAll('[aria-checked="true"]').length===1;
+      return JSON.stringify({view:ok(v), depth:ok(d)});
+    })()`);
+    const SEG = JSON.parse(seg);
+    check("view and depth segments expose radio semantics", SEG.view && SEG.depth, seg);
+
+    // Colour left the toolbar for the legend that explains it; Depth took its
+    // place in the bar. Assert the move, not just that the controls exist.
+    const ia = await ev(`(()=>({
+      colourInBar: !!document.querySelector('[data-menu="colour"]'),
+      colourHosts: document.querySelectorAll('[data-cmode-host]').length,
+      colourInLegend: !!document.querySelector('#legendbar [data-cmode-host]'),
+      depthInBar: !!document.querySelector('[data-menu="depth"]'),
+    }))()`);
+    check("Colour lives with its legend and Depth is in the bar",
+      !ia.colourInBar && ia.colourInLegend && ia.depthInBar && ia.colourHosts >= 1,
+      JSON.stringify(ia));
+
+    // the footer names the sources; it must let you ask about them (this binding
+    // broke once by being attached before the footer was rendered)
+    const srcAbout = await ev(`(()=>{
+      const b=document.getElementById('btnSourcesAbout'); if(!b) return 'missing';
+      b.click();
+      const open=document.getElementById('modal').classList.contains('show');
+      const txt=document.getElementById('mbody').textContent;
+      closeModal();
+      return JSON.stringify({open, isAbout:/About Yggdrasil/.test(txt)});
+    })()`); await wait(200);
+    const SA = typeof srcAbout === "string" && srcAbout[0] === "{" ? JSON.parse(srcAbout) : {};
+    check("the footer's sources line opens About", SA.open === true && SA.isAbout === true, String(srcAbout));
 
     // The interface accent must stay distinct from every lineage hue. The UI used
     // to borrow --l-fern, which meant the primary control and the fern branches
