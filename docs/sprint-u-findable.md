@@ -2,7 +2,12 @@
 
 Make the work reachable by someone who doesn't already know it exists.
 
-> **Status:** planned 2026-07-27. U1's blocking half is already done — see below.
+> **Status:** U1–U4 built 2026-07-27. U5 is measurement and needs a Google
+> account — the Core Web Vitals half is done and recorded below; Search Console
+> verification is the one remaining item.
+>
+> The domain is live: Cloudflare CNAME (unproxied), Pages custom domain set,
+> certificate approved to 2026-10-25, `oddurs.github.io/kingdom/` 301ing across.
 
 ## The thesis
 
@@ -36,7 +41,7 @@ stub with a number on it.
 | # | Gap | What it costs today |
 |---|-----|--------------------|
 | 1 | Canonical pointed at NXDOMAIN | Deindexing risk on every URL |
-| 2 | One indexable URL for ~570 taxa | The entire long tail |
+| 2 | One indexable URL for 565 taxa | The entire long tail |
 | 3 | Hand-written sitemap, no `404.html` | Stale the moment U2 lands; Pages serves GitHub's generic 404 |
 | 4 | Title/`h1` contain no term anyone searches | No query matches the strongest signal on the page |
 | 5 | No Search Console, no CWV baseline | The sprint can't be shown to have worked |
@@ -86,7 +91,7 @@ survives in `shell.html`.
 
 ---
 
-## U2 — Give the tree 570 front doors
+## U2 — Give the tree 567 front doors
 
 The big one, and the reason for the sprint.
 
@@ -123,7 +128,7 @@ lowercased name — no collision handling, no slug table to keep in sync.
 - sources footer
 
 **Explicitly not building genus pages.** 14,135 pages each holding a name and a
-count is textbook thin content, and at that ratio (14k thin : 570 substantive)
+count is textbook thin content, and at that ratio (14k thin : 567 substantive)
 it risks a site-wide quality assessment rather than just failing to rank. Genera
 earn their keep listed on their family's page, where they add content instead of
 diluting it.
@@ -137,7 +142,7 @@ ordinary host. So they share one external `/p.css` and skip the inlined
 base64 webfont entirely — ~10 KB a page instead of ~200 KB, which is also the
 right answer for Core Web Vitals. The app itself stays exactly as it is.
 
-*The app must link to the hub visibly.* Otherwise all 570 pages are orphans
+*The app must link to the hub visibly.* Otherwise all 567 pages are orphans
 reachable only via the sitemap, which is the weakest possible crawl signal. A
 footer link — "Browse all 479 plant families →" — plus converting the existing
 hidden crawl index's family names into real `<a>`s (keeps the a11y value, adds
@@ -147,12 +152,12 @@ the link graph). Costs the app ~14 KB.
 `DefinedTermSet`/`Dataset` already declared on the root. Schema.org has no
 `Taxon` type; `DefinedTerm` is the honest fit and Google parses it.
 
-**Verify:** build emits 567 files + 2 hubs; smoke asserts a sampled family page
+**Verify:** build emits 565 taxon pages + 2 hubs; smoke asserts a sampled family page
 has exactly one `h1`, a self-referencing canonical, a parseable breadcrumb, and a
 working deep link into the app; a link-graph check asserts every internal `href`
 resolves to a generated file and no page is an orphan; a **minimum-content check**
 fails any page under a word threshold, so a data regression can't quietly ship
-570 stubs.
+567 stubs.
 **Risk:** medium — first time the deploy ships more than one document. Contained
 by the link-graph and content checks. **Self-contained:** yes.
 
@@ -163,7 +168,7 @@ by the link-graph and content checks. **Self-contained:** yes.
 Small, but strictly after U2 because it consumes U2's page list.
 
 - **Generated sitemap.** Today's is a hand-written file with one URL and no
-  `lastmod`; it goes stale the instant U2 lands. `build/pages.py` emits all ~570
+  `lastmod`; it goes stale the instant U2 lands. `build/pages.py` emits all 568
   URLs with `lastmod` from the data's build stamp. Well under the 50k limit, so
   no sitemap index needed.
 - **A real `404.html`.** Pages reports `custom_404: false`, so a mistyped URL
@@ -217,16 +222,52 @@ Without this the sprint is a matter of opinion.
   restructure. Submit the sitemap; then coverage, impressions and query data
   become observable. Bing Webmaster Tools is the same TXT for a second index,
   cheap to add.
-- **A Core Web Vitals baseline.** The app is a 1.06 MB single file that renders
-  14,740 nodes in JS — mobile LCP is the plausible weak point, and it's now
-  competing with 570 pages that will score far better. Capture a Lighthouse run
-  for the app *and* a sample family page, and record both here so U2's pages have
-  something to be compared against.
+
+  The steps, since this is the one part that can't be automated:
+
+  1. [search.google.com/search-console](https://search.google.com/search-console)
+     → **Add property** → **Domain** → `oddurs.com`
+  2. Google shows a TXT record. In Cloudflare: **DNS → Add record**, type `TXT`,
+     name `@`, content `google-site-verification=…`, proxy N/A, TTL auto.
+  3. Back in GSC, **Verify**. Then **Sitemaps** → submit `sitemap.xml`.
+  4. Coverage takes days to populate — the number to watch is *Indexed* climbing
+     toward 568, and it is the only real proof this sprint worked.
 - **No analytics.** Search Console answers the questions this sprint raises
   without putting a tracker on the site. Out of scope unless you want it.
 
-**Verify:** GSC verified and sitemap submitted without errors; both Lighthouse
-runs recorded in this doc.
+### Core Web Vitals baseline — measured 2026-07-27
+
+Lab measurement over CDP at Lighthouse's mobile emulation (390×844, 4× CPU
+throttle, Slow 4G at 1.6 Mbps / 150 ms), served **gzipped, as GitHub Pages
+serves it**:
+
+| Page | LCP | CLS | FCP | DOM nodes | Transfer |
+|---|---|---|---|---|---|
+| `/` (the app) | 2120 ms | 0.0012 | 444 ms | 2,690 | 351 KB |
+| `/family/asteraceae/` | 404 ms | 0 | 404 ms | 524 | 7 KB |
+| `/families/` (hub) | 428 ms | 0 | 428 ms | 2,460 | 15 KB |
+
+*Good* is LCP < 2500 ms and CLS < 0.1, so **everything passes**, the app with
+about 400 ms of headroom.
+
+Two things worth recording, because both were nearly mis-reported:
+
+- **Compression is doing most of the work.** The same measurement against an
+  uncompressed local server put the app's LCP at 5732 ms — *poor*. GitHub Pages
+  serves the app gzipped at 325 KB rather than 1,064 KB, and at 1.6 Mbps that
+  difference is essentially the entire gap between passing and failing. Any
+  future payload work should be judged on the **compressed** number; the raw file
+  size that `build.py` prints is not the figure that matters here.
+- **Pages does not serve brotli**, only gzip — verified against the live host.
+  Brotli would take the app to roughly 250 KB, and it is not available to us on
+  this host. Not actionable, but it's the ceiling.
+
+The taxon pages land ~5× faster than the app on the same connection, which is
+the outcome U2 was aiming at: the surface most likely to be a stranger's first
+impression is also the fastest one.
+
+**Verify:** GSC verified and sitemap submitted without errors; the vitals table
+above recorded.
 **Risk:** none — measurement only. **Self-contained:** no (needs your Google
 account for verification).
 
@@ -238,5 +279,38 @@ account for verification).
 - **Backlink or outreach work.** Real, and out of scope for a build sprint.
 - **Keyword-tuned copy in the app.** The blurbs are written to be read. Rewriting
   them for search would make the product worse to make the metadata better.
-- **Rendering the SVG server-side.** The hidden text index plus 570 real pages
+- **Rendering the SVG server-side.** The hidden text index plus 567 real pages
   covers the same ground at a fraction of the complexity.
+
+---
+
+## What differed from the plan
+
+- **Assembly moved into the repo.** The plan didn't call for it, but the taxon
+  pages needed somewhere to go, and the Pages layout lived only in a shell block
+  in the workflow — `make serve` served the repo root, where the app sits at
+  `/plant-tree.html` and the new pages don't exist at all. `build/site.py` now
+  owns assembly and both CI and `make serve` call it, so what you review locally
+  is what deploys.
+- **`test/pages.mjs` grew a browser.** It was meant to be static-only. Google
+  indexes the mobile rendering, and two real bugs were invisible to static
+  analysis: a breadcrumb joined without break opportunities, and `min-width:auto`
+  on grid/flex items clipping every taxon row on a phone. Both were found by
+  measuring layout at 390 px, so that measurement stayed as a check.
+- **`robots.txt` and `sitemap.xml` were deleted from the repo root.** They are
+  generated now; leaving the hand-written pair tracked would have left two
+  sources of truth, which is how the canonical broke in the first place.
+
+## Still open
+
+1. **Enforce HTTPS** in Settings → Pages (`https_enforced: false` today).
+2. **Search Console** — U5's steps above; needs your Google account.
+3. **Three species totals coexist in the data**, and this sprint sidestepped
+   rather than solved it: the app's footer aggregates leaves (389,873), the
+   family records' own WCVP counts sum to 370,535, and the genus counts sum to
+   365,800. All three are defensible measurements of different things. The taxon
+   pages state each family's own sourced count and derive order totals by summing
+   those, so no generated page contradicts another — but the hubs deliberately
+   quote **no** grand total, because any number they chose would disagree with
+   the app's footer. Worth resolving on its own terms rather than inside an SEO
+   sprint.
