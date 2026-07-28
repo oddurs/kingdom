@@ -2,9 +2,12 @@
   html,body{height:100%;margin:0}
   .visually-hidden{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
   body{
+    /* two corner lifts for depth, neutral and faint — these used to be green
+       (#0f1813 / #0e1611) and were the first of three glows stacked on top of
+       each other */
     background:
-      radial-gradient(1300px 850px at 16% 2%, #0f1813 0%, transparent 52%),
-      radial-gradient(1100px 950px at 96% 100%, #0e1611 0%, transparent 48%),
+      radial-gradient(1300px 850px at 16% 2%, #16191e 0%, transparent 52%),
+      radial-gradient(1100px 950px at 96% 100%, #14171c 0%, transparent 48%),
       var(--ground);
     color:var(--ink); font-family:var(--sans);
     display:flex; flex-direction:column; overflow:hidden;
@@ -15,7 +18,7 @@
   header.bar{
     display:flex; align-items:center; gap:24px; flex-wrap:wrap;
     padding:12px 22px; border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,#0f1a1580,transparent);
+    background:linear-gradient(180deg,#16191e80,transparent);
     z-index:5;
   }
   /* brand lockup: the radial-burst mark + wordmark */
@@ -132,8 +135,11 @@
   .lg:hover .dot, .lg.on .dot{transform:scale(1.2)}
 
   /* ---------- stage ---------- */
+  /* A single quiet vignette behind the canvas. This was a saturated green bloom
+     (#16271f → #0f1c16) with a second pulsing green layer on top of it; together
+     they washed the whole stage and left the tree's own colours fighting it. */
   main.stage{position:relative; flex:1; overflow:hidden; cursor:grab; touch-action:none;
-    background:radial-gradient(closest-side at 50% 48%, #16271f 0%, #0f1c16 42%, transparent 78%);}
+    background:radial-gradient(closest-side at 50% 48%, #171a20 0%, #131519 44%, transparent 78%);}
   main.stage.grabbing{cursor:grabbing}
   svg{width:100%; height:100%; display:block; position:relative; z-index:1}
   #viewport{will-change:transform}
@@ -145,11 +151,11 @@
     /* E4: freeze the whole-scene breathe when many nodes are mounted — a continuously animating
        transform recomposites every node each frame. Pausing holds it mid-drift (no jump). */
     .stage.busy svg#svg{ animation-play-state:paused; }
-    @keyframes atmospulse{ 0%,100%{opacity:.85} 50%{opacity:1} }
-    .stage::after{content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
-      background:radial-gradient(closest-side at 50% 48%, #1a2d24 0%, transparent 68%);
-      opacity:.85; animation:atmospulse 9s ease-in-out infinite;}
   }
+  /* The pulsing second bloom (.stage::after, a #1a2d24 radial on a 9s opacity
+     cycle) is gone. It was the third green layer, and the one doing the most to
+     make the background feel like weather. The scene still breathes — that is
+     motion, above, not colour. */
 
   .link{fill:none; stroke:var(--lc,var(--line)); stroke-opacity:.4; stroke-width:var(--lw,1.4px);
     stroke-linecap:round; stroke-linejoin:round; transition:stroke-opacity .2s;}
@@ -181,15 +187,15 @@
   .tmcell{cursor:pointer}
   .tmcell rect{transition:fill-opacity .12s}
   .tmcell:hover rect{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
-  text.tml{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600}
+  text.tml{font-family:var(--sans); font-size:10px; fill:#0e1013; pointer-events:none; font-weight:600}
   text.tmh{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; pointer-events:none}
   .tmgroup rect{pointer-events:none}
-  text.tmv{font-family:var(--sans); font-size:8.5px; fill:#0b141099; pointer-events:none}
+  text.tmv{font-family:var(--sans); font-size:8.5px; fill:#0e101399; pointer-events:none}
 
   /* ---------- sunburst ---------- */
   .sbcell{cursor:pointer; transition:fill-opacity .12s}
   .sbcell:hover{fill-opacity:1 !important; stroke:#fff; stroke-width:1.5px}
-  text.sbl{font-family:var(--sans); font-size:10px; fill:#0b1410; pointer-events:none; font-weight:600; dominant-baseline:middle}
+  text.sbl{font-family:var(--sans); font-size:10px; fill:#0e1013; pointer-events:none; font-weight:600; dominant-baseline:middle}
   text.sbc{font-family:var(--serif); fill:var(--ink); pointer-events:none; text-anchor:middle; dominant-baseline:middle}
 
   .node:hover circle.dot{stroke-width:2.6px}
@@ -233,7 +239,7 @@
   /* ---------- footer ---------- */
   footer.meta{
     display:flex; gap:20px; flex-wrap:wrap; align-items:center;
-    padding:8px 22px; border-top:1px solid var(--line); background:#0c1512aa;
+    padding:8px 22px; border-top:1px solid var(--line); background:#0f1114aa;
     font-family:var(--sans); font-size:11px; color:var(--faint); z-index:4; font-variant-numeric:tabular-nums;
   }
   footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}
@@ -257,7 +263,7 @@
   /* dev perf HUD — off by default; ?perf in the URL or the ` key toggles it */
   .perfhud{position:absolute; right:14px; bottom:92px; z-index:9; pointer-events:none;
     font-family:var(--sans); font-size:10.5px; line-height:1.5; color:var(--dim); font-variant-numeric:tabular-nums;
-    background:#06100bd9; border:1px solid var(--edge); border-radius:var(--r-2); padding:8px 11px;
+    background:#0b0d10d9; border:1px solid var(--edge); border-radius:var(--r-2); padding:8px 11px;
     white-space:pre; min-width:126px; box-shadow:var(--elev-1)}
   .perfhud[hidden]{display:none}
   .perfhud b{color:var(--l-fern); font-weight:600}
@@ -281,7 +287,7 @@
   .tbbands{position:absolute; inset:0}
   .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.42}
   /* dark "curtain" over time not yet reached (right of the handle); retracts as time advances */
-  .tbfill{position:absolute; top:0; bottom:0; right:0; background:#0a120ecc;
+  .tbfill{position:absolute; top:0; bottom:0; right:0; background:#0d0f12cc;
     border-left:2px solid #fff; pointer-events:none}
   .tbknob{position:absolute; top:50%; left:0; width:13px; height:13px; margin:-6.5px 0 0 -6.5px;
     border-radius:50%; background:#fff; box-shadow:0 0 10px #fff9; pointer-events:none}
@@ -340,7 +346,7 @@
     background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 10px}
   /* origin time-bar (geological periods) */
   .potl{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:var(--fill-2)}
-  .potl .band{stroke:#0b1410; stroke-width:.4}
+  .potl .band{stroke:#0e1013; stroke-width:.4}
   /* distribution mini-map (WGSRPD level-1) */
   .pdistlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px; display:flex; justify-content:space-between; align-items:baseline}
   .pdistlabel .cod{color:var(--dim); text-transform:none; letter-spacing:0; font-family:var(--sans); font-size:11px}
@@ -348,7 +354,7 @@
      to read as an attribution rather than compete with the number above it. */
   .psrc{font-family:var(--sans); font-size:10.5px; line-height:1.45; color:var(--faint); margin:5px 0 0}
   .pdistmap{width:100%; height:auto; display:block; border:1px solid var(--edge); border-radius:var(--r-2); background:var(--fill-2)}
-  .pdistmap .wmland{fill:#25332c; stroke:none}
+  .pdistmap .wmland{fill:#252b31; stroke:none}
   .pdistmap .reg{stroke:none; transition:fill-opacity var(--dur-1)}
   /* stats read as one inset data strip, tinted by lineage, split by hairlines */
   .pstats{display:flex; margin-top:16px; padding:12px 6px;
@@ -424,7 +430,7 @@
   .ctl.surprise{margin-bottom:9px; color:var(--ink); border-color:var(--edge)}
   .ctl.surprise:hover{border-color:var(--l-fern); background:var(--fill-hover)}
   .welcome{position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
-    padding:20px; background:#06100bcc; backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .28s}
+    padding:20px; background:#0b0d10cc; backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .28s}
   .welcome.show{opacity:1; pointer-events:auto}
   .welcome .card{width:min(540px, 100%); background:var(--panel); border:1px solid var(--edge);
     border-top:3px solid var(--l-fern); border-radius:var(--r-3); padding:26px 30px 24px; box-shadow:var(--elev-3);
@@ -443,7 +449,7 @@
 
   /* ---------- secondary modals (About, Controls) ---------- */
   .modal{position:absolute; inset:0; z-index:22; display:flex; align-items:flex-start; justify-content:center;
-    padding:max(24px,6vh) 24px; overflow-y:auto; background:#06100bcc; backdrop-filter:blur(6px);
+    padding:max(24px,6vh) 24px; overflow-y:auto; background:#0b0d10cc; backdrop-filter:blur(6px);
     opacity:0; pointer-events:none; transition:opacity var(--dur-2)}
   .modal.show{opacity:1; pointer-events:auto}
   .sheet{position:relative; width:min(620px,100%); margin:auto;
@@ -475,10 +481,10 @@
 
   /* ---------- minimap ---------- */
   .minimap{position:absolute; left:16px; bottom:16px; width:190px; height:132px; z-index:6;
-    background:#0b1310cc; border:1px solid var(--edge); border-radius:var(--r-2); overflow:hidden;
+    background:#0e1013cc; border:1px solid var(--edge); border-radius:var(--r-2); overflow:hidden;
     backdrop-filter:blur(6px); box-shadow:var(--elev-1); cursor:crosshair; touch-action:none}
   .minimap svg{width:100%; height:100%; display:block}
-  .minimap .mvp{fill:#46b06a26; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
+  .minimap .mvp{fill:#46b06a14; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
   .minimap line{stroke:var(--faint); stroke-width:.6px; stroke-opacity:.55; vector-effect:non-scaling-stroke}
   .minimap.hide{display:none}
   .minimap .mmlabel{position:absolute; left:8px; top:6px; font-family:var(--sans); font-size:8.5px;

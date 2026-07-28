@@ -63,7 +63,7 @@ function renderTreemap(){
       const maxc=Math.floor((c.w-7)/6.1);
       const label=(c.w>44 && c.h>15 && maxc>2) ? esc4(n.name.length>maxc? n.name.slice(0,maxc-1)+'…':n.name) : '';
       const showCount = label && c.w>76 && c.h>32;
-      html+=`<g class="tmcell" data-id="${n._id}"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="2" fill="${lc}" fill-opacity="${dim?0.1:0.85}" stroke="#0d1512" stroke-width="1"></rect>`+
+      html+=`<g class="tmcell" data-id="${n._id}"><rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${c.w.toFixed(1)}" height="${c.h.toFixed(1)}" rx="2" fill="${lc}" fill-opacity="${dim?0.1:0.85}" stroke="#101215" stroke-width="1"></rect>`+
         (label?`<text class="tml" x="${(c.x+5).toFixed(1)}" y="${(c.y+13).toFixed(1)}">${label}</text>`:'')+
         (showCount?`<text class="tmv" x="${(c.x+5).toFixed(1)}" y="${(c.y+25).toFixed(1)}">~${n.agg.toLocaleString()} spp</text>`:'')+`</g>`;
     } else if(c.header){
@@ -108,7 +108,7 @@ function renderSunburst(){
   for(const s of segs){ const n=s.node, lc=color(n), isLeaf=!(n.open&&(n.children||[]).length);
     const dim = storySet && isLeaf && !storySet.has(n._id);
     const op = dim?0.07:Math.max(0.4, 0.92-s.dep*0.07);
-    const sel = selected===n ? ' stroke="#fff" stroke-width="2"' : ' stroke="#0d1512" stroke-width="1"';
+    const sel = selected===n ? ' stroke="#fff" stroke-width="2"' : ' stroke="#101215" stroke-width="1"';
     paths+=`<path class="sbcell" data-id="${n._id}" d="${arcPath(s.a0,s.a1,s.r0,s.r1)}" fill="${lc}" fill-opacity="${op.toFixed(2)}"${sel}></path>`;
     const mid=(s.a0+s.a1)/2, rr=(s.r0+s.r1)/2, arc=(s.a1-s.a0)*rr;
     if(s.dep>0 && (s.a1-s.a0)<Math.PI*1.1 && arc>30 && (s.r1-s.r0)>13){

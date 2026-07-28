@@ -374,10 +374,10 @@ function exportStyle(){
     `.node text tspan.common{font-family:${sans};font-size:10px;fill:var(--dim)}`+
     `.node .toggle{fill:none;stroke:var(--ground);stroke-width:1.6px;stroke-linecap:round}`+
     `.node.lodhide text{opacity:0}`+
-    `text.tml{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600}`+
-    `text.tmv{font-family:${sans};font-size:8.5px;fill:#0b141099}`+
+    `text.tml{font-family:${sans};font-size:10px;fill:#0e1013;font-weight:600}`+
+    `text.tmv{font-family:${sans};font-size:8.5px;fill:#0e101399}`+
     `text.tmh{font-family:${sans};font-size:9px;letter-spacing:.5px;text-transform:uppercase}`+
-    `text.sbl{font-family:${sans};font-size:10px;fill:#0b1410;font-weight:600;dominant-baseline:middle}`+
+    `text.sbl{font-family:${sans};font-size:10px;fill:#0e1013;font-weight:600;dominant-baseline:middle}`+
     `text.sbc{font-family:${serif};fill:${cssVar('--ink')};text-anchor:middle;dominant-baseline:middle}`;
 }
 function buildExportSVG(){

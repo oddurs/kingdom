@@ -1,7 +1,14 @@
   :root{
-    --ground:#0d1512; --ground-2:#101c17; --ink:#e9ede6; --dim:#93a396; --faint:#748679;
-    --line:#2b3a32; --panel:#0f1a15cc; --edge:#25332c;
-    /* --faint lifted to clear WCAG AA (4.5:1) for small text on --ground */
+    /* Neutral greys, a whisper cool. Every one of these used to carry a green
+       cast (--ground was #0d1512, --line #2b3a32), which put a green wash over
+       the entire interface and left the lineage hues competing with their own
+       background. The green is now carried by --l-fern and the lineage palette
+       alone, where it reads as a deliberate accent rather than atmosphere.
+       Luminance is held within a point of the old values, so every contrast
+       ratio the palette was tuned for still holds. */
+    --ground:#101215; --ground-2:#15181c; --ink:#e8eaed; --dim:#99a0a8; --faint:#7b838c;
+    --line:#2b3138; --panel:#13161acc; --edge:#252b31;
+    /* --faint clears WCAG AA (4.5:1) for small text on --ground — measured 4.88:1 */
     --serif:'Iowan Old Style','Palatino Linotype','Palatino','Book Antiqua',Georgia,serif;
     --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
     /* type scale (px) — one modular ramp, ~1.2 */
@@ -13,13 +20,13 @@
     /* lineage hues */
     --l-bryo:#8fce9f; --l-fern:#46b06a; --l-gymno:#35b8b0; --l-basal:#bf8ad4;
     --l-mono:#e3b24a; --l-rosid:#e67e6b; --l-asterid:#8f9be8; --l-eudicot:#ec9a4f;
-    --l-root:#9fb0a4;
+    --l-root:#a3aab2;   /* the trunk is structure, not a lineage — neutral with the rest */
     /* motion tokens — one shared language for every surface (D4) */
     --dur-1:.15s; --dur-2:.3s; --ease-out:cubic-bezier(.22,.61,.36,1); --ease-settle:cubic-bezier(.16,.9,.3,1);
     /* radius scale (G3): controls / containers / large surfaces / pills */
     --r-1:7px; --r-2:11px; --r-3:16px; --r-pill:999px;
     /* surfaces, interaction states & elevation (L: one cohesive vocabulary) */
-    --fill-1:#0d1712; --fill-2:#0b1410; --fill-hover:#0e1a14;   /* control bg / inset bg / hover-lift on solid fills */
+    --fill-1:#12151a; --fill-2:#0e1115; --fill-hover:#171b21;   /* control bg / inset bg / hover-lift on solid fills */
     --hover:#ffffff0a; --active:#ffffff14;                      /* translucent hover / active overlays */
     --elev-1:0 8px 24px #0007; --elev-2:0 16px 40px #000a; --elev-3:0 34px 90px #000d;   /* low / mid / high overlays */
   }

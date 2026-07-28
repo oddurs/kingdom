@@ -95,7 +95,7 @@ try {
       body{overflow:hidden}
       #nodes text, #treemap text {display:none !important}
       .ogscrim{position:fixed; inset:auto 0 0 0; height:52%; pointer-events:none;
-        background:linear-gradient(to top, #0d1512 30%, #0d1512f2 48%, #0d1512b0 72%, transparent 100%)}
+        background:linear-gradient(to top, var(--ground) 30%, color-mix(in srgb, var(--ground) 95%, transparent) 48%, color-mix(in srgb, var(--ground) 69%, transparent) 72%, transparent 100%)}
       .ogtext{position:fixed; left:64px; right:64px; bottom:52px; pointer-events:none;
         font-family:var(--sans); color:var(--ink)}
       .ogbrand{display:flex; align-items:center; gap:14px; margin-bottom:18px}
