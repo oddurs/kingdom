@@ -584,20 +584,32 @@ async function main() {
     check("the undated marking is absent at the present day",
       AN.present === 0 && AN.deep > 0, atNow);
 
-    // the frame must follow the living tree, not stay fitted to the present day
+    // The frame must follow the living tree, not stay fitted to the present one.
+    //
+    // Twice now this has gone red on CI and green locally, because both attempts
+    // measured the ANIMATION: first a fixed deadline, then a settle-detector that
+    // rAF throttling tripped early. How fast a damped approach converges is a
+    // property of the machine, not of the code.
+    //
+    // So the animated path only asserts direction — it moved toward a closer fit —
+    // and the exact assertion lives in the reduced-motion session below, where the
+    // same code snaps in one step and the result is deterministic.
     const framing = await ev(`(()=>{
       setTime(0);
       return new Promise(res=>setTimeout(()=>{
-        const kNow=T.k;
+        const kPresent=T.k;
         setTime(340);
-        setTimeout(()=>{
-          res(JSON.stringify({kPresent:+kNow.toFixed(3), kDeep:+T.k.toFixed(3),
-            zoomedIn:T.k>kNow*1.2, alive:livingNodes().length}));
-        }, 2600);
-      }, 2200));
+        setTimeout(()=>res(JSON.stringify({
+          kPresent:+kPresent.toFixed(3), kDeep:+T.k.toFixed(3),
+          target:+computeFitT(livingNodes(), mode).k.toFixed(3),
+          movedCloser: T.k > kPresent,
+          towardTarget: T.k <= computeFitT(livingNodes(), mode).k + 0.01,
+        })), 2500);
+      }, 2000));
     })()`);
     const FR = JSON.parse(framing);
-    check("the frame closes in as the tree shrinks into deep time", FR.zoomedIn === true, framing);
+    check("the frame moves toward a fit on the living tree",
+      FR.movedCloser && FR.towardTarget, framing);
     await ev(`exitTime()`); await wait(400);
 
     // An overlay owns its own input. Both of these used to reach the stage: the
@@ -812,6 +824,23 @@ async function main() {
     check("structural change is instant (no animating class)",
       (await ev(`!document.getElementById('stage').classList.contains('animating')`)) === true);
     check("no console errors under reduced-motion", errors.length === 0, errors.slice(0, 3).join(" | "));
+
+    // Under reduced motion the timeline reframes in ONE step at each period
+    // boundary rather than easing, so the frame can be asserted exactly here —
+    // no animation to race, no dependence on how fast the runner is.
+    const rmFrame = await ev(`(()=>{
+      enterTime(); setTime(0);
+      const kPresent=T.k;
+      setTime(340);
+      const target=computeFitT(livingNodes(), mode).k;
+      const out={kPresent:+kPresent.toFixed(3), kDeep:+T.k.toFixed(3), target:+target.toFixed(3),
+                 exact: Math.abs(T.k-target) < 1e-6, closerIn: T.k > kPresent};
+      exitTime();
+      return JSON.stringify(out);
+    })()`);
+    const RM = JSON.parse(rmFrame);
+    check("reduced motion reframes exactly onto the living tree's fit",
+      RM.exact && RM.closerIn, rmFrame);
   });
 
   const failed = results.filter((r) => !r.pass);
