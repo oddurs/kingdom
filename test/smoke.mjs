@@ -321,6 +321,30 @@ async function main() {
       (await ev(`activeStory==='_filter' && /famil(y|ies) match/.test(document.getElementById('fcount').textContent) && document.querySelectorAll('.node.hl').length>0`)) === true);
     await ev(`clearFilter()`); await wait(120);
 
+    // Expanding a match under an active filter must label what it reveals.
+    // filterMatches() only ever collects families, so a family's genera are never
+    // in storySet — and labelLOD muted every non-match outright, which made those
+    // genera permanently unlabelable. Drilling into a filtered family gave a ring
+    // of anonymous dots.
+    await ev(`switchMode('radial'); filter.rich=null; filter.lineage='fern'; filter.region=null; filter.age=null; buildFilterUI(); applyFilter();`); await wait(500);
+    // fit first: viewport virtualization only mounts what is on screen, and the
+    // preceding checks leave the view zoomed somewhere else entirely
+    await ev(`fit(0)`); await wait(400);
+    const drilled = await ev(`(()=>{
+      const n=nodeByName('Matoniaceae'); if(!n) return 'no Matoniaceae';
+      if(n.open) toggle(n);        // start closed regardless of what earlier checks left open
+      select(n); toggle(n);
+      const kids=n.children||[];
+      const mounted=kids.filter(k=>nodeEls.get(k._id)).length;
+      const labelled=kids.filter(k=>{const el=nodeEls.get(k._id); return el && el.__lab;}).length;
+      return JSON.stringify({kids:kids.length, mounted, labelled});
+    })()`); await wait(200);
+    const D = typeof drilled === "string" && drilled[0] === "{" ? JSON.parse(drilled) : {};
+    check("expanding a filtered family labels its genera",
+      D.kids > 0 && D.mounted === D.kids && D.labelled === D.kids,
+      `${D.labelled} labelled / ${D.mounted} mounted / ${D.kids} genera`);
+    await ev(`clearFilter(); clearStory(); closePanel()`); await wait(200);
+
     // Colour modes must repaint what is already mounted. Pooled shells are painted
     // once at mount, so most nodes kept the previous mode's colour — the switcher
     // recoloured the legend and almost nothing else.

@@ -51,7 +51,11 @@
   <symbol id="ic-close" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5"/></symbol>
   <symbol id="ic-plus" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3.6V12.4M3.6 8H12.4"/></symbol>
   <symbol id="ic-minus" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3.6 8H12.4"/></symbol>
-  <symbol id="ic-play" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 3.8 12.4 8 5.5 12.2Z"/></symbol>
+  <!-- the triangle's bounding box was centred at x=8.95 in a viewBox centred on 8,
+       so it sat ~6% right of the button it lives in. Recentred to 8.35 — the small
+       remaining offset is deliberate: a right-pointing triangle carries its visual
+       mass at the base, so bbox-centring it exactly reads as leaning left. -->
+  <symbol id="ic-play" viewBox="0 0 16 16" fill="currentColor"><path d="M4.9 3.8 11.8 8 4.9 12.2Z"/></symbol>
 </svg>
 
 <header class="bar">
