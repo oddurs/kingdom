@@ -1,0 +1,41 @@
+name: Bug report
+description: Something in the app behaves wrongly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to get there
+      description: >-
+        Steps, or better — the URL. The app encodes its full state in the hash,
+        so "Share this view" gives a link that reopens exactly what you saw.
+      placeholder: |
+        1. https://yggdrasil.oddurs.com/#m=tree&sel=Asteraceae
+        2. Expand it
+        3. …
+    validations: { required: true }
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - The interactive app
+        - A family or order page (/family/…)
+        - Both
+    validations: { required: true }
+  - type: input
+    id: env
+    attributes:
+      label: Browser and device
+      placeholder: Safari 18, iPhone 15 / Chrome 131, macOS
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: A screenshot helps a lot for visual problems.

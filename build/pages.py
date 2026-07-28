@@ -293,7 +293,8 @@ def sources_footer(meta, extra=()):
                      else f"<li>{e(label)}</li>")
     return ("<footer><h2>Sources</h2><ul>" + "".join(items) + "</ul>"
             "<p>Part of <a href=\"/\">Yggdrasil</a>, an interactive tree of the plant "
-            "kingdom. Data CC-BY; see each source for its own terms.</p>"
+            "kingdom. Code MIT, data <a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a> "
+            "&mdash; see each source for its own terms.</p>"
             + "".join(extra) + "</footer>")
 
 

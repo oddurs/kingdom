@@ -1,5 +1,10 @@
 # Remaining work — data sprint
 
+> **Historical.** This documents the original five-phase *data* sprint and
+> predates Sprints T–Y. Its P4/P5 items are still genuinely open — both are
+> blocked on data that isn't fetchable — but read it as a record of that sprint,
+> not as the project's current status. See [docs/README.md](README.md).
+
 Status of the five-phase data sprint and what's still open. Each phase is
 plan → build → review → one PR merged to `main`.
 
