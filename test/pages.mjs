@@ -280,8 +280,21 @@ async function layoutChecks() {
     // the stylesheet must actually be reachable at the path the pages link
     await send("Page.navigate", { url: base + "/family/asteraceae/" });
     await new Promise((r) => setTimeout(r, 600));
-    const styled = await ev(
-      `getComputedStyle(document.body).backgroundColor === 'rgb(13, 21, 18)'`);
+    // Compare against the token rather than a literal colour: this asserted
+    // rgb(13,21,18) and broke the moment the palette was neutralised, which is a
+    // test failing for the wrong reason. What matters is that the stylesheet
+    // arrived and its custom properties are in force.
+    const styled = await ev(`(()=>{
+      const g = getComputedStyle(document.documentElement).getPropertyValue('--ground').trim();
+      if (!g) return 'no --ground: p.css did not load';
+      const probe = document.createElement('div');
+      probe.style.backgroundColor = g;
+      document.body.appendChild(probe);
+      const want = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      const got = getComputedStyle(document.body).backgroundColor;
+      return got === want ? true : got + ' != ' + want;
+    })()`);
     check("p.css loads and applies at its linked path", styled === true, String(styled));
   } finally {
     // Wait for the process to exit before removing its profile — Chrome is still

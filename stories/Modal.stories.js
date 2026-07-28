@@ -21,7 +21,7 @@ export const About = () =>
   sheet(`<h2>About Yggdrasil</h2>
     <p class="msub"><em>A living tree of the plant kingdom.</em></p>
     <p>Every family of land plant, from mosses to orchids — each branch sized by how many species it holds and coloured by its lineage.</p>
-    <div class="pstats" style="--lc:var(--l-fern)">
+    <div class="pstats" style="--lc:var(--accent)">
       <div class="pstat"><b>~389,873</b><span>species</span></div>
       <div class="pstat"><b>479</b><span>families</span></div>
       <div class="pstat"><b>14,129</b><span>genera</span></div>

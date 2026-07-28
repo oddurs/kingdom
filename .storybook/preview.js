@@ -13,9 +13,9 @@ export default {
     backgrounds: {
       default: 'ground',
       values: [
-        { name: 'ground', value: '#0d1512' },
-        { name: 'ground-2', value: '#101c17' },
-        { name: 'ink', value: '#e9ede6' },
+        { name: 'ground', value: '#101215' },
+        { name: 'ground-2', value: '#15181c' },
+        { name: 'ink', value: '#e8eaed' },
       ],
     },
     options: {

@@ -1,7 +1,19 @@
   :root{
-    --ground:#0d1512; --ground-2:#101c17; --ink:#e9ede6; --dim:#93a396; --faint:#748679;
-    --line:#2b3a32; --panel:#0f1a15cc; --edge:#25332c;
-    /* --faint lifted to clear WCAG AA (4.5:1) for small text on --ground */
+    /* Neutral greys, a whisper cool. Every one of these used to carry a green
+       cast (--ground was #0d1512, --line #2b3a32), which put a green wash over
+       the entire interface and left the lineage hues competing with their own
+       background. The green is now carried by --l-fern and the lineage palette
+       alone, where it reads as a deliberate accent rather than atmosphere.
+       Luminance is held within a point of the old values, so every contrast
+       ratio the palette was tuned for still holds. */
+    --ground:#101215; --ground-2:#15181c; --ink:#e8eaed; --dim:#99a0a8; --faint:#7b838c;
+    /* chrome sits a shade BELOW the canvas it frames, so the header and footer
+       read as edges rather than as more surface */
+    --chrome:#0b0d10;
+    /* the dotted ground — a notebook grid behind the tree, one dot per cell */
+    --dot:#ffffff16; --dot-gap:24px;
+    --line:#2b3138; --panel:#13161acc; --edge:#252b31;
+    /* --faint clears WCAG AA (4.5:1) for small text on --ground — measured 4.88:1 */
     --serif:'Iowan Old Style','Palatino Linotype','Palatino','Book Antiqua',Georgia,serif;
     --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
     /* type scale (px) — one modular ramp, ~1.2 */
@@ -10,16 +22,40 @@
     --t-label:10px; --t-label-s:9px;
     /* label tracking — open for uppercase micro-labels, tight for large display */
     --track-label:.08em; --track-display:-.01em;
+    /* ---------- UI accent ----------
+       Deliberately NOT a lineage hue. The interface used to borrow --l-fern,
+       which meant the primary button and the fern branches were literally the
+       same colour: retuning one recoloured the other, and a chip could be
+       mistaken for a lineage. --accent is the interface's own, tuned for
+       controls at chip size on --ground; the lineage palette below is data.
+       Sage keeps the botanical identity at ~35% less chroma than the old green,
+       which is what made a solid fill shout. 6.9:1 on --ground. */
+    --accent:#6faa85;
+    --accent-hi:#8cc3a1;        /* hover / emphasis — lifts toward the light */
+    --accent-fill:#6faa8524;     /* ~14% — the active state's tint */
+    --accent-fill-soft:#6faa8514;/* ~8%  — chips, hovers */
+    --accent-line:#6faa8573;     /* ~45% — the active state's border */
+    --accent-line-soft:#6faa854d;/* ~30% — chips at rest */
+    --accent-ring:#6faa8552;     /* focus halo */
+    /* the one place a saturated fill still earns its keep is text ON the accent */
+    --on-accent:#0e1614;
+
     /* lineage hues */
     --l-bryo:#8fce9f; --l-fern:#46b06a; --l-gymno:#35b8b0; --l-basal:#bf8ad4;
     --l-mono:#e3b24a; --l-rosid:#e67e6b; --l-asterid:#8f9be8; --l-eudicot:#ec9a4f;
-    --l-root:#9fb0a4;
+    --l-root:#a3aab2;   /* the trunk is structure, not a lineage — neutral with the rest */
     /* motion tokens — one shared language for every surface (D4) */
     --dur-1:.15s; --dur-2:.3s; --ease-out:cubic-bezier(.22,.61,.36,1); --ease-settle:cubic-bezier(.16,.9,.3,1);
     /* radius scale (G3): controls / containers / large surfaces / pills */
     --r-1:7px; --r-2:11px; --r-3:16px; --r-pill:999px;
     /* surfaces, interaction states & elevation (L: one cohesive vocabulary) */
-    --fill-1:#0d1712; --fill-2:#0b1410; --fill-hover:#0e1a14;   /* control bg / inset bg / hover-lift on solid fills */
+    --fill-1:#12151a; --fill-2:#0e1115; --fill-hover:#171b21;   /* control bg / inset bg / hover-lift on solid fills */
     --hover:#ffffff0a; --active:#ffffff14;                      /* translucent hover / active overlays */
-    --elev-1:0 8px 24px #0007; --elev-2:0 16px 40px #000a; --elev-3:0 34px 90px #000d;   /* low / mid / high overlays */
+    /* Two-layer elevation: a tight contact shadow that anchors the edge, plus a
+       wide ambient one. A single large blur reads as fog; the pair reads as an
+       object sitting on something. */
+    --elev-1:0 1px 2px #00000059, 0 6px 18px #00000047;
+    --elev-2:0 2px 4px #00000066, 0 14px 34px #0000005c;
+    --elev-3:0 4px 10px #00000073, 0 30px 70px #00000080;
+    --lift:inset 0 1px 0 #ffffff0a;   /* lit top edge on raised surfaces */
   }

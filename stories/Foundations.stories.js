@@ -22,6 +22,10 @@ const label = (name, val) => `
 // ---- Colour -------------------------------------------------------------
 export const Colour = () => {
   const surfaces = ['--ground', '--ground-2', '--panel', '--edge', '--line', '--ink', '--dim', '--faint'];
+  // The interface accent is its own family, deliberately not a lineage hue: the
+  // UI used to borrow --l-fern, so the primary control and the fern branches
+  // were the same colour and neither could be tuned without moving the other.
+  const accent = ['--accent', '--accent-hi', '--accent-fill', '--accent-line', '--accent-ring'];
   const hues = ['--l-bryo', '--l-fern', '--l-gymno', '--l-basal', '--l-mono', '--l-rosid', '--l-asterid', '--l-eudicot', '--l-root'];
   const wrap = document.createElement('div');
   const section = (title, names) => {
@@ -40,7 +44,8 @@ export const Colour = () => {
     wrap.append(h, g);
   };
   section('Surfaces & ink', surfaces);
-  section('Lineage hues', hues);
+  section('Interface accent', accent);
+  section('Lineage hues (data — never used for UI)', hues);
   return wrap;
 };
 
@@ -106,7 +111,7 @@ export const Motion = () => {
     `<p style="color:var(--dim);max-width:52ch;margin:0 0 20px">One shared motion language. Hover a dot to feel each easing / duration pair.</p>` +
     rows.map(([n, use]) => `
       <div style="display:flex;align-items:center;gap:16px;margin:10px 0">
-        <div class="motion-demo" style="width:26px;height:26px;border-radius:var(--r-pill);background:var(--l-fern);
+        <div class="motion-demo" style="width:26px;height:26px;border-radius:var(--r-pill);background:var(--accent);
              transition:transform ${n.startsWith('--dur') ? `var(${n}) var(--ease-out)` : `var(--dur-2) var(${n})`}"></div>
         <code style="font-family:var(--sans);font-size:12px;color:var(--ink)">var(${n})</code>
         <span style="font-family:var(--sans);font-size:11px;color:var(--faint)">${cssvar(n)}</span>

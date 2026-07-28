@@ -264,6 +264,25 @@ async function main() {
     await ev(`navTo(nodeByName('Asterales'))`); await wait(400);
     const tmSel = await until(`mode==='treemap' && selected && selected.name==='Asterales' && !!document.querySelector('#treemap [data-id="'+selected._id+'"] rect[stroke="#fff"]')`, 6000);
     check("treemap selection outline follows nav", tmSel === true);
+
+    // SVG paints in document order, so an outline drawn on the cell itself is
+    // overpainted by every cell after it — the hover ring came out clipped on its
+    // right and bottom edges. It must be the LAST element in the group.
+    const ring = await ev(`(()=>{
+      const cells=[...document.querySelectorAll('.tmcell')];
+      if(cells.length<3) return 'no cells';
+      const g=cells[Math.floor(cells.length*0.35)];
+      g.dispatchEvent(new PointerEvent('pointerover',{bubbles:true}));
+      const r=document.getElementById('tmring');
+      if(!r) return 'no ring';
+      return JSON.stringify({
+        visible: r.getAttribute('visibility')==='visible',
+        paintsLast: r.parentNode.lastElementChild===r,
+        sized: +r.getAttribute('width')>0 && +r.getAttribute('height')>0,
+      });})()`); await wait(150);
+    const RG = typeof ring === "string" && ring[0] === "{" ? JSON.parse(ring) : {};
+    check("the treemap hover ring paints above every cell",
+      RG.visible && RG.paintsLast && RG.sized, ring);
     await ev(`switchMode('radial')`); await wait(VIEW);
 
     // accessibility: selecting a taxon announces it to the polite live region
@@ -529,6 +548,41 @@ async function main() {
     await ev(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}))`); await wait(200);
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
+
+    // The interface accent must stay distinct from every lineage hue. The UI used
+    // to borrow --l-fern, which meant the primary control and the fern branches
+    // were literally the same colour — a chip could be mistaken for a lineage, and
+    // retuning one moved the other.
+    const palette = await ev(`(()=>{
+      const cs=getComputedStyle(document.documentElement);
+      const v=n=>cs.getPropertyValue(n).trim().toLowerCase();
+      const accent=v('--accent');
+      const lineage=['--l-bryo','--l-fern','--l-gymno','--l-basal','--l-mono',
+                     '--l-rosid','--l-asterid','--l-eudicot','--l-root'].map(v);
+      return JSON.stringify({accent, clash: lineage.filter(h=>h===accent)});
+    })()`);
+    const PAL = JSON.parse(palette);
+    check("the UI accent is not a lineage hue", !!PAL.accent && PAL.clash.length === 0,
+      PAL.clash.length ? `${PAL.accent} collides with a lineage` : PAL.accent);
+
+    // and the selected state is a tint, not a saturated block — the thing that
+    // made one control shout beside a canvas full of lineage colour
+    const activeFill = await ev(`(()=>{
+      const b=document.querySelector('#viewseg .ctl.on'); if(!b) return 'no active control';
+      const bg=getComputedStyle(b).backgroundColor;
+      const m=bg.match(/[\\d.]+/g).map(Number);
+      const alpha = m.length > 3 ? m[3] : 1;
+      // getComputedStyle reports the DECLARED colour, so a tint shows up as the
+      // accent at low alpha rather than as dark channels. Composite it over the
+      // control surface to measure what a person actually sees.
+      const S=[18,21,26];                                   // --fill-1
+      const lit=[0,1,2].map(i=>m[i]*alpha + S[i]*(1-alpha));
+      return JSON.stringify({bg, alpha, composited:lit.map(Math.round)});
+    })()`);
+    const AF = JSON.parse(activeFill);
+    check("the active control is a tint, not a saturated fill",
+      AF.alpha <= 0.35 && Math.max(...AF.composited) < 90,
+      `${AF.bg} → rgb(${AF.composited})`);
 
     // SEO: JSON-LD structured data + a crawlable text index of the tree are in the DOM
     const seoOk = await ev(`(()=>{ try{
