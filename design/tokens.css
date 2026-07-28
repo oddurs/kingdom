@@ -17,6 +17,24 @@
     --t-label:10px; --t-label-s:9px;
     /* label tracking — open for uppercase micro-labels, tight for large display */
     --track-label:.08em; --track-display:-.01em;
+    /* ---------- UI accent ----------
+       Deliberately NOT a lineage hue. The interface used to borrow --l-fern,
+       which meant the primary button and the fern branches were literally the
+       same colour: retuning one recoloured the other, and a chip could be
+       mistaken for a lineage. --accent is the interface's own, tuned for
+       controls at chip size on --ground; the lineage palette below is data.
+       Sage keeps the botanical identity at ~35% less chroma than the old green,
+       which is what made a solid fill shout. 6.9:1 on --ground. */
+    --accent:#6faa85;
+    --accent-hi:#8cc3a1;        /* hover / emphasis — lifts toward the light */
+    --accent-fill:#6faa8524;     /* ~14% — the active state's tint */
+    --accent-fill-soft:#6faa8514;/* ~8%  — chips, hovers */
+    --accent-line:#6faa8573;     /* ~45% — the active state's border */
+    --accent-line-soft:#6faa854d;/* ~30% — chips at rest */
+    --accent-ring:#6faa8552;     /* focus halo */
+    /* the one place a saturated fill still earns its keep is text ON the accent */
+    --on-accent:#0e1614;
+
     /* lineage hues */
     --l-bryo:#8fce9f; --l-fern:#46b06a; --l-gymno:#35b8b0; --l-basal:#bf8ad4;
     --l-mono:#e3b24a; --l-rosid:#e67e6b; --l-asterid:#8f9be8; --l-eudicot:#ec9a4f;
@@ -28,5 +46,11 @@
     /* surfaces, interaction states & elevation (L: one cohesive vocabulary) */
     --fill-1:#12151a; --fill-2:#0e1115; --fill-hover:#171b21;   /* control bg / inset bg / hover-lift on solid fills */
     --hover:#ffffff0a; --active:#ffffff14;                      /* translucent hover / active overlays */
-    --elev-1:0 8px 24px #0007; --elev-2:0 16px 40px #000a; --elev-3:0 34px 90px #000d;   /* low / mid / high overlays */
+    /* Two-layer elevation: a tight contact shadow that anchors the edge, plus a
+       wide ambient one. A single large blur reads as fog; the pair reads as an
+       object sitting on something. */
+    --elev-1:0 1px 2px #00000059, 0 6px 18px #00000047;
+    --elev-2:0 2px 4px #00000066, 0 14px 34px #0000005c;
+    --elev-3:0 4px 10px #00000073, 0 30px 70px #00000080;
+    --lift:inset 0 1px 0 #ffffff0a;   /* lit top edge on raised surfaces */
   }

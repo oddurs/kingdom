@@ -39,7 +39,7 @@ function aboutHTML(){
   return `<h2>About Yggdrasil</h2>
     <p class="msub"><em>A living tree of the plant kingdom.</em></p>
     <p>Every family of land plant, from mosses to orchids &mdash; each branch sized by how many species it holds and coloured by its lineage. One root divides into the great limbs of green life, from the earliest liverworts to the flowering plants that now dominate the land.</p>
-    <div class="pstats" style="--lc:var(--l-fern)">
+    <div class="pstats" style="--lc:var(--accent)">
       ${stat('~'+totSppApprox,'species')}${stat(totFam.toLocaleString(),'families')}${stat(totGen.toLocaleString(),'genera')}
     </div>
     <div class="msec"><h3>The tree</h3>

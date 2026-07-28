@@ -42,7 +42,7 @@ body::before {
   border-bottom: 1px solid var(--line);
 }
 .top a.home { display: flex; align-items: center; gap: .5rem; color: var(--ink); text-decoration: none }
-.top .mark { width: 22px; height: 22px; color: var(--l-fern); flex: none }
+.top .mark { width: 22px; height: 22px; color: var(--accent); flex: none }
 .top .name { font-family: var(--serif); font-size: 1.05rem; letter-spacing: var(--track-display) }
 .top .sp { flex: 1 }
 

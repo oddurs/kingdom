@@ -20,7 +20,7 @@ export const Card = () => {
   const wrap = document.createElement('div');
   // The card's styles are `.welcome .card`, `.welcome ul`, … — so the card must
   // sit inside `.welcome`. Neutralise only the full-screen overlay positioning.
-  wrap.innerHTML = MARK + `<div class="welcome show" style="position:static;inset:auto;display:block;background:none;padding:0;color:var(--l-fern)">
+  wrap.innerHTML = MARK + `<div class="welcome show" style="position:static;inset:auto;display:block;background:none;padding:0;color:var(--accent)">
     <div class="card">
       <svg class="mark mark-lg"><use href="#ygg-mark-sb"/></svg>
       <h2 style="color:var(--ink)">Yggdrasil &middot; <em>a living tree</em></h2>

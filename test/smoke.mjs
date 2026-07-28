@@ -530,6 +530,41 @@ async function main() {
     const aboutClosed = await ev(`!document.getElementById('modal').classList.contains('show')`);
     check("About page opens and Escape closes it", aboutOpen === true && aboutClosed === true);
 
+    // The interface accent must stay distinct from every lineage hue. The UI used
+    // to borrow --l-fern, which meant the primary control and the fern branches
+    // were literally the same colour — a chip could be mistaken for a lineage, and
+    // retuning one moved the other.
+    const palette = await ev(`(()=>{
+      const cs=getComputedStyle(document.documentElement);
+      const v=n=>cs.getPropertyValue(n).trim().toLowerCase();
+      const accent=v('--accent');
+      const lineage=['--l-bryo','--l-fern','--l-gymno','--l-basal','--l-mono',
+                     '--l-rosid','--l-asterid','--l-eudicot','--l-root'].map(v);
+      return JSON.stringify({accent, clash: lineage.filter(h=>h===accent)});
+    })()`);
+    const PAL = JSON.parse(palette);
+    check("the UI accent is not a lineage hue", !!PAL.accent && PAL.clash.length === 0,
+      PAL.clash.length ? `${PAL.accent} collides with a lineage` : PAL.accent);
+
+    // and the selected state is a tint, not a saturated block — the thing that
+    // made one control shout beside a canvas full of lineage colour
+    const activeFill = await ev(`(()=>{
+      const b=document.querySelector('#viewseg .ctl.on'); if(!b) return 'no active control';
+      const bg=getComputedStyle(b).backgroundColor;
+      const m=bg.match(/[\\d.]+/g).map(Number);
+      const alpha = m.length > 3 ? m[3] : 1;
+      // getComputedStyle reports the DECLARED colour, so a tint shows up as the
+      // accent at low alpha rather than as dark channels. Composite it over the
+      // control surface to measure what a person actually sees.
+      const S=[18,21,26];                                   // --fill-1
+      const lit=[0,1,2].map(i=>m[i]*alpha + S[i]*(1-alpha));
+      return JSON.stringify({bg, alpha, composited:lit.map(Math.round)});
+    })()`);
+    const AF = JSON.parse(activeFill);
+    check("the active control is a tint, not a saturated fill",
+      AF.alpha <= 0.35 && Math.max(...AF.composited) < 90,
+      `${AF.bg} → rgb(${AF.composited})`);
+
     // SEO: JSON-LD structured data + a crawlable text index of the tree are in the DOM
     const seoOk = await ev(`(()=>{ try{
       const ld=JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);

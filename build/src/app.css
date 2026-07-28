@@ -23,10 +23,10 @@
   }
   /* brand lockup: the radial-burst mark + wordmark */
   .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit}
-  .mark{width:30px; height:30px; flex:none; color:var(--l-fern);
-    filter:drop-shadow(0 0 5px color-mix(in srgb, var(--l-fern) 45%, transparent));
+  .mark{width:30px; height:30px; flex:none; color:var(--accent);
+    filter:drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 45%, transparent));
     transition:transform var(--dur-2) var(--ease-settle), filter var(--dur-2) var(--ease-out)}
-  .brand:hover .mark{transform:rotate(20deg); filter:drop-shadow(0 0 9px color-mix(in srgb, var(--l-fern) 70%, transparent))}
+  .brand:hover .mark{transform:rotate(20deg); filter:drop-shadow(0 0 9px color-mix(in srgb, var(--accent) 70%, transparent))}
   .wordmark{display:flex; line-height:1}
   /* sans wordmark */
   .wm-name{font-family:var(--sans); font-weight:700; font-size:19px; letter-spacing:-.02em; margin:0; color:var(--ink)}
@@ -41,7 +41,7 @@
   }
   .search input::placeholder{color:var(--faint)}
   .search input::-webkit-search-cancel-button{-webkit-appearance:none; appearance:none}  /* our own count/hint sits here */
-  .search input:focus{border-color:var(--l-fern); box-shadow:0 0 0 3px #46b06a22}
+  .search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-ring)}
   .search .hint{
     position:absolute; right:9px; top:50%; transform:translateY(-50%);
     font-family:var(--sans); font-size:10px; color:var(--faint); pointer-events:none;
@@ -51,7 +51,7 @@
     position:absolute; top:calc(100% + 6px); left:0; width:min(360px,86vw);
     max-height:min(58vh,430px); overflow-y:auto; padding:5px;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:var(--elev-2); z-index:30;
+    border-radius:var(--r-2); box-shadow:var(--elev-2),var(--lift); z-index:30;
   }
   .qresults[hidden]{display:none}
   @keyframes popin{from{opacity:0; transform:translateY(-6px) scale(.985)} to{opacity:1; transform:none}}
@@ -67,32 +67,67 @@
   .qrow:hover, .qrow.active{background:var(--hover)}
   .qrow .qrk{flex:none; width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 6px currentColor}
   .qrow .qnm{flex:1; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .qrow .qnm em{font-style:normal; color:var(--l-fern); font-weight:600}
+  .qrow .qnm em{font-style:normal; color:var(--accent); font-weight:600}
   .qrow .qcm{flex:none; max-width:34%; font-size:11px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .qrow .qct{flex:none; font-family:var(--sans); font-size:10px; color:var(--faint); font-variant-numeric:tabular-nums}
   .qfoot{display:flex; justify-content:space-between; align-items:center; gap:10px;
     padding:7px 10px 5px; margin-top:3px; border-top:1px solid var(--line);
     font-family:var(--sans); font-size:10px; color:var(--faint)}
-  .qfoot button{font-family:var(--sans); font-size:11.5px; color:var(--l-fern); background:none;
+  .qfoot button{font-family:var(--sans); font-size:11.5px; color:var(--accent); background:none;
     border:0; cursor:pointer; padding:2px 4px; border-radius:5px}
   .qfoot button:hover{background:var(--hover)}
+  /* ---------- controls: three tiers, one shape language ----------
+     Every control used to look the same, so a primary action, a filter chip and
+     a reset read as equals. The tiers are: .primary (accent-tinted, the one
+     thing to do), plain .ctl (the working default), and .quiet (borderless — an
+     escape hatch like Clear should not compete with what it clears).
+
+     The selected state is a TINT, not a saturated fill. A solid accent block was
+     the only large area of colour in the interface, which is what made it shout
+     next to a canvas full of lineage hues. */
   button.ctl{
     font-family:var(--sans); font-size:12px; color:var(--dim);
     background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-1);
-    padding:7px 11px; cursor:pointer; transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1),transform .1s var(--ease-out);
+    padding:7px 11px; cursor:pointer;
+    /* a 1px inner top-highlight reads as a lit edge — the whole depth cue, at
+       one shadow, on a surface that is otherwise flat */
+    box-shadow:inset 0 1px 0 #ffffff08;
+    transition:color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out),
+               background var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out),
+               transform .12s var(--ease-out);
     white-space:nowrap;
   }
-  button.ctl:hover{color:var(--ink); border-color:var(--faint)}
-  button.ctl:active{transform:scale(.94)}
-  button.ctl:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
-  button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern)}
+  button.ctl:hover{color:var(--ink); border-color:var(--faint); background:var(--fill-hover)}
+  /* .94 was a visible lurch at this size; .97 with a settle reads as pressure */
+  button.ctl:active{transform:scale(.97)}
+  button.ctl:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+  button.ctl.on{
+    color:var(--accent-hi); background:var(--accent-fill); border-color:var(--accent-line);
+    box-shadow:inset 0 1px 0 #ffffff0d;
+  }
+  button.ctl.on:hover{color:var(--accent-hi); border-color:var(--accent); background:var(--accent-fill)}
+  /* the one emphatic tier — a stronger tint, never a saturated block */
+  button.ctl.primary{
+    color:var(--accent-hi); background:var(--accent-fill); border-color:var(--accent-line);
+    font-weight:600;
+  }
+  button.ctl.primary:hover{
+    border-color:var(--accent); background:var(--accent-fill);
+    box-shadow:inset 0 1px 0 #ffffff12, 0 0 0 3px var(--accent-ring);
+  }
+  /* tertiary: text only until you reach for it */
+  button.ctl.quiet{background:transparent; border-color:transparent; box-shadow:none; color:var(--faint)}
+  button.ctl.quiet:hover{background:var(--hover); border-color:transparent; color:var(--ink)}
   /* every interactive chip/link gets the same visible keyboard focus ring */
-  .schip:focus-visible, .pref:focus-visible, .qrow:focus-visible, .pclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
+  .schip:focus-visible, .pref:focus-visible, .qrow:focus-visible, .pclose:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   /* segmented control: a cohesive group of mutually-exclusive options */
   .seg{display:inline-flex; gap:2px; padding:2px; background:var(--fill-2); border:1px solid var(--edge); border-radius:var(--r-2)}
-  .seg button.ctl{border:1px solid transparent; background:transparent; border-radius:var(--r-1); padding:6px 11px}
+  .seg button.ctl{border:1px solid transparent; background:transparent; border-radius:var(--r-1); padding:6px 11px; box-shadow:none}
   .seg button.ctl:hover{border-color:transparent; background:var(--hover)}
-  .seg button.ctl.on{color:var(--ground); background:var(--l-fern); border-color:transparent}
+  .seg button.ctl.on{
+    color:var(--accent-hi); background:var(--accent-fill); border-color:var(--accent-line-soft);
+    box-shadow:inset 0 1px 0 #ffffff0d;
+  }
   /* ---------- header popover menus (G2) ---------- */
   .barsep{width:1px; height:20px; background:var(--edge); align-self:center; margin:0 2px}
   .menu-btn{display:inline-flex; align-items:center; gap:4px}
@@ -106,12 +141,12 @@
     position:fixed; z-index:40; min-width:190px; max-width:min(320px,92vw); padding:11px 12px;
     display:flex; flex-direction:column; gap:11px; max-height:min(82vh,660px); overflow-y:auto;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:var(--elev-2);
+    border-radius:var(--r-2); box-shadow:var(--elev-2),var(--lift);
     animation:popin var(--dur-1) var(--ease-out);
   }
   .menu[hidden]{display:none}
   .ffoot{gap:9px}
-  .fcount{font-size:11.5px; color:var(--l-fern); font-weight:500}
+  .fcount{font-size:11.5px; color:var(--accent); font-weight:500}
   .menu-sec{display:flex; flex-direction:column; gap:8px}
   .menu-sec + .menu-sec{padding-top:11px; border-top:1px solid var(--line)}
   .menu-label{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint)}
@@ -122,7 +157,7 @@
   /* persistent colour legend (bottom-left, above the minimap) */
   .legendbar{position:absolute; left:16px; bottom:158px; z-index:6; max-width:196px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:9px 10px 9px; box-shadow:var(--elev-1)}
+    padding:9px 10px 9px; box-shadow:var(--elev-1),var(--lift)}
   .lgtitle{font-family:var(--sans); font-size:9px; font-weight:600; letter-spacing:var(--track-label);
     text-transform:uppercase; color:var(--faint); margin:0 0 7px 4px}
   .lgitems{display:flex; flex-direction:column; gap:1px}
@@ -203,7 +238,7 @@
   .node.kbfocus circle.dot{stroke:#fff; stroke-width:2.8px}
   .node.kbfocus .halo{opacity:.24}
   .node.kbfocus text{fill:#fff}
-  main.stage:focus-visible{outline:2px solid var(--l-fern); outline-offset:-2px}
+  main.stage:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
 
   /* focus/hover lineage highlight */
   .stage.focusing .link{stroke-opacity:.07}
@@ -220,7 +255,7 @@
     transition:opacity .12s, transform .12s; max-width:300px;
     background:var(--panel); backdrop-filter:blur(8px);
     border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:10px 13px; box-shadow:var(--elev-2);
+    padding:10px 13px; box-shadow:var(--elev-2),var(--lift);
   }
   .tip.show{opacity:1; transform:translateY(0)}
   /* rank led by the lineage dot, matching the panel */
@@ -245,28 +280,28 @@
   footer .k{color:var(--dim)} footer b{color:var(--ink); font-weight:600}
   /* the counts that link out to the static taxon pages read as text until you reach them */
   footer a.fx{text-decoration:none; border-bottom:1px solid transparent; padding-bottom:1px}
-  footer a.fx:hover{border-bottom-color:var(--l-fern)}
+  footer a.fx:hover{border-bottom-color:var(--accent)}
   footer a.fx:hover .k{color:var(--ink)}
-  footer a.fx:focus-visible{outline:2px solid var(--l-fern); outline-offset:3px; border-radius:2px}
+  footer a.fx:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
   footer .src{margin-left:auto; color:var(--faint)}   /* provenance sits right, apart from the live counts */
 
   /* zoom: a single cohesive vertical pill, seamless buttons + hairline divider */
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
-    border-radius:var(--r-2); overflow:hidden; box-shadow:var(--elev-1)}
+    border-radius:var(--r-2); overflow:hidden; box-shadow:var(--elev-1),var(--lift)}
   .zoomctl button{width:34px; height:34px; font-size:16px; line-height:1; padding:0; display:grid; place-items:center;
     color:var(--dim); background:transparent; border:0; cursor:pointer; transition:color var(--dur-1),background var(--dur-1)}
   .zoomctl button:first-child{border-bottom:1px solid var(--edge)}
   .zoomctl button:hover{color:var(--ink); background:var(--hover)}
   .zoomctl button:active{background:var(--active)}
-  .zoomctl button:focus-visible{outline:2px solid var(--l-fern); outline-offset:-2px}
+  .zoomctl button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
   /* dev perf HUD — off by default; ?perf in the URL or the ` key toggles it */
   .perfhud{position:absolute; right:14px; bottom:92px; z-index:9; pointer-events:none;
     font-family:var(--sans); font-size:10.5px; line-height:1.5; color:var(--dim); font-variant-numeric:tabular-nums;
     background:#0b0d10d9; border:1px solid var(--edge); border-radius:var(--r-2); padding:8px 11px;
-    white-space:pre; min-width:126px; box-shadow:var(--elev-1)}
+    white-space:pre; min-width:126px; box-shadow:var(--elev-1),var(--lift)}
   .perfhud[hidden]{display:none}
-  .perfhud b{color:var(--l-fern); font-weight:600}
+  .perfhud b{color:var(--accent); font-weight:600}
   .perfhud .warn{color:var(--l-mono)}
   .perfhud .bad{color:var(--l-rosid)}
 
@@ -274,15 +309,15 @@
   .timebar{position:absolute; left:50%; transform:translateX(-50%); bottom:18px; z-index:8;
     display:flex; flex-direction:column; gap:8px; width:min(680px,90vw); padding:10px 15px 11px;
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
-    border-radius:var(--r-2); box-shadow:var(--elev-1)}
+    border-radius:var(--r-2); box-shadow:var(--elev-1),var(--lift)}
   .timebar[hidden]{display:none}
   .tbhint{font-size:11px; color:var(--dim); text-align:center; line-height:1.3}
-  .tbhint b{color:var(--l-fern); font-weight:600}
+  .tbhint b{color:var(--accent); font-weight:600}
   .tbrow{display:flex; align-items:center; gap:13px}
   .tbplay{flex:none; width:34px; height:34px; border-radius:50%; border:1px solid var(--edge);
-    background:var(--fill-1); color:var(--l-fern); font-size:13px; cursor:pointer; display:grid; place-items:center}
-  .tbplay:hover{border-color:var(--l-fern)}
-  .tbplay:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px}
+    background:var(--fill-1); color:var(--accent); font-size:13px; cursor:pointer; display:grid; place-items:center}
+  .tbplay:hover{border-color:var(--accent)}
+  .tbplay:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   .tbtrack{position:relative; flex:1; height:26px; cursor:pointer; border-radius:var(--r-1); overflow:hidden}
   .tbbands{position:absolute; inset:0}
   .tbbands .bd{position:absolute; top:0; bottom:0; opacity:.42}
@@ -300,20 +335,20 @@
     max-height:calc(100% - 24px); overflow-y:auto; z-index:8;
     background:var(--panel); backdrop-filter:blur(10px);
     border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:18px 18px 18px; box-shadow:var(--elev-2);
+    padding:18px 18px 18px; box-shadow:var(--elev-2),var(--lift);
     opacity:0; transform:translateX(20px) scale(.985); pointer-events:none;
     white-space:normal; overflow-wrap:break-word;
     transition:opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-settle);
   }
   .panel.open{opacity:1; transform:none; pointer-events:auto}
-  .panel.listing{border-left-color:var(--l-fern); border-top-color:var(--l-fern)}
+  .panel.listing{border-left-color:var(--accent); border-top-color:var(--accent)}
   .pclose{position:absolute; top:10px; right:10px; width:26px; height:26px; border-radius:var(--r-1); display:grid; place-items:center;
     background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .pclose:hover{color:var(--ink); border-color:var(--faint)}
   .pcrumb{font-family:var(--sans); font-size:10px; color:var(--faint); line-height:1.7; margin-bottom:11px; padding-right:26px; overflow-wrap:break-word}
   .pcrumb a{color:var(--dim); cursor:pointer; text-decoration:none}
   .pcrumb a:hover{color:var(--ink); text-decoration:underline}
-  .pcrumb a:focus-visible{outline:2px solid var(--l-fern); outline-offset:2px; border-radius:3px}
+  .pcrumb a:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:3px}
   .pcrumb .sepc{opacity:.5; margin:0 3px}
   /* rank as a plain tracked label led by a small glowing lineage dot (echoes the tree's nodes) */
   .prank{display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-size:9.5px;
@@ -336,11 +371,11 @@
   .pexlabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:14px 0 6px}
   .preflabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin:15px 0 7px}
   .prefs{display:flex; flex-wrap:wrap; gap:6px}
-  .pref{font-family:var(--sans); font-size:11px; color:var(--l-fern); text-decoration:none;
+  .pref{font-family:var(--sans); font-size:11px; color:var(--accent); text-decoration:none;
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 11px 3px 9px; background:var(--fill-1); white-space:nowrap}
-  .pref:hover{border-color:var(--l-fern); background:var(--fill-hover)}
+  .pref:hover{border-color:var(--accent); background:var(--fill-hover)}
   .pref::before{content:'↗'; font-size:9px; opacity:.7; margin-right:4px}
-  .pref.verified{border-color:#46b06a66}
+  .pref.verified{border-color:var(--accent-line)}
   .pex{display:flex; flex-wrap:wrap; gap:6px}
   .pex .exchip{font-family:var(--sans); font-size:11.5px; color:var(--dim);
     background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-pill); padding:3px 10px}
@@ -368,7 +403,7 @@
   #plist .lsub{font-family:var(--sans); font-size:9.5px; color:var(--faint); text-transform:uppercase; font-weight:600; letter-spacing:var(--track-label); margin-bottom:11px}
   .lrow{display:flex; align-items:center; gap:9px; padding:7px 7px; border-radius:var(--r-1); cursor:pointer; border:1px solid transparent}
   .lrow:hover{background:var(--fill-hover); border-color:var(--edge)}
-  .lrow:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
+  .lrow:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
   .lrow .ldot{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 6px currentColor}
   .lrow .ltx{min-width:0}
   .lrow .lname{font-family:var(--serif); font-size:13.5px; color:var(--ink)}
@@ -380,9 +415,14 @@
   .stories .slabel{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin-right:2px}
   .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:var(--fill-1);
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:4px 11px; cursor:pointer;
-    transition:color var(--dur-1),border-color var(--dur-1),background var(--dur-1); white-space:nowrap}
-  .schip:hover{color:var(--ink); border-color:var(--faint)}
-  .schip.on{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern); font-weight:600}
+    transition:color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out),
+               background var(--dur-1) var(--ease-out), transform .12s var(--ease-out);
+    white-space:nowrap}
+  .schip:hover{color:var(--ink); border-color:var(--faint); background:var(--fill-hover)}
+  .schip:active{transform:scale(.97)}
+  .schip.on{color:var(--accent-hi); background:var(--accent-fill-soft);
+    border-color:var(--accent-line-soft); font-weight:600}
+  .schip.on:hover{border-color:var(--accent-line); background:var(--accent-fill)}
   .schip.clear{border-style:dashed}
 
   /* ---------- storyline highlight overlay ---------- */
@@ -400,14 +440,14 @@
   .tourcard{position:absolute; left:50%; bottom:22px; transform:translateX(-50%) translateY(10px);
     width:min(580px, calc(100% - 32px)); z-index:9; opacity:0; pointer-events:none;
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge);
-    border-top:3px solid var(--l-fern); border-radius:var(--r-2); padding:15px 18px 16px; box-shadow:var(--elev-2);
+    border-top:2px solid var(--accent-line); border-radius:var(--r-2); padding:15px 18px 16px; box-shadow:var(--elev-2),var(--lift);
     transition:opacity .2s, transform .2s}
   .tourcard.show{opacity:1; transform:translateX(-50%); pointer-events:auto}
   .tourcard .thead{display:flex; align-items:center; gap:10px; margin-bottom:7px}
-  .tourcard .ttitle{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--l-fern)}
+  .tourcard .ttitle{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--accent)}
   .tourdots{display:flex; gap:5px; align-items:center}
   .tourdots i{width:6px; height:6px; border-radius:50%; background:var(--faint); opacity:.45; transition:all .2s}
-  .tourdots i.on{background:var(--l-fern); opacity:1; transform:scale(1.25)}
+  .tourdots i.on{background:var(--accent); opacity:1; transform:scale(1.25)}
   .tourcard .tstep{font-family:var(--sans); font-size:9.5px; color:var(--faint); margin-left:auto; font-variant-numeric:tabular-nums}
   .tourcard .tname{font-family:var(--serif); font-size:20px; margin:0 0 5px; line-height:1.15}
   .tourcard .tname em{font-style:normal; font-size:12px; color:var(--dim); font-family:var(--sans); margin-left:6px}
@@ -416,36 +456,38 @@
   .tourcard .tnav .sp{flex:1}
   .tourcard .tnav button[disabled]{opacity:.4; cursor:default}
   .schip.tour{border-color:#46b06a55}
-  .schip.tour::before{content:'▸ '; color:var(--l-fern)}
+  .schip.tour::before{content:'▸ '; color:var(--accent)}
 
   /* ---------- welcome / onboarding ---------- */
   /* Wonder: transient discovery toast + the surprise affordance (Sprint P) */
   .toast{position:absolute; left:50%; top:70px; transform:translate(-50%,-8px); z-index:30;
     max-width:min(440px,90vw); padding:9px 17px; border-radius:var(--r-pill);
-    background:var(--panel); border:1px solid var(--edge); box-shadow:var(--elev-2); backdrop-filter:blur(8px);
+    background:var(--panel); border:1px solid var(--edge); box-shadow:var(--elev-2),var(--lift); backdrop-filter:blur(8px);
     color:var(--ink); font-size:13px; letter-spacing:.01em; text-align:center; white-space:nowrap;
     overflow:hidden; text-overflow:ellipsis; opacity:0; transition:opacity .3s, transform .3s; pointer-events:none}
   .toast.show{opacity:1; transform:translate(-50%,0)}
-  .spark{color:var(--l-fern)}
-  .ctl.surprise{margin-bottom:9px; color:var(--ink); border-color:var(--edge)}
-  .ctl.surprise:hover{border-color:var(--l-fern); background:var(--fill-hover)}
+  .spark{color:var(--accent)}
+  /* spacing only — .primary supplies the colour, so the emphatic tier looks the
+     same wherever it appears rather than being restyled per instance */
+  .ctl.surprise{margin-bottom:9px}
   .welcome{position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
     padding:20px; background:#0b0d10cc; backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity .28s}
   .welcome.show{opacity:1; pointer-events:auto}
   .welcome .card{width:min(540px, 100%); background:var(--panel); border:1px solid var(--edge);
-    border-top:3px solid var(--l-fern); border-radius:var(--r-3); padding:26px 30px 24px; box-shadow:var(--elev-3);
+    border-top:2px solid var(--accent-line); border-radius:var(--r-3); padding:26px 30px 24px; box-shadow:var(--elev-3),var(--lift);
     transform:translateY(10px); transition:transform .28s}
   .welcome.show .card{transform:none}
   .welcome h2{font-family:var(--serif); font-size:25px; font-weight:600; margin:0 0 6px}
-  .welcome h2 em{font-style:italic; color:var(--l-fern)}
+  .welcome h2 em{font-style:italic; color:var(--accent)}
   .welcome .lead{font-size:13.5px; color:var(--dim); line-height:1.55; margin:0 0 18px}
   .welcome ul{list-style:none; padding:0; margin:0 0 22px; display:grid; gap:11px}
   .welcome li{font-size:13px; color:var(--ink); line-height:1.45; display:flex; gap:12px; align-items:baseline}
-  .welcome li b{font-family:var(--sans); font-size:9.5px; color:var(--l-fern); text-transform:uppercase; font-weight:600;
+  .welcome li b{font-family:var(--sans); font-size:9.5px; color:var(--accent); text-transform:uppercase; font-weight:600;
     letter-spacing:.6px; flex:0 0 76px; font-weight:600}
   .welcome .wact{display:flex; gap:10px; flex-wrap:wrap}
   .welcome .wact button{font-size:13px; padding:9px 15px}
-  .welcome .wact .primary{color:var(--ground); background:var(--l-fern); border-color:var(--l-fern); font-weight:600}
+  /* the emphatic tier is defined once, on .ctl.primary — this instance override
+     was the last solid accent block left in the interface */
 
   /* ---------- secondary modals (About, Controls) ---------- */
   .modal{position:absolute; inset:0; z-index:22; display:flex; align-items:flex-start; justify-content:center;
@@ -454,17 +496,17 @@
   .modal.show{opacity:1; pointer-events:auto}
   .sheet{position:relative; width:min(620px,100%); margin:auto;
     background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-3);
-    padding:30px 34px 32px; box-shadow:var(--elev-3);
+    padding:30px 34px 32px; box-shadow:var(--elev-3),var(--lift);
     transform:translateY(12px); transition:transform var(--dur-2) var(--ease-settle)}
   .modal.show .sheet{transform:none}
   .mclose{position:absolute; top:18px; right:18px; width:30px; height:30px; border-radius:var(--r-1); display:grid; place-items:center;
     background:transparent; border:1px solid var(--edge); color:var(--dim); cursor:pointer; line-height:1}
   .mclose:hover{color:var(--ink); border-color:var(--faint)}
-  .mclose:focus-visible{outline:2px solid var(--l-fern); outline-offset:1px}
+  .mclose:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
   .mbody h2{font-family:var(--serif); font-size:26px; font-weight:600; margin:0 0 5px; padding-right:34px; line-height:1.1}
   .mbody .msub{font-size:14px; color:var(--dim); margin:0 0 8px; line-height:1.5}
   .mbody p{font-size:13.5px; line-height:1.6; color:var(--ink); opacity:.92; margin:0 0 11px}
-  .mbody a.ln{color:var(--l-fern); text-decoration:none}
+  .mbody a.ln{color:var(--accent); text-decoration:none}
   .mbody a.ln:hover{text-decoration:underline}
   .msec{margin-top:24px}
   .msec > h3{font-family:var(--sans); font-size:10px; font-weight:600; letter-spacing:var(--track-label);
@@ -474,7 +516,7 @@
   .krow + .krow{border-top:1px solid var(--line)}
   .kterm{flex:0 0 148px; color:var(--ink); font-size:13px; font-weight:500; display:flex; gap:6px; align-items:center; flex-wrap:wrap}
   .kdesc{flex:1; color:var(--dim); font-size:13px; line-height:1.5}
-  .kdesc .ln{color:var(--l-fern); text-decoration:none} .kdesc .ln:hover{text-decoration:underline}
+  .kdesc .ln{color:var(--accent); text-decoration:none} .kdesc .ln:hover{text-decoration:underline}
   .kbd{display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:22px; padding:0 6px;
     font-size:12px; font-weight:600; color:var(--dim); background:var(--fill-1); border:1px solid var(--edge);
     border-bottom-width:2px; border-radius:var(--r-1); font-variant-numeric:tabular-nums}
@@ -482,9 +524,9 @@
   /* ---------- minimap ---------- */
   .minimap{position:absolute; left:16px; bottom:16px; width:190px; height:132px; z-index:6;
     background:#0e1013cc; border:1px solid var(--edge); border-radius:var(--r-2); overflow:hidden;
-    backdrop-filter:blur(6px); box-shadow:var(--elev-1); cursor:crosshair; touch-action:none}
+    backdrop-filter:blur(6px); box-shadow:var(--elev-1),var(--lift); cursor:crosshair; touch-action:none}
   .minimap svg{width:100%; height:100%; display:block}
-  .minimap .mvp{fill:#46b06a14; stroke:var(--l-fern); stroke-width:1.5px; vector-effect:non-scaling-stroke}
+  .minimap .mvp{fill:#6faa8514; stroke:var(--accent); stroke-width:1.5px; vector-effect:non-scaling-stroke}
   .minimap line{stroke:var(--faint); stroke-width:.6px; stroke-opacity:.55; vector-effect:non-scaling-stroke}
   .minimap.hide{display:none}
   .minimap .mmlabel{position:absolute; left:8px; top:6px; font-family:var(--sans); font-size:8.5px;
@@ -493,7 +535,7 @@
   /* ---------- compare tray (Sprint J) ---------- */
   .comparebar{position:absolute; left:50%; transform:translateX(-50%); bottom:16px; z-index:9; width:min(520px,92vw);
     background:var(--panel); backdrop-filter:blur(10px); border:1px solid var(--edge); border-radius:var(--r-2);
-    padding:12px 16px 14px; box-shadow:var(--elev-2); animation:popin var(--dur-1) var(--ease-out)}
+    padding:12px 16px 14px; box-shadow:var(--elev-2),var(--lift); animation:popin var(--dur-1) var(--ease-out)}
   .comparebar[hidden]{display:none}
   .cmphead{display:flex; align-items:center; gap:10px; margin-bottom:10px}
   .cmptitle{font-family:var(--sans); font-size:9px; font-weight:600; letter-spacing:var(--track-label); text-transform:uppercase; color:var(--faint)}
@@ -515,13 +557,13 @@
   /* ---------- focus (re-root) bar ---------- */
   .focusbar{position:absolute; left:16px; top:16px; z-index:7; display:flex; align-items:center; gap:9px;
     background:var(--panel); backdrop-filter:blur(8px); border:1px solid var(--edge);
-    border-radius:var(--r-2); padding:7px 11px; box-shadow:var(--elev-1);
+    border-radius:var(--r-2); padding:7px 11px; box-shadow:var(--elev-1),var(--lift);
     opacity:0; transform:translateY(-8px); pointer-events:none;
     transition:opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-settle)}
   .focusbar.show{opacity:1; transform:none; pointer-events:auto}
   .focusbar .flabel{font-family:var(--sans); font-size:9px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint)}
   .focusbar .fname{display:inline-flex; align-items:center; gap:8px; font-family:var(--serif); font-size:15px; color:var(--ink); font-style:italic}
-  .focusbar .fname::before{content:''; width:8px; height:8px; border-radius:50%; flex:none; background:var(--lc,var(--l-fern)); box-shadow:0 0 8px var(--lc,var(--l-fern))}
+  .focusbar .fname::before{content:''; width:8px; height:8px; border-radius:50%; flex:none; background:var(--lc,var(--accent)); box-shadow:0 0 8px var(--lc,var(--accent))}
   .focusbar button{width:auto; height:26px; padding:0 9px; font-size:11px}
 
   @media (max-width:680px){
