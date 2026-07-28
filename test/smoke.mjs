@@ -529,6 +529,32 @@ async function main() {
     const T2 = JSON.parse(totals);
     check("the page quotes one species total", !!T2.foot && T2.foot === T2.crawl, `footer ${T2.foot}, crawlable index ${T2.crawl}`);
 
+    // 6.2% of the aggregate is round estimates (27 unmatched families + every
+    // bryophyte class; Bryopsida alone is a flat 11,000). Quoting the exact leaf
+    // sum claims a precision the data hasn't got, so no visible total may.
+    const precision = await ev(`(()=>{
+      const exact=ROOT.agg.toLocaleString();
+      const foot=document.getElementById('footer').textContent;
+      const crawl=document.querySelector('section[aria-label="The plant kingdom in text"]').textContent;
+      return JSON.stringify({exact, inFooter:foot.includes(exact), inCrawl:crawl.includes(exact)});
+    })()`);
+    const P = JSON.parse(precision);
+    check("no headline total is quoted to six significant figures",
+      !P.inFooter && !P.inCrawl, `${P.exact}${P.inFooter ? " in footer" : ""}${P.inCrawl ? " in crawl index" : ""}`);
+
+    // and the estimate is owned in the open, with a figure that reconciles
+    const prov = await ev(`(()=>{
+      openModal(aboutHTML());
+      const t=document.getElementById('mbody').textContent;
+      const ok = t.includes(TOTALS.sourced.toLocaleString()) && /estimat/i.test(t)
+                 && /bryophyte/i.test(t) && t.includes(totVasc.toLocaleString());
+      closeModal && closeModal();
+      return JSON.stringify({ok, reconciles: TOTALS.sourced+TOTALS.estimated===ROOT.agg});
+    })()`);
+    const PR = JSON.parse(prov);
+    check("About states the sourced/estimated split and it reconciles",
+      PR.ok === true && PR.reconciles === true, JSON.stringify(PR));
+
     // the document's first heading is its <h1>; the crawlable section used to be
     // injected ahead of the header, opening the page on an <h2>
     const firstHeading = await ev(`(document.querySelector('h1,h2,h3,h4,h5,h6')||{}).tagName`);

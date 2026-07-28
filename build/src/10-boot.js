@@ -40,12 +40,14 @@ function aboutHTML(){
     <p class="msub"><em>A living tree of the plant kingdom.</em></p>
     <p>Every family of land plant, from mosses to orchids &mdash; each branch sized by how many species it holds and coloured by its lineage. One root divides into the great limbs of green life, from the earliest liverworts to the flowering plants that now dominate the land.</p>
     <div class="pstats" style="--lc:var(--l-fern)">
-      ${stat('~'+totSpp.toLocaleString(),'species')}${stat(totFam.toLocaleString(),'families')}${stat(totGen.toLocaleString(),'genera')}
+      ${stat('~'+totSppApprox,'species')}${stat(totFam.toLocaleString(),'families')}${stat(totGen.toLocaleString(),'genera')}
     </div>
     <div class="msec"><h3>The tree</h3>
       <p>The backbone follows current consensus classifications &mdash; <b>APG&nbsp;IV</b> for the flowering plants and <b>PPG&nbsp;I</b> for ferns and lycophytes. Ranks run from kingdom down through order and family, with accepted genera as the finest tier you can reach.</p></div>
     <div class="msec"><h3>The numbers</h3>
-      <p>Species counts and native ranges come from Kew&rsquo;s <b>World Checklist of Vascular Plants</b>. Branch ages are read from a dated megatree of land plants, and each taxon links out to verified records where we hold them.</p></div>
+      <p>Species counts and native ranges come from Kew&rsquo;s <b>World Checklist of Vascular Plants</b>. Branch ages are read from a dated megatree of land plants, and each taxon links out to verified records where we hold them.</p>
+      <p>Of the ~${totSppApprox} species here, <b>${totSourced}</b> are accepted names counted from WCVP. The remaining <b>~${totEstimated}</b> are estimates: 27 families that WCVP circumscribes differently, and every bryophyte class &mdash; WCVP covers vascular plants only, so the mosses, liverworts and hornworts carry round figures rather than counted ones. That is why the headline reads ~${totSppApprox} and not a six-digit number.</p>
+      <p>Worth knowing: Kew&rsquo;s widely quoted ~390,000 refers to <em>vascular</em> plants. The ${totFam} families here sum to ${totVasc.toLocaleString()} vascular species; this tree reaches ~${totSppApprox} only by also counting the bryophytes, which Kew&rsquo;s figure excludes.</p></div>
     <div class="msec"><h3>Sources</h3>
       <div class="krow"><div class="kterm">Flowering plants</div><div class="kdesc">APG&nbsp;IV &mdash; <a class="ln" href="https://doi.org/10.1111/boj.12385" target="_blank" rel="noopener">Angiosperm Phylogeny Group, 2016</a></div></div>
       <div class="krow"><div class="kterm">Ferns &amp; lycophytes</div><div class="kdesc">PPG&nbsp;I &mdash; <a class="ln" href="https://doi.org/10.1111/jse.12229" target="_blank" rel="noopener">Pteridophyte Phylogeny Group, 2016</a></div></div>
@@ -280,8 +282,20 @@ function clearFilter(){ filter.rich=filter.lineage=filter.region=filter.age=null
   buildFilterUI(); applyFilter(); updateHash(); }));
 document.getElementById('fclear').onclick=clearFilter;
 
-let totFam=0, totGen=0, totSpp=ROOT.agg;
-(function w(n){ if(n.rank==='family') totFam++; else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
+let totFam=0, totGen=0, totVasc=0, totSpp=ROOT.agg;
+(function w(n){ if(n.rank==='family'){ totFam++; totVasc+=n.speciesCount||0; }
+  else if(n.rank==='genus') totGen++; (n.children||[]).forEach(w); })(ROOT);
+// 6.2% of the total is round estimates — the 27 families WCVP circumscribes
+// differently, plus every bryophyte class (Bryopsida alone is a flat 11,000, 2.8%
+// of the headline). Printing 389,873 claims a precision the data doesn't have, so
+// the headline carries two significant figures and the split is stated beside it.
+const TOTALS = DATA.totals || {sourced:totSpp, estimated:0};
+const totSppApprox = (Math.round(totSpp/10000)*10000).toLocaleString();
+const totSourced = TOTALS.sourced.toLocaleString();
+const totEstimated = (Math.round(TOTALS.estimated/1000)*1000).toLocaleString();
+const provenanceNote = `~${totSppApprox} species — ${totSourced} accepted names from Kew WCVP, `+
+  `~${totEstimated} estimated (27 families WCVP circumscribes differently, and the bryophyte `+
+  `classes, which WCVP does not cover)`;
 // The family and order counts double as the crawl path to the static taxon pages
 // (build/pages.py). Without a visible link from here those 567 documents are
 // orphans reachable only via the sitemap, which is the weakest signal there is —
@@ -290,7 +304,7 @@ document.getElementById('footer').innerHTML =
   `<span><a class="fx" href="/families/"><span class="k">families</span> <b>${totFam}</b></a></span>`+
   `<span><span class="k">genera</span> <b>${totGen.toLocaleString()}</b></span>`+
   `<span><a class="fx" href="/orders/"><span class="k">orders</span> <b>86</b></a></span>`+
-  `<span><span class="k">species catalogued</span> <b>~${totSpp.toLocaleString()}</b></span>`+
+  `<span title="${provenanceNote}"><span class="k">species catalogued</span> <b>~${totSppApprox}</b></span>`+
   `<span class="k src">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</span>`;
 
 // ---------- header popover menus (G2) ----------
