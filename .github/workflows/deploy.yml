@@ -22,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20        # a wedged browser fails in minutes, not at the 6-hour default
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - uses: actions/setup-node@v4
@@ -71,8 +71,13 @@ jobs:
       - name: Assemble the Pages site
         run: python3 build/site.py
 
+      # This drives a browser too (the 390px layout checks) and needs the same
+      # managed Chrome the smoke suite gets. Without it, it fell back to guessing
+      # paths, found something that would not start, and died with a TypeError.
       - name: Check the generated taxon pages
         run: node test/pages.mjs
+        env:
+          CHROME: ${{ steps.chrome.outputs.chrome-path }}
 
       - name: Add the Storybook workshop
         if: github.ref == 'refs/heads/main' && steps.storybook.outcome == 'success'
@@ -101,7 +106,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   # Three things can only be checked against the network: whether the canonical
   # host resolves, whether it serves what we just published, and whether the URLs
@@ -115,8 +120,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - uses: actions/setup-node@v4

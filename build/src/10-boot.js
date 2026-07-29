@@ -34,10 +34,13 @@ modal.addEventListener('keydown', e=>trapTab(e, modal));
 welcome.addEventListener('keydown', e=>trapTab(e, welcome));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')){ e.stopPropagation(); closeModal(); } });
 
+// the data lives beside the page on the published site, and in the repo locally
+const DATA_BASE='https://raw.githubusercontent.com/oddurs/kingdom/main/data';
 function aboutHTML(){
   const stat=(n,l)=>`<div class="pstat"><b>${n}</b><span>${l}</span></div>`;
   return `<h2>About Yggdrasil</h2>
     <p class="msub"><em>A living tree of the plant kingdom.</em></p>
+    <p>I kept wanting to know where a plant I recognised sat among all the others &mdash; how a supermarket basil relates to an oak, and which of them has been here longer &mdash; and could never find out without reading three papers. So this is that answer, drawn.</p>
     <p>Every family of land plant, from mosses to orchids &mdash; each branch sized by how many species it holds and coloured by its lineage. One root divides into the great limbs of green life, from the earliest liverworts to the flowering plants that now dominate the land.</p>
     <div class="pstats" style="--lc:var(--accent)">
       ${stat('~'+totSppApprox,'species')}${stat(totFam.toLocaleString(),'families')}${stat(totGen.toLocaleString(),'genera')}
@@ -66,8 +69,14 @@ function aboutHTML(){
       <div class="krow"><div class="kterm">Species &amp; range</div><div class="kdesc"><a class="ln" href="https://powo.science.kew.org/" target="_blank" rel="noopener">Kew WCVP / Plants of the World Online</a></div></div>
       <div class="krow"><div class="kterm">Identifiers</div><div class="kdesc"><a class="ln" href="https://www.gbif.org/" target="_blank" rel="noopener">GBIF</a> backbone</div></div>
     </div>
+    <div class="msec"><h3>Take the data</h3>
+      <p>All of it is <b>CC&nbsp;BY&nbsp;4.0</b> and downloadable &mdash; every count, age and distribution, with the per-field provenance that says which values are sourced and which are estimates.</p>
+      <div class="krow"><div class="kterm">Taxonomy</div><div class="kdesc"><a class="ln" href="${DATA_BASE}/taxa.json" download>taxa.json</a> &mdash; 611 taxa, counts, ages, ranges</div></div>
+      <div class="krow"><div class="kterm">Genera</div><div class="kdesc"><a class="ln" href="${DATA_BASE}/genera.json" download>genera.json</a> &mdash; ${totGen.toLocaleString()} accepted genera</div></div>
+      <div class="krow"><div class="kterm">Terms</div><div class="kdesc"><a class="ln" href="https://github.com/oddurs/kingdom/blob/main/DATA-LICENSE" target="_blank" rel="noopener">DATA-LICENSE</a> &mdash; attribution, and every upstream source</div></div>
+      </div>
     <div class="msec"><h3>Colophon</h3>
-      <p>Built as a single self-contained page &mdash; no frameworks, no tracking, works offline. Names are set in Iowan&nbsp;Old&nbsp;Style, the interface in Hanken&nbsp;Grotesk. Open source on <a class="ln" href="https://github.com/oddurs/kingdom" target="_blank" rel="noopener">GitHub</a>.</p></div>`;
+      <p>Built as a single self-contained page &mdash; no frameworks, no runtime dependencies, no tracking, no network calls. It renders ${totGen.toLocaleString()} genera from one HTML file and works offline. Names are set in Iowan&nbsp;Old&nbsp;Style, the interface in Hanken&nbsp;Grotesk. <a class="ln" href="https://github.com/oddurs/kingdom" target="_blank" rel="noopener">Source on GitHub</a> &mdash; the <a class="ln" href="https://github.com/oddurs/kingdom/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener">architecture notes</a> explain how.</p></div>`;
 }
 function kbd(...keys){ return keys.map(k=>`<span class="kbd">${k}</span>`).join(' '); }
 function controlsHTML(){
@@ -329,6 +338,28 @@ document.getElementById('footer').innerHTML =
 // The footer already names the sources; now it lets you ask about them.
 `<button class="k src fx" id="btnSourcesAbout" title="About Yggdrasil, the data &amp; sources">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</button>`;
 document.getElementById('footer').addEventListener('click', e=>{ if(e.target.closest('#btnSourcesAbout')) openModal(aboutHTML()); });
+
+// ---------- the first five seconds ----------
+// The welcome used to open by explaining the interface. Someone arriving cold
+// does not yet care how the controls work; they care whether there is anything
+// here worth knowing. So it opens with a fact instead — derived from the data,
+// so it cannot drift away from what the tree actually shows.
+(function openWithAFact(){
+  const lead=document.querySelector('.welcome .lead'); if(!lead) return;
+  let oldest=null, biggest=null;
+  eachNode(n=>{
+    if(n.rank!=='family') return;
+    if(n.ageMy!=null && (!oldest || n.ageMy>oldest.ageMy)) oldest=n;
+    if(n.speciesCount && (!biggest || n.speciesCount>biggest.speciesCount)) biggest=n;
+  });
+  if(!oldest||!biggest) return;
+  const share=Math.round(totVasc/biggest.speciesCount);
+  lead.innerHTML =
+    `<b>${escp(oldest.name)}</b> — the ginkgos — have stood for about `+
+    `<b>${Math.round(oldest.ageMy)} million years</b>, and one species is all that is left of them. `+
+    `<b>${escp(biggest.name)}</b> holds ${biggest.speciesCount.toLocaleString()} — roughly one plant in ${share}. `+
+    `Both are on this tree, with every other family of land plant.`;
+})();
 
 // ---------- header popover menus (G2) ----------
 let openMenu=null;
