@@ -232,8 +232,13 @@ async function layoutChecks() {
   const base = `http://127.0.0.1:${server.address().port}`;
   const profile = mkdtempSync(join(tmpdir(), "pages-"));
   const port = 9300 + (process.pid % 600);
+  // smoke.mjs and og.mjs both pass these on CI; this was the only browser-driving
+  // script without them, which is precisely why it was the only one that failed
+  // there. A container has a small /dev/shm and the runner needs --no-sandbox.
   const chrome = spawn(CHROME, ["--headless=new", `--remote-debugging-port=${port}`,
-    "--no-first-run", "--no-default-browser-check", `--user-data-dir=${profile}`, "about:blank"],
+    "--no-first-run", "--no-default-browser-check",
+    ...(process.env.CI ? ["--no-sandbox", "--disable-dev-shm-usage"] : []),
+    `--user-data-dir=${profile}`, "about:blank"],
     { stdio: "ignore" });
   // spawn reports a bad binary asynchronously; without this the process dies on an
   // unhandled 'error' and the suite reports nothing at all
@@ -242,7 +247,8 @@ async function layoutChecks() {
 
   try {
     let targets;
-    for (let i = 0; i < 40 && !targets && !spawnError; i++) {
+    // 10s was optimistic for a cold runner; og.mjs allows 20
+    for (let i = 0; i < 120 && !targets && !spawnError; i++) {
       try { targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json(); }
       catch { await new Promise((r) => setTimeout(r, 250)); }
     }
@@ -254,7 +260,7 @@ async function layoutChecks() {
     if (!page) {
       check("the layout checks could start a browser", false,
         spawnError ? `${CHROME}: ${spawnError.message}`
-                   : `${CHROME} did not answer on port ${port} within 10s`);
+                   : `${CHROME} did not answer on port ${port} within 30s`);
       return;
     }
     const ws = new WebSocket(page.webSocketDebuggerUrl);
