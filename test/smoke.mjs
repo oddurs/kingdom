@@ -391,6 +391,32 @@ async function main() {
     const rowFocus = await tabTo(".lrow");            // focus first: clicking a row swaps the list out for the detail card
     const rowClick = await clickAt(".lrow");
     const rowWorked = await until(`selected && document.getElementById('plist').hidden`);
+    // Past the point where the tree stops labelling, expanding a clade gives a
+    // dense unlabelled ring — the drawing has stopped answering "what is in here".
+    // The panel routes to the list that already exists, but only when the tree
+    // genuinely can't cope: a small family must not carry the affordance.
+    const browse = await ev(`(()=>{
+      const find=()=>[...document.querySelectorAll('#pactions .ctl')].find(b=>/Browse all/.test(b.textContent));
+      select(nodeByName('Matoniaceae'));
+      const small = !!find();
+      const big=nodeByName('Asteraceae'); select(big);
+      const btn=find(); if(!btn) return JSON.stringify({smallOffers:small, bigOffers:false});
+      btn.click();
+      const pl=document.getElementById('plist'), panel=document.getElementById('panel');
+      const out={ smallOffers:small, bigOffers:true, label:btn.textContent,
+        rows:pl.querySelectorAll('.lrow').length, listShown:!pl.hidden,
+        panelScrolls: panel.scrollHeight > panel.clientHeight };
+      pl.querySelector('.lrow').click();
+      out.navigatedTo = selected && selected.name;
+      out.returnedToDetail = pl.hidden;
+      return JSON.stringify(out);
+    })()`); await wait(200);
+    const BR = JSON.parse(browse);
+    check("a clade too large to draw offers its list, and only then",
+      BR.bigOffers && !BR.smallOffers && BR.rows === 1730 && BR.listShown
+      && BR.panelScrolls && !!BR.navigatedTo && BR.returnedToDetail, browse);
+    await ev(`closePanel(); clearStory()`); await wait(200);
+
     check("highlight list rows are clickable and focusable", rowClick === true && rowFocus === true && rowWorked === true,
       [rowClick, rowFocus].filter((r) => r !== true).map(String).join(" | "));
 

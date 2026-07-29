@@ -158,6 +158,22 @@ function select(n, opts){
     b.textContent=n.open?'Collapse':'Expand';
     b.onclick=()=>{ toggle(n); b.textContent=n.open?'Collapse':'Expand'; el&&el.classList.add('selected'); };
     act.appendChild(b); }
+  // Past DRILL_LABEL_MAX the tree stops labelling an expansion, so opening
+  // Asteraceae gives 1,730 anonymous rings — the drawing has stopped answering
+  // "what is in here". A list answers it, and the app already has one: the same
+  // panel face that shows highlight sets and filter matches. This is the route
+  // to it, offered exactly where the visualisation gives up.
+  {
+    const kids=n.children||[];
+    if(kids.length>DRILL_LABEL_MAX){
+      const unit = kids.every(k=>k.rank==='genus') ? 'genera' : 'taxa';
+      const lb=document.createElement('button'); lb.className='ctl';
+      lb.textContent=`Browse all ${kids.length.toLocaleString()}`;
+      lb.title=`List every ${unit==='genera'?'genus':'taxon'} in ${n.name} — more than the tree can label`;
+      lb.onclick=()=>showStoryList(`${n.name} · ${unit}`, kids);
+      act.appendChild(lb);
+    }
+  }
   if(hasKids && n!==ROOT && n!==renderRoot){ const fb=document.createElement('button'); fb.className='ctl';
     fb.textContent='Focus subtree'; fb.title='Zoom into just this clade';
     fb.onclick=()=>reroot(n); act.appendChild(fb); }

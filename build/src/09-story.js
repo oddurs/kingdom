@@ -41,7 +41,8 @@ function showStoryList(label, ns){
   panelFace(true);
   const pl=document.getElementById('plist');
   const unit = rows.every(n=>n.rank==='genus')?'genera':(rows.every(n=>n.rank==='family')?'families':'taxa');
-  pl.innerHTML = `<div class="lhead">${escp(label)}</div><div class="lsub">${rows.length} ${unit} &middot; tap one to explore</div>`+
+  // every count in this app carries thousands separators; the header read "1730"
+  pl.innerHTML = `<div class="lhead">${escp(label)}</div><div class="lsub">${rows.length.toLocaleString()} ${unit} &middot; tap one to explore</div>`+
     rows.map(n=>`<div class="lrow" data-id="${n._id}" role="button" tabindex="0"><span class="ldot" style="color:${color(n)}"></span>`+
       `<span class="ltx"><span class="lname">${escp(n.name)}</span>${n.common?` <span class="lcom">${escp(n.common)}</span>`:''}</span>`+
       `<span class="lcount">~${n.agg.toLocaleString()}</span></div>`).join('');
