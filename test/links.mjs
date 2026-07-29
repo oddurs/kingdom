@@ -32,13 +32,18 @@ const SOURCES = [
 ];
 
 // Not public URLs at all — documentation of local commands.
-const LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)/;
+const LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)([:\/]|$)/;
 
 // Skipped deliberately rather than silently: a skip is reported, so the list
 // can't grow into a way of hiding failures.
+//
+// Every pattern is anchored past the host — `^https://sftp.kew.org` without the
+// trailing slash also matches sftp.kew.org.example.com, which would let an
+// unrelated host inherit a skip. CodeQL flagged exactly this on its first run,
+// in the list whose entire purpose is not hiding things.
 const SKIP = [
-  /^https:\/\/sftp\.kew\.org/,        // SFTP over https, not a browsable page
-  /^https:\/\/img\.shields\.io/,      // badge service; its outage is not our bug
+  /^https:\/\/sftp\.kew\.org\//,       // SFTP over https, not a browsable page
+  /^https:\/\/img\.shields\.io\//,     // badge service; its outage is not our bug
   /^https:\/\/github\.com\/oddurs\/kingdom\/(security|issues|actions)/, // needs auth
 ];
 
