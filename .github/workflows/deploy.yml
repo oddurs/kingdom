@@ -35,7 +35,10 @@ jobs:
         with:
           chrome-version: stable
 
-      - run: npm ci
+      # npm exists only for the dev-only workshop, which is main-only now
+      - name: Install the workshop toolchain
+        if: github.ref == 'refs/heads/main'
+        run: npm ci
 
       - name: Build the app
         run: python3 build/build.py
@@ -45,7 +48,11 @@ jobs:
         env:
           CHROME: ${{ steps.chrome.outputs.chrome-path }}
 
+      # Deploy-only: the social image is consumed by the published page, and only
+      # main publishes. site.py reports it absent and carries on, and the PR's
+      # page checks don't look at it — verified.
       - name: Regenerate the social image
+        if: github.ref == 'refs/heads/main'
         run: node build/og.mjs
         env:
           CHROME: ${{ steps.chrome.outputs.chrome-path }}
@@ -55,6 +62,7 @@ jobs:
       # absent from that deploy.
       - name: Build the Storybook workshop
         id: storybook
+        if: github.ref == 'refs/heads/main'
         continue-on-error: true
         run: npm run build-storybook
 
@@ -67,7 +75,7 @@ jobs:
         run: node test/pages.mjs
 
       - name: Add the Storybook workshop
-        if: steps.storybook.outcome == 'success'
+        if: github.ref == 'refs/heads/main' && steps.storybook.outcome == 'success'
         run: |
           mkdir -p _site/storybook
           cp -r storybook-static/. _site/storybook/

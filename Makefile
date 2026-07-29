@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test test-pages check live site serve clean fonts og storybook storybook-build
+.PHONY: help build test test-pages check live links site serve clean fonts og storybook storybook-build
 
 help: ## show this help
 	@grep -hE '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -20,6 +20,9 @@ check: test test-pages ## build + both suites — the pre-commit gate
 
 live: build ## verify the PUBLISHED site — canonical resolves, robots/sitemap reachable
 	node test/live.mjs
+
+links: ## check the external URLs this project cites (DOIs, Kew, GBIF) still resolve
+	node test/links.mjs
 
 site: build ## assemble the deployable site into _site/ (app + 567 taxon pages)
 	python3 build/site.py

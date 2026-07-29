@@ -48,8 +48,11 @@ is dev-only tooling; the app ships with zero npm dependencies.
   a sitemap that matches the pages that exist, and no page overflowing a 390px
   viewport.
 
-There is also `make live`, which verifies the **published** site. It is the only
-place a canonical URL can be checked at all, and it runs in CI after deploy.
+Two more run on a schedule rather than per-commit, because they check the world
+rather than your change: `make live` verifies the **published** site (the only
+place a canonical URL can be checked at all — it also runs in CI after each
+deploy), and `make links` checks that the citations this project rests on still
+resolve. A weekly workflow runs both.
 
 **Add a check for what you changed.** Nearly every bug this project has shipped
 was invisible to the suite at the time. If you fix something, the fix should come
