@@ -141,15 +141,37 @@ function mark(name, s){                       // bold the matched substring
 }
 q.addEventListener('input', ()=>{ clearTimeout(qtimer); qtimer=setTimeout(runSearch,120); });
 q.addEventListener('focus', ()=>{ if(q.value.trim().length>=2) runSearch(); });
-function runSearch(){
-  const s=q.value.trim().toLowerCase();
-  if(s.length<2){ qhint.textContent=''; closeResults(); return; }
+let genusFallbackFor=null;   // set when a binomial was resolved to its genus
+function collectHits(term){
   const hits=[];
   (function w(n){
     const nm=n.name.toLowerCase(), cm=n.common?n.common.toLowerCase():'';
-    if(nm.includes(s)||cm.includes(s)) hits.push([nm.startsWith(s)?0:(cm.startsWith(s)?1:2), n]);   // prefix first
+    if(nm.includes(term)||cm.includes(term)) hits.push([nm.startsWith(term)?0:(cm.startsWith(term)?1:2), n]);   // prefix first
     (n.children||[]).forEach(w);
   })(ROOT);
+  return hits;
+}
+function runSearch(){
+  const s=q.value.trim().toLowerCase();
+  if(s.length<2){ qhint.textContent=''; closeResults(); return; }
+  let hits=collectHits(s);
+  // A binomial's first word IS its genus. "Rosa canina" matched nothing because
+  // no taxon is named that — the tree stops at genus — yet Rosa is right there,
+  // and a species name is the most natural thing for a visitor to type. Falling
+  // back to the first word resolves it with no species data at all; the results
+  // say what happened rather than silently showing something else.
+  genusFallbackFor = null;
+  if(!hits.length){
+    const words=s.split(/\s+/);
+    if(words.length>1 && words[0].length>=3){
+      // the first word of a binomial IS the genus, so match it exactly rather than
+      // as a substring — "Rosa canina" should not also offer Prosa
+      const g=collectHits(words[0]).filter(h=>h[1].rank==='genus');
+      const exact=g.filter(h=>h[1].name.toLowerCase()===words[0]);
+      const chosen = exact.length ? exact : g.filter(h=>h[1].name.toLowerCase().startsWith(words[0]));
+      if(chosen.length){ hits=chosen; genusFallbackFor=q.value.trim(); }
+    }
+  }
   hits.sort((a,b)=>a[0]-b[0]||a[1].name.length-b[1].name.length);
   const total=hits.length;
   hitList=hits.slice(0,RESULT_CAP).map(h=>h[1]);
@@ -163,7 +185,9 @@ function runSearch(){
       `<span class="qnm">${mark(n.name,s)}</span>`+
       (n.common?`<span class="qcm">${esch(n.common)}</span>`:'')+
       `<span class="qct">~${n.agg.toLocaleString()}</span></button>`; });
-    const more = total>RESULT_CAP ? `${total-RESULT_CAP} more · keep typing` : `${total} match${total===1?'':'es'}`;
+    const more = genusFallbackFor
+      ? `species aren't in the tree — showing the genus`
+      : (total>RESULT_CAP ? `${total-RESULT_CAP} more · keep typing` : `${total} match${total===1?'':'es'}`);
     rows+=`<div class="qfoot"><span>${more}</span><button data-act="surprise">Surprise me</button></div>`;
   }
   qres.innerHTML=rows; activeIdx=-1; q.removeAttribute('aria-activedescendant'); openResults();
