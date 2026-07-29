@@ -20,6 +20,7 @@ reasoning — including where the plan turned out to be wrong.
 | U | [Findable](sprint-u-findable.md) | 567 static taxon pages; a canonical that can't drift |
 | V | [Front Page](sprint-v-front-page.md) | Making the numbers defensible before an audience |
 | Y | [Deep Time](sprint-y-deep-time.md) | The timeline, rebuilt around framing rather than opacity |
+| AA | [Guardrails](sprint-aa-guardrails.md) | CI that holds: branch protection, CodeQL, a weekly health check |
 
 Not every sprint has a plan document — the design-system and navbar work (W, X)
 was built directly from a critique rather than a written plan. The commit
