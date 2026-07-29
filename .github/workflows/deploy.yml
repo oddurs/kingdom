@@ -71,8 +71,13 @@ jobs:
       - name: Assemble the Pages site
         run: python3 build/site.py
 
+      # This drives a browser too (the 390px layout checks) and needs the same
+      # managed Chrome the smoke suite gets. Without it, it fell back to guessing
+      # paths, found something that would not start, and died with a TypeError.
       - name: Check the generated taxon pages
         run: node test/pages.mjs
+        env:
+          CHROME: ${{ steps.chrome.outputs.chrome-path }}
 
       - name: Add the Storybook workshop
         if: github.ref == 'refs/heads/main' && steps.storybook.outcome == 'success'
