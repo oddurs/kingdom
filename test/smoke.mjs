@@ -291,6 +291,29 @@ async function main() {
     // search navigates
     await search("Poaceae");
     const qreach = await clickAt(".qrow", "Poaceae");
+    // The tree stops at genus, so "Rosa canina" matched nothing — the single most
+    // natural thing for a visitor to type. A binomial's first word IS its genus,
+    // so it resolves with no species data at all, and the result says so rather
+    // than silently showing something else.
+    const binomial = await ev(`(()=>{
+      const run=(t)=>{ closeResults&&closeResults(); const el=document.getElementById('q');
+        el.value=t; runSearch(); 
+        return { hits:[...document.querySelectorAll('.qrow .qnm')].map(e=>e.textContent.trim()),
+                 note:(document.querySelector('.qfoot')||{}).textContent||'' }; };
+      const rosa=run('Rosa canina'), nonsense=run('Zzz qqq'), plain=run('lavender');
+      return JSON.stringify({
+        resolvedTo: rosa.hits[0] || null,
+        onlyOne: rosa.hits.length === 1,
+        explained: /showing the genus/.test(rosa.note),
+        nonsenseStillFails: nonsense.hits.length === 0,
+        plainSearchUnaffected: plain.hits.length > 0 && !/showing the genus/.test(plain.note),
+      });})()`); await wait(200);
+    const BI = JSON.parse(binomial);
+    check("a species binomial resolves to its genus, and says so",
+      BI.resolvedTo === "Rosa" && BI.onlyOne && BI.explained
+      && BI.nonsenseStillFails && BI.plainSearchUnaffected, binomial);
+    await ev(`closeResults(); document.getElementById('q').value=''`); await wait(120);
+
     check("search result row is reachable and navigates", qreach === true && (await until(`selected && selected.name==='Poaceae'`)),
       qreach === true ? "" : String(qreach));
 
@@ -838,13 +861,28 @@ async function main() {
     await send("Emulation.clearDeviceMetricsOverride", {});
     await wait(300);
 
+    // The scene used to drift 5px/-4px on a 24s loop. On a diagram whose whole
+    // job is relative position, comparing two nodes meant comparing two moving
+    // targets — and it read as the canvas panning by itself while idle.
+    const drift = await ev(`(()=>{
+      const svg=document.getElementById('svg');
+      const anim=getComputedStyle(svg).animationName;
+      const t0=getComputedStyle(svg).transform;
+      return new Promise(res=>setTimeout(()=>res(JSON.stringify({
+        animationName:anim, movedWhileIdle: getComputedStyle(svg).transform !== t0,
+      })), 2500));
+    })()`);
+    const DR = JSON.parse(drift);
+    check("the scene does not drift while idle",
+      DR.animationName === "none" && DR.movedWhileIdle === false, drift);
+
     check("no console errors or exceptions", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 
   // reduced-motion: a fresh session with the media feature forced
   await session(["--force-prefers-reduced-motion"], async ({ ev, errors }) => {
     check("reduced-motion is active", (await ev(`matchMedia('(prefers-reduced-motion:reduce)').matches`)) === true);
-    check("ambient breathe is off under reduced-motion",
+    check("no ambient animation under reduced-motion",
       (await ev(`getComputedStyle(document.getElementById('svg')).animationName`)) === "none");
     await ev(`switchMode('tree'); (()=>{const n=nodeByName('Fabaceae'); if(n) toggle(n);})()`); await wait(500);
     check("structural change is instant (no animating class)",
