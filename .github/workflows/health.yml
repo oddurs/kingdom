@@ -1,0 +1,40 @@
+# Things that rot without anyone touching the repo.
+#
+# The deploy workflow proves a COMMIT is good. This proves the world around it
+# still is: the published site still serves, the canonical still resolves, every
+# URL in the sitemap is reachable, and the citations the About page rests on
+# haven't 404'd. None of that is a property of a change, so none of it belongs in
+# a PR gate — failing a contributor's build because Kew is down would be noise.
+name: health
+
+on:
+  schedule:
+    - cron: "17 7 * * 1"      # Mondays, 07:17 UTC — off the hour, so not in the stampede
+  workflow_dispatch:           # and on demand, e.g. before announcing anything
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # live.mjs reads the canonical out of a fresh build, so it checks what this
+      # commit claims rather than what the deployed page happens to say
+      - name: Build the app
+        run: python3 build/build.py
+
+      - name: The published site still serves
+        run: node test/live.mjs
+
+      - name: The citations still resolve
+        run: node test/links.mjs
