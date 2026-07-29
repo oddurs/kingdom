@@ -235,14 +235,29 @@ async function layoutChecks() {
   const chrome = spawn(CHROME, ["--headless=new", `--remote-debugging-port=${port}`,
     "--no-first-run", "--no-default-browser-check", `--user-data-dir=${profile}`, "about:blank"],
     { stdio: "ignore" });
+  // spawn reports a bad binary asynchronously; without this the process dies on an
+  // unhandled 'error' and the suite reports nothing at all
+  let spawnError = null;
+  chrome.on("error", (e) => { spawnError = e; });
 
   try {
     let targets;
-    for (let i = 0; i < 40 && !targets; i++) {
+    for (let i = 0; i < 40 && !targets && !spawnError; i++) {
       try { targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json(); }
       catch { await new Promise((r) => setTimeout(r, 250)); }
     }
-    const ws = new WebSocket(targets.find((t) => t.type === "page").webSocketDebuggerUrl);
+    // A browser that never answers is a real failure and must say so. This used
+    // to fall through and throw "Cannot read properties of undefined (reading
+    // 'find')", which says nothing about the browser and sent the diagnosis
+    // toward the deploy action that happened to be in the same commit.
+    const page = targets && targets.find((t) => t.type === "page");
+    if (!page) {
+      check("the layout checks could start a browser", false,
+        spawnError ? `${CHROME}: ${spawnError.message}`
+                   : `${CHROME} did not answer on port ${port} within 10s`);
+      return;
+    }
+    const ws = new WebSocket(page.webSocketDebuggerUrl);
     await new Promise((r) => ws.addEventListener("open", r));
     let id = 0;
     const pending = new Map();
@@ -304,8 +319,13 @@ async function layoutChecks() {
     // failed this job on CI with every check already green. Removing a temp dir
     // is housekeeping, not an assertion — the OS reclaims /tmp regardless, so it
     // must never be the thing that decides whether the suite passed.
+    // Race the exit: a browser that never started has no 'exit' to wait for, and
+    // awaiting it unconditionally hung the suite instead of reporting the failure.
     chrome.kill();
-    await once(chrome, "exit").catch(() => {});
+    await Promise.race([
+      once(chrome, "exit").catch(() => {}),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
     server.close();
     try {
       rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
