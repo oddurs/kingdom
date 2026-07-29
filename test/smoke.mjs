@@ -291,6 +291,29 @@ async function main() {
     // search navigates
     await search("Poaceae");
     const qreach = await clickAt(".qrow", "Poaceae");
+    // The tree stops at genus, so "Rosa canina" matched nothing — the single most
+    // natural thing for a visitor to type. A binomial's first word IS its genus,
+    // so it resolves with no species data at all, and the result says so rather
+    // than silently showing something else.
+    const binomial = await ev(`(()=>{
+      const run=(t)=>{ closeResults&&closeResults(); const el=document.getElementById('q');
+        el.value=t; runSearch(); 
+        return { hits:[...document.querySelectorAll('.qrow .qnm')].map(e=>e.textContent.trim()),
+                 note:(document.querySelector('.qfoot')||{}).textContent||'' }; };
+      const rosa=run('Rosa canina'), nonsense=run('Zzz qqq'), plain=run('lavender');
+      return JSON.stringify({
+        resolvedTo: rosa.hits[0] || null,
+        onlyOne: rosa.hits.length === 1,
+        explained: /showing the genus/.test(rosa.note),
+        nonsenseStillFails: nonsense.hits.length === 0,
+        plainSearchUnaffected: plain.hits.length > 0 && !/showing the genus/.test(plain.note),
+      });})()`); await wait(200);
+    const BI = JSON.parse(binomial);
+    check("a species binomial resolves to its genus, and says so",
+      BI.resolvedTo === "Rosa" && BI.onlyOne && BI.explained
+      && BI.nonsenseStillFails && BI.plainSearchUnaffected, binomial);
+    await ev(`closeResults(); document.getElementById('q').value=''`); await wait(120);
+
     check("search result row is reachable and navigates", qreach === true && (await until(`selected && selected.name==='Poaceae'`)),
       qreach === true ? "" : String(qreach));
 
