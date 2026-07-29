@@ -198,15 +198,15 @@
   main.stage.grabbing{cursor:grabbing}
   svg{width:100%; height:100%; display:block; position:relative; z-index:1}
   #viewport{will-change:transform}
-  /* ambient "living pulse": the whole organism breathes and drifts, very slowly (D3).
-     Purely decorative, compositor-driven, and off entirely under reduced-motion. */
-  @media (prefers-reduced-motion: no-preference){
-    @keyframes scenebreathe{ 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(5px,-4px) scale(1.006)} }
-    svg#svg{ transform-origin:50% 50%; animation:scenebreathe 24s ease-in-out infinite; }
-    /* E4: freeze the whole-scene breathe when many nodes are mounted — a continuously animating
-       transform recomposites every node each frame. Pausing holds it mid-drift (no jump). */
-    .stage.busy svg#svg{ animation-play-state:paused; }
-  }
+  /* The ambient "living pulse" is gone — a 24s drift of 5px/-4px plus a 1.006
+     scale applied to the whole scene (D3). It read as the canvas quietly panning
+     while you were trying to read it, which on a diagram whose whole job is
+     relative position is the wrong kind of motion: comparing two nodes meant
+     comparing two moving targets. It also had to be switched off above 240
+     mounted nodes because a continuously animating transform recomposites every
+     node each frame — a decoration that must be disabled once the app is doing
+     real work is a decoration worth removing. Meaningful motion stays: growth,
+     morphs, ripples, the timeline. */
   /* The pulsing second bloom (.stage::after, a #1a2d24 radial on a 9s opacity
      cycle) is gone. It was the third green layer, and the one doing the most to
      make the background feel like weather. The scene still breathes — that is

@@ -32,7 +32,6 @@ let _vw=1400, _vh=880;               // cached stage size (avoid getBoundingClie
 let _cullX=1e9, _cullY=1e9, _cullK=0;  // T at the last cull — re-cull only after enough motion
 function refreshStageSize(){ const r=stage.getBoundingClientRect(); if(r.width) _vw=r.width; if(r.height) _vh=r.height; }
 const CULL_MIN=400, CULL_MARGIN=340; // small trees mount whole (cull overhead not worth it)
-const BREATHE_MAX=240;               // above this many mounted nodes, pause the ambient scene breathe
 function virtualOn(){ return (mode==='tree'||mode==='radial') && !_structRunning && lastLayout && lastLayout.nodes.length>=CULL_MIN; }
 function inView(n){ const sx=n.x*T.k+T.x, sy=n.y*T.k+T.y;
   return sx>=-CULL_MARGIN && sx<=_vw+CULL_MARGIN && sy>=-CULL_MARGIN && sy<=_vh+CULL_MARGIN; }
@@ -110,7 +109,6 @@ function applyMount(repos){
   for(const [id,el] of [...linkEls]){ if(!keepL.has(id)){ linkEls.delete(id);
     if(_deferStale){ _deferStale.links.push([id,el]); } else el.remove(); } }
   _cullX=T.x; _cullY=T.y; _cullK=T.k;
-  stage.classList.toggle('busy', keep.size>BREATHE_MAX);   // pause the scene breathe when heavy
   labelLOD();
   if(timeMode) applyTime();          // keep newly-mounted nodes consistent with the time curtain
 }
