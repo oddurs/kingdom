@@ -160,7 +160,7 @@ async function session(flags, run) {
     await ev(`(()=>{const w=document.getElementById('wexplore'); if(w) w.click();})()`);
     await wait(600);
 
-    return await run({ ev, errors, send, clickAt, tabTo, reach });
+    return await run({ ev, errors, send, clickAt, tabTo });
   } finally {
     proc.kill();
     await Promise.race([once(proc, "exit"), wait(4000)]);   // don't race the next session onto this port
@@ -191,7 +191,7 @@ const near = (a, b, tol) => typeof a === "number" && Math.abs(a - b) <= tol;
 async function main() {
   console.log(`smoke: ${TARGET}\n`);
 
-  await session([], async ({ ev, errors, send, clickAt, tabTo, reach }) => {
+  await session([], async ({ ev, errors, send, clickAt, tabTo }) => {
     // wait for an expected condition rather than a fixed sleep — view morphs and the
     // treemap/sunburst crossfade land on their own timers, so we poll for the outcome.
     const until = async (expr) => {
@@ -387,16 +387,39 @@ async function main() {
     // '.node' nor an overlay, so the background handler closed the panel on every
     // breadcrumb. The fix decides from the press, so these have to be *real* input:
     // clickAt() dispatches MouseEvents only, and never produces a pointerdown.
+    // The probe is a constant: its arguments travel over the protocol as values
+    // rather than being spliced into JavaScript source. Building the source would
+    // be a CodeQL finding and a real hazard the day a selector holds a quote.
+    // It also scrolls first — a control below the panel's fold is off-screen until
+    // you bring it into view, which is what a reader does before clicking it.
+    const PROBE = `function(sel, text){
+      const all=[...document.querySelectorAll(sel)];
+      const el = text==null ? all[0] : all.find(e=>e.textContent.includes(text));
+      const d=e=>e ? e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+(e.getAttribute('class')?'.'+e.getAttribute('class').trim().split(/\\s+/).join('.'):'') : 'nothing';
+      if(!el) return 'no element matches '+sel+(text==null?'':' containing '+text);
+      el.scrollIntoView({block:'center'});
+      const r=el.getBoundingClientRect();
+      if(!r.width || !r.height) return d(el)+' has zero size';
+      const x=r.left+r.width/2, y=r.top+r.height/2;
+      if(x<0 || y<0 || x>innerWidth || y>innerHeight) return d(el)+' centre is off-screen';
+      const hit=document.elementFromPoint(x,y);
+      if(!hit) return 'nothing is at the centre of '+d(el);
+      if(hit!==el && !el.contains(hit)) return d(el)+' is covered by '+d(hit);
+      return {x,y};
+    }`;
+    let pageObj = null;
+    const probe = async (sel, text) => {
+      if (!pageObj) pageObj = (await send("Runtime.evaluate", { expression: "window" })).result.objectId;
+      const r = await send("Runtime.callFunctionOn", {
+        functionDeclaration: PROBE, objectId: pageObj, returnByValue: true,
+        arguments: [{ value: sel }, { value: text === undefined ? null : text }],
+      });
+      return r.result.value;
+    };
     const press = async (sel, text) => {
-      // the panel scrolls; a control below its fold is off-screen until you bring
-      // it into view, which is what a reader does before clicking it
-      await ev(`(()=>{ const e=${text === undefined
-        ? `document.querySelector(${JSON.stringify(sel)})`
-        : `[...document.querySelectorAll(${JSON.stringify(sel)})].find(x=>x.textContent.includes(${JSON.stringify(text)}))`};
-        if(e) e.scrollIntoView({block:'center'}); })()`);
+      await probe(sel, text);          // first call scrolls it into view…
       await wait(80);
-      const at = await ev(`(()=>{ const t=${reach(sel, text)};
-        return typeof t==='string' ? t : {x:t.x, y:t.y}; })()`);
+      const at = await probe(sel, text);   // …second measures where it settled
       if (typeof at === "string") return at;
       for (const type of ["mousePressed", "mouseReleased"])
         await send("Input.dispatchMouseEvent", { type, x: at.x, y: at.y, button: "left", clickCount: 1, buttons: type === "mousePressed" ? 1 : 0 });
@@ -420,7 +443,7 @@ async function main() {
     const bg = await ev(`(()=>{ const r=document.getElementById('stage').getBoundingClientRect();
       for(let y=r.top+40; y<r.bottom-40; y+=17) for(let x=r.left+12; x<r.left+180; x+=13){
         const h=document.elementFromPoint(x,y);
-        if(h && !h.closest('.node') && !h.closest(${JSON.stringify("#panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar,.modal,.comparebar,.legendbar")})) return {x,y};
+        if(h && !h.closest('.node') && !h.closest('#panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar,.modal,.comparebar,.legendbar')) return {x,y};
       } return 'no empty background point found'; })()`);
     if (typeof bg === "string") check("clicking empty background closes the panel", false, bg);
     else {
