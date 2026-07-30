@@ -274,6 +274,16 @@ def validate(meta, taxa):
         if t.get("blurb") and quoted.search(t["blurb"]):
             errors.append(f"{t['id']!r}: blurb quotes a species count — the sourced "
                           f"figure is displayed beside it: {t['blurb']!r}")
+    # This file's own docstring has always said taxa.json is validated against
+    # data/taxon.schema.json. Nothing read the schema. What actually rots is
+    # `additionalProperties: false` — a field added to the data and never written
+    # down — so that is the part enforced here, still with no dependency.
+    known = set(read_json(SCHEMA).get("properties", {}))
+    for i, t in enumerate(taxa):
+        undeclared = sorted(set(t) - known)
+        if undeclared:
+            errors.append(f"taxa[{i}] {t.get('id', '?')!r}: "
+                          f"{', '.join(undeclared)} not declared in {SCHEMA.name}")
     return errors
 
 
@@ -326,7 +336,20 @@ def build_tree(taxa, genera_by_family=None):
     return node(root)
 
 
+def require_inputs() -> None:
+    """Every input here is committed, so a missing one is a broken checkout rather
+    than a valid build. Both data files used to be guarded with `if EXISTS`: remove
+    genera.json and the build printed "611 taxa + 0 genera", exited 0, and wrote a
+    page with 611 nodes instead of 14,740 — half the payload, no warning, and only
+    the smoke suite to catch it."""
+    missing = [p for p in (DATA, GENERA, WORLDMAP, SCHEMA) if not p.exists()]
+    if missing:
+        raise SystemExit("missing committed input(s): "
+                         + ", ".join(str(p.relative_to(ROOT)) for p in missing))
+
+
 def main() -> None:
+    require_inputs()
     doc = read_json(DATA)
     meta, taxa = doc["meta"], doc["taxa"]
 
@@ -339,10 +362,9 @@ def main() -> None:
 
     genera_by_family = {}
     ngenera = 0
-    if GENERA.exists():
-        for g in read_json(GENERA):
-            genera_by_family.setdefault(g["family"], []).append(g)
-            ngenera += 1
+    for g in read_json(GENERA):
+        genera_by_family.setdefault(g["family"], []).append(g)
+        ngenera += 1
 
     # warn on genera whose family name matches no family taxon — they are silently dropped
     family_names = {t["name"] for t in taxa if t.get("rank") == "family"}
@@ -359,8 +381,7 @@ def main() -> None:
     # crawlable index quote one derivation rather than each doing their own
     sourced, estimated = provenance_split(taxa, genera_by_family)
     data["totals"] = {"sourced": sourced, "estimated": estimated}
-    if WORLDMAP.exists():
-        data["worldmap"] = read_json(WORLDMAP)
+    data["worldmap"] = read_json(WORLDMAP)
 
     # Assemble the single self-contained page: the HTML shell with the CSS and the
     # concatenated JS modules inlined, then the data injected.
