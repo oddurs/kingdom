@@ -12,6 +12,8 @@ Pipeline:  data/taxa.json  (flat, source of truth)
 
 Usage:  python3 build/build.py
 """
+import datetime
+import hashlib
 import html
 import json
 import re
@@ -117,8 +119,13 @@ def seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated):
     records.append(f"the largest family is <b>{esc(by_rich[0]['name'])}</b> "
                    f"(~{by_rich[0].get('speciesCount', 0):,} species)")
     if oldest:
+        # The winner is Ginkgoaceae, whose 269.7 Ma is a *stem* age — provenance
+        # 'megatree-stem'. The panel and the family pages both read the provenance
+        # before naming the figure; this, the one surface Google indexes, hard-coded
+        # "crown".
+        kind = "stem" if str((oldest.get("provenance") or {}).get("ageMy", "")).endswith("stem") else "crown"
         records.append(f"the oldest surviving lineage here is <b>{esc(oldest['name'])}</b> "
-                       f"(crown ≈{round(oldest['ageMy'])} million years)")
+                       f"({kind} age ≈{round(oldest['ageMy'])} million years)")
     records.append(f"the most widely distributed is <b>{esc(widest['name'])}</b>")
     src_list = "".join(f"<li>{esc(n)}</li>" for n in cites)
 
@@ -169,6 +176,11 @@ MODULES = [
 NODE_FIELDS = ["name", "rank", "common", "speciesCount", "examples", "blurb", "ids", "dist", "ageMy"]
 
 
+# One rule, two surfaces: prose may not quote a count the UI already prints
+# beside it. Used by validate() for the blurbs and check_narration() for the tours.
+QUOTED_COUNT = re.compile(r"\d[\d,]*\+?\s*(?:species|gener(?:a|ic)|genus)\b", re.I)
+
+
 def check_collisions():
     """Fail the build on a duplicate top-level declaration across the JS modules.
 
@@ -187,6 +199,27 @@ def check_collisions():
     if dupes:
         lines = "\n".join(f"  {n}: {', '.join(ms)}" for n, ms in sorted(dupes.items()))
         raise SystemExit(f"duplicate top-level declarations (one scope, last one wins):\n{lines}")
+
+
+def check_narration():
+    """Hold the guided tours to the rule the blurbs already follow.
+
+    Sprint V stripped self-quoted counts from 41 blurbs because the sourced figure
+    is printed right beside them. The tour narration does exactly the same thing —
+    showTourStep() calls select(), so the panel renders alongside the prose — but
+    it lives in 09-story.js, where validate() never looked. It had drifted: the
+    orchid step said "Around 28,000 species — the largest family of flowering
+    plants" while the panel beside it read 31,892 and "2nd-largest of 479
+    families", and the angiosperm step said 340,000 against an aggregate of 350,580.
+    """
+    src = (SRC / "09-story.js").read_text(encoding="utf-8")
+    start = src.index("const TOURS")
+    block = src[start:src.index("\n};", start)]
+    bad = QUOTED_COUNT.findall(block)
+    if bad:
+        raise SystemExit(
+            "09-story.js tour narration quotes a count, and the panel prints the "
+            f"sourced figure beside it: {', '.join(sorted(set(bad)))}")
 
 
 def agg_species(node):
@@ -269,10 +302,14 @@ def validate(meta, taxa):
     # both print the sourced figure immediately beside the blurb, so a number in
     # the prose is redundant at best — and 16 of them were more than 15% adrift
     # (Theaceae read "~200 species" next to a sourced 388).
-    quoted = re.compile(r"[\d,]{3,}\+?\s*species", re.I)
+    #
+    # `[\d,]{3,}` means three or more digits, so every two-digit claim walked
+    # through it: Sarraceniaceae said "~30+ species" beside a sourced 54, Clethraceae
+    # "~75" beside 100. Genus counts were never guarded at all, though the panel
+    # prints genCount just as prominently. Any digit, either unit, now.
     for t in taxa:
-        if t.get("blurb") and quoted.search(t["blurb"]):
-            errors.append(f"{t['id']!r}: blurb quotes a species count — the sourced "
+        if t.get("blurb") and QUOTED_COUNT.search(t["blurb"]):
+            errors.append(f"{t['id']!r}: blurb quotes a count — the sourced "
                           f"figure is displayed beside it: {t['blurb']!r}")
     # This file's own docstring has always said taxa.json is validated against
     # data/taxon.schema.json. Nothing read the schema. What actually rots is
@@ -348,11 +385,48 @@ def require_inputs() -> None:
                          + ", ".join(str(p.relative_to(ROOT)) for p in missing))
 
 
+def check_stamp(meta, taxa) -> None:
+    """Fail the build when the data has moved on from the date it claims.
+
+    `meta.compiled` is what the sitemap hands crawlers as `lastmod` for all 567
+    URLs — pages.py chose it over build time deliberately, since these pages are a
+    pure function of the data. But it was written once in P1 and never touched
+    again through four rewrites of taxa.json, so it said 2026-07-02 while the prose
+    it dated had changed on 2026-07-27. pages.py's own comment warns that Google
+    discounts a lastmod it catches lying.
+
+    A date nobody is obliged to update is a date that rots, so the stamp now
+    carries a fingerprint of the records it describes. Change the data and the
+    build stops until the date is restated: `python3 build/build.py --stamp`.
+    """
+    digest = hashlib.sha256(
+        json.dumps(taxa, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        .encode("utf-8")).hexdigest()[:16]
+    if meta.get("dataStamp") == digest:
+        return
+    if "--stamp" in sys.argv:
+        raw = DATA.read_text(encoding="utf-8")
+        today = datetime.date.today().isoformat()
+        for key, value in (("compiled", today), ("dataStamp", digest)):
+            old = f'"{key}": {json.dumps(meta.get(key))}'
+            raw = (raw.replace(old, f'"{key}": "{value}"', 1) if old in raw
+                   else raw.replace('"compiled":', f'"{key}": "{value}",\n  "compiled":', 1))
+        DATA.write_text(raw, encoding="utf-8")
+        print(f"stamped {DATA.name}: compiled {today}, dataStamp {digest}")
+        raise SystemExit(0)
+    raise SystemExit(
+        f"data/taxa.json has changed since it was stamped {meta.get('compiled', '?')} "
+        f"(expected dataStamp {digest}, found {meta.get('dataStamp')!r}).\n"
+        "The sitemap dates all 567 URLs from meta.compiled, so changed data needs a "
+        "restated date:\n  python3 build/build.py --stamp")
+
+
 def main() -> None:
     require_inputs()
     doc = read_json(DATA)
     meta, taxa = doc["meta"], doc["taxa"]
 
+    check_stamp(meta, taxa)
     errors = validate(meta, taxa)
     if errors:
         print(f"validation FAILED ({len(errors)} error(s)):", file=sys.stderr)
@@ -389,6 +463,7 @@ def main() -> None:
     css = "".join(p.read_text(encoding="utf-8") for p in CSS_PARTS)
     js = "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
     check_collisions()
+    check_narration()
     total_spp = agg_species(tree)
     # the split must account for exactly the aggregate the app sizes branches from,
     # or the page would describe a total it isn't showing

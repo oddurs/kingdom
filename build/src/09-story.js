@@ -146,8 +146,8 @@ const TOURS = {
     {name:'Bryophytes', text:'It begins low and damp. Mosses, liverworts and hornworts are the first plants to leave the water — but not its embrace: they still need a film of moisture to reproduce, and never grow true roots or wood.'},
     {name:'Polypodiopsida', text:'Ferns invent plumbing. True vascular tissue carries water upward, so they can stand tall and green the forest floor and canopy — a full 200 million years before the first flower.'},
     {name:'Gymnosperms', text:'The seed changes everything. Conifers, cycads and ginkgo wrap the next generation in a portable, drought-proof package of naked seeds, and clothe the world through the age of dinosaurs.'},
-    {name:'Angiosperms', text:'Then the flower — and an explosion. Enclosed seeds, fruit, and a bargain struck with pollinators launch the flowering plants to roughly 340,000 species, the overwhelming majority of plant life today.'},
-    {name:'Orchidaceae', text:'Its most extravagant peak: the orchids. Around 28,000 species — the largest family of flowering plants — each a specialist in seduction, from bee-mimics to vanilla.'}
+    {name:'Angiosperms', text:'Then the flower — and an explosion. Enclosed seeds, fruit, and a bargain struck with pollinators launch the flowering plants to the overwhelming majority of plant life today.'},
+    {name:'Orchidaceae', text:'Its most extravagant peak: the orchids — one of the two largest families of flowering plants, each a specialist in seduction, from bee-mimics to vanilla.'}
   ]},
   dinner:{ label:'Where dinner comes from', steps:[
     {name:'Poaceae', text:'Almost every calorie starts here. The grasses — wheat, rice, maize, barley, sugarcane — feed civilisation, quietly the most important plant family on Earth.'},
