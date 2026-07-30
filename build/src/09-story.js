@@ -106,15 +106,26 @@ function applyHash(){
     const fo=params.get('fo');
     if(fo){ const fn=nodeByName(fo); if(fn && (fn.children||[]).length){ renderRoot=fn; fn.open=true; updateFocusBar(); } }
     render(); if(mode!=='treemap' && mode!=='sunburst') relabelAll();
+    // Every facet is checked against the values its own UI can produce. `c` and `m`
+    // always were; the rest were taken on trust, so #fl=notALineage&fg=42&fa=garbage
+    // set them verbatim and shareHash() handed the same nonsense straight back out.
+    // #t=abc was the worst: +t is NaN, which made the readout say "NaN Ma", put
+    // aria-valuenow="NaN" on a role="slider", and re-emitted #t=NaN — all without
+    // throwing, so the suite's no-console-errors check could never have seen it.
     let fset=false;
-    const fr=params.get('fr'), fl=params.get('fl'), fg=params.get('fg'), fa=params.get('fa');
-    if(fr){ filter.rich=+fr||null; fset=true; }
+    const facet=(key, ok)=>{ const v=params.get(key); return (v && ok(v)) ? v : null; };
+    const fr=facet('fr', v=>F_RICH.some(([,n])=>n!=null && String(n)===v));
+    const fl=facet('fl', v=>order.includes(v));
+    const fg=facet('fg', v=>Object.prototype.hasOwnProperty.call(CONTINENT_COL, v));
+    const fa=facet('fa', v=>F_AGE.some(([,k])=>k!=null && k===v));
+    if(fr){ filter.rich=+fr; fset=true; }
     if(fl){ filter.lineage=fl; fset=true; }
     if(fg){ filter.region=fg; fset=true; }
     if(fa){ filter.age=fa; fset=true; }
     if(fset){ buildFilterUI(); applyFilter(); }
     const hl=params.get('hl'); if(hl && STORIES[hl]) setStory(hl);
-    const t=params.get('t'); if(t!=null && t!==''){ if(!timeMode) enterTime(); setTime(+t); }
+    const t=Number(params.get('t'));
+    if(params.get('t') && Number.isFinite(t) && t>=0 && t<=TMAX){ if(!timeMode) enterTime(); setTime(t); }
     const sel=params.get('sel'); let selN=null; if(sel){ selN=nodeByName(sel); if(selN) select(selN); }
     if(!selN) fit(0);                          // no chosen node → frame whatever the link asked for
   } finally { _applyingHash=false; _lastHash=shareHash().replace(/^#/,''); }

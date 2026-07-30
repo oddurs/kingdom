@@ -693,6 +693,61 @@ async function main() {
       `back=${wentBack} forward=${wentFwd}`);
     await ev(`closePanel(); history.replaceState(null,'',location.pathname);`); await wait(120);
 
+    // The hash is the only untrusted input this app accepts, and five of its nine
+    // parameters were taken on trust. #t=abc made timeNow NaN — a readout reading
+    // "NaN Ma · Quaternary" and aria-valuenow="NaN" on a role="slider" — and then
+    // shareHash() handed the corruption back out, so Share propagated it. Nothing
+    // threw, which is exactly why the no-console-errors check couldn't see it.
+    const junk = await ev(`(()=>{
+      history.pushState(null,'','#t=abc&fl=notALineage&fg=42&fa=garbage&fr=notANumber&m=nope&c=nope');
+      applyHash();
+      const tb=document.getElementById('timebar');
+      return JSON.stringify({
+        emitted: shareHash(),
+        filter: {...filter},
+        timeNow: typeof timeNow==='number' ? (Number.isFinite(timeNow)?'finite':'NaN') : String(timeNow),
+        readout: tb.textContent,
+        aria: (tb.querySelector('[role=slider]')||{getAttribute:()=>null}).getAttribute('aria-valuenow'),
+      });})()`); await wait(300);
+    const J = JSON.parse(junk);
+    check("a malformed link is refused, not absorbed",
+      !/NaN|notALineage|garbage|notANumber|nope|42/.test(J.emitted + J.readout + String(J.aria))
+      && J.timeNow !== "NaN"
+      && Object.values(J.filter).every((v) => v === null), junk);
+    await ev(`resetView(); history.replaceState(null,'',location.pathname);`); await wait(200);
+
+    // …and a link the app itself produced must survive the round trip, which is the
+    // one property that makes Share trustworthy. Compared as sets: the emitted order
+    // is shareHash()'s business, not the caller's.
+    const same = (a, b) => JSON.stringify([...new URLSearchParams(a.replace(/^#/, ""))].sort())
+                        === JSON.stringify([...new URLSearchParams(b.replace(/^#/, ""))].sort());
+    for (const [what, hash] of [
+      ["view + colour + focus + selection", "#m=tree&c=region&fo=Asteraceae&sel=Asteraceae"],
+      ["filter facets", "#fr=1000&fl=rosid&fa=ancient"],
+      ["time", "#t=120"],
+    ]) {
+      await ev(`resetView(); history.pushState(null,'','${hash}'); applyHash();`); await wait(400);
+      const out = await ev(`shareHash()`);
+      check(`a shared link round-trips — ${what}`, same(hash, out), `${hash} → ${out}`);
+    }
+    await ev(`resetView(); history.replaceState(null,'',location.pathname);`); await wait(200);
+
+    // Leaving the timeline does clear t= from the address bar, but only indirectly:
+    // exitTime() clears timeMode, then calls pausePlay(), whose replaceHash() is what
+    // actually rewrites the URL. Nothing says so at either site, and a reader tidying
+    // pausePlay() out of exitTime() would strand #t=340 over a present-day tree.
+    // Asserted on location.hash rather than shareHash(), which stops emitting t= on
+    // its own the moment timeMode clears and so would pass either way. replaceHash()
+    // below because setTime() deliberately doesn't write — the scrubber reflects a
+    // settled time, on pointerup, rather than flooding history.
+    await ev(`enterTime(); setTime(200); replaceHash();`); await wait(300);
+    const tOn = await ev(`location.hash`);
+    await ev(`exitTime()`); await wait(250);
+    const tOff = await ev(`location.hash`);
+    check("leaving the timeline takes its time out of the URL",
+      /t=200/.test(tOn) && !/t=/.test(tOff), `${tOn || "(empty)"} → ${tOff || "(empty)"}`);
+    await ev(`resetView(); history.replaceState(null,'',location.pathname);`); await wait(200);
+
     // The focused subtree is view state like any other: it belongs in the URL, Back
     // has to unwind it, and nothing may select a taxon it doesn't contain. It used
     // to do none of the three — a shared link dropped the focus, Back left the
