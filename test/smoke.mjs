@@ -619,6 +619,32 @@ async function main() {
     check("undated lineages are marked, not silently dated",
       DT.undatedMarked > 0 && DT.undatedCounted > 0, deep);
 
+    // The picture and the number describe the same screen, so they must agree at
+    // every instant. They did not: the render stamped __age = effAge while the
+    // readout used `ageMy ?? effAge`, and the two diverge for twelve taxa — all of
+    // them headline clades. Lamiales is the worst: crown 71.0 vs effAge 135.8, so
+    // anywhere between them it was drawn at full opacity and left out of the count.
+    const agree = await ev(`(()=>{
+      const bad=[];
+      for(const t of [50,100,140,200,300]){
+        setTime(t);
+        const r=timeReadout();
+        let drawn=0;
+        for(const n of visibleNodes){
+          if(n.rank==='genus') continue;
+          const el=nodeEls.get(n._id);
+          if(el && el.__age!=null && t<=el.__age) drawn++;
+        }
+        if(drawn!==r.originated) bad.push({t, drawn, counted:r.originated});
+      }
+      const lam=nodeByName('Lamiales');
+      setTime(0);
+      return JSON.stringify({bad, gap:+(lam.effAge-lam.ageMy).toFixed(1)});
+    })()`); await wait(300);
+    const AG = JSON.parse(agree);
+    check("every lineage the timeline draws is one it counts", AG.bad.length === 0,
+      AG.bad.length ? JSON.stringify(AG.bad) : `checked 5 instants; Lamiales crown/effAge gap ${AG.gap} Ma`);
+
     // ...but only while the clock is in deep time. At the present the tree is
     // simply today: nothing is uncertain, and 17 dashed nodes read as broken.
     const atNow = await ev(`(()=>{
