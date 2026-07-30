@@ -477,12 +477,17 @@ let timeFitRAF=0, timeHandOff=false, timeLastPeriod=null;
 // stay on screen (they are marked as undated, not hidden) but must NOT drive the
 // fit — every one of the 14k genera is undated, so counting them would make the
 // "living tree" the whole tree and the frame would never close in.
+// The timeline asks "when does this lineage first appear", and only effAge answers
+// it consistently: it is the max over the subtree, so a parent never appears later
+// than its earliest child. `ageMy ?? effAge` is a different question — "what is this
+// taxon's own dated age" — which the panel asks, and labels with its provenance
+// (crown / stem / oldest dated descendant). Mixing them is what broke this: the
+// render stamped __age = effAge while the readout used ageMy, so at 100 Ma Lamiales
+// (crown 71.0, effAge 135.8) was drawn at full opacity and excluded from the count
+// describing the same screen. Twelve taxa diverge, all of them headline clades.
 function livingNodes(){
   const out=[];
-  for(const n of visibleNodes){
-    const a = n.ageMy!=null ? n.ageMy : n.effAge;
-    if(a!=null && timeNow<=a) out.push(n);
-  }
+  for(const n of visibleNodes) if(n.effAge!=null && timeNow<=n.effAge) out.push(n);
   return out;
 }
 function timeFrameStep(){
@@ -493,7 +498,7 @@ function timeFrameStep(){
   // bryophytes. Frame those rather than freezing on the last fit; it is still
   // honest, since we are framing what is actually visible.
   let alive=livingNodes();
-  if(alive.length<2) alive=visibleNodes.filter(n=>(n.ageMy!=null?n.ageMy:n.effAge)==null);
+  if(alive.length<2) alive=visibleNodes.filter(n=>n.effAge==null);
   if(alive.length<2) return;
   const tgt=computeFitT(alive, mode);
   // settle rather than jitter: stop once the remaining move is sub-pixel
@@ -551,7 +556,7 @@ function timeReadout(){
   let originated=0, undated=0, newest=null, newestGap=1e9;
   for(const n of visibleNodes){
     const rankCounts = n.rank!=='genus';   // genera would swamp the count
-    const a = n.ageMy!=null ? n.ageMy : n.effAge;
+    const a = n.effAge;                    // the drawing's age — see livingNodes()
     if(a==null){ if(rankCounts) undated++; continue; }
     if(timeNow<=a){
       if(rankCounts) originated++;
