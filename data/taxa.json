@@ -14,7 +14,8 @@
    "order",
    "family"
   ],
-  "compiled": "2026-07-02",
+  "dataStamp": "e8b9dce2fc5764b4",
+  "compiled": "2026-07-30",
   "fields": "id, parent, rank, name, common?, speciesCount?, examples?[], blurb?, ids{}, provenance{}",
   "sources": {
    "apgIV": {
@@ -102,7 +103,7 @@
     "Haplomitrium",
     "Treubia"
    ],
-   "blurb": "Earliest-diverging liverworts with fleshy leafy or thalloid shoots and simple oil-body cells; ~30 species.",
+   "blurb": "Earliest-diverging liverworts with fleshy leafy or thalloid shoots and simple oil-body cells.",
    "ids": {
     "gbif": 127
    },
@@ -5394,7 +5395,7 @@
     "Calectasia",
     "Baxteria"
    ],
-   "blurb": "Small family of shrubby, tufted or tree-like perennials endemic to Australia; ~4 genera and 16 species.",
+   "blurb": "Small family of shrubby, tufted or tree-like perennials endemic to Australia.",
    "ids": {
     "gbif": 3732
    },
@@ -5575,7 +5576,7 @@
     "Eichhornia",
     "Pontederia"
    ],
-   "blurb": "Aquatic and marsh herbs with showy flowers; includes the invasive water hyacinth; ~35 species.",
+   "blurb": "Aquatic and marsh herbs with showy flowers; includes the invasive water hyacinth.",
    "ids": {
     "gbif": 3731
    },
@@ -5752,7 +5753,7 @@
     "Ensete",
     "Musella"
    ],
-   "blurb": "Bananas: giant herbs with pseudostems of rolled leaf sheaths bearing edible fruit; ~90 species.",
+   "blurb": "Bananas: giant herbs with pseudostems of rolled leaf sheaths bearing edible fruit.",
    "ids": {
     "gbif": 4686
    },
@@ -6004,7 +6005,7 @@
     "Stegolepis",
     "Saxofridericia"
    ],
-   "blurb": "Tufted herbs of tropical South American wetlands, with one outlier in West Africa; ~90 species.",
+   "blurb": "Tufted herbs of tropical South American wetlands, with one outlier in West Africa.",
    "ids": {
     "gbif": 7710
    },
@@ -12278,7 +12279,7 @@
     "Opilia",
     "Champereia"
    ],
-   "blurb": "Tropical hemiparasitic trees, shrubs and lianas that tap host roots via haustoria; ~10 genera in the Old and New World.",
+   "blurb": "Tropical hemiparasitic trees, shrubs and lianas that tap host roots via haustoria.",
    "ids": {
     "gbif": 3232649
    },
@@ -12854,7 +12855,7 @@
    "examples": [
     "Asteropeia"
    ],
-   "blurb": "Madagascar-endemic trees and shrubs of the single genus Asteropeia, often on nutrient-poor soils; ~8 species.",
+   "blurb": "Madagascar-endemic trees and shrubs of the single genus Asteropeia, often on nutrient-poor soils.",
    "ids": {
     "gbif": 3761052
    },
@@ -12906,7 +12907,7 @@
    "examples": [
     "Microtea"
    ],
-   "blurb": "Neotropical herbs and subshrubs of the single genus Microtea, segregated from Phytolaccaceae; ~10 species.",
+   "blurb": "Neotropical herbs and subshrubs of the single genus Microtea, segregated from Phytolaccaceae.",
    "ids": {
     "gbif": 4930835
    },
@@ -13035,7 +13036,7 @@
    "examples": [
     "Stegnosperma"
    ],
-   "blurb": "Shrubs and climbers of Mexico, Central America and the Caribbean of the single genus Stegnosperma; ~3 species.",
+   "blurb": "Shrubs and climbers of Mexico, Central America and the Caribbean of the single genus Stegnosperma.",
    "ids": {
     "gbif": 3685125
    },
@@ -13269,7 +13270,7 @@
     "Petiveria (guinea hen weed)",
     "Rivina (bloodberry)"
    ],
-   "blurb": "Neotropical herbs and shrubs, some pungently scented, segregated from Phytolaccaceae; ~9 genera.",
+   "blurb": "Neotropical herbs and shrubs, some pungently scented, segregated from Phytolaccaceae.",
    "ids": {
     "gbif": 4923867
    },
@@ -13299,7 +13300,7 @@
    "examples": [
     "Sarcobatus (greasewood)"
    ],
-   "blurb": "Spiny, salt-tolerant desert shrubs of western North America; single genus Sarcobatus (greasewood), ~2 species.",
+   "blurb": "Spiny, salt-tolerant desert shrubs of western North America; single genus Sarcobatus (greasewood).",
    "ids": {
     "gbif": 3715435
    },
@@ -13363,7 +13364,7 @@
     "Mollugo (carpetweed)",
     "Glinus"
    ],
-   "blurb": "Small herbs, many C4 weeds of open ground, with whorled leaves; type genus Mollugo; ~90 species.",
+   "blurb": "Small herbs, many C4 weeds of open ground, with whorled leaves; type genus Mollugo.",
    "ids": {
     "gbif": 2517
    },
@@ -13436,7 +13437,7 @@
     "Alluaudia",
     "Portulacaria (elephant bush)"
    ],
-   "blurb": "Spiny stem-succulent shrubs and trees of Madagascar's spiny forest and southern Africa; ~20 species.",
+   "blurb": "Spiny stem-succulent shrubs and trees of Madagascar's spiny forest and southern Africa.",
    "ids": {
     "gbif": 3231952
    },
@@ -13465,7 +13466,7 @@
     "Anredera",
     "Ullucus"
    ],
-   "blurb": "Fleshy twining vines of the tropics, some grown as leaf or tuber vegetables like ulluco; ~20 species.",
+   "blurb": "Fleshy twining vines of the tropics, some grown as leaf or tuber vegetables like ulluco.",
    "ids": {
     "gbif": 3063
    },
@@ -13587,7 +13588,7 @@
     "Avonia",
     "Talinopsis"
    ],
-   "blurb": "Small leaf-succulent herbs and cushion plants of arid regions, mainly southern Africa and the Americas; ~36 species.",
+   "blurb": "Small leaf-succulent herbs and cushion plants of arid regions, mainly southern Africa and the Americas.",
    "ids": {
     "gbif": 4909163
    },
@@ -13677,7 +13678,7 @@
     "Davidia (dove tree)",
     "Camptotheca"
    ],
-   "blurb": "Trees of temperate and tropical Asia and North America, including tupelos and the handkerchief tree; ~5 genera.",
+   "blurb": "Trees of temperate and tropical Asia and North America, including tupelos and the handkerchief tree.",
    "ids": {
     "gbif": 6712
    },
@@ -13735,7 +13736,7 @@
     "Philadelphus (mock orange)",
     "Deutzia"
    ],
-   "blurb": "Shrubs, trees and vines of the north temperate zone, many ornamental with showy sterile flowers; ~17 genera.",
+   "blurb": "Shrubs, trees and vines of the north temperate zone, many ornamental with showy sterile flowers.",
    "ids": {
     "gbif": 6667
    },
@@ -13825,7 +13826,7 @@
    "examples": [
     "Grubbia"
    ],
-   "blurb": "Heath-like evergreen shrubs endemic to South Africa's Cape fynbos; single genus Grubbia, ~3 species.",
+   "blurb": "Heath-like evergreen shrubs endemic to South Africa's Cape fynbos; single genus Grubbia.",
    "ids": {
     "gbif": 3231429
    },
@@ -13995,7 +13996,7 @@
     "Fouquieria splendens (ocotillo)",
     "Fouquieria columnaris (boojum)"
    ],
-   "blurb": "Spiny, drought-deciduous desert shrubs and trees of Mexico and the SW US; single genus Fouquieria; ~11 species.",
+   "blurb": "Spiny, drought-deciduous desert shrubs and trees of Mexico and the SW US; single genus Fouquieria.",
    "ids": {
     "gbif": 6649
    },
@@ -14120,7 +14121,7 @@
     "Cleyera",
     "Pentaphylax"
    ],
-   "blurb": "Evergreen trees and shrubs, mostly of tropical and subtropical Asia and the Americas; ~12 genera.",
+   "blurb": "Evergreen trees and shrubs, mostly of tropical and subtropical Asia and the Americas.",
    "ids": {
     "gbif": 4259202
    },
@@ -14327,7 +14328,7 @@
     "Shortia",
     "Pyxidanthera"
    ],
-   "blurb": "Low evergreen herbs and cushion plants of arctic, alpine and temperate regions of the Northern Hemisphere; ~15 species.",
+   "blurb": "Low evergreen herbs and cushion plants of arctic, alpine and temperate regions of the Northern Hemisphere.",
    "ids": {
     "gbif": 2512
    },
@@ -14393,7 +14394,7 @@
     "Darlingtonia (cobra lily)",
     "Heliamphora"
    ],
-   "blurb": "American carnivorous plants with leaves modified into fluid-filled pitcher traps; three genera, ~30+ species.",
+   "blurb": "American carnivorous plants with leaves modified into fluid-filled pitcher traps.",
    "ids": {
     "gbif": 2426
    },
@@ -14420,7 +14421,7 @@
    "examples": [
     "Roridula"
    ],
-   "blurb": "Southern African shrubs with resin-tipped sticky leaves that trap insects fed on by symbiotic bugs; genus Roridula, 2 species.",
+   "blurb": "Southern African shrubs with resin-tipped sticky leaves that trap insects fed on by symbiotic bugs; genus Roridula.",
    "ids": {
     "gbif": 3234211
    },
@@ -14482,7 +14483,7 @@
     "Clethra (summersweet)",
     "Purdiaea"
    ],
-   "blurb": "Trees and shrubs with fragrant white flower racemes, mainly Asia and the Americas; ~75 species.",
+   "blurb": "Trees and shrubs with fragrant white flower racemes, mainly Asia and the Americas.",
    "ids": {
     "gbif": 6707
    },
@@ -16111,7 +16112,7 @@
     "Gomphandra",
     "Cantleya"
    ],
-   "blurb": "Tropical trees and shrubs of the Old and New World, with drupe fruits often bearing a fleshy appendage; ~12 genera.",
+   "blurb": "Tropical trees and shrubs of the Old and New World, with drupe fruits often bearing a fleshy appendage.",
    "ids": {
     "gbif": 4087082
    },
@@ -16412,7 +16413,7 @@
     "Wittsteinia",
     "Crispiloba"
    ],
-   "blurb": "Southern-hemisphere shrubs of New Zealand, Australia and New Caledonia with fragrant tubular flowers; ~10 species.",
+   "blurb": "Southern-hemisphere shrubs of New Zealand, Australia and New Caledonia with fragrant tubular flowers.",
    "ids": {
     "gbif": 3686178
    },
