@@ -11,11 +11,11 @@ function reroot(n){
   if(!(n.children||[]).length || n===renderRoot) return;
   if(activeStory) clearStory(false);
   animateStructural(()=>{ renderRoot=n; n.open=true; }, {fit:true});
-  updateFocusBar(); setKb(n,false);
+  updateFocusBar(); setKb(n,false); updateHash();
 }
-function exitFocus(){ animateStructural(()=>{ renderRoot=ROOT; }, {fit:true}); updateFocusBar(); }
+function exitFocus(){ animateStructural(()=>{ renderRoot=ROOT; }, {fit:true}); updateFocusBar(); updateHash(); }
 function focusUp(){ if(renderRoot!==ROOT && renderRoot.parent){ rerootTo(renderRoot.parent); } }
-function rerootTo(n){ animateStructural(()=>{ renderRoot=n; }, {fit:true}); updateFocusBar(); }
+function rerootTo(n){ animateStructural(()=>{ renderRoot=n; }, {fit:true}); updateFocusBar(); updateHash(); }
 document.getElementById('fbexit').onclick=exitFocus;
 document.getElementById('fbup').onclick=focusUp;
 

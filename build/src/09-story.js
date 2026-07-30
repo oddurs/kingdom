@@ -74,6 +74,7 @@ function shareHash(){
   if(filter.lineage) p.push('fl='+filter.lineage);
   if(filter.region)  p.push('fg='+filter.region);
   if(filter.age)     p.push('fa='+filter.age);
+  if(renderRoot!==ROOT) p.push('fo='+encodeURIComponent(renderRoot.name));   // focused subtree
   if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // curated highlight (filter facets carry their own)
   if(timeMode) p.push('t='+Math.round(timeNow));
   if(selected) p.push('sel='+encodeURIComponent(selected.name));
@@ -100,6 +101,10 @@ function applyHash(){
     if(c && c!==colorMode && CMODES.some(m=>m[0]===c)){ setColorMode(c); }
     const m=params.get('m');
     if(m && m!==mode && ['tree','radial','sunburst','treemap'].includes(m)){ mode=m; setModeButtons(m); }
+    // the focused subtree decides what the tree even contains — restore it directly
+    // (not via reroot(), which animates a user action) before the first render
+    const fo=params.get('fo');
+    if(fo){ const fn=nodeByName(fo); if(fn && (fn.children||[]).length){ renderRoot=fn; fn.open=true; updateFocusBar(); } }
     render(); if(mode!=='treemap' && mode!=='sunburst') relabelAll();
     let fset=false;
     const fr=params.get('fr'), fl=params.get('fl'), fg=params.get('fg'), fa=params.get('fa');
@@ -122,6 +127,8 @@ function resetView(){                          // back to the landing baseline, 
     if(filter.rich||filter.lineage||filter.region||filter.age) clearFilter();
     if(timeMode) exitTime();
     if(selected) closePanel();
+    if(compareA) clearCompare();                 // after closePanel, so it has no panel to rebuild
+    if(renderRoot!==ROOT){ renderRoot=ROOT; updateFocusBar(); }   // render() below repaints
     if(colorMode!=='lineage'){ setColorMode('lineage'); }
     if(mode!=='radial'){ mode='radial'; setModeButtons('radial'); }
     render(); relabelAll();
