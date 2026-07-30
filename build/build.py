@@ -103,8 +103,13 @@ def seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated):
         # visually hidden — it is a screen-reader index, which was always the better
         # justification for it — but the links are real, so this doubles as the
         # in-app crawl path to all 479 documents.
+        # tabindex="-1" because `clip` hides these links from sight but not from the
+        # tab order: all 479 sat between the header and the canvas as focusable
+        # elements with no visible focus ring, so reaching the tree by keyboard meant
+        # 479 presses into nothing. A screen reader still reaches them by virtual
+        # cursor and a crawler never looks at tabindex, so nothing is lost.
         href = f"/family/{slug(t['name'])}/"
-        return (f'<li><a href="{href}"><b>{esc(t["name"])}</b></a>{com} — '
+        return (f'<li><a href="{href}" tabindex="-1"><b>{esc(t["name"])}</b></a>{com} — '
                 f"~{t.get('speciesCount', 0):,} accepted species.</li>")
 
     rows = "".join(li(t) for t in by_rich)

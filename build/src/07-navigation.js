@@ -98,7 +98,11 @@ function doPinch(){ const [a,b]=two(); const r=stage.getBoundingClientRect();
 // keyboard navigation (arrows traverse, Enter/Space toggle)
 let kb=null;
 stage.setAttribute('tabindex','0');
-stage.setAttribute('role','tree');
+// No role="tree" here. It promised treeitem / aria-level / aria-expanded semantics
+// that no node carries — and because <main> has an implicit `main` landmark, an
+// explicit role replaced it, so landmark navigation lost the one target that would
+// have skipped the crawlable index. A labelled main with a live region describes
+// what this actually is: a canvas, with a text alternative beside it.
 stage.setAttribute('aria-label','Plant kingdom taxonomy tree');
 function setKb(n, doPan){
   if(kb){ const pe=nodeEls.get(kb._id); if(pe) pe.classList.remove('kbfocus'); }
@@ -118,7 +122,11 @@ stage.addEventListener('keydown', e=>{
     case 'ArrowUp': if(i>0){ setKb(vis[i-1]); } e.preventDefault(); break;
     case 'ArrowRight': if(hasKids && !kb.open){ toggle(kb); setKb(kb,false); } else if(hasKids){ setKb(kb.children[0]); } e.preventDefault(); break;
     case 'ArrowLeft': if(hasKids && kb.open){ toggle(kb); setKb(kb,false); } else if(kb.parent){ setKb(kb.parent); } e.preventDefault(); break;
-    case 'Enter': case ' ': if(hasKids){ toggle(kb); setKb(kb,false); } e.preventDefault(); break;
+    // Mirror the click handler (03-render.js): a mouse both toggles and selects.
+    // Enter only toggled, so every keyboard user was locked out of the blurb, the
+    // origin bar, the distribution map, the references, Focus subtree, Compare and
+    // Copy link — the app's entire content payload, reachable only by pointer.
+    case 'Enter': case ' ': if(hasKids) toggle(kb); select(kb, {center:false}); e.preventDefault(); break;
   }
 });
 // wheel zoom around cursor
@@ -208,7 +216,10 @@ function setActive(i){
   q.setAttribute('aria-activedescendant', rows[activeIdx].id);   // arrow keys move a real cursor, not just a tint
   rows[activeIdx].scrollIntoView({block:'nearest'});
 }
-function navTo(n){ closeResults(); resetFocus(); select(n); q.blur(); }  // resetFocus re-renders if focused; select() centres
+// resetFocus re-renders if focused; select() centres. Focus lands on the stage
+// rather than nowhere: a bare q.blur() sent it to <body>, so after searching, the
+// arrow keys — whose listener is on #stage — did nothing at all.
+function navTo(n){ closeResults(); resetFocus(); select(n); stage.focus(); }
 qres.addEventListener('mousedown', e=>{        // mousedown fires before the input's blur
   const row=e.target.closest('.qrow'), act=e.target.closest('[data-act]');
   if(row){ e.preventDefault(); navTo(hitList[+row.dataset.i]); }

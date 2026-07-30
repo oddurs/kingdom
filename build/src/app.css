@@ -1,6 +1,14 @@
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   .visually-hidden{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+  /* The first tab stop on the page. Out of the flow until focused, then a real
+     visible control — the crawlable index that follows is 479 clipped links, and
+     without this the only way past them was 479 presses. */
+  .skip{position:absolute; left:8px; top:-56px; z-index:60;
+    font-family:var(--sans); font-size:12px; font-weight:600; color:var(--ink);
+    background:var(--fill-1); border:1px solid var(--edge); border-radius:var(--r-2);
+    padding:9px 13px; text-decoration:none; transition:top var(--dur-1)}
+  .skip:focus{top:8px; outline:2px solid var(--accent); outline-offset:2px}
   body{
     /* two corner lifts for depth, neutral and faint — these used to be green
        (#0f1813 / #0e1611) and were the first of three glows stacked on top of

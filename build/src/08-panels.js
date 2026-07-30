@@ -210,6 +210,11 @@ function select(n, opts){
     // node layer to pan; repaint to show it. tree/radial centre the chosen node.
     if(mode==='treemap'||mode==='sunburst') render(); else focusNode(n);
   }
+  // The keyboard cursor follows the selection. They were independent, so selecting
+  // by any other route — search, a list row, a Records chip — left the cursor on
+  // whatever was last arrowed to, and the next ArrowDown jumped somewhere unrelated.
+  // setKb announces too; this announce runs after and is the better sentence.
+  if(kb!==n) setKb(n,false);
   announce('Selected '+a11yLabel(n));
   // compare tray: A pinned & viewing another → show A vs this; viewing A itself → pending
   if(compareA===n) showComparePending(n);
