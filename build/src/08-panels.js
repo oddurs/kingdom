@@ -92,8 +92,14 @@ function distMap(node, lc){
     `<svg class="pdistmap" viewBox="${wm.viewBox}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Native distribution across botanical continents; centre of diversity ${CONTINENTS[top]}">${base}${lit}</svg>`+
     `<div class="psrc">native species richness by botanical continent · WGSRPD, Kew WCVP</div>`;
 }
+// Selecting outside the focused subtree left the panel describing a taxon with no
+// node on screen — no ring, and focusNode() panning to stale coordinates. Four
+// callers remembered to leave focus first and two didn't, so the obligation lives
+// here instead: a selection is always something you can see.
+function inRenderRoot(n){ let c=n; while(c){ if(c===renderRoot) return true; c=c.parent; } return false; }
 function select(n, opts){
   opts=opts||{};
+  if(!inRenderRoot(n)) resetFocus();
   if(selected){ const pe=nodeEls.get(selected._id); if(pe) pe.classList.remove('selected'); }
   selected=n;
   if(opts.center!==false) revealNode(n);

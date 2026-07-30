@@ -382,6 +382,79 @@ async function main() {
     check("compare tray shows a two-clade verdict", (await ev(`!document.getElementById('comparebar').hidden && /(×|younger|matched)/.test(document.querySelector('.cmpverdict') ? document.querySelector('.cmpverdict').textContent : '')`)) === true);
     await ev(`clearCompare()`); await wait(80);
 
+    // The panel's own controls rebuild the container they live in, and the click
+    // then bubbles to the stage with a detached target — which matched neither
+    // '.node' nor an overlay, so the background handler closed the panel on every
+    // breadcrumb. The fix decides from the press, so these have to be *real* input:
+    // clickAt() dispatches MouseEvents only, and never produces a pointerdown.
+    // The probe is a constant: its arguments travel over the protocol as values
+    // rather than being spliced into JavaScript source. Building the source would
+    // be a CodeQL finding and a real hazard the day a selector holds a quote.
+    // It also scrolls first — a control below the panel's fold is off-screen until
+    // you bring it into view, which is what a reader does before clicking it.
+    const PROBE = `function(sel, text){
+      const all=[...document.querySelectorAll(sel)];
+      const el = text==null ? all[0] : all.find(e=>e.textContent.includes(text));
+      const d=e=>e ? e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+(e.getAttribute('class')?'.'+e.getAttribute('class').trim().split(/\\s+/).join('.'):'') : 'nothing';
+      if(!el) return 'no element matches '+sel+(text==null?'':' containing '+text);
+      el.scrollIntoView({block:'center'});
+      const r=el.getBoundingClientRect();
+      if(!r.width || !r.height) return d(el)+' has zero size';
+      const x=r.left+r.width/2, y=r.top+r.height/2;
+      if(x<0 || y<0 || x>innerWidth || y>innerHeight) return d(el)+' centre is off-screen';
+      const hit=document.elementFromPoint(x,y);
+      if(!hit) return 'nothing is at the centre of '+d(el);
+      if(hit!==el && !el.contains(hit)) return d(el)+' is covered by '+d(hit);
+      return {x,y};
+    }`;
+    let pageObj = null;
+    const probe = async (sel, text) => {
+      if (!pageObj) pageObj = (await send("Runtime.evaluate", { expression: "window" })).result.objectId;
+      const r = await send("Runtime.callFunctionOn", {
+        functionDeclaration: PROBE, objectId: pageObj, returnByValue: true,
+        arguments: [{ value: sel }, { value: text === undefined ? null : text }],
+      });
+      return r.result.value;
+    };
+    const press = async (sel, text) => {
+      await probe(sel, text);          // first call scrolls it into view…
+      await wait(80);
+      const at = await probe(sel, text);   // …second measures where it settled
+      if (typeof at === "string") return at;
+      for (const type of ["mousePressed", "mouseReleased"])
+        await send("Input.dispatchMouseEvent", { type, x: at.x, y: at.y, button: "left", clickCount: 1, buttons: type === "mousePressed" ? 1 : 0 });
+      return true;
+    };
+
+    await ev(`select(nodeByName('Rosaceae'))`); await wait(200);
+    const crumb = await press("#pcrumb a", "Rosales");
+    const crumbOk = await until(`selected && selected.name==='Rosales' && document.getElementById('panel').classList.contains('open')`);
+    check("a breadcrumb navigates up and the panel stays open", crumb === true && crumbOk === true,
+      `press=${crumb} then ${await ev(`JSON.stringify({open:panel.classList.contains('open'), sel:selected&&selected.name})`)}`);
+
+    const cmp = await press("#pactions .ctl", "Compare");
+    const cmpOk = await until(`compareA && document.getElementById('panel').classList.contains('open')`);
+    check("Compare pins a clade without closing the panel it pinned", cmp === true && cmpOk === true,
+      `press=${cmp} then ${await ev(`JSON.stringify({open:panel.classList.contains('open'), a:compareA&&compareA.name})`)}`);
+    await ev(`clearCompare()`); await wait(80);
+
+    // …and the background must still close it, which is the behaviour the press
+    // gate could have quietly broken. Nothing covered it before.
+    const bg = await ev(`(()=>{ const r=document.getElementById('stage').getBoundingClientRect();
+      for(let y=r.top+40; y<r.bottom-40; y+=17) for(let x=r.left+12; x<r.left+180; x+=13){
+        const h=document.elementFromPoint(x,y);
+        if(h && !h.closest('.node') && !h.closest('#panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar,.modal,.comparebar,.legendbar')) return {x,y};
+      } return 'no empty background point found'; })()`);
+    if (typeof bg === "string") check("clicking empty background closes the panel", false, bg);
+    else {
+      for (const type of ["mousePressed", "mouseReleased"])
+        await send("Input.dispatchMouseEvent", { type, x: bg.x, y: bg.y, button: "left", clickCount: 1, buttons: type === "mousePressed" ? 1 : 0 });
+      check("clicking empty background closes the panel",
+        (await until(`!document.getElementById('panel').classList.contains('open') && !selected`)) === true,
+        await ev(`JSON.stringify({open:panel.classList.contains('open')})`));
+    }
+    await ev(`closePanel()`); await wait(80);
+
     // curated story highlight still works after the highlightSet refactor
     await ev(`setStory('crops')`); await wait(400);
     check("story highlight lights a constellation", (await ev(`activeStory==='crops' && document.querySelectorAll('.node.hl').length>0`)) === true);
@@ -570,6 +643,29 @@ async function main() {
     check("Back and Forward restore the previous view", wentBack === true && wentFwd === true,
       `back=${wentBack} forward=${wentFwd}`);
     await ev(`closePanel(); history.replaceState(null,'',location.pathname);`); await wait(120);
+
+    // The focused subtree is view state like any other: it belongs in the URL, Back
+    // has to unwind it, and nothing may select a taxon it doesn't contain. It used
+    // to do none of the three — a shared link dropped the focus, Back left the
+    // address bar describing the landing view, and the panel would happily describe
+    // a taxon with no node on screen while focusNode() panned to stale coordinates.
+    await ev(`reroot(nodeByName('Asteraceae'))`); await wait(700);
+    check("a focused subtree encodes into the hash", /fo=Asteraceae/.test(await ev(`shareHash()`)), await ev(`shareHash()`));
+    await ev(`renderRoot=ROOT; updateFocusBar(); render(); relabelAll(); history.pushState(null,'','#fo=Fabaceae'); applyHash();`); await wait(400);
+    check("hash restores the focused subtree", (await ev(`renderRoot && renderRoot.name==='Fabaceae'`)) === true);
+
+    // selecting outside the focus must leave it, so the selection is something you can see
+    await ev(`select(nodeByName('Orchidaceae'))`); await wait(300);
+    check("selecting outside the focus leaves it, and the node is mounted",
+      (await ev(`renderRoot===ROOT && selected.name==='Orchidaceae' && nodeEls.has(selected._id)`)) === true,
+      await ev(`JSON.stringify({rr:renderRoot.name, mounted:nodeEls.has(selected._id)})`));
+
+    await ev(`closePanel(); history.replaceState(null,'',location.pathname);`); await wait(120);
+    await ev(`reroot(nodeByName('Poaceae'))`); await wait(700);
+    await ev(`history.back()`);
+    const focusBack = await until(`renderRoot===ROOT && document.getElementById('focusbar').getAttribute('aria-hidden')==='true'`);
+    check("Back leaves a focused subtree", focusBack === true, await ev(`renderRoot.name`));
+    await ev(`renderRoot=ROOT; updateFocusBar(); render(); relabelAll(); closePanel(); history.replaceState(null,'',location.pathname);`); await wait(150);
 
     // Sprint P: "Surprise me" flies to a notable taxon and names why in a toast
     await ev(`clearStory(); surprise()`); await wait(600);

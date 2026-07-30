@@ -40,10 +40,16 @@ function animateT(target,dur){
 }
 // pan (1 pointer) + pinch-zoom (2 pointers)
 const pointers=new Map(); let pan=null, pinch=null, panDragged=false, glideRAF=0;
+// Did the press land on empty background? Decided at pointerdown, because by the
+// time the click bubbles up here the target may no longer exist: clicking a
+// breadcrumb runs select(), which rewrites #pcrumb, so the detached <a> matched
+// neither '.node' nor an overlay and the panel closed itself on every crumb.
+let bgDown=false;
 // overlay UI floating over the stage — clicks here must NOT be hijacked for panning
 const OVERLAY_SEL='.panel,.zoomctl,.minimap,.focusbar,.tourcard,.welcome,.timebar,.modal,.comparebar,.legendbar';
 function stopGlide(){ cancelAnimationFrame(glideRAF); glideRAF=0; }
 stage.addEventListener('pointerdown', e=>{
+  bgDown = !e.target.closest('.node') && !e.target.closest(OVERLAY_SEL);
   if(e.target.closest(OVERLAY_SEL)) return;   // let the overlay's own buttons receive the click
   stopGlide();
   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -62,7 +68,8 @@ stage.addEventListener('pointermove', e=>{
 });
 // click on empty background closes the panel (but not right after a drag)
 stage.addEventListener('click', e=>{
-  if(e.target.closest('.node')||e.target.closest(OVERLAY_SEL)) return;
+  if(!bgDown) return;                        // the press landed on a node or an overlay
+  if(e.target.closest('.node')||e.target.closest(OVERLAY_SEL)) return;   // keyboard-dispatched clicks set no bgDown
   if(!panDragged) closePanel();
 });
 function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinch=null;
