@@ -23,6 +23,8 @@ jobs:
     timeout-minutes: 20        # a wedged browser fails in minutes, not at the 6-hour default
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2       # a PR checkout is a merge commit; HEAD^1 is its base
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
@@ -35,9 +37,26 @@ jobs:
         with:
           chrome-version: stable
 
-      # npm exists only for the dev-only workshop, which is main-only now
+      # Sprint AA took npm off the PR path because the workshop only ships from
+      # main — but it gated on `github.ref`, which on a pull_request event is
+      # refs/pull/N/merge. So every Dependabot npm PR skipped both npm steps and
+      # went green having proved nothing, including a three-major vite bump. The
+      # workshop still doesn't run for ordinary PRs; it runs for the PRs that
+      # change it.
+      - name: Does this touch the workshop toolchain?
+        id: npmscope
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "touched=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only HEAD^1 HEAD \
+               | grep -qE '^(package(-lock)?\.json|\.storybook/|stories/|design/)'; then
+            echo "touched=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "touched=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install the workshop toolchain
-        if: github.ref == 'refs/heads/main'
+        if: steps.npmscope.outputs.touched == 'true'
         run: npm ci
 
       - name: Build the app
@@ -57,13 +76,14 @@ jobs:
         env:
           CHROME: ${{ steps.chrome.outputs.chrome-path }}
 
-      # Dev-only tooling must not be able to block an app fix. If Storybook or one of
-      # its transitive deps breaks, the app still ships and the workshop is simply
-      # absent from that deploy.
+      # Dev-only tooling must not be able to block an app fix, so on main a broken
+      # workshop is absent from the deploy rather than a red build. On a PR that
+      # changes the workshop itself, though, "it still renders" is the only thing
+      # being claimed — so there it blocks.
       - name: Build the Storybook workshop
         id: storybook
-        if: github.ref == 'refs/heads/main'
-        continue-on-error: true
+        if: steps.npmscope.outputs.touched == 'true'
+        continue-on-error: ${{ github.event_name != 'pull_request' }}
         run: npm run build-storybook
 
       # assembly lives in build/site.py so `make serve` and CI produce the same
