@@ -361,6 +361,55 @@ async function main() {
     const pfocus = await tabTo("#pclose");
     check("open detail panel is keyboard-reachable", pfocus === true, pfocus === true ? "" : String(pfocus));
 
+    // Enter had to open a taxon, and did not. The stage's keydown called toggle()
+    // and never select(), so the blurb, origin bar, distribution map, references,
+    // Focus subtree, Compare and Copy link — the whole content payload — were
+    // reachable by pointer only. The mouse path has always done both.
+    const kbOpen = await ev(`(()=>{
+      closePanel(); setKb(nodeByName('Rosaceae'), false);
+      document.getElementById('stage').dispatchEvent(
+        new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));
+      return JSON.stringify({open:panel.classList.contains('open'), sel:selected&&selected.name});
+    })()`); await wait(250);
+    const KB = JSON.parse(kbOpen);
+    check("Enter opens the taxon under the keyboard cursor", KB.open === true && KB.sel === "Rosaceae", kbOpen);
+
+    // …and the cursor follows any other route to a selection, so the next ArrowDown
+    // steps from what you are reading rather than from wherever you last arrowed.
+    await ev(`select(nodeByName('Fabaceae'))`); await wait(200);
+    check("the keyboard cursor follows the selection", (await ev(`kb && kb.name==='Fabaceae'`)) === true,
+      await ev(`kb ? kb.name : 'null'`));
+
+    // Searching used to end on document.body: navTo() called a bare q.blur(), so
+    // the arrow keys — whose listener is on #stage — did nothing afterwards.
+    await ev(`navTo(nodeByName('Orchidaceae'))`); await wait(250);
+    check("search leaves focus somewhere the arrow keys work",
+      (await ev(`document.activeElement===document.getElementById('stage')`)) === true,
+      await ev(`document.activeElement.tagName+(document.activeElement.id?'#'+document.activeElement.id:'')`));
+    await ev(`closePanel()`); await wait(80);
+
+    // The crawlable index is 479 links hidden with `clip`, which removes them from
+    // sight but not from the tab order — so reaching the canvas by keyboard meant
+    // 479 presses into elements with no focus ring at all. And role="tree" on
+    // <main> replaced the implicit main landmark (while promising treeitem
+    // semantics no node has), so landmark navigation couldn't skip them either.
+    const order = await ev(`(()=>{
+      const all=[...document.querySelectorAll('a[href],button,input,select,textarea,[tabindex]')]
+        .filter(e=>e.tabIndex>=0 && !e.closest('[inert]') && !e.hasAttribute('disabled') && !e.closest('[hidden]'));
+      const stage=document.getElementById('stage');
+      const main=document.querySelector('main');
+      return JSON.stringify({
+        first: all[0] ? (all[0].className||all[0].tagName) : 'none',
+        beforeStage: all.indexOf(stage),
+        indexTabbable: [...document.querySelectorAll('.visually-hidden a')].filter(a=>a.tabIndex>=0).length,
+        mainRole: main.getAttribute('role'),
+        skipTarget: (document.querySelector('a.skip')||{}).hash,
+      });})()`);
+    const O = JSON.parse(order);
+    check("the tree is a few tab stops away, not 479", O.beforeStage >= 0 && O.beforeStage < 20 && O.indexTabbable === 0, order);
+    check("a skip link is the first tab stop", /skip/.test(O.first) && O.skipTarget === "#stage", order);
+    check("<main> is still a landmark", O.mainRole === null, `role=${O.mainRole}`);
+
     // legend spotlight: hovering a lineage dims the rest (Sprint H)
     await ev(`(()=>{const lg=[...document.querySelectorAll('#lgitems .lg')].find(x=>/Rosids/.test(x.textContent)); if(lg) lg.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));})()`); await wait(120);
     check("legend spotlight dims to a lineage", (await ev(`document.getElementById('stage').classList.contains('focusing') && document.querySelectorAll('#nodes .node.lit').length>0`)) === true);
