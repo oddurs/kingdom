@@ -31,6 +31,7 @@ const CHROME = process.env.CHROME || [
 const PORT = 9400 + (process.pid % 500);
 const PROFILE = mkdtempSync(join(tmpdir(), 'cdp-shots-'));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 const arg = (name) => { const i = process.argv.indexOf(`--${name}`); return i > 0 ? process.argv[i + 1] : null; };
 
@@ -135,10 +136,15 @@ try {
 
       const shot = await send('Page.captureScreenshot', { format: 'png' });
       const buf = Buffer.from(shot.data, 'base64');
-      // a capture that failed, or raced the first paint, comes back tiny; a real one
-      // at these densities is hundreds of KB. Same guard og.mjs uses, for the same
-      // reason: a blank PNG that looks like a finished screenshot is worse than an error.
-      if (buf.length < 5000) throw new Error(`${name}-${v.w}x${v.h} is only ${buf.length} bytes — the capture looks blank`);
+      // Nothing reaches the disk until it has been shown to be a PNG of plausible
+      // size. The socket is one this script opened to a browser it spawned itself,
+      // so the threat here is not an attacker — it is a capture that failed or raced
+      // the first paint, and a blank file that looks like a finished screenshot is
+      // worse than an error. og.mjs guards its own capture for the same reason.
+      if (!PNG_MAGIC.equals(buf.subarray(0, 8)))
+        throw new Error(`${name}-${v.w}x${v.h}: capture is not a PNG (${buf.length} bytes)`);
+      if (buf.length < 5000)
+        throw new Error(`${name}-${v.w}x${v.h} is only ${buf.length} bytes — the capture looks blank`);
       const file = join(outDir, `${name}-${v.w}x${v.h}.png`);
       writeFileSync(file, buf);
       console.log(`  ${name.padEnd(9)} ${String(v.w).padStart(4)}×${v.h}  ${v.label}`);
