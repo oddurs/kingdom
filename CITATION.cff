@@ -10,7 +10,7 @@ authors:
   - given-names: Oddur
     family-names: Sigurdsson
     email: oddurs@gmail.com
-repository-code: "https://github.com/oddurs/kingdom"
+repository-code: "https://github.com/oddurs/yggdrasil"
 url: "https://yggdrasil.oddurs.com"
 abstract: >-
   An interactive visualisation of the classification of land plants: 479
@@ -30,8 +30,15 @@ keywords:
   - PPG I
   - WCVP
   - botany
-license: MIT
-license-url: "https://github.com/oddurs/kingdom/blob/main/LICENSE"
+# Both, deliberately. The message above asks people to cite "this software or its
+# data", and they are not under the same terms: the code is MIT, the data is CC BY
+# 4.0 because it derives from sources that require attribution. A single `license:
+# MIT` here made GitHub's "Cite this repository" and Zenodo report MIT for a
+# CC BY dataset.
+license:
+  - MIT
+  - CC-BY-4.0
+license-url: "https://github.com/oddurs/yggdrasil/blob/main/LICENSE"
 references:
   - type: article
     title: >-

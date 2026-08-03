@@ -35,7 +35,7 @@ from util import read_json, write_json
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "taxa.json"
 API = "https://api.gbif.org/v1"
-UA = {"User-Agent": "biomi/kingdom (github.com/oddurs/kingdom)"}
+UA = {"User-Agent": "yggdrasil (github.com/oddurs/yggdrasil)"}
 
 # GBIF rank vocabulary for the ranks we use.
 GBIF_RANK = {"family": "FAMILY", "order": "ORDER", "class": "CLASS",

@@ -35,7 +35,10 @@ welcome.addEventListener('keydown', e=>trapTab(e, welcome));
 document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')){ e.stopPropagation(); closeModal(); } });
 
 // the data lives beside the page on the published site, and in the repo locally
-const DATA_BASE='https://raw.githubusercontent.com/oddurs/kingdom/main/data';
+// One place the repository is named. It was written out in four, which is three
+// too many the day it is renamed — as it just was.
+const REPO='https://github.com/oddurs/yggdrasil';
+const DATA_BASE='https://raw.githubusercontent.com/oddurs/yggdrasil/main/data';
 function aboutHTML(){
   const stat=(n,l)=>`<div class="pstat"><b>${n}</b><span>${l}</span></div>`;
   return `<h2>About Yggdrasil</h2>
@@ -73,10 +76,10 @@ function aboutHTML(){
       <p>All of it is <b>CC&nbsp;BY&nbsp;4.0</b> and downloadable &mdash; every count, age and distribution, with the per-field provenance that says which values are sourced and which are estimates.</p>
       <div class="krow"><div class="kterm">Taxonomy</div><div class="kdesc"><a class="ln" href="${DATA_BASE}/taxa.json" download>taxa.json</a> &mdash; 611 taxa, counts, ages, ranges</div></div>
       <div class="krow"><div class="kterm">Genera</div><div class="kdesc"><a class="ln" href="${DATA_BASE}/genera.json" download>genera.json</a> &mdash; ${totGen.toLocaleString()} accepted genera</div></div>
-      <div class="krow"><div class="kterm">Terms</div><div class="kdesc"><a class="ln" href="https://github.com/oddurs/kingdom/blob/main/DATA-LICENSE" target="_blank" rel="noopener">DATA-LICENSE</a> &mdash; attribution, and every upstream source</div></div>
+      <div class="krow"><div class="kterm">Terms</div><div class="kdesc"><a class="ln" href="${REPO}/blob/main/DATA-LICENSE" target="_blank" rel="noopener">DATA-LICENSE</a> &mdash; attribution, and every upstream source</div></div>
       </div>
     <div class="msec"><h3>Colophon</h3>
-      <p>Built as a single self-contained page &mdash; no frameworks, no runtime dependencies, no tracking, no network calls. It renders ${totGen.toLocaleString()} genera from one HTML file and works offline. Names are set in Iowan&nbsp;Old&nbsp;Style, the interface in Hanken&nbsp;Grotesk. <a class="ln" href="https://github.com/oddurs/kingdom" target="_blank" rel="noopener">Source on GitHub</a> &mdash; the <a class="ln" href="https://github.com/oddurs/kingdom/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener">architecture notes</a> explain how.</p></div>`;
+      <p>Built as a single self-contained page &mdash; no frameworks, no runtime dependencies, no tracking, no network calls. It renders ${totGen.toLocaleString()} genera from one HTML file and works offline. Names are set in Iowan&nbsp;Old&nbsp;Style, the interface in Hanken&nbsp;Grotesk. <a class="ln" href="${REPO}" target="_blank" rel="noopener">Source on GitHub</a> &mdash; the <a class="ln" href="${REPO}/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener">architecture notes</a> explain how.</p></div>`;
 }
 function kbd(...keys){ return keys.map(k=>`<span class="kbd">${k}</span>`).join(' '); }
 function controlsHTML(){
@@ -341,7 +344,11 @@ document.getElementById('footer').innerHTML =
   // About was the least discoverable surface in the app — behind an unlabelled
 // ellipsis — while being the one that has to carry the project's credibility.
 // The footer already names the sources; now it lets you ask about them.
-`<button class="k src fx" id="btnSourcesAbout" title="About Yggdrasil, the data &amp; sources">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</button>`;
+`<button class="k src fx" id="btnSourcesAbout" title="About Yggdrasil, the data &amp; sources">Sources: APG IV &middot; PPG I &middot; Kew WCVP &middot; GBIF</button>`+
+  // The source was reachable only from inside About, which is itself behind an
+  // unlabelled ellipsis — two taps and a guess. This whole thing is one readable
+  // HTML file with no dependencies, which is most of the reason to look at it.
+  `<a class="k gh fx" href="${REPO}" target="_blank" rel="noopener" title="Source on GitHub — one self-contained HTML file"><svg class="ic" aria-hidden="true"><use href="#ic-github"/></svg>Source</a>`;
 document.getElementById('footer').addEventListener('click', e=>{ if(e.target.closest('#btnSourcesAbout')) openModal(aboutHTML()); });
 
 // ---------- the first five seconds ----------

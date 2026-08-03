@@ -44,7 +44,13 @@ const LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)([:\/]|$)/;
 const SKIP = [
   /^https:\/\/sftp\.kew\.org\//,       // SFTP over https, not a browsable page
   /^https:\/\/img\.shields\.io\//,     // badge service; its outage is not our bug
-  /^https:\/\/github\.com\/oddurs\/kingdom\/(security|issues|actions)/, // needs auth
+  /^https:\/\/github\.com\/oddurs\/yggdrasil\/(security|issues|actions)/, // needs auth
+  // DATA_BASE in 10-boot.js is a prefix, not a link: the About page builds
+  // `${DATA_BASE}/taxa.json` and friends, which all serve 200. raw.githubusercontent
+  // has no directory listing, so the bare prefix 404s and always would have. Anchored
+  // with `$` so it skips exactly that string and cannot cover a real file beneath it —
+  // this is the list whose whole purpose is not hiding things.
+  /^https:\/\/raw\.githubusercontent\.com\/oddurs\/yggdrasil\/main\/data$/,
 ];
 
 // A 403 is not a dead link. doi.org, Kew's POWO and GBIF all answer — they just
