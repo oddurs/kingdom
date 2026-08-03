@@ -13,6 +13,26 @@ function setOverlay(el, open, cls){
   el.classList.toggle(cls||'open', open);
   el.setAttribute('aria-hidden', String(!open));
   el.inert=!open;
+  if(el===panel) syncStageChrome();
+}
+// On a phone three things want the bottom of the stage: the detail panel (a
+// bottom sheet), the time scrubber, and the zoom pill. Each was positioned
+// against the stage on its own, so they simply overlapped — the sheet covered
+// the zoom pill outright, and the scrubber painted across the sheet's lower
+// third, cutting the Examples chips in half. Nothing was wrong with any one of
+// them; there was just no owner for the stack.
+//
+// This measures what is actually open and publishes it; the mobile CSS stacks
+// against those numbers rather than against guesses that drift when the panel's
+// content changes height. Order matters: the scrubber's height decides where the
+// sheet sits, so it is written first and the sheet measured after.
+function syncStageChrome(){
+  const tb=document.getElementById('timebar');
+  const tbH = (tb && !tb.hidden) ? Math.round(tb.getBoundingClientRect().height)+26 : 0;
+  stage.style.setProperty('--tb-h', tbH+'px');
+  const sheetH = panel.classList.contains('open')
+    ? Math.round(panel.getBoundingClientRect().height) : 0;   // reads back after the line above
+  stage.style.setProperty('--sheet-h', sheetH+'px');
 }
 // The panel has two faces: a detail card and a highlight list. One owner, so
 // the list's lineage tint can't survive into the next detail card.
