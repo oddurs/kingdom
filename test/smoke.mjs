@@ -1133,6 +1133,57 @@ async function main() {
       RM.exact && RM.closerIn, rmFrame);
   });
 
+  // ---------- phone ----------
+  // The app had never been exercised below 1400px. test/pages.mjs checks the 567
+  // static pages at 390, but the thing those pages link *to* was measured only at
+  // desktop width, so every mobile claim about it was inference.
+  //
+  // It has to be Emulation.setDeviceMetricsOverride, not a narrow --window-size:
+  // Chrome refuses to open a window under ~500px and quietly gives you a wider one,
+  // so a suite that asked for 390 would have been asserting against 500 and passing.
+  await session([], async ({ ev, errors, send }) => {
+    const phone = async (w, h) => {
+      await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 3, mobile: true });
+      await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+      await wait(700);
+      await ev(`fit(0)`); await wait(400);
+    };
+    await phone(390, 844);
+    check("the phone viewport is really 390 wide", (await ev(`innerWidth`)) === 390, String(await ev(`innerWidth`)));
+
+    const layout = await ev(`(()=>{
+      const d=document.documentElement;
+      const p=document.getElementById('panel');
+      return JSON.stringify({
+        overflowsX: d.scrollWidth > d.clientWidth,
+        minimapHidden: getComputedStyle(document.querySelector('.minimap')).display === 'none',
+        searchFullWidth: document.getElementById('q').getBoundingClientRect().width > 300,
+        mobileMediaActive: matchMedia('(max-width:680px)').matches,
+      });})()`);
+    const LY = JSON.parse(layout);
+    check("the page does not scroll sideways on a phone", LY.overflowsX === false, layout);
+    check("the phone layout is the one the CSS intends", LY.mobileMediaActive && LY.minimapHidden && LY.searchFullWidth, layout);
+
+    await ev(`select(nodeByName('Rosaceae'))`); await wait(500);
+    // flush with the bottom of the stage, not of the viewport — the footer lives
+    // below the stage, and the panel is positioned against its stage ancestor
+    const sheet = await ev(`(()=>{
+      const r=document.getElementById('panel').getBoundingClientRect();
+      const s=document.getElementById('stage').getBoundingClientRect();
+      return JSON.stringify({panelBottom:Math.round(r.bottom), stageBottom:Math.round(s.bottom),
+        width:Math.round(r.width), sheet: Math.abs(r.bottom-s.bottom)<2 && Math.abs(r.width-innerWidth)<2});})()`);
+    check("the detail panel is a bottom sheet, not a floating card", JSON.parse(sheet).sheet === true, sheet);
+
+    // A finger is not a mouse pointer: the close button is the way out of that sheet.
+    const close = await ev(`(()=>{const r=document.getElementById('pclose').getBoundingClientRect();
+      return JSON.stringify({w:Math.round(r.width), h:Math.round(r.height)});})()`);
+    const C = JSON.parse(close);
+    check("the panel's close button clears the 24px touch floor", C.w >= 24 && C.h >= 24, close);
+
+    await ev(`closePanel()`); await wait(200);
+    check("no console errors on a phone", errors.length === 0, errors.slice(0, 3).join(" | "));
+  });
+
   const failed = results.filter((r) => !r.pass);
   console.log(`\n${results.length - failed.length}/${results.length} checks passed`);
   if (failed.length) {
