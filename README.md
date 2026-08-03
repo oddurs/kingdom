@@ -25,7 +25,7 @@
 
 ---
 
-**479 families · 14,135 accepted genera · ~390,000 species · 445 million years.**
+**479 families · 14,129 accepted genera · ~390,000 species · 445 million years.**
 
 Four linked views — tree, radial, sunburst, treemap. A geological time scrubber
 that grows the tree from its origin. Search across every genus. A distribution
@@ -55,7 +55,7 @@ Never edit `plant-tree.html` — it's generated and git-ignored. Edit
 
 ```
 data/taxa.json          canonical data — flat, one record per taxon (source of truth)
-data/genera.json        14,135 accepted genera (the genus tier)
+data/genera.json        14,135 accepted genera (14,129 of them reach the tree)
 data/taxon.schema.json  JSON Schema for a taxon record
 
 build/build.py          validates taxa.json, derives the nested tree, injects it
@@ -68,7 +68,7 @@ design/tokens.css       design tokens, shared with the Storybook workshop
 
 build/fetch.py          enriches taxa.json with GBIF ids + metrics (needs internet)
 build/wcvp.py           applies Kew WCVP accepted-species counts (needs the dump)
-build/ages.py           derives divergence ages from a dated megatree (auto-fetches)
+build/ages.py           derives divergence ages from a dated megatree (needs the tree file)
 build/genera.py         extracts the accepted genera from WCVP
 
 test/smoke.mjs          headless-Chrome regression suite for the app
@@ -116,6 +116,12 @@ tips rejected first — one misplaced genus can age a family by tens of millions
 years. They are one defensible estimate; published dates for the same clade
 routinely differ by tens of millions of years.
 
+Six of the 14,135 genera in `genera.json` never reach the tree: they sit in four
+families — Cephalotaxaceae, Thismiaceae, Tiganophytaceae, Viburnaceae — that WCVP
+circumscribes differently from APG IV, so their family name matches nothing in
+`taxa.json`. The build says so on stderr every time rather than quietly rounding.
+That is why the app counts 14,129.
+
 Worth knowing: Kew's widely quoted ~390,000 refers to *vascular* plants. The 479
 families here sum to 370,535 vascular species; this tree reaches ~390,000 only by
 also counting the bryophytes, which Kew's figure excludes.
@@ -140,7 +146,9 @@ bulk download, not an API. Unzip into `data/wcvp/` (git-ignored) and run it.
 
 `ages.py` derives `ageMy` from the dated
 [plant megatree](https://github.com/megatrees/plant_20221117) (Jin & Qian 2022;
-Smith & Brown 2018; Zanne 2014), a 2.9 MB Newick it fetches into `data/megatree/`.
+Smith & Brown 2018; Zanne 2014) — a 2.9 MB Newick plus its genus list. Drop both
+into `data/megatree/` (git-ignored) first; like `wcvp.py`, it reads a local dump
+rather than fetching one, and exits with the download instructions if it's absent.
 
 ## Develop & test
 
@@ -152,6 +160,7 @@ make test        # the headless-Chrome app suite
 make test-pages  # the generated-pages suite
 make check       # both — the pre-commit gate
 make live        # verify the PUBLISHED site
+make shots       # screenshot the app at phone/tablet/desktop widths
 ```
 
 `test/smoke.mjs` drives the built page in headless Chrome and asserts the

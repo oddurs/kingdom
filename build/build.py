@@ -373,6 +373,26 @@ def build_tree(taxa, genera_by_family=None):
     return node(root)
 
 
+def check_readme(nfam, ngenera) -> None:
+    """The README's headline must be the build's own arithmetic.
+
+    It read "479 families · 14,135 accepted genera" while the app rendered 14,129 —
+    the file's record count rather than the tree's, six of them sitting in families
+    WCVP circumscribes differently. Small, and exactly the kind of thing this
+    project has spent two sprints removing: a number in prose that nothing checks.
+    """
+    readme = ROOT / "README.md"
+    if not readme.exists():
+        return
+    m = re.search(r"\*\*([\d,]+) families · ([\d,]+) accepted genera", readme.read_text(encoding="utf-8"))
+    if not m:
+        raise SystemExit("README.md has no '**N families · M accepted genera' headline to check")
+    said_fam, said_gen = (int(x.replace(",", "")) for x in m.groups())
+    if (said_fam, said_gen) != (nfam, ngenera):
+        raise SystemExit(f"README.md headline says {said_fam:,} families and {said_gen:,} genera; "
+                         f"this build renders {nfam:,} and {ngenera:,}")
+
+
 def require_inputs() -> None:
     """Every input here is committed, so a missing one is a broken checkout rather
     than a valid build. Both data files used to be guarded with `if EXISTS`: remove
@@ -448,6 +468,11 @@ def main() -> None:
         print(f"warning: {dropped} genera in {len(orphan_fams)} unmatched famil"
               f"{'y' if len(orphan_fams) == 1 else 'ies'} were dropped "
               f"(e.g. {', '.join(sorted(orphan_fams)[:5])})", file=sys.stderr)
+        # …and they must stop being counted, not just warned about. ngenera feeds the
+        # JSON-LD description and the crawlable index, while the footer counts the
+        # prepped tree — so the same page told Google 14,135 and the reader 14,129.
+        # The tree's number is the true one: it is what is actually here.
+        ngenera -= dropped
 
     tree = build_tree(taxa, genera_by_family)
     data = {"tree": tree}
@@ -470,6 +495,7 @@ def main() -> None:
     if sourced + estimated != total_spp:
         raise SystemExit(f"provenance split {sourced:,}+{estimated:,}={sourced + estimated:,} "
                          f"does not reconcile with the leaf aggregate {total_spp:,}")
+    check_readme(sum(1 for t in taxa if t.get('rank') == 'family'), ngenera)
     jsonld, crawl = seo_blocks(taxa, meta, ngenera, total_spp, sourced, estimated)
     for ph, where in ((PLACEHOLDER, "shell"), ("/*__CSS__*/", "shell"), ("/*__JS__*/", "shell"),
                       ("<!--__JSONLD__-->", "shell"), ("<!--__CRAWL__-->", "shell"),
