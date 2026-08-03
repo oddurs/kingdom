@@ -260,24 +260,26 @@ lgitemsEl.addEventListener('mouseover', e=>{ const lg=e.target.closest('.lg'); i
   lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); lg.classList.add('on'); legendSpotlight(lg.dataset.sp); } });
 lgitemsEl.addEventListener('mouseleave', ()=>{ lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); legendSpotlight(null); });
 const storiesEl=document.getElementById('stories');
-storiesEl.innerHTML = '<span class="slabel">Highlight</span>'
-  + Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
+storiesEl.innerHTML = Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
   + '<button class="schip clear" data-story="_clear">Clear</button>';
 storiesEl.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(!b) return;
   if(b.dataset.story==='_clear'){ clearStory(); } else { setStory(b.dataset.story); } });
 // Records: jump straight to each superlative holder (Sprint I)
 const recordsbar=document.getElementById('recordsbar');
-recordsbar.innerHTML = '<span class="slabel">Records</span>'
-  + RECORDS_LIST.map(([label,node],i)=>`<button class="schip" data-rec="${i}" title="${node.name}">${label}</button>`).join('');
+recordsbar.innerHTML = RECORDS_LIST.map(([label,node],i)=>`<button class="schip" data-rec="${i}" title="${node.name}">${label}</button>`).join('');
 recordsbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(!b) return; const rec=RECORDS_LIST[+b.dataset.rec]; if(rec) select(rec[1]); });
 const toursbar=document.getElementById('toursbar');
-toursbar.innerHTML = '<span class="slabel">Tours</span>'
-  + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
+toursbar.innerHTML = Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
 document.getElementById('btnSurprise').onclick=surprise;
 
 // ---------- filter: query the tree by facets (Sprint K) ----------
-const filter={rich:null, lineage:null, region:null, age:null};
+// `regions` is a Set because a map invites more than one click, and because one
+// region was never much of a question: "has any native species in Asia-Tropical"
+// matched 322 of 479 families. The predicate is the centre of diversity instead —
+// the same regionCentre() the Region colour mode uses, so the map and the colours
+// answer the same question. That partitions properly: 134 / 79 / 71 / 70 / 48 …
+const filter={rich:null, lineage:null, regions:new Set(), age:null};
 const F_RICH=[['Any',null],['>100',100],['>1,000',1000],['>5,000',5000]];
 const F_AGE=[['Any',null],['Ancient · >100 Ma','ancient'],['Recent · <66 Ma','recent']];
 const _fchips=(items,facet,cur)=>items.map(([label,val])=>
@@ -285,36 +287,134 @@ const _fchips=(items,facet,cur)=>items.map(([label,val])=>
 function buildFilterUI(){
   document.getElementById('f-rich').innerHTML=_fchips(F_RICH,'rich',filter.rich);
   document.getElementById('f-lin').innerHTML=_fchips([['Any',null]].concat(order.map(id=>[LINEAGES[id].label,id])),'lineage',filter.lineage);
-  document.getElementById('f-reg').innerHTML=_fchips([['Any',null]].concat(Object.keys(CONTINENT_COL).map(c=>[CONTINENTS[c],c])),'region',filter.region);
+  buildRegionMap();
   document.getElementById('f-age').innerHTML=_fchips(F_AGE,'age',filter.age);
 }
 buildFilterUI();
+// The region control is the world, because nine place-names in a wrapping chip row
+// is a list you read and a map is a thing you recognise. Each region carries the
+// number of families it would add *given the other facets you have already set*,
+// so the count answers "what do I get" rather than "how big is Africa".
+function ageBucketMatches(n){
+  const a=n.ageMy!=null?n.ageMy:n.effAge;
+  if(filter.age==='ancient') return a!=null && a>=100;
+  if(filter.age==='recent')  return a!=null && a<66;
+  return true;
+}
+function regionCounts(){
+  const out={};
+  for(const c in CONTINENT_COL) out[c]=0;
+  eachNode(n=>{ if(n.rank!=='family') return;
+    if(filter.rich && n.agg<filter.rich) return;
+    if(filter.lineage && n.lineage!==filter.lineage) return;
+    if(filter.age && !ageBucketMatches(n)) return;
+    const c=regionCentre(n); if(c!=null && c in out) out[c]++; });
+  return out;
+}
+function buildRegionMap(){
+  const host=document.getElementById('f-reg');
+  const wm=DATA.worldmap;
+  if(!wm){ host.innerHTML='<span class="fnote">no distribution data</span>'; return; }
+  // Built once, then repainted. Replacing the markup on every toggle destroyed the
+  // element the keyboard was standing on, and re-focusing its replacement is a
+  // dance that only works until something else re-enters the function. Nothing is
+  // removed here, so focus has nowhere to fall.
+  if(!host.querySelector('.fmap')){
+    let paths='';
+    for(const c in wm.regions)
+      paths += `<path class="fmreg" d="${wm.regions[c]}" fill="${CONTINENT_COL[c]}"`
+             + ` tabindex="0" role="checkbox" data-reg="${c}"></path>`;
+    host.innerHTML =
+      `<svg class="fmap" viewBox="${wm.viewBox}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Filter by centre of diversity">${paths}</svg>`
+      + `<div class="fnote" id="fregnote"></div>`;
+  }
+  paintRegionMap();
+}
+function paintRegionMap(){
+  const counts=regionCounts();
+  const max=Math.max(1, ...Object.values(counts));
+  for(const el of document.querySelectorAll('#f-reg [data-reg]')){
+    const c=el.dataset.reg, on=filter.regions.has(c), n=counts[c]||0;
+    // unselected regions carry their own hue at a weight that reads as "how much is
+    // here"; selected ones go solid so the choice survives a glance
+    el.setAttribute('fill-opacity', (on ? 0.92 : (n ? (0.16+0.42*(n/max)) : 0.06)).toFixed(2));
+    el.classList.toggle('on', on);
+    el.setAttribute('aria-checked', String(on));
+    el.setAttribute('aria-label', `${CONTINENTS[c]}, ${n} famil${n===1?'y':'ies'}`);
+    let t=el.querySelector('title');
+    if(!t){ t=document.createElementNS('http://www.w3.org/2000/svg','title'); el.appendChild(t); }
+    t.textContent=`${CONTINENTS[c]} — ${n} famil${n===1?'y':'ies'} centred here`;
+  }
+  paintScatteredFallback();
+  const chosen=[...filter.regions].map(c=>CONTINENTS[c]);
+  const note=document.getElementById('fregnote');
+  if(note) note.textContent = chosen.length ? chosen.join(' · ') : 'Tap a region — families centred there';
+}
+// Two of the nine are not really shapes. The Pacific is islands scattered across a
+// third of the map — a 286×16 bounding box containing a few pixels of ink — and the
+// Antarctic is a thin strip. Both are fine to tab to and impossible to hit with a
+// finger, so they get chips; the seven that are landmasses do not need them.
+// Measured rather than named, because "which regions are too small" is a question
+// about the projection, and the projection could change.
+let _scattered=null;
+function paintScatteredFallback(){
+  const host=document.getElementById('f-reg');
+  const svg=host.querySelector('.fmap');
+  if(!svg || !svg.getBoundingClientRect().width) return;   // hidden menus have no geometry
+  if(_scattered===null){
+    _scattered=[];
+    for(const el of host.querySelectorAll('[data-reg]')){
+      const r=el.getBoundingClientRect();
+      if(r.width && r.height/r.width < 0.12) _scattered.push(el.dataset.reg);   // long, flat, mostly ocean
+    }
+  }
+  let row=host.querySelector('.fmscatter');
+  if(!row){ row=document.createElement('div'); row.className='stories fmscatter'; host.insertBefore(row, host.querySelector('.fnote')); }
+  row.innerHTML=_scattered.map(c=>{
+    const on=filter.regions.has(c);
+    return `<button class="schip${on?' on':''}" data-reg="${c}" aria-pressed="${on}">${escp(CONTINENTS[c])}</button>`;
+  }).join('');
+}
 function filterMatches(){
   const out=[];
   eachNode(n=>{ if(n.rank!=='family') return;
     if(filter.rich && n.agg<filter.rich) return;
     if(filter.lineage && n.lineage!==filter.lineage) return;
-    if(filter.region && !(n.distAgg && n.distAgg[filter.region]>0)) return;
-    if(filter.age){ const a=n.ageMy!=null?n.ageMy:n.effAge;
-      if(filter.age==='ancient' && !(a!=null && a>=100)) return;
-      if(filter.age==='recent' && !(a!=null && a<66)) return; }
+    if(filter.regions.size && !filter.regions.has(regionCentre(n))) return;
+    if(filter.age && !ageBucketMatches(n)) return;
     out.push(n); });
   return out;
 }
 function applyFilter(){
-  const active=filter.rich||filter.lineage||filter.region||filter.age;
+  const active=filter.rich||filter.lineage||filter.regions.size||filter.age;
   const fc=document.getElementById('fcount');
   if(!active){ if(activeStory==='_filter') clearStory(); fc.textContent='Set a facet to light up the matches'; return; }
   const ns=filterMatches();
   fc.textContent = ns.length ? (ns.length+' famil'+(ns.length===1?'y':'ies')+' match') : 'No families match';
   if(ns.length) highlightSet(ns, 'Filtered families', '_filter', false); else clearStory(false);
 }
-function clearFilter(){ filter.rich=filter.lineage=filter.region=filter.age=null; buildFilterUI();
+function clearFilter(){ filter.rich=filter.lineage=filter.age=null; filter.regions.clear(); buildFilterUI();
   if(activeStory==='_filter') clearStory(); document.getElementById('fcount').textContent='Set a facet to light up the matches'; updateHash(); }
-['f-rich','f-lin','f-reg','f-age'].forEach(gid=>document.getElementById(gid).addEventListener('click', e=>{
+['f-rich','f-lin','f-age'].forEach(gid=>document.getElementById(gid).addEventListener('click', e=>{
   const b=e.target.closest('[data-facet]'); if(!b) return; const facet=b.dataset.facet, raw=b.dataset.val;
   filter[facet] = raw==='' ? null : (facet==='rich' ? +raw : raw);
   buildFilterUI(); applyFilter(); updateHash(); }));
+// The map is its own control: regions toggle rather than replace, so a second
+// click adds a second continent instead of moving the answer. Enter and Space
+// because a <path role="checkbox"> is only a checkbox if it behaves like one.
+function toggleRegion(c){
+  if(!c) return;
+  filter.regions.has(c) ? filter.regions.delete(c) : filter.regions.add(c);
+  paintRegionMap(); applyFilter(); updateHash();
+}
+const fregEl=document.getElementById('f-reg');
+fregEl.addEventListener('click', e=>{ const p=e.target.closest('[data-reg]'); if(p) toggleRegion(p.dataset.reg); });
+fregEl.addEventListener('keydown', e=>{
+  if(e.key!=='Enter' && e.key!==' ') return;
+  const p=e.target.closest('[data-reg]'); if(!p) return;
+  e.preventDefault();
+  toggleRegion(p.dataset.reg);
+});
 document.getElementById('fclear').onclick=clearFilter;
 
 let totFam=0, totGen=0, totVasc=0, totEstFam=0, totUndatedFam=0, totSpp=ROOT.agg;
@@ -392,6 +492,9 @@ function toggleMenu(name){
   m.style.top=(r.bottom+8)+'px';
   m.style.left=Math.max(12, Math.min(r.right-mw, innerWidth-mw-12))+'px';    // right-align to the button, clamp on-screen
   btn.setAttribute('aria-expanded','true'); openMenu=m;
+  // the region map can only measure itself once it has geometry, and a hidden menu
+  // has none — so the scattered-region fallback is decided the first time it opens
+  if(name==='filter') paintRegionMap();
 }
 document.addEventListener('click', e=>{
   const trig=e.target.closest('[data-menu]');

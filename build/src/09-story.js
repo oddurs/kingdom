@@ -72,7 +72,7 @@ function shareHash(){
   if(colorMode!=='lineage') p.push('c='+colorMode);
   if(filter.rich)    p.push('fr='+filter.rich);
   if(filter.lineage) p.push('fl='+filter.lineage);
-  if(filter.region)  p.push('fg='+filter.region);
+  if(filter.regions.size) p.push('fg='+[...filter.regions].sort().join(','));
   if(filter.age)     p.push('fa='+filter.age);
   if(renderRoot!==ROOT) p.push('fo='+encodeURIComponent(renderRoot.name));   // focused subtree
   if(activeStory && STORIES[activeStory]) p.push('hl='+activeStory);   // curated highlight (filter facets carry their own)
@@ -116,11 +116,11 @@ function applyHash(){
     const facet=(key, ok)=>{ const v=params.get(key); return (v && ok(v)) ? v : null; };
     const fr=facet('fr', v=>F_RICH.some(([,n])=>n!=null && String(n)===v));
     const fl=facet('fl', v=>order.includes(v));
-    const fg=facet('fg', v=>Object.prototype.hasOwnProperty.call(CONTINENT_COL, v));
+    const fg=facet('fg', v=>v.split(',').every(c=>Object.prototype.hasOwnProperty.call(CONTINENT_COL, c)));
     const fa=facet('fa', v=>F_AGE.some(([,k])=>k!=null && k===v));
     if(fr){ filter.rich=+fr; fset=true; }
     if(fl){ filter.lineage=fl; fset=true; }
-    if(fg){ filter.region=fg; fset=true; }
+    if(fg){ filter.regions=new Set(fg.split(',')); fset=true; }
     if(fa){ filter.age=fa; fset=true; }
     if(fset){ buildFilterUI(); applyFilter(); }
     const hl=params.get('hl'); if(hl && STORIES[hl]) setStory(hl);
@@ -135,7 +135,7 @@ function resetView(){                          // back to the landing baseline, 
   try{
     if(tour) endTour();
     if(activeStory) clearStory(false);
-    if(filter.rich||filter.lineage||filter.region||filter.age) clearFilter();
+    if(filter.rich||filter.lineage||filter.regions.size||filter.age) clearFilter();
     if(timeMode) exitTime();
     if(selected) closePanel();
     if(compareA) clearCompare();                 // after closePanel, so it has no panel to rebuild
