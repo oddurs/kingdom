@@ -21,10 +21,12 @@ reasoning — including where the plan turned out to be wrong.
 | V | [Front Page](sprint-v-front-page.md) | Making the numbers defensible before an audience |
 | Y | [Deep Time](sprint-y-deep-time.md) | The timeline, rebuilt around framing rather than opacity |
 | AA | [Guardrails](sprint-aa-guardrails.md) | CI that holds: branch protection, CodeQL, a weekly health check |
+| AC | [In Hand](sprint-ac-in-hand.md) | The phone: a stack with an owner, a key that travels, a depth a finger can hit |
 
 Not every sprint has a plan document — the design-system and navbar work (W, X)
-was built directly from a critique rather than a written plan. The commit
-messages carry that reasoning instead.
+was built directly from a critique rather than a written plan, and AB was an
+audit-driven pass over six unrelated defects. The commit messages carry that
+reasoning instead.
 
 **Forward-looking notes.**
 
