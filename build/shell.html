@@ -118,6 +118,10 @@
   <div class="menu-sec mob-colour">
     <span class="menu-label">Colour by</span>
     <span class="stories" data-cmode-host role="group" aria-label="Colour by"></span>
+    <!-- the key travels with the switcher. On a phone the legend is hidden, so
+         without this you can recolour the whole tree and have nothing to read it by. -->
+    <span class="lgtitle" data-lgtitle-host></span>
+    <div class="lgitems" data-lgkey-host></div>
   </div>
   <div class="menu-sec">
     <button class="ctl wide" id="btnShare" title="Copy a link that reopens exactly this view">Share this view</button>
@@ -215,8 +219,8 @@
   <div class="legendbar" id="legendbar">
     <div class="lgmode"><span class="menu-label">Colour by</span>
       <span class="stories" data-cmode-host role="group" aria-label="Colour by"></span></div>
-    <div class="lgtitle" id="lgtitle"></div>
-    <div class="lgitems" id="lgitems"></div>
+    <div class="lgtitle" id="lgtitle" data-lgtitle-host></div>
+    <div class="lgitems" id="lgitems" data-lgkey-host></div>
   </div>
   <div class="minimap hide" id="minimap" aria-hidden="true">
     <svg id="mmsvg" viewBox="0 0 190 132" preserveAspectRatio="none"><g id="mmroot"><g id="mmcontent"></g><rect class="mvp" id="mmvp" x="0" y="0" width="0" height="0"></rect></g></svg>

@@ -220,8 +220,13 @@ function buildColorUI(){
   const chips=CMODES.map(([id,l])=>
     `<button class="schip${id===colorMode?' on':''}" data-cmode="${id}" aria-pressed="${id===colorMode}">${l}</button>`).join('');
   document.querySelectorAll('[data-cmode-host]').forEach(h=>{ h.innerHTML=chips; });
-  document.getElementById('lgtitle').textContent=LGTITLE[colorMode]||'Colour';
-  document.getElementById('lgitems').innerHTML=legendSwatches();
+  // The key renders wherever the switcher does. It used to render only into the
+  // legend, which is display:none below 680px — so a phone could recolour the whole
+  // tree by lineage, age or region from the overflow menu and be given nine
+  // unexplained colours with nothing to read them by.
+  const title=LGTITLE[colorMode]||'Colour', key=legendSwatches();
+  document.querySelectorAll('[data-lgtitle-host]').forEach(h=>{ h.textContent=title; });
+  document.querySelectorAll('[data-lgkey-host]').forEach(h=>{ h.innerHTML=key; });
 }
 // hovering a legend entry spotlights the matching taxa in the tree (reuses the .focusing/.lit dim)
 function nodeMatchesSp(sp, n){

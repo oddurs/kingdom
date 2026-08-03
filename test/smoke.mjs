@@ -1227,6 +1227,37 @@ async function main() {
     check("the footer hides none of itself behind an invisible scroll",
       JSON.parse(foot).hidden === false, foot);
 
+    // The colour switcher is reachable on a phone (the overflow menu) but the legend
+    // that explains what the colours mean is display:none below 680px — so you could
+    // recolour all 14,740 nodes by native region and be handed nine unexplained hues.
+    // Wherever the switcher goes, the key goes.
+    const key = await ev(`(()=>{
+      const out={};
+      for(const m of ['lineage','age','region']){
+        setColorMode(m);
+        const host=[...document.querySelectorAll('[data-lgkey-host]')]
+          .find(h=>h.offsetParent!==null || h.closest('#menu-more'));
+        const menu=document.getElementById('menu-more');
+        out[m]={entries: host?host.querySelectorAll('.lg').length:0,
+                title: (menu.querySelector('[data-lgtitle-host]')||{}).textContent||''};
+      }
+      setColorMode('lineage');
+      return JSON.stringify(out);})()`);
+    const K = JSON.parse(key);
+    check("every colour mode carries its key where a phone can reach it",
+      K.lineage.entries >= 8 && K.age.entries >= 10 && K.region.entries >= 10
+      && K.region.title === "Native region", key);
+
+    // …and the menu that now holds it must still fit the screen it opens on
+    const menuFit = await ev(`(()=>{
+      setColorMode('age');
+      document.querySelector('[data-menu="more"]').click();
+      const r=document.getElementById('menu-more').getBoundingClientRect();
+      const out={h:Math.round(r.height), bottom:Math.round(r.bottom), viewportH:innerHeight, fits:r.bottom<=innerHeight+1};
+      closeMenu(); setColorMode('lineage');
+      return JSON.stringify(out);})()`); await wait(200);
+    check("the overflow menu still fits the phone with a key in it", JSON.parse(menuFit).fits === true, menuFit);
+
     check("no console errors on a phone", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 
