@@ -599,15 +599,31 @@ function updateTimeReadout(){
 // deep time reads without knowing a single period name.
 const ERAS=[['Palaeozoic',TMAX,252],['Mesozoic',252,66],['Cenozoic',66,0]];
 function buildBands(){
+  // A band fits a name or it doesn't, and that is a question about pixels. Deciding
+  // it in percent of the axis meant the same 7% threshold passed "Carboniferous"
+  // on a 600px desktop track (42px, still too narrow) and on a 324px phone track
+  // (23px). The bands centre their label and clip it, so the overflow showed the
+  // *middle* of each word: Silurian, Devonian, Carboniferous, Permian, Triassic,
+  // Jurassic, Cretaceous, Paleogene rendered as "Silu vonio nifermi iass tace oge".
+  const trackW = tbtrack.getBoundingClientRect().width || 600;
+  const fits = (text, px) => px >= text.length*5.4 + 6;   // 8.5px semibold, +breathing room
   tbbands.innerHTML = GEOP.map(p=>{
     const left=(TMAX-p[1])/TMAX*100, w=(p[1]-p[2])/TMAX*100;
-    const label = w>7 ? p[0] : (w>3.2 ? p[0].slice(0,4) : '');
+    const px = w/100*trackW;
+    const abbr = p[0].slice(0,4);
+    const label = fits(p[0], px) ? p[0] : (fits(abbr, px) ? abbr : '');
     return `<div class="bd" data-per="${escp(p[0])}" style="left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;background:${p[3]}" title="${escp(p[0])} ${p[1]}–${p[2]} Ma">`
       + (label?`<span>${escp(label)}</span>`:'') + `</div>`;
   }).join('');
-  const eras=ERAS.map(([n,a,b])=>{
+  // The era rule has the same problem without the clipping to hide it: the labels
+  // are absolutely positioned and nowrap, so on a narrow track they simply print
+  // over each other. Each one gets the room between its own boundary and the next.
+  const eras=ERAS.map(([n,a,b],i)=>{
     const left=(TMAX-a)/TMAX*100;
-    return `<i style="left:${left.toFixed(2)}%">${n}</i>`;
+    const nextLeft = ERAS[i+1] ? (TMAX-ERAS[i+1][1])/TMAX*100 : 100;
+    const room = (nextLeft-left)/100*trackW - 6;
+    const label = fits(n, room) ? n : (fits(n.slice(0,4), room) ? n.slice(0,4) : '');
+    return `<i style="left:${left.toFixed(2)}%">${label}</i>`;
   }).join('');
   let rule=tbtrack.querySelector('.tberas');
   if(!rule){ rule=document.createElement('div'); rule.className='tberas'; tbtrack.appendChild(rule); }
@@ -660,6 +676,7 @@ function enterTime(){
   if(mode==='treemap'||mode==='sunburst') switchMode('radial');
   timeHandOff=false; timeLastPeriod=null;
   setTime(0);   // begin at the present — the full tree — then scrub/play back into deep time
+  syncStageChrome();
   updateHash();
 }
 function exitTime(){
@@ -670,6 +687,7 @@ function exitTime(){
   timeHandOff=false;
   for(const el of nodeEls.values()){ el.style.opacity=''; el.style.pointerEvents=''; el.classList.remove('undated'); }
   for(const el of linkEls.values()) el.style.opacity='';
+  syncStageChrome();
 }
 btnTime.onclick=()=> timeMode?exitTime():enterTime();
 
@@ -728,4 +746,4 @@ render(); applyT(); fit(0);
 applyHash();
 const _welcomed = initWelcome();
 if(!location.hash && !_welcomed) maybeEntrance();   // returning visitor: grow right away
-window.addEventListener('resize', ()=>{ refreshStageSize(); if(!selected && !activeStory) fit(0); else applyMount(false); });
+window.addEventListener('resize', ()=>{ refreshStageSize(); syncStageChrome(); if(!selected && !activeStory) fit(0); else applyMount(false); });

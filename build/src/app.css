@@ -658,18 +658,27 @@
     .controls{width:100%; gap:6px}
     .search{flex:1 1 100%} .search input{width:100%}
     .barsep{display:none}
-    footer.meta{gap:14px; flex-wrap:nowrap; overflow-x:auto; white-space:nowrap}
+    /* The counts used to sit on one nowrap line inside overflow-x:auto, so at 390px
+       the last of them and the Sources button were simply off-screen behind a
+       scroll nobody could see was there. The base rule already wraps; the mobile
+       override was the only thing stopping it. Two short lines beat one hidden one. */
+    footer.meta{gap:6px 14px; padding:6px 14px}
     footer.meta>span{flex:0 0 auto}
     footer .src{margin-left:0}
     /* roomier taps: bigger zoom pill, comfortable button height */
-    .zoomctl{right:12px; bottom:12px}
+    .zoomctl{right:12px; bottom:calc(12px + var(--sheet-h,0px) + var(--tb-h,0px))}
     .zoomctl button{width:42px; height:42px; font-size:18px}
     button.ctl{padding:9px 12px}
-    .panel{top:auto; bottom:0; left:0; right:auto; width:100vw; max-width:100vw; max-height:62%;
+    /* --tb-h and --sheet-h are published by syncStageChrome() — see 08-panels.js.
+       The sheet sits above the scrubber, and the zoom pill above both, so the three
+       bottom-anchored surfaces stack instead of overlapping. */
+    .panel{top:auto; bottom:var(--tb-h,0px); left:0; right:auto; width:100vw; max-width:100vw;
+      max-height:calc(62% - var(--tb-h,0px));
       overflow-x:hidden;
       border:1px solid var(--edge); border-radius:var(--r-3) var(--r-3) 0 0;
       transform:translateY(18px)}
     .panel.open{transform:none}
+    .timebar{width:calc(100vw - 20px); bottom:10px; padding:8px 11px 9px}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important}

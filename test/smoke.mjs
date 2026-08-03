@@ -1180,7 +1180,53 @@ async function main() {
     const C = JSON.parse(close);
     check("the panel's close button clears the 24px touch floor", C.w >= 24 && C.h >= 24, close);
 
-    await ev(`closePanel()`); await wait(200);
+    // Three surfaces are anchored to the bottom of the stage and each was placed
+    // there independently: the sheet covered the zoom pill outright, and turning
+    // the timeline on painted the scrubber across the sheet's lower third.
+    const zoom = await ev(`(()=>{const r=document.querySelector('.zoomctl').getBoundingClientRect();
+      const hit=document.elementFromPoint(r.left+r.width/2, r.top+r.height/2);
+      const z=document.querySelector('.zoomctl');
+      return JSON.stringify({reachable: !!hit && (hit===z || z.contains(hit)),
+        coveredBy: hit ? (hit.id||hit.className||hit.tagName) : 'nothing'});})()`);
+    check("the zoom pill is not buried under the bottom sheet", JSON.parse(zoom).reachable === true, zoom);
+
+    await ev(`enterTime(); setTime(200)`); await wait(700);
+    const stack = await ev(`(()=>{
+      const p=document.getElementById('panel').getBoundingClientRect();
+      const t=document.getElementById('timebar').getBoundingClientRect();
+      const z=document.querySelector('.zoomctl').getBoundingClientRect();
+      const over=(a,b)=>Math.max(0, Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+      return JSON.stringify({panelOverTimebar:Math.round(over(p,t)), zoomOverPanel:Math.round(over(z,p))});})()`);
+    const ST = JSON.parse(stack);
+    check("panel, scrubber and zoom pill stack instead of overlapping",
+      ST.panelOverTimebar === 0 && ST.zoomOverPanel === 0, stack);
+
+    // The bands centre their label and clip it, so a name that doesn't fit shows
+    // its middle: "Carboniferous" rendered as "nifermi". The fit test was in
+    // percent of the axis, which is not a unit that knows how wide a word is.
+    const bands = await ev(`(()=>{
+      const bad=[];
+      for(const b of document.querySelectorAll('.tbbands .bd')){
+        const s=b.querySelector('span'); if(!s) continue;
+        if(s.scrollWidth > b.clientWidth) bad.push(b.dataset.per+': '+s.textContent);
+      }
+      // the era labels aren't clipped by anything, so their failure mode is running
+      // off the end of the track rather than overlapping each other
+      const track=document.getElementById('tbtrack').getBoundingClientRect();
+      const spill=[...document.querySelectorAll('.tberas i')]
+        .filter(i=>i.textContent && i.getBoundingClientRect().right > track.right+1)
+        .map(i=>i.textContent);
+      return JSON.stringify({clipped:bad, eraSpill:spill});})()`);
+    const BD = JSON.parse(bands);
+    check("no period label is drawn wider than the room it has",
+      BD.clipped.length === 0 && BD.eraSpill.length === 0, bands);
+
+    await ev(`exitTime(); closePanel()`); await wait(400);
+    const foot = await ev(`(()=>{const f=document.querySelector('footer.meta');
+      return JSON.stringify({hidden: f.scrollWidth>f.clientWidth, h:Math.round(f.getBoundingClientRect().height)});})()`);
+    check("the footer hides none of itself behind an invisible scroll",
+      JSON.parse(foot).hidden === false, foot);
+
     check("no console errors on a phone", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 
