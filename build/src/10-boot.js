@@ -747,6 +747,30 @@ document.addEventListener('keydown', e=>{                 // R → surprise me (
 if(perfOn) togglePerf(true);
 
 refreshStageSize();
+// A phone opens shallower. The default depth puts 132 nodes on screen, and fitting
+// them into a 390px-wide circle leaves 9.5px between neighbours — so the primary
+// interaction, tapping a node, asks for a target a third of the 24px floor, with
+// nothing to say you must zoom first. Fewer nodes is the only lever that moves
+// that number: a hit target cannot be wider than the space between targets.
+//
+// Measured at 390 across cutoffs: depth<2 gives 9 nodes at 80px, depth<4 gives 55
+// at 26.5px, depth<5 gives 133 at 9.1px. The first attempt here used depth<2,
+// because it clears the floor by the widest margin and is an existing preset. It
+// was wrong, and only a screenshot said so: nine dots in an empty field reads as a
+// broken app, not as a tree of life. The measurement was right and the view was
+// indefensible.
+//
+// depth<4 is the deepest cut that still clears the floor, and it looks like what it
+// is — the bryophyte fan, the fern radiation, the gymnosperm limb, and the
+// angiosperms massed behind Eudicots and Monocots. No Depth preset describes it,
+// so none is lit; the alternative was leaving "Orders" claiming a state it isn't.
+//
+// Only on a fresh visit: a hash is someone arriving at a particular view, and
+// applyHash() below owns that.
+if(matchMedia('(max-width:680px)').matches && !location.hash){
+  eachNode(n=>{ n.open=(n.children||[]).length>0 && n.depth<4; });
+  setDepthActive('');
+}
 render(); applyT(); fit(0);
 applyHash();
 const _welcomed = initWelcome();

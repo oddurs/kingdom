@@ -1261,6 +1261,44 @@ async function main() {
     check("no console errors on a phone", errors.length === 0, errors.slice(0, 3).join(" | "));
   });
 
+  // The phone's opening depth is chosen so that the first thing anyone does — tap a
+  // node — lands on a real target. This session reloads at 390 so it sees the boot
+  // path rather than a desktop boot resized afterwards.
+  await session([], async ({ ev, send }) => {
+    await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
+    await send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 5 });
+    await send("Page.reload", {});
+    await poll(() => ev(`typeof ROOT!=='undefined' && !!ROOT && visibleNodes.length>0`), 15000, "phone boot");
+    await ev(`(()=>{const w=document.getElementById('wexplore'); if(w) w.click();})()`);
+    await wait(1400);
+
+    const gaps = await ev(`(()=>{
+      const c=[];
+      for(const el of document.querySelectorAll('#nodes .node')){const r=el.getBoundingClientRect();
+        if(r.width) c.push([r.left+r.width/2, r.top+r.height/2]);}
+      const d=c.map(([x,y],i)=>{let m=1e9; c.forEach(([a,b],j)=>{ if(i!==j) m=Math.min(m,Math.hypot(x-a,y-b)); }); return m;}).sort((a,b)=>a-b);
+      const lit=[...document.querySelectorAll('#depthseg .ctl')].filter(b=>b.classList.contains('on')).map(b=>b.textContent);
+      return JSON.stringify({visible:c.length, p10:+d[Math.floor(d.length*0.1)].toFixed(1),
+        labelled:document.querySelectorAll('#nodes .node text').length, depthLit:lit});})()`);
+    const G = JSON.parse(gaps);
+    check("a phone opens on nodes a finger can hit", G.p10 >= 24, gaps);
+    // …and on enough of them to still read as a tree rather than a broken app —
+    // the first attempt at this cleared the touch floor with nine dots in an empty
+    // field, which no measurement objected to and no one would call a tree of life
+    check("a phone still opens on something that reads as a tree", G.visible >= 40 && G.labelled >= 20, gaps);
+    check("no Depth preset claims a state it isn't", G.depthLit.length === 0, gaps);
+  });
+
+  // …and none of that reaches the desktop, which was never the problem
+  await session([], async ({ ev }) => {
+    const desk = await ev(`(()=>{
+      const lit=[...document.querySelectorAll('#depthseg .ctl')].filter(b=>b.classList.contains('on')).map(b=>b.textContent);
+      return JSON.stringify({visible:visibleNodes.length, depthLit:lit});})()`);
+    const D = JSON.parse(desk);
+    check("the desktop still opens on the full order-level tree",
+      D.visible > 120 && D.depthLit.join() === "Orders", desk);
+  });
+
   const failed = results.filter((r) => !r.pass);
   console.log(`\n${results.length - failed.length}/${results.length} checks passed`);
   if (failed.length) {
