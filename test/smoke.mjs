@@ -704,7 +704,7 @@ async function main() {
       const tb=document.getElementById('timebar');
       return JSON.stringify({
         emitted: shareHash(),
-        filter: {...filter},
+        filter: {...filter, regions:[...filter.regions]},
         timeNow: typeof timeNow==='number' ? (Number.isFinite(timeNow)?'finite':'NaN') : String(timeNow),
         readout: tb.textContent,
         aria: (tb.querySelector('[role=slider]')||{getAttribute:()=>null}).getAttribute('aria-valuenow'),
@@ -713,7 +713,7 @@ async function main() {
     check("a malformed link is refused, not absorbed",
       !/NaN|notALineage|garbage|notANumber|nope|42/.test(J.emitted + J.readout + String(J.aria))
       && J.timeNow !== "NaN"
-      && Object.values(J.filter).every((v) => v === null), junk);
+      && Object.entries(J.filter).every(([k, v]) => (k === 'regions' ? v.length === 0 : v === null)), junk);
     await ev(`resetView(); history.replaceState(null,'',location.pathname);`); await wait(200);
 
     // …and a link the app itself produced must survive the round trip, which is the
@@ -724,6 +724,7 @@ async function main() {
     for (const [what, hash] of [
       ["view + colour + focus + selection", "#m=tree&c=region&fo=Asteraceae&sel=Asteraceae"],
       ["filter facets", "#fr=1000&fl=rosid&fa=ancient"],
+      ["a two-region map selection", "#fg=2,8"],
       ["time", "#t=120"],
     ]) {
       await ev(`resetView(); history.pushState(null,'','${hash}'); applyHash();`); await wait(400);
@@ -731,6 +732,71 @@ async function main() {
       check(`a shared link round-trips — ${what}`, same(hash, out), `${hash} → ${out}`);
     }
     await ev(`resetView(); history.replaceState(null,'',location.pathname);`); await wait(200);
+
+    // The region facet was nine place-names in a wrapping chip row, and it asked the
+    // wrong question: "has any native species here" matched 322 of 479 families for
+    // Asia-Tropical alone. It is a map now, and the predicate is the centre of
+    // diversity — the same regionCentre() the Region colour mode uses, so the map
+    // and the colours agree. Antarctica is the proof they are different questions:
+    // 63 families occur there, none are centred there.
+    const map = await ev(`(()=>{
+      clearFilter();
+      const regs=[...document.querySelectorAll('#f-reg [data-reg]')];
+      const before=regionCounts();
+      toggleRegion('8'); const one=filterMatches().length;
+      toggleRegion('2'); const two=filterMatches().length;
+      filter.lineage='rosid'; buildFilterUI(); applyFilter();
+      const conditioned=regionCounts();
+      const hash=shareHash();
+      clearFilter();
+      return JSON.stringify({
+        isMap: !!document.querySelector('#f-reg .fmap'), regions: regs.length,
+        labelled: regs.filter(p=>/famil(y|ies)/.test(p.getAttribute('aria-label')||'')).length,
+        checkboxes: regs.filter(p=>p.getAttribute('role')==='checkbox').length,
+        focusable: regs.filter(p=>p.tabIndex>=0).length,
+        one, two, adds: two>one, antarcticCentred: before['9'],
+        narrowedByLineage: conditioned['8'] < before['8'], hash,
+      });})()`); await wait(250);
+    const MP = JSON.parse(map);
+    check("the region facet is a map of all nine regions", MP.isMap && MP.regions === 9, map);
+    check("each region is a focusable checkbox named with its count",
+      MP.checkboxes === 9 && MP.focusable === 9 && MP.labelled === 9, map);
+    check("regions accumulate rather than replace one another",
+      MP.adds === true && /fg=2,8/.test(MP.hash), map);
+    // the count answers "what do I get", not "how big is Africa", so it is
+    // conditioned on the facets already set
+    check("region counts narrow as other facets are set", MP.narrowedByLineage === true, map);
+    check("no family is centred on Antarctica, and the map says so", MP.antarcticCentred === 0, map);
+
+    // The map is built once and repainted, so a keyboard toggle never destroys the
+    // element it is standing on — which is why focus is still there afterwards.
+    const mapKb = await ev(`(()=>{
+      clearFilter();
+      document.querySelector('[data-menu="filter"]').click();   // hidden elements cannot take focus
+      const p=document.querySelector('#f-reg [data-reg="2"]'); p.focus();
+      p.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));
+      const after=document.activeElement, on=[...filter.regions];
+      closeMenu(); clearFilter();
+      return JSON.stringify({on, keptFocus: !!(after && after.dataset && after.dataset.reg==='2')});})()`); await wait(200);
+    const MK = JSON.parse(mapKb);
+    check("the map is operable from the keyboard, and focus survives the redraw",
+      MK.on.join() === "2" && MK.keptFocus === true, mapKb);
+
+    // Two of the nine are not shapes a finger can find: the Pacific is islands
+    // scattered over a third of the map — a wide, flat bounding box holding a few
+    // pixels of ink — and the Antarctic is a strip. Both tab fine and neither can be
+    // tapped, so they get chips. Which ones is measured from the projection, not named.
+    const scatter = await ev(`(()=>{
+      clearFilter();
+      document.querySelector('[data-menu="filter"]').click();
+      const chips=[...document.querySelectorAll('.fmscatter [data-reg]')];
+      const names=chips.map(b=>b.textContent);
+      if(chips[0]) chips[0].click();
+      const picked=[...filter.regions];
+      closeMenu(); clearFilter();
+      return JSON.stringify({names, picked});})()`); await wait(200);
+    const SC = JSON.parse(scatter);
+    check("regions too scattered to tap keep a chip", SC.names.length === 2 && SC.picked.length === 1, scatter);
 
     // Leaving the timeline does clear t= from the address bar, but only indirectly:
     // exitTime() clears timeMode, then calls pausePlay(), whose replaceHash() is what
