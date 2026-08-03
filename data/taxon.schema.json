@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://oddurs.github.io/kingdom/taxon.schema.json",
+  "$id": "https://oddurs.github.io/yggdrasil/taxon.schema.json",
   "title": "biomi flat taxon record",
   "description": "One record per taxon in data/taxa.json. The flat, ID-keyed source of truth; build.py derives the nested visualization tree from it.",
   "type": "object",

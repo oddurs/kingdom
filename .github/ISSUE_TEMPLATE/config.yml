@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/oddurs/kingdom/security/advisories/new
+    url: https://github.com/oddurs/yggdrasil/security/advisories/new
     about: Please report security issues privately, not as a public issue.
   - name: A taxonomic or data correction
-    url: https://github.com/oddurs/kingdom/issues/new?labels=data&template=data_correction.yml
+    url: https://github.com/oddurs/yggdrasil/issues/new?labels=data&template=data_correction.yml
     about: Wrong count, wrong placement, wrong age — these are especially welcome.

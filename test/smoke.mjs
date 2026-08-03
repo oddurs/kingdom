@@ -969,6 +969,28 @@ async function main() {
     const SA = typeof srcAbout === "string" && srcAbout[0] === "{" ? JSON.parse(srcAbout) : {};
     check("the footer's sources line opens About", SA.open === true && SA.isAbout === true, String(srcAbout));
 
+    // The source was reachable only from inside About, itself behind an unlabelled
+    // ellipsis. This asserts the visible route, and that every repository link
+    // agrees — they were four separate string literals until the rename made the
+    // cost of that obvious.
+    const src = await ev(`(()=>{
+      closeModal();
+      const gh=document.querySelector('footer .gh');
+      const all=[...document.querySelectorAll('a[href*="github.com"]')].map(a=>a.getAttribute('href'));
+      const body=aboutHTML();
+      const inAbout=[...body.matchAll(/href="(https:\\/\\/github\\.com[^"]*)"/g)].map(m=>m[1]);
+      const hosts=new Set([...all,...inAbout].map(u=>u.split('/').slice(0,5).join('/')));
+      return JSON.stringify({
+        footerLink: gh ? gh.getAttribute('href') : null,
+        opensInNewTab: gh ? gh.getAttribute('rel')==='noopener' && gh.getAttribute('target')==='_blank' : false,
+        hasMark: !!(gh && gh.querySelector('svg use')),
+        distinctRepos: [...hosts],
+      });})()`); await wait(150);
+    const SRC = JSON.parse(src);
+    check("the source is one click from the footer, not buried in About",
+      SRC.footerLink === "https://github.com/oddurs/yggdrasil" && SRC.opensInNewTab && SRC.hasMark, src);
+    check("every repository link names the same repository", SRC.distinctRepos.length === 1, src);
+
     // The interface accent must stay distinct from every lineage hue. The UI used
     // to borrow --l-fern, which meant the primary control and the fern branches
     // were literally the same colour — a chip could be mistaken for a lineage, and

@@ -40,11 +40,6 @@
     "role": "identifiers + backbone metrics",
     "url": "https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"
    },
-   "wikidata": {
-    "title": "Wikidata",
-    "role": "identifiers + media",
-    "url": "https://www.wikidata.org"
-   },
    "estimate": {
     "title": "Approximate estimate",
     "role": "placeholder pending sourced value"

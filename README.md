@@ -13,7 +13,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="Code: MIT" src="https://img.shields.io/badge/code-MIT-1f7a4d"></a>
   <a href="DATA-LICENSE"><img alt="Data: CC BY 4.0" src="https://img.shields.io/badge/data-CC%20BY%204.0-1f7a4d"></a>
-  <a href="https://github.com/oddurs/kingdom/actions/workflows/deploy.yml"><img alt="Build" src="https://github.com/oddurs/kingdom/actions/workflows/deploy.yml/badge.svg"></a>
+  <a href="https://github.com/oddurs/yggdrasil/actions/workflows/deploy.yml"><img alt="Build" src="https://github.com/oddurs/yggdrasil/actions/workflows/deploy.yml/badge.svg"></a>
   <img alt="Runtime dependencies: zero" src="https://img.shields.io/badge/runtime%20deps-0-1f7a4d">
 </p>
 
@@ -186,7 +186,8 @@ make storybook          # workshop at http://localhost:6006
 Drag to pan, scroll or pinch to zoom. **Click** a node for its detail panel and
 to expand it. **Search** jumps to any family or genus. **Hover** traces a lineage
 back to the root. **Timeline** grows the tree through 445 million years.
-Keyboard: arrows traverse, Enter expands, `?` for the full list.
+Keyboard: arrows traverse, Enter opens the taxon under the cursor, `?` for the
+full list. A skip link jumps straight to the tree.
 
 Links are shareable — the URL encodes the full view, so *Share this view* gives a
 link that reopens exactly what you're looking at.
@@ -195,7 +196,8 @@ link that reopens exactly what you're looking at.
 
 Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for the build,
 the test gate, and the few rules the build enforces about data honesty.
-Taxonomic corrections are especially welcome; bring a citation.
+Taxonomic corrections are especially welcome; bring a citation. By taking part
+you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 For security reports, see [SECURITY.md](SECURITY.md) — please don't open a public
 issue.

@@ -5,7 +5,7 @@
 Please **don't** open a public issue for a security problem.
 
 Use GitHub's private reporting — [Security → Report a
-vulnerability](https://github.com/oddurs/kingdom/security/advisories/new) — or
+vulnerability](https://github.com/oddurs/yggdrasil/security/advisories/new) — or
 email <oddurs@gmail.com>. I'll acknowledge within a few days.
 
 ## Scope, honestly

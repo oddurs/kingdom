@@ -335,6 +335,11 @@
   footer a.fx:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
   footer .src{margin-left:auto; color:var(--faint); font-family:var(--sans); font-size:11px;
     background:none; border:0; padding:0; cursor:pointer}   /* provenance sits right, apart from the live counts */
+  /* the source link rides with the provenance, not with the counts — both answer
+     "where did this come from", and neither is a statistic */
+  footer .gh{display:inline-flex; align-items:center; gap:5px; color:var(--faint); text-decoration:none}
+  footer .gh .ic{width:13px; height:13px; flex:none}
+  footer .gh:hover{color:var(--ink)}
 
   /* zoom: a single cohesive vertical pill, seamless buttons + hairline divider */
   .zoomctl{position:absolute; right:16px; bottom:16px; display:flex; flex-direction:column; z-index:6;
