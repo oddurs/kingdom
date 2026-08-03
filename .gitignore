@@ -9,6 +9,9 @@ storybook/
 # assembled deployable site (build/site.py) — app + generated taxon pages
 _site/
 
+# visual-review screenshots (tools/shots.mjs) — look at them, don't commit them
+shots/
+
 # design-system tooling (dev-only; the shipped app has no npm deps)
 node_modules/
 storybook-static/
