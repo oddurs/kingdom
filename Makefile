@@ -2,7 +2,7 @@
 # The design-system workshop (`storybook`) additionally needs `npm install`.
 # Run `make` with no target for the list.
 .DEFAULT_GOAL := help
-.PHONY: help build test test-pages check live links site serve clean fonts og shots storybook storybook-build
+.PHONY: help build test test-pages check live links site serve clean fonts og shots mutate storybook storybook-build
 
 help: ## show this help
 	@grep -hE '^[a-z-]+:.*##' $(MAKEFILE_LIST) | sort | sed -E 's/:.*## / — /'
@@ -39,6 +39,9 @@ og: build ## regenerate og.jpg — the social-share preview (needs Chrome/Chromi
 
 shots: build ## screenshot the app at phone/tablet/desktop widths into shots/ (needs Chrome/Chromium)
 	node tools/shots.mjs
+
+mutate: ## seed known defects and check the suite notices — slow, one full suite run each
+	node test/mutate.mjs
 
 storybook: ## run the design-system workshop at http://localhost:6006 (needs `npm install`)
 	npm run storybook

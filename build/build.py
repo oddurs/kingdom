@@ -486,7 +486,11 @@ def main() -> None:
     # concatenated JS modules inlined, then the data injected.
     shell = SHELL.read_text(encoding="utf-8")
     css = "".join(p.read_text(encoding="utf-8") for p in CSS_PARTS)
-    js = "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
+    # Ten modules concatenated into one <script> share one scope, and in sloppy mode
+    # a mistyped assignment there does not fail — it silently creates a global.
+    # check_collisions() cannot see that: it reads declarations, and an implicit
+    # global is precisely the thing that never gets declared.
+    js = '"use strict";\n' + "".join((SRC / m).read_text(encoding="utf-8") for m in MODULES)
     check_collisions()
     check_narration()
     total_spp = agg_species(tree)
