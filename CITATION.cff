@@ -14,7 +14,7 @@ repository-code: "https://github.com/oddurs/yggdrasil"
 url: "https://yggdrasil.oddurs.com"
 abstract: >-
   An interactive visualisation of the classification of land plants: 479
-  families and 14,135 accepted genera, sized by accepted-species richness,
+  families and 14,129 accepted genera, sized by accepted-species richness,
   coloured by lineage, and dated to geological time. The backbone follows APG IV
   and PPG I; species counts and native distributions come from Kew's World
   Checklist of Vascular Plants; divergence ages are crown estimates computed as

@@ -107,7 +107,7 @@ The raw source files are git-ignored; scripts read them from these paths:
 |--------|-------|--------|----------------|
 | `build/fetch.py` | GBIF API (internet) | `ids.gbif`, `gbifSpeciesCount` | keyless |
 | `build/wcvp.py` | `data/wcvp/` | `speciesCount`, `dist` | [WCVP dump](https://sftp.kew.org/pub/data-repositories/WCVP/) |
-| `build/ages.py` | `data/megatree/` | `ageMy` | auto-fetched from [GitHub](https://github.com/megatrees/plant_20221117) |
+| `build/ages.py` | `data/megatree/` | `ageMy` | download from [GitHub](https://github.com/megatrees/plant_20221117) |
 | `build/iucn.py` *(todo)* | IUCN API + token | conservation | v4 token |
 | `build/useful.py` *(todo)* | `data/useful/` | `uses` | WCUPS / GlobUNT |
 
