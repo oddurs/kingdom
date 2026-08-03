@@ -29,7 +29,13 @@ make build     # data + source -> plant-tree.html
 make site      # assemble _site/ (the app + every taxon page)
 make serve     # assemble, then serve at http://localhost:8000
 make check     # build + both test suites — the pre-commit gate
+make shots     # screenshot the app at phone/tablet/desktop widths into shots/
 ```
+
+`make shots` is for looking, not asserting — it exists because the suite can tell
+you a phone layout measures correctly and still not tell you it reads as a broken
+app. See [docs/sprint-ac-in-hand.md](docs/sprint-ac-in-hand.md) for the change that
+lesson cost.
 
 `make` with no target lists everything.
 
