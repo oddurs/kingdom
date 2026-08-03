@@ -133,9 +133,14 @@ try {
       await ev(scene.setup);
       await sleep(900);                      // let the animated reframe settle
 
-      const { data } = await send('Page.captureScreenshot', { format: 'png' });
+      const shot = await send('Page.captureScreenshot', { format: 'png' });
+      const buf = Buffer.from(shot.data, 'base64');
+      // a capture that failed, or raced the first paint, comes back tiny; a real one
+      // at these densities is hundreds of KB. Same guard og.mjs uses, for the same
+      // reason: a blank PNG that looks like a finished screenshot is worse than an error.
+      if (buf.length < 5000) throw new Error(`${name}-${v.w}x${v.h} is only ${buf.length} bytes — the capture looks blank`);
       const file = join(outDir, `${name}-${v.w}x${v.h}.png`);
-      writeFileSync(file, Buffer.from(data, 'base64'));
+      writeFileSync(file, buf);
       console.log(`  ${name.padEnd(9)} ${String(v.w).padStart(4)}×${v.h}  ${v.label}`);
     }
   }
