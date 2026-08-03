@@ -788,6 +788,23 @@ async function main() {
     const mounted = await ev(`(()=>{ T.k=1; T.x=-100; T.y=-8000; applyT(); return document.querySelectorAll('#nodes .node').length; })()`);
     check("virtualization bounds the DOM zoomed in", mounted > 0 && mounted < dataN / 3, `${mounted} mounted of ${dataN}`);
 
+    // The minimap had no assertion of any kind: test/mutate.mjs made renderMinimap()
+    // a no-op and the whole suite still passed. It is also the one un-virtualized
+    // render path, so it is the one most likely to be quietly broken by work
+    // elsewhere.
+    const mm = await ev(`(()=>{
+      switchMode('radial'); toOrders(); fit(0);
+      const c=document.getElementById('mmcontent'), vp=document.getElementById('mmvp');
+      const marks=c.children.length;
+      const before=vp.getAttribute('x')+','+vp.getAttribute('width');
+      T.k*=1.7; applyT();
+      const after=vp.getAttribute('x')+','+vp.getAttribute('width');
+      return JSON.stringify({marks, tracksViewport: before!==after, before, after});})()`); await wait(200);
+    const MM = JSON.parse(mm);
+    check("the minimap draws the tree and tracks the viewport",
+      MM.marks > 50 && MM.tracksViewport === true, mm);
+    await ev(`fit(0)`); await wait(200);
+
     // timeline
     await ev(`exitFocus(); switchMode('radial')`); await wait(500);
     await ev(`document.getElementById('btnTime').click()`); await wait(500);
@@ -842,6 +859,23 @@ async function main() {
       return JSON.stringify({bad, gap:+(lam.effAge-lam.ageMy).toFixed(1)});
     })()`); await wait(300);
     const AG = JSON.parse(agree);
+    // The check below compares el.__age against the count — both derived from the
+    // data, neither from the screen. test/mutate.mjs exposed the gap: make
+    // ageOpacity() return 1 unconditionally, so every lineage is painted at every
+    // instant and Deep Time becomes decoration, and it still passed. So assert the
+    // pixels first: things must actually be hidden, and only in deep time.
+    const painted = await ev(`(()=>{
+      const tally = t => { setTime(t); let dim=0, lit=0;
+        for(const el of nodeEls.values()){ const o=parseFloat(el.style.opacity||'1');
+          (o<0.5 ? dim++ : lit++); }
+        return {dim, lit}; };
+      const now=tally(0), deep=tally(320);
+      setTime(0);
+      return JSON.stringify({now, deep});})()`); await wait(200);
+    const PT = JSON.parse(painted);
+    check("the timeline actually hides what had not originated yet",
+      PT.now.dim === 0 && PT.deep.dim > PT.deep.lit, painted);
+
     check("every lineage the timeline draws is one it counts", AG.bad.length === 0,
       AG.bad.length ? JSON.stringify(AG.bad) : `checked 5 instants; Lamiales crown/effAge gap ${AG.gap} Ma`);
 

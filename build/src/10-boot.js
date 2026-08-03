@@ -476,7 +476,18 @@ const timebar=document.getElementById('timebar'), tbtrack=document.getElementByI
       tbhint=document.querySelector('.tbhint'),
       btnTime=document.getElementById('btnTime');
 const TFADE=14;   // Ma over which a lineage blooms in after its origin
-function ageOpacity(a, T){ if(a==null) return 1; if(T>a) return 0; return Math.min(1,(a-T)/TFADE); }
+// A lineage fades in over TFADE after it originates, so opacity is 0 at the exact
+// instant of origin and climbs as the clock moves forward. That leaves nowhere to
+// go for a lineage dated 0 Ma: Metteniusales and Metteniusaceae both carry
+// ageMy 0.0 from the megatree — a degenerate crown age, their tips coalescing at
+// the present — so they were drawn at opacity 0 the whole time the timeline was
+// on, today included. Two taxa simply absent, and nothing said so.
+//
+// The present is not deep time, which this file already decides at the same 0.5 Ma
+// threshold applyTime() uses for the undated marking: at today the tree is just
+// today, and everything alive is drawn.
+function ageOpacity(a, T){ if(a==null) return 1; if(T>a) return 0;
+  if(T<=0.5) return 1; return Math.min(1,(a-T)/TFADE); }
 // ---------- the frame follows the living tree ----------
 // Time was implemented as opacity alone: nodes faded but kept their present-day
 // positions, so running the clock backwards dissolved a photograph and left the
