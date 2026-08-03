@@ -157,7 +157,7 @@
   .menu-btn[aria-expanded="true"] .caret{transform:rotate(180deg); opacity:.9}
   .iconbtn{font-size:15px; line-height:1; padding:6px 10px}
   .menu{
-    position:fixed; z-index:40; min-width:190px; max-width:min(320px,92vw); padding:11px 12px;
+    position:fixed; z-index:40; min-width:min(264px,92vw); max-width:min(320px,92vw); padding:12px 13px;
     display:flex; flex-direction:column; gap:11px; max-height:min(82vh,660px); overflow-y:auto;
     background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--edge);
     border-radius:var(--r-2); box-shadow:var(--elev-2),var(--lift);
@@ -495,7 +495,6 @@
 
   /* ---------- storylines ---------- */
   .stories{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
-  .stories .slabel{font-family:var(--sans); font-size:9.5px; letter-spacing:var(--track-label); text-transform:uppercase; font-weight:600; color:var(--faint); margin-right:2px}
   .schip{font-family:var(--sans); font-size:11px; color:var(--dim); background:var(--fill-1);
     border:1px solid var(--edge); border-radius:var(--r-pill); padding:4px 11px; cursor:pointer;
     transition:color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out),
@@ -506,7 +505,8 @@
   .schip.on{color:var(--accent-hi); background:var(--accent-fill-soft);
     border-color:var(--accent-line-soft); font-weight:600}
   .schip.on:hover{border-color:var(--accent-line); background:var(--accent-fill)}
-  .schip.clear{border-style:dashed}
+  .schip.clear{color:var(--faint); background:none}
+  .schip.clear:hover{color:var(--ink)}
 
   /* ---------- storyline highlight overlay ---------- */
   .stage.storying .node:not(.hl){opacity:.18}

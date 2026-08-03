@@ -113,9 +113,12 @@
 </div>
 <div class="menu" id="menu-explore" role="group" aria-label="Discover options" hidden>
   <button class="ctl wide primary surprise" id="btnSurprise" title="Fly to a remarkable corner of the tree"><span class="spark" aria-hidden="true">&#10022;</span> Surprise me</button>
-  <span class="stories" id="stories"></span>
-  <span class="stories" id="recordsbar"></span>
-  <span class="stories" id="toursbar"></span>
+  <!-- Labels sit above their chips, as they do in every other menu. Inline labels
+       indented each section's first row and left the rest flush, so the three
+       groups read as one ragged run of chips rather than three lists. -->
+  <div class="menu-sec"><span class="menu-label">Highlight</span><span class="stories" id="stories"></span></div>
+  <div class="menu-sec"><span class="menu-label">Records</span><span class="stories" id="recordsbar"></span></div>
+  <div class="menu-sec"><span class="menu-label">Tours</span><span class="stories" id="toursbar"></span></div>
 </div>
 <div class="menu" id="menu-more" role="group" aria-label="More options" hidden>
   <div class="menu-sec mob-colour">
@@ -126,9 +129,15 @@
     <span class="lgtitle" data-lgtitle-host></span>
     <div class="lgitems" data-lgkey-host></div>
   </div>
+  <!-- Two groups, not four loose buttons: the first pair act on the view you are
+       looking at, the second pair explain the thing. -->
   <div class="menu-sec">
+    <span class="menu-label">Take this view</span>
     <button class="ctl wide" id="btnShare" title="Copy a link that reopens exactly this view">Share this view</button>
     <button class="ctl wide" id="btnExport" title="Download the current view as a PNG">Export as PNG</button>
+  </div>
+  <div class="menu-sec">
+    <span class="menu-label">About the project</span>
     <button class="ctl wide" id="btnKeys" title="Controls &amp; keyboard shortcuts">Controls &amp; shortcuts</button>
     <button class="ctl wide" id="btnAbout" title="About Yggdrasil, the data &amp; sources">About</button>
   </div>

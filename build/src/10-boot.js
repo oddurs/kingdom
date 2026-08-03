@@ -260,19 +260,16 @@ lgitemsEl.addEventListener('mouseover', e=>{ const lg=e.target.closest('.lg'); i
   lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); lg.classList.add('on'); legendSpotlight(lg.dataset.sp); } });
 lgitemsEl.addEventListener('mouseleave', ()=>{ lgitemsEl.querySelectorAll('.lg.on').forEach(x=>x.classList.remove('on')); legendSpotlight(null); });
 const storiesEl=document.getElementById('stories');
-storiesEl.innerHTML = '<span class="slabel">Highlight</span>'
-  + Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
+storiesEl.innerHTML = Object.entries(STORIES).map(([id,s])=>`<button class="schip" data-story="${id}">${s.label}</button>`).join('')
   + '<button class="schip clear" data-story="_clear">Clear</button>';
 storiesEl.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(!b) return;
   if(b.dataset.story==='_clear'){ clearStory(); } else { setStory(b.dataset.story); } });
 // Records: jump straight to each superlative holder (Sprint I)
 const recordsbar=document.getElementById('recordsbar');
-recordsbar.innerHTML = '<span class="slabel">Records</span>'
-  + RECORDS_LIST.map(([label,node],i)=>`<button class="schip" data-rec="${i}" title="${node.name}">${label}</button>`).join('');
+recordsbar.innerHTML = RECORDS_LIST.map(([label,node],i)=>`<button class="schip" data-rec="${i}" title="${node.name}">${label}</button>`).join('');
 recordsbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(!b) return; const rec=RECORDS_LIST[+b.dataset.rec]; if(rec) select(rec[1]); });
 const toursbar=document.getElementById('toursbar');
-toursbar.innerHTML = '<span class="slabel">Tours</span>'
-  + Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
+toursbar.innerHTML = Object.entries(TOURS).map(([id,t])=>`<button class="schip tour" data-tour="${id}">${t.label}</button>`).join('');
 toursbar.addEventListener('click', e=>{ const b=e.target.closest('.schip'); if(b) startTour(b.dataset.tour); });
 document.getElementById('btnSurprise').onclick=surprise;
 

@@ -921,6 +921,32 @@ async function main() {
       return a && a.dataset && a.dataset.menu==='filter' ? true : 'focus landed on '+(a?a.tagName.toLowerCase():'nothing');})()`);
     check("closing a menu returns focus to its trigger", menuFocus === true, menuFocus === true ? "" : String(menuFocus));
 
+    // Four popovers had four internal grammars. Discover put its labels *inline*
+    // with the first chip, so each section's first row was indented and the rest
+    // were flush — three lists reading as one ragged run. And the four ranged
+    // 190–320px wide, so moving between adjacent triggers resized the surface under
+    // the cursor. One grammar: a block label above every group, one width.
+    const grammar = await ev(`(()=>{
+      const out={inlineLabels:0, sectionsWithoutLabel:[], widths:[]};
+      for(const m of ['depth','filter','explore','more']){
+        const el=document.getElementById('menu-'+m);
+        el.hidden=false;
+        out.widths.push(Math.round(el.getBoundingClientRect().width));
+        out.inlineLabels += el.querySelectorAll('.stories .slabel, .stories .menu-label').length;
+        // .ffoot is a footer (a running count and a clear), not a group of options
+        for(const sec of el.querySelectorAll('.menu-sec:not(.ffoot)')){
+          if(!sec.querySelector(':scope > .menu-label')) out.sectionsWithoutLabel.push(m);
+        }
+        el.hidden=true;
+      }
+      return JSON.stringify(out);})()`); await wait(150);
+    const GR = JSON.parse(grammar);
+    const spread = Math.max(...GR.widths) - Math.min(...GR.widths);
+    check("every menu section labels itself above its controls",
+      GR.inlineLabels === 0 && GR.sectionsWithoutLabel.length === 0, grammar);
+    check("the popovers share a width rather than resizing under the cursor",
+      spread <= 60, `widths ${GR.widths.join(', ')} — spread ${spread}px`);
+
     // perf HUD (E1)
     await ev(`togglePerf(true)`); await wait(300);
     check("perf HUD toggles on", (await ev(`!document.getElementById('perfhud').hidden`)) === true);
