@@ -161,26 +161,58 @@ function labelNode(el, n){
     if(!visLeaf){ txt.removeAttribute('transform'); return; }   // interior clades stay unlabelled (kept clean)
     let deg=n.pa*180/Math.PI;
     const flip = deg>90 || deg<-90;
-    txt.setAttribute('transform', `rotate(${flip?deg+180:deg})`);
+    txt.__deg = flip?deg+180:deg;
+    txt.__off = flip? -(r+6) : (r+6);
     txt.setAttribute('text-anchor', flip?'end':'start');
     const t1=document.createElementNS(NS,'tspan'); t1.textContent=n.name;
-    t1.setAttribute('x', flip? -(r+6) : (r+6)); t1.setAttribute('dy','0.32em');
+    t1.setAttribute('dy','0.32em');
     txt.appendChild(t1);
+    sizeLabel(txt);
     return;
   }
 
   // tree mode
-  txt.removeAttribute('transform');
   const left = hasKids && n.open;                 // expanded internal -> label on left
+  txt.__deg = null;
+  txt.__off = left? -(r+7) : (r+7);
   txt.setAttribute('text-anchor', left?'end':'start');
-  txt.setAttribute('x', left? -(r+7) : (r+7));
   const isLeaf=!hasKids;
   const t1=document.createElementNS(NS,'tspan'); t1.textContent=n.name; txt.appendChild(t1);
   if(isLeaf){
     txt.setAttribute('y',0);
-    t1.setAttribute('x', r+7); t1.setAttribute('dy', n.common?'-0.38em':'0');
+    t1.setAttribute('dy', n.common?'-0.38em':'0');
     if(n.common){ const c=document.createElementNS(NS,'tspan'); c.setAttribute('class','common');
-      c.setAttribute('x', r+7); c.setAttribute('dy','1.2em'); c.textContent=n.common; txt.appendChild(c); }
+      c.setAttribute('dy','1.2em'); c.textContent=n.common; txt.appendChild(c); }
   }
+  sizeLabel(txt);
 }
+// Labels live inside the zoomed viewport, so their size was multiplied by the zoom:
+// 34px at the landing fit, 43px at the zoom a guided tour lands on, 85px at k=1.5.
+// Type that grows with the picture is type that stays equally crowded — the gap
+// between two neighbours grows at exactly the same rate as the words in it, so
+// zooming in never resolves a collision, it just makes both sides bigger. That is
+// why the tours looked squashed however far you went in.
+//
+// Counter-scaling pins the type to the screen. The gap still grows with zoom and
+// the words no longer do, so labels separate as you go in — which is what zooming
+// is for. The offset from the node is kept in tree units (multiplied back by k) so
+// the label stays clear of a dot whose radius does still scale.
+// Capping rather than pinning. Pinning the type to the screen outright fixed the
+// zoomed-in case and spoiled the landing view, where labels had been 7.6px and
+// became 12.5px — bigger and more crowded than the design intended. So type scales
+// with the picture exactly as before up to LABEL_K, and stops growing after that.
+// Below the cap nothing changes at all; above it the gap keeps growing and the
+// words do not, so zooming in separates them.
+const LABEL_K=0.85;
+function labelScale(){ return Math.min(1, LABEL_K/T.k); }
+function sizeLabel(txt){
+  if(!txt || txt.__off===undefined) return;
+  const m=labelScale();
+  txt.setAttribute('transform',
+    (txt.__deg!=null ? `rotate(${txt.__deg})` : '') + (m<1 ? ` scale(${m.toFixed(4)})` : ''));
+  const x=(txt.__off/m).toFixed(1);
+  if(txt.__deg==null) txt.setAttribute('x', x);
+  for(const sp of txt.childNodes) if(sp.setAttribute) sp.setAttribute('x', x);
+}
+function sizeAllLabels(){ for(const el of nodeEls.values()){ if(el.__lab) sizeLabel(el.__lab); } }
 

@@ -1189,6 +1189,40 @@ async function main() {
       RM.exact && RM.closerIn, rmFrame);
   });
 
+  // ---------- label scale ----------
+  // Its own session: this measures geometry at four zoom levels on a fully expanded
+  // tree, and the main session reaches this point with a genus expansion, a filter
+  // and a panel behind it. Cheaper to start from a clean page than to unwind all of it.
+  await session([], async ({ ev }) => {
+    // Labels live inside the zoomed viewport, so their size was multiplied by the
+    // zoom: 34px at the landing fit, 43px at the zoom a guided tour lands on, 85px
+    // at k=1.5. Type that grows with the picture stays equally crowded forever — the
+    // gap between two neighbours grows at the same rate as the words in it — so
+    // zooming in could never resolve a collision, only enlarge both sides of it.
+    //
+    // One named label across four zooms, not a median over all of them: which nodes
+    // carry a label changes with the zoom, so a median mixes different words at
+    // different angles and measures the wrong thing.
+    const labelZoom = await ev(`(()=>{
+      switchMode('radial'); expandAll();
+      const n=nodeByName('Asteraceae');
+      const measure = k => {
+        // re-centre as we zoom, or virtualization unmounts the node being measured
+        const r=stage.getBoundingClientRect();
+        T.k=k; T.x=r.width/2-n.x*k; T.y=r.height/2-n.y*k; applyT(); applyMount(false); labelLOD();
+        const el=nodeEls.get(n._id), t=el&&el.__lab;
+        if(!t||!t.textContent.trim()) return 0;
+        const b=t.getBoundingClientRect();
+        return +Math.hypot(b.width,b.height).toFixed(1);   // rotation-independent extent
+      };
+      return JSON.stringify({below:measure(0.5), atCap:measure(0.85), deep:measure(2.5), deeper:measure(3.5)});
+    })()`); await wait(300);
+    const LZ = JSON.parse(labelZoom);
+    check("label type grows with the zoom, then stops",
+      LZ.below > 0 && LZ.below < LZ.atCap            // below the cap it still scales, as designed
+      && LZ.deep <= LZ.atCap * 1.02 && LZ.deeper <= LZ.atCap * 1.02, labelZoom);
+  });
+
   // ---------- phone ----------
   // The app had never been exercised below 1400px. test/pages.mjs checks the 567
   // static pages at 390, but the thing those pages link *to* was measured only at

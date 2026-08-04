@@ -3,6 +3,7 @@ const vp=document.getElementById('viewport');
 let T={x:60,y:0,k:1};
 function applyT(){ vp.setAttribute('transform',`translate(${T.x},${T.y}) scale(${T.k})`);
   updateMinimapVP();
+  sizeAllLabels();          // type is pinned to the screen, so it re-sizes with every zoom
   if(virtualOn()){                                         // re-cull, but only after the viewport has
     if(Math.abs(T.x-_cullX)+Math.abs(T.y-_cullY) > CULL_MARGIN*0.4 || Math.abs(T.k-_cullK) > 0.008)
       applyMount(false);                                   // moved enough — the margin covers the gap between culls
